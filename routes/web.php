@@ -10,10 +10,12 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\FaqController;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -75,3 +77,7 @@ Route::get('/sponsors', [SponsorController::class, 'index'])->name('sponsors');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
 
+Route::get('connexion', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('connexion', [AuthController::class, 'login'])->name('login.submit');
+Route::get('inscription', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('inscription', [AuthController::class, 'register'])->name('register.submit');
