@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('app')
 
 @section('content')
     <!-- Hero Section avec le composant réutilisable -->
@@ -11,7 +11,7 @@
 
     <!-- Contenu principal -->
     <main class="container mx-auto px-4 py-12">
-    
+
 
         <!-- Liste des résultats -->
         <div class="space-y-6">

@@ -55,7 +55,8 @@ Route::get('/actualites', [NewsController::class, 'index'])->name('news');
 // Détail d'une actualité
 Route::get('/actualites/{slug}', [NewsController::class, 'show'])->name('news.show');
 
-Route::get('creer-actualites', [NewsController::class, 'create'])->name('news.store');
+Route::get('creer-actualites', [NewsController::class, 'create'])->name('news.create');
+Route::post('creer-actualites', [NewsController::class, 'store'])->name('news.store');
 
 // Galerie photos et vidéos
 Route::get('/galerie', [GalleryController::class, 'index'])->name('gallery');

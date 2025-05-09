@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNewsRequest;
 use App\Models\News;
+use Faker\Calculator\Inn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class NewsController extends Controller
 {
@@ -19,32 +22,28 @@ class NewsController extends Controller
     }
 
     public function create(){
-        return view('news.create');
+        // return view('news.create');
+        return Inertia::render('NewsForm');
     }
 
-    public function store(Request $request)
+    public function store(StoreNewsRequest $request)
     {
-        // Validation des données
-        $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'date' => 'required|date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+       // Validation des données
+        $validatedData = $request->validated();
 
         // Gestion de l'upload de l'image
         $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('news_images', 'public');
+        if ($request->hasFile('featured_image')) {
+            $imagePath = $request->file('featured_image')->store('news_images', 'public');
         }
 
         // Création de la news
         $news = News::create([
             'title' => $validatedData['title'],
+            'slug' => $validatedData['slug'],
             'content' => $validatedData['content'],
-            'date' => $validatedData['date'],
             'image_url' => $imagePath ? '/storage/' . $imagePath : null,
-            'user_id' => Auth::id(),
+            'user_id' => 1,
         ]);
 
         return redirect()->route('news.show', $news->id)

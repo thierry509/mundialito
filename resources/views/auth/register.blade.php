@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('app')
 
 @section('content')
 <div class="min-h-screen bg-light flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[url('https://img.freepik.com/photos-gratuite/concept-faire-du-sport_23-2151937746.jpg?ga=GA1.1.90895242.1736884756&semt=ais_hybrid&w=740')]">

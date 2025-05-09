@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('app')
 @section('content')
     <!-- Hero Section Moderne avec BG Image -->
     <header class="relative h-screen overflow-hidden">
