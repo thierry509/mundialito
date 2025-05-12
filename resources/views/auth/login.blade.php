@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layout.app')
 
 @section('content')
 <div class="min-h-screen bg-light flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[url('https://img.freepik.com/photos-gratuite/concept-faire-du-sport_23-2151937746.jpg?ga=GA1.1.90895242.1736884756&semt=ais_hybrid&w=740')] bg-cover bg-center">
@@ -8,7 +8,7 @@
                 Connexion à votre compte
             </h2>
             <p class="mt-2 text-sm text-gray-600">
-                Accédez au suivi complet du Mondialito
+                Accédez au suivi complet du Mundialito
             </p>
         </div>
         <form class="mt-8 space-y-6" action="#" method="POST">

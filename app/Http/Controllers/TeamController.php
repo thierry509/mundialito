@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTeamRequest;
+use App\Models\Team;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TeamController extends Controller
 {
@@ -15,4 +19,27 @@ class TeamController extends Controller
     {
         return view('teams.show', compact('id'));
     }
+
+    public function store(StoreTeamRequest $request)
+    {
+        $validated = $request->validated();
+        Team::create($validated);
+
+        return redirect()->route('teams.index')->with('success', 'Team created successfully.');
+    }
+    public function adminIndex()
+    {
+        return Inertia::render('Team/Index', [
+            'teams' => Team::all(),
+        ]);
+    }
+
+    
+    public function destroy($id)
+    {
+        $team = Team::findOrFail($id);
+        $team->delete();
+        return redirect()->route('teams.index')->with('success', 'Team deleted successfully.');
+    }
+
 }

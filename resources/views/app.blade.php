@@ -1,15 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mondialito - Championnat Vacance d'Été</title>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     @vite('resources/js/app.js')
-    @hasSection('content')
-    @else
-        @inertiaHead
-    @endif
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -26,26 +20,9 @@
             }
         }
     </script>
-    <style>
-        .navbar-transparent {
-            background-color: transparent !important;
-            transition: all 0.3s ease;
-        }
-
-        .navbar-solid {
-            background-color: white !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-
-<body class="font-sans">
-    @include('layout.partials.nav')
-
-    @hasSection('content')
-        @yield('content')
-    @else
-        @inertia
-    @endif
-
-    @include('layout.partials.footer')
+    @inertiaHead
+  </head>
+  <body>
+    @inertia
+  </body>
+</html>

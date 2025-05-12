@@ -18,7 +18,8 @@ return new class extends Migration
             $table->text('content');
             $table->string('category')->default('general');
             $table->text('excerpt')->nullable();
-            $table->string('image_url')->nullable();
+            $table->unsignedBigInteger('image_id')->nullable();
+            $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');
             $table->enum('status', ['draft', 'publish'])->default('draft');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

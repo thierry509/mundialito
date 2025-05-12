@@ -1,6 +1,6 @@
-@extends('app')
+@extends('layout.app')
 @section('content')
-    <x-hero title="Calendrier des Matchs" subtitle="Suivez toutes les rencontres du Mondialito 2023" />
+    <x-hero title="Calendrier des Matchs" subtitle="Suivez toutes les rencontres du Mundialito 2023" />
 
     <!-- Section principale du Calendrier -->
     <main class="container mx-auto px-4 py-12">

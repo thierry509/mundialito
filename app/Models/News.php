@@ -8,7 +8,7 @@ class News extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content', 'slug', 'date', 'image_url', 'user_id'];
+    protected $fillable = ['title', 'content', 'excerpt', 'slug', 'date', 'image_id', 'user_id'];
 
     public function user()
     {
@@ -18,6 +18,15 @@ class News extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'new_id');
+    }
+
+    public function image(){
+        return $this->belongsTo(Images::class, 'image_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
 

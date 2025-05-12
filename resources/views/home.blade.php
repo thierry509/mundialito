@@ -1,57 +1,61 @@
-@extends('app')
+@extends('layout.app')
 @section('content')
-    <!-- Hero Section Moderne avec BG Image -->
-    <header class="relative h-screen overflow-hidden">
-        <!-- Image de fond avec effet de parallaxe -->
-        <div
-            class="absolute inset-0 bg-[url('https://img.freepik.com/photos-gratuite/concept-faire-du-sport_23-2151937746.jpg?ga=GA1.1.90895242.1736884756&semt=ais_hybrid&w=740')] bg-cover bg-center bg-no-repeat transform hover:scale-105 transition duration-1000 ease-in-out">
-        </div>
-        <div class="absolute inset-0 bg-black opacity-40"></div>
+    <!-- Hero Section Moderne avec BG Image - Version mobile optimisée -->
+    <header class="relative overflow-hidden">
+        <!-- Conteneur pour l'image de fond avec hauteur adaptative -->
+        <div class="relative h-[60vh] md:h-screen">
+            <!-- Image de fond avec effet de parallaxe -->
+            <div
+                class="absolute inset-0 bg-[url('https://img.freepik.com/photos-gratuite/concept-faire-du-sport_23-2151937746.jpg?ga=GA1.1.90895242.1736884756&semt=ais_hybrid&w=740')] bg-cover bg-center bg-no-repeat md:transform md:hover:scale-105 md:transition md:duration-1000 md:ease-in-out">
+            </div>
+            <div class="absolute inset-0 bg-black opacity-40"></div>
 
-        <!-- Contenu superposé avec animation -->
-        <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-            <div class="max-w-4xl space-y-6 animate-fadeInUp">
-                <span
-                    class="inline-block px-4 py-1 bg-secondary text-gray-900 rounded-full text-sm font-semibold tracking-widest">ÉDITION
-                    2025</span>
-                <h1 class="text-5xl md:text-7xl font-bold text-white leading-tight">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-accent">Mondialito</span>
-                    Gonaïves
-                </h1>
-                <p class="text-xl md:text-2xl text-light font-light max-w-2xl mx-auto">Championnat de Vacances d'Été - La
-                    passion du football réunie</p>
+            <!-- Contenu superposé avec animation -->
+            <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-4 py-16 md:py-0">
+                <div class="max-w-4xl space-y-4 md:space-y-6 animate-fadeInUp">
+                    <span
+                        class="inline-block px-3 py-1 bg-secondary text-gray-900 rounded-full text-xs md:text-sm font-semibold tracking-widest">ÉDITION
+                        2025</span>
+                    <h1 class="text-4xl md:text-7xl font-bold text-white leading-tight">
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-accent">Mundialito</span>
+                        <span class="block md:inline">Gonaïves</span>
+                    </h1>
+                    <p class="text-lg md:text-2xl text-gray-200 font-light max-w-2xl mx-auto">Championnat de Vacances d'Été
+                        - La passion du football réunie</p>
 
-                <!-- Boutons avec effet hover moderne -->
-                <div class="flex flex-wrap justify-center gap-4 pt-6">
-                    <a href="{{ route('calendar') }}" class="relative group">
-                        <div
-                            class="absolute -inset-1 bg-gradient-to-r from-secondary to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
-                        </div>
-                        <button
-                            class="relative px-8 py-3 bg-white text-gray-900 font-bold rounded-lg hover:bg-transparent hover:text-white transition duration-200 border-2 border-white">
-                            Calendrier
-                        </button>
-                    </a>
-                    <a href="{{ route('groups') }}" class="relative group">
-                        <div
-                            class="absolute -inset-1 bg-gradient-to-r from-danger to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
-                        </div>
-                        <button
-                            class="relative px-8 py-3 bg-transparent text-white font-bold rounded-lg hover:bg-white hover:text-gray-900 transition duration-200 border-2 border-white">
-                            Classement
-                        </button>
+                    <!-- Boutons avec effet hover moderne -->
+                    <div class="flex flex-wrap justify-center gap-3 md:gap-4 pt-4 md:pt-6">
+                        <a href="{{ route('calendar') }}" class="relative group">
+                            <div
+                                class="absolute -inset-1 bg-gradient-to-r from-secondary to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
+                            </div>
+                            <button
+                                class="relative px-6 py-2 md:px-8 md:py-3 bg-white text-gray-900 font-bold rounded-lg hover:bg-transparent hover:text-white transition duration-200 border-2 border-white text-sm md:text-base">
+                                Calendrier
+                            </button>
+                        </a>
+                        <a href="{{ route('groups') }}" class="relative group">
+                            <div
+                                class="absolute -inset-1 bg-gradient-to-r from-danger to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
+                            </div>
+                            <button
+                                class="relative px-6 py-2 md:px-8 md:py-3 bg-transparent text-white font-bold rounded-lg hover:bg-white hover:text-gray-900 transition duration-200 border-2 border-white text-sm md:text-base">
+                                Classement
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Défilement vers le bas - Masqué sur mobile -->
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block">
+                    <a href="#about">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        </svg>
                     </a>
                 </div>
-            </div>
-
-            <!-- Défilement vers le bas -->
-            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <a href="#about">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                    </svg>
-                </a>
             </div>
         </div>
     </header>
@@ -68,7 +72,7 @@
                         Plus qu'un championnat, <span class="text-primary">une tradition</span>
                     </h2>
                     <p class="text-lg text-gray-600 leading-relaxed">
-                        Depuis 1998, le Mondialito des Gonaïves rassemble chaque été les passionnés de football autour d'un
+                        Depuis 1998, le Mundialito des Gonaïves rassemble chaque été les passionnés de football autour d'un
                         tournoi explosif.
                         Ce championnat est devenu bien plus qu'une compétition sportive, c'est un événement culturel qui
                         anime la ville.
@@ -90,7 +94,7 @@
                     </div>
                     <div class="relative h-full rounded-2xl overflow-hidden">
                         <img src="https://scontent-mia3-3.cdninstagram.com/v/t39.30808-6/490739523_3326385414202174_6671966704155999471_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4yMDQ4eDEzNjYuc2RyLmYzMDgwOC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-mia3-3.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2QF64Z0-fIt5Y6qt8mqCwunk8IwIXXzICy_UQeJAjA5BnVLL3uKtGfGxPcK4rAzhDNs&_nc_ohc=7sB3WWtVlIsQ7kNvwEJPs-H&_nc_gid=oP-hzwwIEEepc1avdb9C-A&edm=ANTKIIoAAAAA&ccb=7-5&oh=00_AfGCUA4c_0h3C2hKX8MbWPFGQz0HtsgTweJUm_er2zrAFA&oe=6815760A&_nc_sid=d885a2"
-                            alt="Équipes du Mondialito"
+                            alt="Équipes du Mundialito"
                             class="w-full h-auto object-cover transition duration-500 group-hover:scale-105">
                     </div>
                 </div>

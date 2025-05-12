@@ -13,9 +13,9 @@
     <div class="absolute inset-0 bg-black opacity-30"></div>
     <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-3xl mx-auto text-center {{ $textColor }}">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ $title }}</h1>
+            <span class="text-4xl md:text-5xl font-bold mb-4">{{ $title }}</span>
             @if($subtitle)
-                <p class="text-xl">{{ $subtitle }}</p>
+                <h1 class="text-xl font-bold mt-4">{{ $subtitle }}</1>
             @endif
         </div>
     </div>

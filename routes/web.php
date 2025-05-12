@@ -12,6 +12,8 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EditController;
 use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\FaqController;
@@ -55,8 +57,7 @@ Route::get('/actualites', [NewsController::class, 'index'])->name('news');
 // Détail d'une actualité
 Route::get('/actualites/{slug}', [NewsController::class, 'show'])->name('news.show');
 
-Route::get('creer-actualites', [NewsController::class, 'create'])->name('news.create');
-Route::post('creer-actualites', [NewsController::class, 'store'])->name('news.store');
+
 
 // Galerie photos et vidéos
 Route::get('/galerie', [GalleryController::class, 'index'])->name('gallery');
@@ -82,3 +83,30 @@ Route::get('connexion', [AuthController::class, 'showLoginForm'])->name('login')
 Route::post('connexion', [AuthController::class, 'login'])->name('login.submit');
 Route::get('inscription', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('inscription', [AuthController::class, 'register'])->name('register.submit');
+
+Route::prefix('edition')->group(function () {
+    Route::get('/', [EditController::class, 'show'])->name('dashboard');
+    Route::prefix('actualites')->group(function(){
+        Route::get('/', [NewsController::class, 'adminIndex'])->name('news.index');
+        Route::get('/creer', [NewsController::class, 'create'])->name('news.create');
+        Route::post('/creer', [NewsController::class, 'store'])->name('news.store');
+    });
+
+    Route::prefix('equipes')->group(function(){
+        Route::get('/', [TeamController::class, 'adminIndex'])->name('teams.index');
+        Route::post('/', [TeamController::class, 'store'])->name('teams.store');
+
+    });
+    Route::prefix('championnat')->group(function(){
+        Route::prefix('/groupes')->group(function(){
+            Route::get('/', [GroupController::class, 'adminIndex'])->name('championship.group');
+            Route::post('/', [GroupController::class, 'store'])->name('championship.update');
+            Route::post('/ajouter-equipe', [GroupController::class, 'addTeamToGroup'])->name('championship.group.addTeam');
+        });
+    });
+    Route::get('deconnexion', [AuthController::class, 'logout'])->name('logout');
+    Route::get('profil', [AuthController::class, 'showProfile'])->name('profile');
+    Route::post('profil', [AuthController::class, 'updateProfile'])->name('profile.update');
+    Route::get('modifier-mot-de-passe', [AuthController::class, 'showChangePasswordForm'])->name('password.change');
+    Route::post('modifier-mot-de-passe', [AuthController::class, 'changePassword'])->name('password.update');
+});

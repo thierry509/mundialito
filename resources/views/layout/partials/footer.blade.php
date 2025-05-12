@@ -1,9 +1,9 @@
   <!-- Footer -->
-  <footer class="bg-primary text-white py-12">
+  <footer class="bg-primary text-white py-12 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div class="md:col-span-2">
-                <h3 class="text-2xl font-bold mb-4">Mondialito Gonaïves</h3>
+                <h3 class="text-2xl font-bold mb-4">Mundialito Gonaïves</h3>
                 <p class="text-light">
                     Le championnat de football estival le plus passionnant de la région.
                     Rejoignez-nous pour célébrer le sport, la jeunesse et la communauté.
@@ -40,7 +40,7 @@
                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                             </path>
                         </svg>
-                        contact@mondialitogonaives.com
+                        contact@Mundialitogonaives.com
                     </li>
                     <li class="flex items-center text-light">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,51 +56,11 @@
             </div>
         </div>
         <div class="border-t border-light border-opacity-20 mt-8 pt-8 text-center text-light">
-            <p>&copy; 2023 Mondialito Gonaïves. Tous droits réservés.</p>
+            <p>&copy; 2023 Mundialito Gonaïves. Tous droits réservés.</p>
         </div>
     </div>
 </footer>
 
-<script>
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const navbar = document.getElementById('navbar');
-    const desktopLinks = document.querySelectorAll('#menu a');
-    const mobileLinks = document.querySelectorAll('#mobile-menu a');
-
-    mobileMenuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.remove('navbar-transparent');
-            navbar.classList.add('navbar-solid');
-
-            // Modifier la couleur des liens desktop
-            desktopLinks.forEach(link => {
-                link.classList.remove('text-white');
-                link.classList.add('text-primary');
-            });
-
-            mobileMenuButton.classList.remove('text-white');
-            mobileMenuButton.classList.add('text-primary');
-        } else {
-            navbar.classList.add('navbar-transparent');
-            navbar.classList.remove('navbar-solid');
-
-            // Revenir à la couleur blanche pour les liens desktop
-            desktopLinks.forEach(link => {
-                link.classList.add('text-white');
-                link.classList.remove('text-primary');
-            });
-
-
-            mobileMenuButton.classList.add('text-white');
-            mobileMenuButton.classList.remove('text-primary');
-        }
-    });
-</script>
 
 </body>
 

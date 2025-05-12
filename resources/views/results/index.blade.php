@@ -1,10 +1,10 @@
-@extends('app')
+@extends('layout.app')
 
 @section('content')
     <!-- Hero Section avec le composant réutilisable -->
     <x-hero
         title="Résultats des Matchs"
-        subtitle="Tous les scores et statistiques du Mondialito 2023"
+        subtitle="Tous les scores et statistiques du Mundialito 2023"
         backgroundImage="/images/stade-resultats.jpg"
         variant="secondary"
     />

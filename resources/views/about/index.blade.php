@@ -1,9 +1,9 @@
-@extends('app')
+@extends('layout.app')
 
 @section('content')
     <!-- Hero Section -->
     <x-hero
-        title="À Propos du Mondialito"
+        title="À Propos du Mundialito"
         subtitle="Découvrez l'histoire et l'esprit de notre tournoi"
         backgroundImage="/images/about-hero.jpg"
         variant="primary"
@@ -20,10 +20,10 @@
                     </h2>
                     <div class="prose max-w-none text-gray-600">
                         <p class="text-lg leading-relaxed">
-                            Le Mondialito des Gonaïves a été créé en 1998 par un groupe de passionnés de football souhaitant offrir à la jeunesse locale un tournoi estival de qualité.
+                            Le Mundialito des Gonaïves a été créé en 1998 par un groupe de passionnés de football souhaitant offrir à la jeunesse locale un tournoi estival de qualité.
                         </p>
                         <p>
-                            Ce qui a commencé comme un petit tournoi entre quartiers est rapidement devenu l'événement sportif le plus attendu de la région. Aujourd'hui, le Mondialito rassemble chaque année les meilleures équipes locales et attire des milliers de spectateurs.
+                            Ce qui a commencé comme un petit tournoi entre quartiers est rapidement devenu l'événement sportif le plus attendu de la région. Aujourd'hui, le Mundialito rassemble chaque année les meilleures équipes locales et attire des milliers de spectateurs.
                         </p>
                         <p>
                             À travers les années, le tournoi a gardé son esprit communautaire tout en gagnant en professionnalisme, devenant un véritable tremplin pour les jeunes talents de la région.
@@ -33,7 +33,7 @@
                 <div class="relative group">
                     <div class="absolute -inset-2 bg-gradient-to-r from-primary to-accent rounded-2xl opacity-75 group-hover:opacity-100 blur-lg transition duration-200"></div>
                     <div class="relative h-full rounded-2xl overflow-hidden">
-                        <img src="https://img.olympics.com/images/image/private/t_s_16_9_g_auto/t_s_w1460/f_auto/primary/ngdjbafv3twathukjbq2" alt="Première édition du Mondialito" class="w-full h-auto object-cover transition duration-500 group-hover:scale-105">
+                        <img src="https://img.olympics.com/images/image/private/t_s_16_9_g_auto/t_s_w1460/f_auto/primary/ngdjbafv3twathukjbq2" alt="Première édition du Mundialito" class="w-full h-auto object-cover transition duration-500 group-hover:scale-105">
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     Nos <span class="text-accent">Valeurs</span>
                 </h2>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
-                    Le Mondialito est bien plus qu'un simple tournoi de football
+                    Le Mundialito est bien plus qu'un simple tournoi de football
                 </p>
             </div>
 
@@ -96,7 +96,7 @@
         <section class="mb-16">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
-                    L'<span class="text-primary">Équipe</span> du Mondialito
+                    L'<span class="text-primary">Équipe</span> du Mundialito
                 </h2>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
                     Une équipe dévouée qui travaille toute l'année pour organiser le tournoi
@@ -110,7 +110,7 @@
                     <div class="p-6">
                         <h3 class="text-xl font-bold">Jean Dupont</h3>
                         <p class="text-primary font-medium">Président</p>
-                        <p class="text-gray-600 mt-2">Fondateur du Mondialito en 1998</p>
+                        <p class="text-gray-600 mt-2">Fondateur du Mundialito en 1998</p>
                     </div>
                 </div>
 
@@ -150,7 +150,7 @@
         <section class="py-12 bg-primary rounded-3xl text-white">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    Le Mondialito <span class="text-secondary">en Chiffres</span>
+                    Le Mundialito <span class="text-secondary">en Chiffres</span>
                 </h2>
                 <p class="text-lg max-w-2xl mx-auto">
                     Quelques statistiques qui montrent l'ampleur de l'événement
@@ -184,7 +184,7 @@
                     Témoignages
                 </h2>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
-                    Ce que les participants disent du Mondialito
+                    Ce que les participants disent du Mundialito
                 </p>
             </div>
 
@@ -199,7 +199,7 @@
                         </div>
                     </div>
                     <blockquote class="text-gray-600 italic">
-                        "Le Mondialito est bien plus qu'un tournoi, c'est une institution. J'y participe depuis 10 ans et l'ambiance est toujours aussi incroyable."
+                        "Le Mundialito est bien plus qu'un tournoi, c'est une institution. J'y participe depuis 10 ans et l'ambiance est toujours aussi incroyable."
                     </blockquote>
                 </div>
 
@@ -213,7 +213,7 @@
                         </div>
                     </div>
                     <blockquote class="text-gray-600 italic">
-                        "Chaque été, toute ma famille attend avec impatience le Mondialito. C'est l'occasion de se retrouver entre amis autour de notre passion commune."
+                        "Chaque été, toute ma famille attend avec impatience le Mundialito. C'est l'occasion de se retrouver entre amis autour de notre passion commune."
                     </blockquote>
                 </div>
             </div>

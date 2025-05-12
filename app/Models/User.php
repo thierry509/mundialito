@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'roles',
+        'image_id',
         'first_name',
         'last_name',
         'phone'
@@ -59,5 +60,14 @@ class User extends Authenticatable
     public function logs()
     {
         return $this->hasMany(Log::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function image()
+    {
+        return $this->belongsTo(Images::class, 'image_id');
     }
 }

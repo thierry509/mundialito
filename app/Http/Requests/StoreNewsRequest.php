@@ -14,13 +14,13 @@ class StoreNewsRequest extends FormRequest
     public function rules()
     {
         return [
+            'category' => 'nullable|exists:categories,id',
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:news,slug',
-            'category' => 'required|in:resume,interview,annonce,changement',
-            'excerpt' => 'required|string|max:500',
+            'slug' => 'required|string|max:255',
             'content' => 'required|string',
-            'featured_image' => 'required|image|mimes:jpeg,png,jpg|max:5120',
-            'video_url' => 'nullable|url',
+            'excerpt' => 'required|string|max:500',
+            'featured_image' => 'image|mimes:jpeg,png,jpg|max:5120',
+            'image_description' => 'nullable|required_if:featured_image,value|string',
             'status' => 'required|in:published,draft',
             'tags' => 'nullable|string|max:255',
         ];
@@ -29,6 +29,14 @@ class StoreNewsRequest extends FormRequest
     public function messages()
     {
         return [
+            'title.required' => 'Le titre est requis',
+            'title.string' => 'Le titre doit être une chaîne de caractères',
+            'title.max' => 'Le titre ne doit pas dépasser 255 caractères',
+            'video_url.url' => 'L\'URL de la vidéo doit être valide',
+            'video_url.mimes' => 'Le fichier vidéo doit être au format mp4, avi, mov, mkv',
+            'video_url.max' => 'La vidéo ne doit pas dépasser 10MB',
+            'featured_image.mimes' => 'Le fichier doit être au format jpeg, png, jpg',
+            'featured_image.dimensions' => 'L\'image doit avoir une largeur et une hauteur minimales de 300x300 pixels',
             'featured_image.required' => 'Une image mise en avant est requise',
             'featured_image.image' => 'Le fichier doit être une image',
             'featured_image.max' => "L'image ne doit pas dépasser 5MB",
