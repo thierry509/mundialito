@@ -15,9 +15,9 @@ class Group extends Model
         return $this->belongsTo(Championship::class);
     }
 
-    public function groupParticipations()
+    public function teams()
     {
-        return $this->hasMany(GroupParticipation::class);
+        return $this->belongsToMany(Team::class, 'group_participations');
     }
 }
 

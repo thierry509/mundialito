@@ -1,5 +1,4 @@
 <template>
-    <DropdownInput :options="['Option 1', 'Option 2', 'Option 3']" />
     <div class="mb-8">
         <h1 class="text-2xl font-bold text-gray-800 dark:text-white inline-flex items-center">
             <svg class="w-8 h-8 mr-3 p-1.5 bg-primary/10 text-primary rounded-full" xmlns="http://www.w3.org/2000/svg"
@@ -22,31 +21,26 @@
     </div>
 
     <div>
+        <div v-if="groups.length === 0" class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+            <EmptyView model="groupe">
+                <button @click="addGroup" class="px-4 py-2 mt-4 bg-primary text-white rounded-md hover:bg-primary-dark transition">
+                    Ajouter un groupe
+                </button>
+            </EmptyView>
+        </div>
         <div v-for="group in groups" :key="group.id">
             <SingleGroup :teams="teams" :group="group" />
         </div>
-        <div v-if="creatgroup" class="">
-            <div class="bg-white shadow-md rounded-lg p-4">
-                <h2 class="text-xl font-semibold mb-4">Créer un nouveau groupe</h2>
-                <Input v-model="newGroup.name" type="text" placeholder="Nom du groupe"
-                     />
-
-                <div class="flex justify-end">
-                    <button @click="submit" type="button"
-                        class="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition">
-                        Créer le groupe
-                    </button>
-                </div>
-            </div>
-        </div>
+        {{creatgroup}}
+        <CreateGroup :isOpen="creatgroup" @close="creatgroup = false" />
     </div>
 </template>
 <script setup>
 import { ref } from 'vue'
 import SingleGroup from '../../components/Championship/SingleGroupes.vue'
-import Input from '../../components/ui/Input.vue'
-import { useForm } from '@inertiajs/vue3'
-import DropdownInput from '../../components/Form/DropdownInput.vue'
+import EmptyView from '../../components/ui/EmptyView.vue';
+import CreateGroup from '../../components/modal/CreateGroup.vue';
+
 defineProps({
     groups: {
         type: Array,
@@ -58,22 +52,11 @@ defineProps({
     },
 })
 
-const newGroup = useForm({
-    name: '',
-})
-const submit = () => {
-    newGroup.post('', {
-        onSuccess: () => {
-            creatgroup.value = false
-        },
-        onError: () => {
-            console.log('error')
-        }
-    })
-}
 const creatgroup = ref(false)
 const addGroup = () => {
     creatgroup.value = true
 }
+
+
 
 </script>

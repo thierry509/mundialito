@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('group_participations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('team_id')->constrained('teams')->onDelete('cascade');
-            $table->foreignId('groupe_id')->constrained('groups')->onDelete('cascade');
+            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
             $table->timestamps();
         });
 

@@ -31,30 +31,19 @@
             </button>
         </div>
 
-        <CreateTeam v-if="showForm" @close="showForm = false" />
+        <CreateTeam :show="showForm" @close="showForm = false" />
 
         <!-- Liste des équipes -->
         <div>
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Liste des équipes</h2>
 
             <div>
-                <div v-if="teams.length === 0"
-                    class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <p class="mt-3 text-gray-500">Aucune équipe enregistrée</p>
-                    <button @click="showForm = true"
-                        class="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition inline-flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        Créer une équipe
-                    </button>
+                <div v-if="teams.length === 0" class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <EmptyView model="équipe">
+                        <button @click="showForm = true" class="px-4 py-2 mt-4 bg-primary text-white rounded-md hover:bg-primary-dark transition">
+                            Ajouter une Équipe
+                        </button>
+                    </EmptyView>
                 </div>
 
                 <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -91,19 +80,20 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
 import CreateTeam from '../../components/modal/CreateTeam.vue';
-
+import {useToasterStore} from '../../store/Toast';
+import EmptyView from '../../components/ui/EmptyView.vue';
 defineProps({
     teams: Array,
 });
 
 const deleteTeam = (id) => {
     if (confirm('Êtes-vous sûr de vouloir supprimer cette équipe ?')) {
-        form.delete(route('teams.destroy', id), {
+        router.delete(`/edition/equipes/supprimer/${id}`, {
             preserveScroll: true,
             onSuccess: () => {
-                console.log('Équipe supprimée avec succès');
+                useToasterStore().success({text: 'Équipe supprimée avec succès'});
             },
             onError: (errors) => {
                 console.log('Erreur lors de la suppression de l\'équipe:', errors);

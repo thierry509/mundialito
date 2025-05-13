@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import Input from '../ui/Input.vue';
 import BaseModal from './BaseModal.vue';
-import { useToasterStore } from '@/store/Toast';
 const props = defineProps({
     show: Boolean
 });
@@ -12,14 +11,13 @@ const emit = defineEmits(['close']);
 
 // Initialisation du formulaire Inertia
 const form = useForm({
-    name: '',
-    location: ''
+    year: null,
 });
 
 const processing = ref(false);
 const validationErrors = ref([]);
 const submit = () => {
-    form.post('', {
+    form.post('/edition/championnat/', {
         preserveScroll: true,
         onStart: () => {
             processing.value = true
@@ -29,7 +27,6 @@ const submit = () => {
             processing.value = false
         },
         onSuccess: () => {
-            useToasterStore().success({ text: 'Équipe enregistrée avec succès' });
             emit('close');
             form.reset()
         },
@@ -43,12 +40,10 @@ const submit = () => {
 
 <template>
     <BaseModal :show="show" @close="emit('close')">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Enregistrer une nouvelle équipe</h2>
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Enregistrer Edition</h2>
             <form @submit.prevent="submit" class="space-y-4">
-                <Input v-model="form.name" type="text" id="name" label="Nom de l'équipe"
-                    placeholder="Ex: Jarguard de Gatreau" :error="form.errors.name" required />
-                <Input v-model="form.location" type="text" id="location" label="Localite" placeholder="Ex: Gatreau"
-                    :error="form.errors.location" required />
+                <Input v-model="form.year" type="number" id="year" label="Année de l'édition"
+                    placeholder="Ex: 2025" :error="form.errors.year" required />
 
                 <div class="flex justify-end space-x-3 pt-2">
                     <button type="button" @click="emit('close')"

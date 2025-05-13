@@ -14,19 +14,32 @@
 <template>
     <div class="bg-white rounded-xl shadow-md overflow-hidden mb-12">
         <!-- Titre Poule -->
-        <div class="bg-accent text-white p-4">
-            <h2 class="text-xl font-bold flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
-                    </path>
-                </svg>
-                Poule A - Classement
-            </h2>
-            <div class="text-sm opacity-90 mt-1">Mis à jour le </div>
+
+        <div class="bg-accent text-white p-4 flex justify-between items-center">
+            <div class="">
+                <h2 class="text-xl font-bold flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                        </path>
+                    </svg>
+                    {{ group.name }} - Classement
+                </h2>
+                <div class="text-sm opacity-90 mt-1">Mis à jour le </div>
+            </div>
+            <div class="flex justify-end">
+                <button v-if="group.teams.length <= 0" @click="removeGroup(group.id)"
+                    class="opacity-100 text-white hover:text-danger transition bg-gray-200 bg-opacity-50 p-1 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </button>
+            </div>
         </div>
-        <div class="bg-white rounded-xl shadow-sm overflow-auto">
-            <div class="overflow-x-auto">
+        <div class="bg-white">
+            <div class="overflow-y-hidden h-fit">
                 <table class="w-full">
                     <thead class="bg-light/50">
                         <tr>
@@ -50,14 +63,8 @@
                             <td class="p-3 font-bold" :class="{ 'text-primary': index === 0 }">{{ index + 1 }}</td>
                             <td class="p-3">
                                 <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full flex items-center justify-center mr-3"
-                                        :class="`bg-${team.color}/10`">
-                                        <span class="font-bold" :class="`text-${team.color}`">{{ team.initials }}</span>
-                                    </div>
 
-                                    <input v-model="team.name" @blur="updateTeam(team)"
-                                        class="team-input bg-transparent border-0 focus:ring-0 focus:border-primary focus:bg-white focus:rounded px-2 py-1 w-full max-w-[180px]"
-                                        :class="{ 'font-medium': index === 0 }">
+                                    <span>{{ team.name }}</span>
                                 </div>
                             </td>
                             <td class="p-3 text-center font-bold">{{ team.points }}</td>
@@ -98,7 +105,7 @@
                                     <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
                                         <span class="font-bold text-gray-600">N</span>
                                     </div>
-                                    <DropdownInput v-model="newTeam.team_id" class='z-10'
+                                    <DropdownInput v-model="newTeam.team_id"
                                         :options="[...teams.map(team => ({ value: team.id, label: team.name }))]" />
                                 </div>
                             </td>
@@ -139,12 +146,11 @@
             </div>
         </div>
     </div>
-    {{ newTeam }}
 </template>
-<script setup>
-import { ref, nextTick, computed } from 'vue';
+<script setup lang="ts">
+import { ref, nextTick, computed, onMounted } from 'vue';
 import DropdownInput from '../Form/DropdownInput.vue';
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 const props = defineProps({
     teams: {
         type: Array,
@@ -156,25 +162,54 @@ const props = defineProps({
     }
 });
 
+interface Team {
+    id: number;
+    name: string;
+    color: string;
+    initials: string;
+    points: number;
+    played: number;
+    wins: number;
+    draws: number;
+    losses: number;
+    goalsFor: number;
+    goalsAgainst: number;
+    goalDifference: number;
+    lastResults: string[];
+}
+
 
 const addingTeam = ref(false);
-
+const teamGroupes = computed(() => {
+    return props.group.teams.map((team: Team) => ({
+        id: team.id,
+        name: team.name,
+        color: team.color || 'gray',
+        initials: team.initials || team.name.charAt(0).toUpperCase(),
+        points: team.points || 0,
+        played: team.played || 0,
+        wins: team.wins || 0,
+        draws: team.draws || 0,
+        losses: team.losses || 0,
+        goalsFor: team.goalsFor || 0,
+        goalsAgainst: team.goalsAgainst || 0,
+        goalDifference: team.goalDifference || 0,
+        lastResults: team.lastResults || []
+    }));
+});
 
 const newTeam = useForm({
     team_id: null,
+    group_id: props.group.id,
 });
 
 const startAddingTeam = () => {
     addingTeam.value = true;
-    // newTeam.value = { name: '' };
-    // nextTick(() => {
-    //     newTeamInput.value.focus();
-    // });
+
 };
 
 const addTeam = () => {
-
-    console.log('Ajouter une équipe:', newTeam.value);
+    console.log('Ajouter une équipe:', newTeam.team_id);
     newTeam.post('/edition/championnat/groupes/ajouter-equipe', {
         preserveScroll: true,
         onSuccess: () => {
@@ -184,41 +219,36 @@ const addTeam = () => {
             console.log('Erreurs de validation:', errors)
         }
     })
-
-    newTeam.po
-    // teamGroupes.value.push({
-    //     id: newId,
-    //     name: newTeam.value.name,
-    //     initials: newTeam.value.name.charAt(0).toUpperCase(),
-    //     color: ['primary', 'secondary', 'accent', 'danger'][Math.floor(Math.random() * 4)],
-    //     points: 0,
-    //     played: 0,
-    //     wins: 0,
-    //     draws: 0,
-    //     losses: 0,
-    //     goalsFor: 0,
-    //     goalsAgainst: 0,
-    //     goalDifference: 0,
-    //     lastResults: []
-    // });
-
     addingTeam.value = false;
 };
 
 const removeTeam = (id) => {
     if (confirm('Supprimer cette équipe ?')) {
-        teamGroupes.value = teamGroupes.value.filter(team => team.id !== id);
+        router.delete(`/edition/championnat/groupes/supprimer-equipe/${props.group.id}/${id}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                console.log('Équipe supprimée avec succès');
+            },
+            onError: (errors) => {
+                console.log('Erreur lors de la suppression de l\'équipe:', errors);
+            }
+        });
     }
 };
 
-const updateTeam = (team) => {
-    // Ici vous pourriez faire un appel API pour sauvegarder
-    console.log('Équipe mise à jour:', team);
+const removeGroup = (id) => {
+    if (confirm('Supprimer ce groupe ?')) {
+        router.delete(`/edition/championnat/groupes/supprimer/${id}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                console.log('Groupe supprimé avec succès');
+            },
+            onError: (errors) => {
+                console.log('Erreur lors de la suppression du groupe:', errors);
+            }
+        });
+    }
 };
+
+
 </script>
-<style>
-/* Add your styles here */
-.z-10 {
-    z-index: 10 !important;
-}
-</style>

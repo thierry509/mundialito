@@ -1,4 +1,5 @@
 <template>
+    <ToastNotification />
     <div class="flex flex-col h-screen">
         <!-- Header -->
         <header class="bg-white shadow-lg z-10">
@@ -13,6 +14,8 @@
                         </svg>
                     </button>
                     <span class="text-xl font-bold text-primary">Mundialito</span>
+
+                    <SelectedYear />
                 </div>
 
                 <!-- Boutons droite -->
@@ -95,13 +98,13 @@
                             </li>
 
                             <li>
-                                <Link href="/edition/equipes"
+                                <Link :href="`/edition/equipes`"
                                     class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-light hover:text-primary transition">
                                 Équipes
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/edition/championnat/groupes"
+                                <Link :href="`/edition/championnat/groupes?year=${year.year}`"
                                     class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-light hover:text-primary transition">
                                 Groupes
                                 </Link>
@@ -121,6 +124,11 @@
 </template>
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import SelectedYear from '@/components/Championship/SelectedYear.vue';
+import ToastNotification from '@/components/ui/ToastNotification.vue';
+import { useYearStore } from '@/store/year';
+import { computed } from 'vue';
+const year = useYearStore();
 
 const toggleAside = () => {
     const aside = document.getElementById('aside');

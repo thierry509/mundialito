@@ -1,7 +1,10 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { ZiggyVue, route } from 'ziggy-js'
 import { Ziggy } from './ziggy'
+import { router } from '@inertiajs/vue3';
 
 createInertiaApp({
     resolve: name => {
@@ -38,9 +41,14 @@ createInertiaApp({
     },
     setup({ el, App, props, plugin }) {
         const app = createApp({ render: () => h(App, props) })
+        const pinia = createPinia();
+        pinia.use(piniaPluginPersistedstate)
         app.config.globalProperties.$route = route;
         app.use(plugin)
         app.use(ZiggyVue, Ziggy)
+        app.use(pinia);
         app.mount(el)
     },
-})
+});
+
+

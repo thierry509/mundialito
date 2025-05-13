@@ -11,6 +11,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EditController;
@@ -19,10 +20,6 @@ use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\FaqController;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('home');
-});
 
 // Page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -95,13 +92,16 @@ Route::prefix('edition')->group(function () {
     Route::prefix('equipes')->group(function(){
         Route::get('/', [TeamController::class, 'adminIndex'])->name('teams.index');
         Route::post('/', [TeamController::class, 'store'])->name('teams.store');
-
+        Route::delete('/supprimer/{id}', [TeamController::class, 'destroy'])->name('teams.delete');
     });
     Route::prefix('championnat')->group(function(){
+        Route::post('/', [ChampionshipController::class, 'store'])->name('championship.store');
         Route::prefix('/groupes')->group(function(){
             Route::get('/', [GroupController::class, 'adminIndex'])->name('championship.group');
             Route::post('/', [GroupController::class, 'store'])->name('championship.update');
             Route::post('/ajouter-equipe', [GroupController::class, 'addTeamToGroup'])->name('championship.group.addTeam');
+            Route::delete('/supprimer-equipe/{group_id}/{team_id}', [GroupController::class, 'removeTeamFromGroup'])->name('championship.group.removeTeam');
+            Route::delete('/supprimer/{id}', [GroupController::class, 'destroy'])->name('championship.group.delete');
         });
     });
     Route::get('deconnexion', [AuthController::class, 'logout'])->name('logout');
@@ -110,3 +110,5 @@ Route::prefix('edition')->group(function () {
     Route::get('modifier-mot-de-passe', [AuthController::class, 'showChangePasswordForm'])->name('password.change');
     Route::post('modifier-mot-de-passe', [AuthController::class, 'changePassword'])->name('password.update');
 });
+
+

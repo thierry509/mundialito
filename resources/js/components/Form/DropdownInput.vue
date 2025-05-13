@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="relative inline-block">
       <!-- Input field -->
       <input
         v-model="searchQuery"
@@ -15,7 +15,7 @@
       <!-- Dropdown menu -->
       <div 
         v-show="showDropdown && filteredOptions.length > 0"
-        class="absolute z-10 mt-1 w-full max-w-[180px] bg-white rounded shadow-lg border border-gray-200 max-h-60 overflow-auto"
+        class="absolute z-64 mt-1 w-full max-w-[180px] bg-white rounded shadow-lg border border-gray-200 max-h-60 overflow-auto"
       >
         <ul>
           <li

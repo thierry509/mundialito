@@ -9,7 +9,7 @@ class GroupParticipation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['team_id', 'groupe_id'];
+    protected $fillable = ['team_id', 'group_id'];
 
     public function team()
     {
@@ -18,6 +18,6 @@ class GroupParticipation extends Model
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'groupe_id');
+        return $this->belongsTo(Group::class, 'group_id');
     }
 }
