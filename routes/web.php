@@ -18,6 +18,7 @@ use App\Http\Controllers\EditController;
 use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\GameController;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -102,6 +103,11 @@ Route::prefix('edition')->group(function () {
             Route::post('/ajouter-equipe', [GroupController::class, 'addTeamToGroup'])->name('championship.group.addTeam');
             Route::delete('/supprimer-equipe/{group_id}/{team_id}', [GroupController::class, 'removeTeamFromGroup'])->name('championship.group.removeTeam');
             Route::delete('/supprimer/{id}', [GroupController::class, 'destroy'])->name('championship.group.delete');
+        });
+        Route::prefix('match')->group(function(){
+            Route::get('/', [GameController::class, 'adminIndex'])->name('championship.game');
+            Route::post('/', [GameController::class, 'store'])->name('championship.game.store');
+            Route::delete('/supprimer/{id}', [CalendarController::class, 'destroy'])->name('championship.game.delete');
         });
     });
     Route::get('deconnexion', [AuthController::class, 'logout'])->name('logout');

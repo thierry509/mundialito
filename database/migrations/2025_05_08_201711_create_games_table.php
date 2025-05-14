@@ -16,11 +16,13 @@ return new class extends Migration
             $table->dateTime('date_time');
             $table->string('location');
             $table->string('type');
-            $table->string('stage');
-            $table->string('status');
-            $table->foreignId('championship_id')->constrained()->onDelete('cascade');
-            $table->foreignId('team_a_id')->constrained('teams')->onDelete('cascade');
-            $table->foreignId('team_b_id')->constrained('teams')->onDelete('cascade');
+            $table->string('stage')->nullable();
+            $table->enum('status', ['soon', 'live', 'postponed', 'finished'])->default('soon');
+            $table->foreignId('championship_id')->constrained();
+            $table->foreignId('team_a_id')->constrained('teams');
+            $table->foreignId('team_b_id')->constrained('teams');
+            $table->integer('team_a_goals')->nullable();
+            $table->integer('team_b_goals')->nullable();
             $table->timestamps();
         });
 

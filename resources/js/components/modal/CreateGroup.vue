@@ -10,10 +10,11 @@ defineProps({
     isOpen: Boolean
 })
 
-const { year } = useYearStore()
+const yearStore = useYearStore()
+
 const newGroup = useForm({
     name: '',
-    year: year
+    year: yearStore.year
 })
 
 
@@ -23,7 +24,7 @@ const submit = () => {
             creatgroup.value = false
         },
         onError: () => {
-            console.log('error')
+            console.log(newGroup.errors)
         }
     })
 }
@@ -32,17 +33,17 @@ const creatgroup = ref(false)
 </script>
 
 <template>
-    <BaseModal :isOpen="isOpen">
-        <div class="bg-white shadow-md rounded-lg p-4">
-                <h2 class="text-xl font-semibold mb-4">Créer un nouveau groupe</h2>
-                <Input v-model="newGroup.name" type="text" placeholder="Nom du groupe" />
+    <BaseModal :show="isOpen">
+        <form action="" @submit.prevent="submit">
+            <h2 class="text-xl font-semibold mb-4">Créer un nouveau groupe</h2>
+            <Input v-model="newGroup.name" type="text" placeholder="Nom du groupe" />
 
-                <div class="flex justify-end">
-                    <button @click="submit" type="button"
-                        class="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition">
-                        Créer le groupe
-                    </button>
-                </div>
+            <div class="flex justify-end">
+                <button @click="submit" type="button"
+                    class="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition">
+                    Créer le groupe
+                </button>
             </div>
+        </form>
     </BaseModal>
 </template>

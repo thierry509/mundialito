@@ -12,10 +12,10 @@
 }
 </style>
 <template>
-    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-12">
+    <div class="bg-white rounded-xl shadow-md overflow-y-visible mb-12">
         <!-- Titre Poule -->
 
-        <div class="bg-accent text-white p-4 flex justify-between items-center">
+        <div class="bg-accent text-white p-4 flex justify-between items-center rounded-t-xl">
             <div class="">
                 <h2 class="text-xl font-bold flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,7 +23,7 @@
                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
                         </path>
                     </svg>
-                    {{ group.name }} - Classement
+                    Groupe  {{ group.name }} - Classement
                 </h2>
                 <div class="text-sm opacity-90 mt-1">Mis à jour le </div>
             </div>
@@ -38,8 +38,8 @@
                 </button>
             </div>
         </div>
-        <div class="bg-white">
-            <div class="overflow-y-hidden h-fit">
+        <div class="bg-white rounded-b-xl">
+            <div class="overflow-y-visible h-fit">
                 <table class="w-full">
                     <thead class="bg-light/50">
                         <tr>
@@ -101,10 +101,8 @@
                         <tr v-if="addingTeam" class="bg-primary/5">
                             <td class="p-3 font-bold text-gray-400">{{ teamGroupes.length + 1 }}</td>
                             <td class="p-3">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                                        <span class="font-bold text-gray-600">N</span>
-                                    </div>
+                                <div class="flex items-center relative z-40">
+                                
                                     <DropdownInput v-model="newTeam.team_id"
                                         :options="[...teams.map(team => ({ value: team.id, label: team.name }))]" />
                                 </div>
@@ -134,7 +132,7 @@
 
             <!-- Bouton Ajouter -->
             <div class="p-4 border-t border-light flex justify-center">
-                <button @click="startAddingTeam" v-if="!addingTeam"
+                <button @click="startAddingTeam" v-if="teams.length > 0 && !addingTeam"
                     class="flex items-center px-4 py-2 rounded-full form-badge text-white shadow-md hover:shadow-lg transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -199,7 +197,7 @@ const teamGroupes = computed(() => {
 });
 
 const newTeam = useForm({
-    team_id: null,
+    team_id: 0,
     group_id: props.group.id,
 });
 

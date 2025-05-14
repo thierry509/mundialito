@@ -37,14 +37,17 @@ import { useYearStore } from '../../store/year'
   // Configuration des années disponibles
   const availableYears = computed(() => usePage().props.years)
   const selectedYear = ref(null)
-  const { year, setYear } = useYearStore()
+  const yearStore = useYearStore()
 
 
-  
+
   onMounted(() =>{
-    selectedYear.value = year || availableYears.value[0] 
+    if(!yearStore.year){
+      yearStore.setYear(availableYears.value[0])
+    }
+    selectedYear.value = yearStore.year
     watch(selectedYear, (newYear) => {
-      setYear(newYear)
+      yearStore.setYear(newYear)
       router.reload({
         data: {
             year: newYear,

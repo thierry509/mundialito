@@ -16,7 +16,7 @@ class GroupController extends Controller
     {
         return view('groups.index');
     }
-    
+
     public function adminIndex(Request $request)
     {
         $year = $request->query('year');
@@ -39,12 +39,12 @@ class GroupController extends Controller
         return redirect()->back()->with('success', 'L\'équipe a été ajoutée au groupe avec succès.');
     }
 
-    public function store(StoreGroupRequest $request)
+    public function store(Request $request)
     {
-        $validated = $request->validated();
-        $championship = Championship::where('year', $validated['year'])->first();
+        $year = $request->query('year');
+        $championship = Championship::where('year', $year)->first();
         Group::create([
-            'name' => $validated['name'],
+            'name' => $this->generateNextGroupName($championship->id, $year),
             'championship_id' => $championship->id,
         ]);
         return redirect()->back()->with('success', 'Groupe créé avec succès.');
@@ -65,5 +65,16 @@ class GroupController extends Controller
             return redirect()->back()->with('success', 'L\'équipe a été supprimée du groupe avec succès.');
         }
         return redirect()->back()->with('error', 'Cette équipe n\'est pas dans ce groupe.');
+    }
+
+    private function generateNextGroupName($championshipId, $year)
+    {
+        $count = Group::whereHas('championship', function ($query) use ($championshipId, $year) {
+            $query->where('id', $championshipId)
+                ->where('year', $year);
+        })
+            ->count();
+
+        return chr(65 + $count);
     }
 }

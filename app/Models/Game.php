@@ -17,7 +17,9 @@ class Game extends Model
         'status',
         'championship_id',
         'team_a_id',
-        'team_b_id'
+        'team_b_id',
+        'team_a_score',
+        'team_b_score'
     ];
 
     public function championship()

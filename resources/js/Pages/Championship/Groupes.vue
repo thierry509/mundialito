@@ -15,7 +15,7 @@
     </div>
     <div class="flex justify-between items-center mb-4">
         <div class=""></div>
-        <button @click="addGroup" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition">
+        <button @click="createGroup" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition">
             Ajouter un groupe
         </button>
     </div>
@@ -23,7 +23,7 @@
     <div>
         <div v-if="groups.length === 0" class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <EmptyView model="groupe">
-                <button @click="addGroup" class="px-4 py-2 mt-4 bg-primary text-white rounded-md hover:bg-primary-dark transition">
+                <button @click="createGroup" class="px-4 py-2 mt-4 bg-primary text-white rounded-md hover:bg-primary-dark transition">
                     Ajouter un groupe
                 </button>
             </EmptyView>
@@ -31,16 +31,14 @@
         <div v-for="group in groups" :key="group.id">
             <SingleGroup :teams="teams" :group="group" />
         </div>
-        {{creatgroup}}
-        <CreateGroup :isOpen="creatgroup" @close="creatgroup = false" />
     </div>
 </template>
 <script setup>
 import { ref } from 'vue'
 import SingleGroup from '../../components/Championship/SingleGroupes.vue'
 import EmptyView from '../../components/ui/EmptyView.vue';
-import CreateGroup from '../../components/modal/CreateGroup.vue';
-
+import {router} from '@inertiajs/vue3'
+import { useToasterStore } from '../../store/Toast'
 defineProps({
     groups: {
         type: Array,
@@ -52,11 +50,15 @@ defineProps({
     },
 })
 
-const creatgroup = ref(false)
-const addGroup = () => {
-    creatgroup.value = true
+const createGroup = () => {
+    router.post('', {}, {
+        onSuccess: () => {
+            useToasterStore().success({text: 'Groupe créé avec succès'})
+        },
+        onError: () => {
+            console.log(router)
+        }
+    })
 }
-
-
 
 </script>

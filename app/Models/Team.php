@@ -24,4 +24,8 @@ class Team extends Model
     {
         return $this->hasMany(GroupParticipation::class);
     }
+
+    public function group(){
+        return $this->belongsToMany(Group::class, 'group_participations');
+    }
 }

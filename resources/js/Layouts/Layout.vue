@@ -89,13 +89,7 @@
                                 </Link>
                             </li>
 
-                            <li>
-                                <Link href="/edition/actualites"
-                                    class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-light hover:text-primary transition">
-
-                                Actualites
-                                </Link>
-                            </li>
+                            
 
                             <li>
                                 <Link :href="`/edition/equipes`"
@@ -107,6 +101,21 @@
                                 <Link :href="`/edition/championnat/groupes?year=${year.year}`"
                                     class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-light hover:text-primary transition">
                                 Groupes
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link :href="`/edition/championnat/match?year=${year.year}`"
+                                    class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-light hover:text-primary transition">
+                                Match
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link href="/edition/actualites"
+                                    class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-light hover:text-primary transition">
+
+                                Actualites
                                 </Link>
                             </li>
                         </ul>
