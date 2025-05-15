@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeleteGameRequest;
+use App\Http\Requests\EndGameRequest;
 use App\Http\Requests\StoreGameRequest;
+use App\Http\Requests\UnpostponeGameRequest;
 use App\Http\Requests\UpdateGameRequest;
 use App\Models\Championship;
 use App\Models\Game;
@@ -26,9 +28,10 @@ class GameController extends Controller
             ->get()
             ->groupBy('stage');
 
+            dd($games[1][1]);
+
         return Inertia::render('Championship.Games', [
             'games' =>  $games,
-
             'groups' => Group::with('teams')->whereHas('championship', function ($query) use ($year) {
                 $query->where('year', $year);
             })->get(),
@@ -68,10 +71,42 @@ class GameController extends Controller
         redirect()->back();
     }
 
-    public function destroy(DeleteGameRequest $request){
+    public function postpone(DeleteGameRequest $request)
+    {
+        $game = Game::find($request->validated()['id']);
+        $game->update([
+            'status' => 'postponed',
+        ]);
+        redirect().back();
+    }
+
+    public function unpostpone(UnpostponeGameRequest $request)
+    {
+        $validated = $request->validated();
+        $game = Game::find($validated['id']);
+        $game->update([
+            'status' => 'soon',
+            "date_time" => Carbon::createFromFormat(
+                'Y-m-d H:i',
+                $validated['date'] . ' ' . $validated['time']
+            )->format('Y-m-d H:i:s'),
+            'location' => $validated['location'],
+        ]);
+        redirect().back();
+    }
+
+    function end(EndGameRequest $request){
+        $game = Game::find($request->validated()['id']);
+        $game->update([
+            'status' => 'finished',
+        ]);
+        redirect()->back();
+    }
+
+    public function destroy(DeleteGameRequest $request)
+    {
         $game = Game::find($request->validated()['id']);
         $game->delete();
-
         redirect()->back();
     }
 }

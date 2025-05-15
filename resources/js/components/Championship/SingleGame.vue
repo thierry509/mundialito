@@ -1,5 +1,4 @@
 <template>
-
     <div class="divide-y divide-gray-200">
         <div class="p-4 hover:bg-gray-50/50 transition duration-200 rounded-lg shadow-[5px_5px_10px_0_rgba(7,7,7,0.1)]">
             <!-- En-tête avec date, statut et lieu -->
@@ -77,7 +76,31 @@
                     </svg>
                     Suprimmer
                 </button>
-                <button
+
+                <button v-if="game.status != 'postponed' && !game?.team_a_goals" @click="postpone"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-orange-500/10 text-orange-600 hover:bg-orange-500/20 transition inline-flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2v2m0-4h-2v2" />
+                    </svg>
+                    Reporter
+                </button>
+                <button v-if="game.status == 'postponed'" @click="unpostpone"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-blue-500/10 text-blue-600 hover:bg-blue-600/20 transition inline-flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 13l-3 3m0 0l-3-3m3 3V8" />
+                    </svg>
+                    Replanifier
+                </button>
+
+                <button v-if="game.team_a_goals != null && game.team_b_goals != null"
+                @click="end"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -98,12 +121,16 @@
             </div>
         </div>
     </div>
+    <UnpostponeGame :show="showUnpostpone" :game="game" @close="showUnpostpone = false" />
 </template>
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3';
 import { formatDate, gameStatus } from '../../Utils/utils';
 import { useToasterStore } from '../../store/Toast';
 import { useConfirmStore } from '../../store/confirmStore';
+import UnpostponeGame from '../modal/UnpostponeGame.vue';
+import { ref } from 'vue';
+import { route } from 'ziggy-js';
 
 interface Game {
     id: number,
@@ -143,12 +170,52 @@ const deleteGame = async () => {
 const updateScore = async () => {
     const isConfirmed = await confirm.show({
         title: 'Mise-a-jour score',
-        message: `Voulez-vous vraiment mettre a jour ce match les score <strong> ${props.game.team_a.name} : ${score.teamAGoal} et ${props.game.team_a.name} : ${score.teamBGoal}`
+        message: `Voulez-vous vraiment mettre a jour ce match les score ${props.game.team_a.name}  vs ${props.game.team_b.name}`
     });
-    score.put('', {
-        onSuccess: () => {
-            useToasterStore().success({ text: 'Score mise a jour' })
-        }
+    if (isConfirmed) {
+        score.put('', {
+            onSuccess: () => {
+                useToasterStore().success({ text: 'Score mise a jour' })
+            }
+        })
+    }
+}
+
+const postpone = async () => {
+    const isConfirmed = await confirm.show({
+        title: "Reprte match",
+        message: `Voulez-vous vraiment reporter le match ${props.game.team_a.name} VS  ${props.game.team_b.name}`
     })
+
+    if (isConfirmed) {
+        router.put(`/edition/championnat/match/reporte/${props.game.id}`, {},
+            {
+                onSuccess: () => {
+                    useToasterStore().success({ text: 'Match Repoter' })
+                }
+            }
+        );
+    }
+}
+
+const showUnpostpone = ref(false);
+
+const unpostpone = () => {
+    showUnpostpone.value = true
+}
+
+const end = async () => {
+    const isConfirmed = await confirm.show({
+        title: "Marquer match comme terminer",
+        message: "Voulez-vous merque cette match comme terminer"
+    })
+
+    if (isConfirmed) {
+        router.put(`/edition/championnat/match/terminer/${props.game.id}`, {}, {
+            onSuccess: () => {
+                useToasterStore().success({ text: 'Match Marqur comme terminer' })
+            }
+        })
+    }
 }
 </script>

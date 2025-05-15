@@ -104,11 +104,15 @@ Route::prefix('edition')->group(function () {
             Route::delete('/supprimer-equipe/{group_id}/{team_id}', [GroupController::class, 'removeTeamFromGroup'])->name('championship.group.removeTeam');
             Route::delete('/supprimer/{id}', [GroupController::class, 'destroy'])->name('championship.group.delete');
         });
-        Route::prefix('match')->group(function(){
+        Route::prefix('/match')->group(function(){
             Route::get('/', [GameController::class, 'adminIndex'])->name('championship.game');
             Route::post('/', [GameController::class, 'store'])->name('championship.game.store');
             Route::delete('/supprimer/{id}', [GameController::class, 'destroy'])->name('championship.game.delete');
-            Route::put('/', [GameController::class, 'update']);
+            Route::put('/', [GameController::class, 'update'])->name('championship.game->update');
+            Route::put('/reporte/{id}', [GameController::class, 'postpone'])->name('championship.game.postpone');
+            Route::put('/replanifer/{id}', [GameController::class, 'unpostpone'])->name('championship.game.unpostpone');
+            Route::put('/terminer/{id}', [GameController::class, 'end'])->name('championship.game.end');
+
         });
     });
     Route::get('deconnexion', [AuthController::class, 'logout'])->name('logout');
