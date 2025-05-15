@@ -26,6 +26,7 @@ class StoreGameRequest extends FormRequest
             'team1Id' => 'required',
             'team2Id' => 'required|different:team1Id',
             'type' => 'required|in:group,knockout',
+            'stage' => 'required',
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
             'location' => 'required|string'
@@ -49,6 +50,7 @@ class StoreGameRequest extends FormRequest
             'date.date' => 'La date doit être une date valide.',
             'time.required' => 'L\'heure est obligatoire.',
             'time.date_format' => 'L\'heure doit être au format HH:MM.',
+            'stage.required' => 'La tour droit etre mentionner',
         ];
     }
 }

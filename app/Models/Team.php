@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +26,15 @@ class Team extends Model
         return $this->hasMany(GroupParticipation::class);
     }
 
-    public function group(){
+    public function group()
+    {
         return $this->belongsToMany(Group::class, 'group_participations');
+    }
+
+    public function hasAnyRelations(): bool
+    {
+        return $this->matchesAsTeamA()->exists() ||
+            $this->matchesAsTeamB()->exists() ||
+            $this->groupParticipations()->exists();
     }
 }

@@ -107,7 +107,8 @@ Route::prefix('edition')->group(function () {
         Route::prefix('match')->group(function(){
             Route::get('/', [GameController::class, 'adminIndex'])->name('championship.game');
             Route::post('/', [GameController::class, 'store'])->name('championship.game.store');
-            Route::delete('/supprimer/{id}', [CalendarController::class, 'destroy'])->name('championship.game.delete');
+            Route::delete('/supprimer/{id}', [GameController::class, 'destroy'])->name('championship.game.delete');
+            Route::put('/', [GameController::class, 'update']);
         });
     });
     Route::get('deconnexion', [AuthController::class, 'logout'])->name('logout');

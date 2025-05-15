@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteTeamRequest;
 use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
-use Illuminate\Contracts\Cache\Store;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TeamController extends Controller
@@ -29,15 +28,25 @@ class TeamController extends Controller
     }
     public function adminIndex()
     {
+        $teams = Team::all()->map(function ($team) {
+            return [
+                'id' => $team->id,
+                'name' => $team->name,
+                'location' => $team->location,
+                'has_relations' => $team->hasAnyRelations(),
+            ];
+        });
+
         return Inertia::render('Team/Index', [
-            'teams' => Team::all(),
+            'teams' => $teams,
         ]);
     }
 
-    
-    public function destroy($id)
+
+    public function destroy(DeleteTeamRequest $request)
     {
-        $team = Team::findOrFail($id);
+
+        $team = Team::findOrFail($request->validated()['id']);
         $team->delete();
         return redirect()->route('teams.index')->with('success', 'Team deleted successfully.');
     }

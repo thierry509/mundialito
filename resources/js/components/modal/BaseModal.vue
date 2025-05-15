@@ -13,7 +13,7 @@
                     <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0 scale-95"
                         enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
                         leave-to="opacity-0 scale-95" >
-                        
+
                         <DialogPanel
                         class="w-2/3 transform overflow-visible rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                             <DialogTitle as="h3" class="flex items-center text-lg font-medium leading-6 text-red-800">
@@ -56,22 +56,12 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    errors: {
-        type: Object,
-        default: () => ({})
-    }
+
 })
 
 const emit = defineEmits(['close'])
 
 const isOpen = ref(false)
-
-// Ouvrir automatiquement quand il y a des erreurs
-watch(() => props.errors, (newErrors) => {
-    if (Object.keys(newErrors).length > 0) {
-        isOpen.value = true
-    }
-}, { immediate: true, deep: true })
 
 const closeModal = () => {
     isOpen.value = false

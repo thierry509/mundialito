@@ -1,5 +1,6 @@
 <template>
     <ToastNotification />
+    <ConfirmModal/>
     <div class="flex flex-col h-screen">
         <!-- Header -->
         <header class="bg-white shadow-lg z-10">
@@ -89,7 +90,7 @@
                                 </Link>
                             </li>
 
-                            
+
 
                             <li>
                                 <Link :href="`/edition/equipes`"
@@ -137,6 +138,7 @@ import SelectedYear from '@/components/Championship/SelectedYear.vue';
 import ToastNotification from '@/components/ui/ToastNotification.vue';
 import { useYearStore } from '@/store/year';
 import { computed } from 'vue';
+import ConfirmModal from '../components/modal/ConfirmModal.vue';
 const year = useYearStore();
 
 const toggleAside = () => {

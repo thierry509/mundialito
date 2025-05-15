@@ -18,8 +18,8 @@ class Game extends Model
         'championship_id',
         'team_a_id',
         'team_b_id',
-        'team_a_score',
-        'team_b_score'
+        'team_a_goals',
+        'team_b_goals'
     ];
 
     public function championship()

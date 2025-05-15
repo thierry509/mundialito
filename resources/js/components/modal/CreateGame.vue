@@ -25,7 +25,7 @@ const form = useForm({
     team2Id: '',
     type: props.type,
     date: '',
-    stage: props.stage,
+    stage: props.stage || '',
     time: '',
     location: '',
 });
@@ -60,11 +60,20 @@ const submit = () => {
         <h2 class="text-xl font-semibold text-gray-800 mb-4">Enregistrer une nouvelle équipe</h2>
         <form @submit.prevent="submit" class="space-y-4">
 
-            <div>
-                <label for="group" class="block text-sm font-medium text-gray-700">Groupe</label>
-                <DropdownInput v-model="form.groupId"
-                    :options="[...groups.map(group => ({ value: group.id, label: `Groupe ${group.name}` }))]"
-                    id="groupId" label="Groupe" placeholder="Ex: Groupe A" :error="form.errors?.groupId"/>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="">
+                    <label for="group" class="block text-sm font-medium text-gray-700">Groupe</label>
+                    <DropdownInput v-model="form.groupId"
+                        :options="[...groups.map(group => ({ value: group.id, label: `Groupe ${group.name}` }))]"
+                        id="groupId" label="Groupe" placeholder="Ex: Groupe A" :error="form.errors?.groupId" />
+                </div>
+
+                <Select v-model="form.stage" label="Tours" :options="[
+                    { label: 'Journer 1', value: '1' },
+                    { label: 'Journer 2', value: '2' },
+                    { label: 'Journer 4', value: '3' },
+                    { label: 'Journer 4', value: '4' },
+                ]" :error="form.errors?.stage" />
             </div>
             <div v-if="form.groupId" class="">
                 <!-- Équipes en ligne -->
@@ -74,7 +83,7 @@ const submit = () => {
                         <label for="team1" class="block text-sm font-medium text-gray-700">Équipe 1</label>
                         <DropdownInput v-model="form.team1Id"
                             :options="[...groups.find(group => group.id === form.groupId).teams.map(team => ({ value: team.id, label: team.name }))]"
-                            id="team1Id" label="Équipe 1" placeholder="Ex: Équipe 1" :error="form.errors?.team1Id"/>
+                            id="team1Id" label="Équipe 1" placeholder="Ex: Équipe 1" :error="form.errors?.team1Id" />
                     </div>
 
                     <!-- VS au centre -->
@@ -87,14 +96,15 @@ const submit = () => {
                         <label for="team2" class="block text-sm font-medium text-gray-700">Équipe 2</label>
                         <DropdownInput v-model="form.team2Id"
                             :options="[...groups.find(group => group.id === form.groupId).teams.map(team => ({ value: team.id, label: team.name }))]"
-                            id="team2Id" label="Équipe 2" placeholder="Ex: Équipe 2" :error="form.errors?.team2Id"/>
+                            id="team2Id" label="Équipe 2" placeholder="Ex: Équipe 2" :error="form.errors?.team2Id" />
                     </div>
                 </div>
 
                 <!-- Date et Heure -->
                 <div class="grid grid-cols-2 gap-4">
 
-                    <Input v-model="form.date" type="date" id="date" label="Date" placeholder="Sélectionnez une date" :error="form.errors?.date"/>
+                    <Input v-model="form.date" type="date" id="date" label="Date" placeholder="Sélectionnez une date"
+                        :error="form.errors?.date" />
                     <Input v-model="form.time" type="time" id="time" label="Heure" :error="form.errors?.time"
                         placeholder="Sélectionnez une heure" />
                 </div>
@@ -102,11 +112,10 @@ const submit = () => {
                 <!-- Stade -->
                 <div>
                     <Select v-model="form.location" type="text" id="location" label="Lieu" :options="[
-                        { label: 'Selectionner un terrain', value:''},
+                        { label: 'Selectionner un terrain', value: '' },
                         { label: 'Savanne poudriere', value: 'savane podriere' },
                         { label: 'parc-vincent', value: 'parc-vincent' },
-                    ]" :errors="form.errors?.location"/>
-
+                    ]" :errors="form.errors?.location" />
                 </div>
             </div>
             <!-- Boutons -->

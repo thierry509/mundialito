@@ -40,7 +40,8 @@
             <div>
                 <div v-if="teams.length === 0" class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
                     <EmptyView model="équipe">
-                        <button @click="showForm = true" class="px-4 py-2 mt-4 bg-primary text-white rounded-md hover:bg-primary-dark transition">
+                        <button @click="showForm = true"
+                            class="px-4 py-2 mt-4 bg-primary text-white rounded-md hover:bg-primary-dark transition">
                             Ajouter une Équipe
                         </button>
                     </EmptyView>
@@ -63,7 +64,7 @@
                                     {{ team.location }}
                                 </p>
                             </div>
-                            <button @click="deleteTeam(team.id)" class="text-gray-400 hover:text-danger transition"
+                            <button v-if="!team.has_relations" @click="deleteTeam(team)" class="text-gray-400 hover:text-danger transition"
                                 title="Supprimer">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -82,18 +83,26 @@
 import { ref, onMounted } from 'vue';
 import { router } from '@inertiajs/vue3';
 import CreateTeam from '../../components/modal/CreateTeam.vue';
-import {useToasterStore} from '../../store/Toast';
+import { useToasterStore } from '../../store/Toast';
 import EmptyView from '../../components/ui/EmptyView.vue';
+import { useConfirmStore } from '../../store/confirmStore';
 defineProps({
     teams: Array,
 });
+const confirm = useConfirmStore()
 
-const deleteTeam = (id) => {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette équipe ?')) {
-        router.delete(`/edition/equipes/supprimer/${id}`, {
+const deleteTeam = async (team) => {
+    const isConfirmed = await confirm.show({
+        title: 'Suppression',
+        message: `Voulez-vous vraiment supprimer l'equipe ${team.name} ?`,
+        confirmText: 'Oui, supprimer',
+        cancelText: 'Non, annuler'
+    })
+    if (isConfirmed) {
+        router.delete(`/edition/equipes/supprimer/${team.id}`, {
             preserveScroll: true,
             onSuccess: () => {
-                useToasterStore().success({text: 'Équipe supprimée avec succès'});
+                useToasterStore().success({ text: 'Équipe supprimée avec succès' });
             },
             onError: (errors) => {
                 console.log('Erreur lors de la suppression de l\'équipe:', errors);

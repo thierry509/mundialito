@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->dateTime('date_time');
             $table->string('location');
-            $table->string('type');
-            $table->string('stage')->nullable();
+            $table->enum('type', ['group','knockout']);
+            $table->string('stage');
             $table->enum('status', ['soon', 'live', 'postponed', 'finished'])->default('soon');
             $table->foreignId('championship_id')->constrained();
             $table->foreignId('team_a_id')->constrained('teams');

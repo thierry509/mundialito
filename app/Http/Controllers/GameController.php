@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteGameRequest;
 use App\Http\Requests\StoreGameRequest;
+use App\Http\Requests\UpdateGameRequest;
 use App\Models\Championship;
 use App\Models\Game;
 use App\Models\Group;
@@ -16,29 +18,16 @@ class GameController extends Controller
     {
         $year = $request->query('year');
 
+        $games = Game::with(['teamA', 'teamB', 'championship'])
+            ->whereHas('championship', function ($query) use ($year) {
+                $query->where('year', $year);
+            })
+            ->orderBy('stage')
+            ->get()
+            ->groupBy('stage');
 
-        $games = Game::with(['teamA.group', 'teamB.group', 'championship'])
-            ->whereHas('championship', fn($q) => $q->where('year', $year))
-            ->get();
-
-        $grouped = ['groups' => []];
-
-        foreach ($games as $game) {
-            $groupName = $game->teamA()->first()->group()->first()->name ?? $game->teamB()->first()->group()->first();
-
-            if (!isset($grouped['groups'][$groupName])) {
-                $grouped['groups'][$groupName] = [];
-            }
-
-            $grouped['groups'][$groupName][] = [
-                'id' => $game->id,
-                'teamA' => $game->teamA->name,
-                'teamB' => $game->teamB->name,
-                'date' => $game->date_time,
-            ];
-        }
         return Inertia::render('Championship.Games', [
-            'games' => $grouped,
+            'games' =>  $games,
 
             'groups' => Group::with('teams')->whereHas('championship', function ($query) use ($year) {
                 $query->where('year', $year);
@@ -60,10 +49,29 @@ class GameController extends Controller
                 'Y-m-d H:i',
                 $validated['date'] . ' ' . $validated['time']
             )->format('Y-m-d H:i:s'),
+            'stage' => $validated['stage'],
             'location' => $validated['location'],
             'type' => $validated['type'],
         ]);
 
         return redirect()->back();
+    }
+
+    public function update(UpdateGameRequest $request)
+    {
+        $validated = $request->validated();
+        $game = Game::find($validated['gameId']);
+        $game->update([
+            'team_a_goals' => $validated['teamAGoal'],
+            'team_b_goals' => $validated['teamBGoal'],
+        ]);
+        redirect()->back();
+    }
+
+    public function destroy(DeleteGameRequest $request){
+        $game = Game::find($request->validated()['id']);
+        $game->delete();
+
+        redirect()->back();
     }
 }
