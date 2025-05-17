@@ -104,6 +104,9 @@ Route::prefix('edition')->group(function () {
             Route::delete('/supprimer-equipe/{group_id}/{team_id}', [GroupController::class, 'removeTeamFromGroup'])->name('championship.group.removeTeam');
             Route::delete('/supprimer/{id}', [GroupController::class, 'destroy'])->name('championship.group.delete');
         });
+        Route::prefix('/elimination')->group(function(){
+            Route::get('/', [KnockoutController::class, 'adminIndex'])->name('championship.knockout');
+        });
         Route::prefix('/match')->group(function(){
             Route::get('/', [GameController::class, 'adminIndex'])->name('championship.game');
             Route::post('/', [GameController::class, 'store'])->name('championship.game.store');

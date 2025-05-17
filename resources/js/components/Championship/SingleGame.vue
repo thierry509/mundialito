@@ -9,7 +9,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    <span>{{ formatDate(game.date_time) }}</span>
+                    <span v-if="game.date_time"> {{ formatDate(game.date_time) }}</span>
+                    <span v-else>à déterminer</span>
                 </div>
 
                 <div class="flex items-center space-x-3">
@@ -24,7 +25,8 @@
                         <span class="font-medium">{{ game.location || 'Stade Principal' }}</span>
                     </div>
 
-                    <span class="px-2 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full capitalize"
+                        :class="statusClass(game.status)">
                         {{ gameStatus(game.status) }}
                     </span>
                 </div>
@@ -65,7 +67,7 @@
             </div>
 
             <!-- Section des boutons d'action -->
-            <div class="flex justify-between space-x-2 mt-4 pt-3 border-t border-gray-100">
+            <div v-if="game.status != 'finished'"  class="flex justify-between space-x-2 mt-4 pt-3 border-t border-gray-100">
 
                 <button v-if="!game?.team_a_goals" @click="deleteGame"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition inline-flex">
@@ -99,8 +101,7 @@
                     Replanifier
                 </button>
 
-                <button v-if="game.team_a_goals != null && game.team_b_goals != null"
-                @click="end"
+                <button v-if="game.team_a_goals != null && game.team_b_goals != null" @click="end"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -125,7 +126,7 @@
 </template>
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3';
-import { formatDate, gameStatus } from '../../Utils/utils';
+import { formatDate, gameStatus, statusClass } from '../../Utils/utils';
 import { useToasterStore } from '../../store/Toast';
 import { useConfirmStore } from '../../store/confirmStore';
 import UnpostponeGame from '../modal/UnpostponeGame.vue';
@@ -218,4 +219,6 @@ const end = async () => {
         })
     }
 }
+
+
 </script>

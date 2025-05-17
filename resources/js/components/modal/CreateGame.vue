@@ -71,7 +71,7 @@ const submit = () => {
                 <Select v-model="form.stage" label="Tours" :options="[
                     { label: 'Journer 1', value: '1' },
                     { label: 'Journer 2', value: '2' },
-                    { label: 'Journer 4', value: '3' },
+                    { label: 'Journer 3', value: '3' },
                     { label: 'Journer 4', value: '4' },
                 ]" :error="form.errors?.stage" />
             </div>

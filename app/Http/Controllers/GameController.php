@@ -28,7 +28,7 @@ class GameController extends Controller
             ->get()
             ->groupBy('stage');
 
-            dd($games[1][1]);
+            // dd($games[1][1]);
 
         return Inertia::render('Championship.Games', [
             'games' =>  $games,
@@ -44,14 +44,16 @@ class GameController extends Controller
         $chamionship = Championship::where('year', $year)->first();
         $validated = $request->validated();
 
+        $dateTime = (isset($validated['date']) && isset($validated['time']))? Carbon::createFromFormat(
+            'Y-m-d H:i',
+            $validated['date'] . ' ' . $validated['time']
+        )->format('Y-m-d H:i:s') : null;
+
         Game::create([
             'championship_id' => $chamionship->id,
             "team_a_id" => $validated['team1Id'],
             "team_b_id" => $validated['team2Id'],
-            "date_time" => Carbon::createFromFormat(
-                'Y-m-d H:i',
-                $validated['date'] . ' ' . $validated['time']
-            )->format('Y-m-d H:i:s'),
+            "date_time" => $dateTime,
             'stage' => $validated['stage'],
             'location' => $validated['location'],
             'type' => $validated['type'],
@@ -92,7 +94,7 @@ class GameController extends Controller
             )->format('Y-m-d H:i:s'),
             'location' => $validated['location'],
         ]);
-        redirect().back();
+        redirect()->back();
     }
 
     function end(EndGameRequest $request){

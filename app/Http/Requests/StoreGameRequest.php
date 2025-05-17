@@ -27,8 +27,8 @@ class StoreGameRequest extends FormRequest
             'team2Id' => 'required|different:team1Id',
             'type' => 'required|in:group,knockout',
             'stage' => 'required',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'date' => 'nullable|date',
+            'time' => 'nullable|date_format:H:i',
             'location' => 'required|string'
         ];
     }

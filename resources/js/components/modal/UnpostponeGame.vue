@@ -13,7 +13,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 
-const {date, time} = dateTime(props.game.date_time)
+const {date, time} = dateTime(props?.game?.date_time)
 // Initialisation du formulaire Inertia
 const form = useForm({
     date: date,

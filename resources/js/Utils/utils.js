@@ -32,7 +32,10 @@ export function gameStatus(status) {
 */
 export function dateTime(strDateTime) {
     if (!strDateTime || typeof strDateTime !== 'string') {
-        throw new Error('Input must be a non-empty string');
+        return {
+            date: null,
+            time: null,
+        };
     }
 
     // Séparation date et heure
@@ -60,4 +63,210 @@ export function dateTime(strDateTime) {
         date: datePart,
         time: timeValue
     };
+}
+
+
+export function statusClass(status) {
+    const statusMap = {
+        'soon': 'bg-blue-100 text-blue-800',
+        'live': 'bg-red-100 text-red-800 animate-pulse',
+        'postponed': 'bg-amber-100 text-amber-800',
+        'finished': 'bg-green-100 text-green-800',
+        // Valeur par défaut si le status est inconnu
+        'default': 'bg-gray-100 text-gray-800'
+    };
+
+    return statusMap[status] || statusMap.default;
+}
+
+export function getValueKnockout(count, n) {
+    // Vérification des paramètres
+    if (n < 1 || n > count) return undefined;
+
+    // Définition des séquences
+    const sequences = {
+        8: [-346, -246, -146, -50, 50, 146, 246, 346],
+        4: [-146, -50, 50, 146],
+        2: [-50, 50]
+    };
+
+    // Retourne la valeur correspondante
+    return sequences[count]?.[n - 1];
+}
+
+function getValueKnockout2(totalElements, currentPosition) {
+    const sequences = {
+        8: [-346, -246, 146, -50, 50, 146, 246, 346],
+        4: [146, -50, 50, 146],
+        2: [-50, 50],
+        4: [-300, -100, 100, 300]  // Nouvelle séquence pour 4 éléments
+    };
+
+    // Vérification des paramètres
+    if (currentPosition < 1 || currentPosition > totalElements) return null;
+
+    // Retourne la valeur correspondante
+    return sequences[totalElements]?.[currentPosition - 1];
+}
+
+
+function getValueKnockout3(totalElements, currentPosition) {
+    const sequences = {
+        2: [-200, 200],
+    };
+
+    // Vérification des paramètres
+    if (currentPosition < 1 || currentPosition > totalElements) return null;
+
+    // Retourne la valeur correspondante
+    return sequences[totalElements]?.[currentPosition - 1];
+}
+
+export function drawRound16(m, ctx, n) {
+    const count = 8;
+
+    ctx.save();
+    ctx.translate(0, 0)
+
+    // ctx.beginPath();
+    // ctx.moveTo(230, 0);
+    // ctx.lineTo(330, m);
+    // ctx.closePath();
+    // ctx.stroke();
+
+    for (let i = 1; i <= count; i++) {
+
+        let p = getValueKnockout(count, i);
+        console.log(p, i, count)
+        ctx.beginPath();
+        ctx.moveTo(230, m - p);
+        ctx.lineTo(300, m - p);
+        ctx.closePath();
+        ctx.stroke();
+
+
+        ctx.beginPath();
+        ctx.moveTo(300, m - p);
+        if (i % 2 != 0) {
+            ctx.lineTo(300, m - p - 50);
+        }
+        else {
+            ctx.lineTo(300, m - p + 50);
+        }
+        ctx.closePath();
+        ctx.stroke()
+
+        ctx.beginPath()
+        if (i % 2 != 0) {
+
+            ctx.moveTo(300, m - p - 50);
+            ctx.lineTo(370, m - p - 50);
+        }
+        ctx.closePath();
+        ctx.stroke();
+    }
+    ctx.restore(); // Restaure le contexte
+
+}
+
+export function drawQuarter(m, ctx, n) {
+    const count = 4;
+
+    ctx.save();
+    if (n == 1) {
+        ctx.translate(0, 0)
+    } else if (n == 2) {
+        ctx.translate(340, 0)
+    }
+
+
+    for (let i = 1; i <= count; i++) {
+
+        let p = getValueKnockout2(count, i);
+        ctx.beginPath();
+        ctx.moveTo(230, m - p);
+        ctx.lineTo(300, m - p);
+        ctx.closePath();
+        ctx.stroke();
+
+
+        ctx.beginPath();
+        ctx.moveTo(300, m - p);
+        if (i % 2 == 0) {
+            ctx.lineTo(300, m - p + 150);
+        }
+        else {
+            ctx.lineTo(300, m - p - 150);
+        }
+        ctx.closePath();
+        ctx.stroke()
+
+        ctx.beginPath()
+        if (i % 2 != 0) {
+
+            ctx.moveTo(300, m - p - 100);
+            ctx.lineTo(370, m - p - 100);
+        }
+        ctx.closePath();
+        ctx.stroke();
+    }
+    ctx.restore(); // Restaure le contexte
+
+}
+
+export function drawSemi(m, ctx, n) {
+    const count = 2;
+
+    ctx.save();
+    if (n == 1) {
+        ctx.translate(0, 0)
+    } else if (n == 2) {
+        ctx.translate(340, 0)
+    } else if (n == 3) {
+        ctx.translate(680, 0)
+    }
+
+
+    ctx.moveTo(230, m - 200);
+    ctx.lineTo(300, m - 200);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.moveTo(230, m + 200);
+    ctx.lineTo(300, m + 200);
+    ctx.closePath();
+    ctx.stroke();
+
+
+    for (let i = 1; i <= count; i++) {
+
+        let p = getValueKnockout3(count, i);
+        ctx.beginPath();
+        ctx.moveTo(230, m - p);
+        ctx.lineTo(300, m - p);
+        ctx.closePath();
+        ctx.stroke();
+
+
+        ctx.beginPath();
+        ctx.moveTo(300, m - p);
+        if (i % 2 == 0  ) {
+            ctx.lineTo(300, m - p + 300);
+        }
+        else {
+            ctx.lineTo(300, m - p - 300);
+        }
+        ctx.closePath();
+        ctx.stroke()
+
+        ctx.beginPath()
+        if (i % 2 != 0) {
+            ctx.moveTo(300, m - p - 200);
+            ctx.lineTo(370, m - p - 200);
+        }
+        ctx.closePath();
+        ctx.stroke();
+    }
+    ctx.restore(); // Restaure le contexte
+
 }

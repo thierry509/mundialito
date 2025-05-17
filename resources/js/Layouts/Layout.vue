@@ -104,7 +104,12 @@
                                 Groupes
                                 </Link>
                             </li>
-
+                            <li>
+                                <Link :href="`/edition/championnat/elimination?year=${year.year}`"
+                                    class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-light hover:text-primary transition">
+                                Elimination
+                                </Link>
+                            </li>
                             <li>
                                 <Link :href="`/edition/championnat/match?year=${year.year}`"
                                     class="flex items-center p-3 rounded-lg text-gray-700 hover:bg-light hover:text-primary transition">

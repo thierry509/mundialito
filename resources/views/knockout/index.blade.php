@@ -5,11 +5,14 @@
         .bracket-connector {
             position: relative;
         }
-        .bracket-connector::after, .bracket-connector::before {
+
+        .bracket-connector::after,
+        .bracket-connector::before {
             content: '';
             position: absolute;
             background-color: #e5e7eb;
         }
+
         .bracket-connector::after {
             background: #e70000;
             width: 20px;
@@ -17,6 +20,7 @@
             top: 50%;
             right: -20px;
         }
+
         .bracket-connector::before {
             background: #3700ff;
             width: 20px;
@@ -24,233 +28,84 @@
             top: 50%;
             left: -3200px;
         }
+
         .bracket-connector.last-in-group::before {
             /* height: 50%; */
         }
+
         .bracket-connector.first-in-group::before {
             height: calc(50% + 20px);
             top: 0;
         }
+
         .bracket-connector.single-connector::before {
             height: 0;
         }
     </style>
 
     <!-- Hero Section -->
-    <x-hero
-        title="Phase à Élimination Directe"
-        subtitle="Suivez le parcours des équipes vers la finale"
-        backgroundImage="/images/stade-knockout.jpg"
-        variant="primary"
-    />
+    <x-hero title="Phase à Élimination Directe" subtitle="Suivez le parcours des équipes vers la finale"
+        backgroundImage="/images/stade-knockout.jpg" variant="primary" />
 
     <!-- Bracket Section -->
     <main class="container mx-auto px-4 py-12 flex flex-col items-center ">
-        <div class="flex gap-4 md:gap-8 pb-8">
-            <!-- Huitièmes de finale -->
-            <div class="flex flex-col gap-6 min-w-max">
-                <h2 class="text-xl font-bold text-center mb-4 bg-accent text-white py-2 px-4 rounded-lg">Quarts de finale</h2>
-
-                <!-- Match 1 -->
-                <div class="bracket-connector">
-                    <div class="bg-white rounded-lg shadow-lg p-4 w-64 border-l-4 border-primary">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-primary">L</span>
-                                </div>
-                                <span class="font-medium">Les Lions</span>
-                            </div>
-                            <span class="font-bold bg-primary text-white px-2 rounded">3</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-secondary/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-secondary">T</span>
-                                </div>
-                                <span class="font-medium">Tigres FC</span>
-                            </div>
-                            <span class="font-bold bg-gray-100 px-2 rounded">1</span>
-                        </div>
+        <div id="scrollableDiv"
+            class="relative cursor-move h-full w-full overflow-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <!-- Conteneur scrollable (prend la taille du parent) -->
+            <!-- Conteneur interne avec une hauteur explicite (calculée) -->
+            <div class="relative" :style="{ height: `${250 * count / 2}px`, width: '1300px' }">
+                <!-- En-tête (position: absolute) -->
+                <div class="absolute top-0 left-0 flex items-center w-full bg-primary shadow-md z-10">
+                    <div class="w-[400px] py-3 px-6 border-r border-primary-light text-center">
+                        <span class="text-white font-medium text-lg uppercase tracking-wider">Huitième de final</span>
+                    </div>
+                    <div class="w-[400px] py-3 px-6 border-r border-primary-light text-center">
+                        <span class="text-white font-medium text-lg uppercase tracking-wider">Quart de final</span>
+                    </div>
+                    <div class="w-[400px] py-3 px-6 border-r border-primary-light text-center">
+                        <span class="text-white font-medium text-lg uppercase tracking-wider">Demi-finale</span>
+                    </div>
+                    <div class="w-[400px] py-3 px-6 text-center">
+                        <span class="text-white font-medium text-lg uppercase tracking-wider">Finale</span>
                     </div>
                 </div>
 
-                <!-- Match 2 -->
-                <div class="bracket-connector">
-                    <div class="bg-white rounded-lg shadow-lg p-4 w-64 border-l-4 border-primary">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-accent">A</span>
-                                </div>
-                                <span class="font-medium">Les Aigles</span>
-                            </div>
-                            <span class="font-bold bg-primary text-white px-2 rounded">2</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-gray-600">E</span>
-                                </div>
-                                <span class="font-medium">Étoiles FC</span>
-                            </div>
-                            <span class="font-bold bg-gray-100 px-2 rounded">1</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- Canvas (position: absolute) -->
+                <canvas id="diagram" class="absolute border top-0 left-0" width="1300"
+                    :height="250 * count / 2"></canvas>
 
-                <!-- Match 3 -->
-                <div class="bracket-connector first-in-group">
-                    <div class="bg-white rounded-lg shadow-lg p-4 w-64 border-l-4 border-primary">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-primary">P</span>
-                                </div>
-                                <span class="font-medium">Panthères</span>
-                            </div>
-                            <span class="font-bold bg-primary text-white px-2 rounded">1</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-secondary/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-secondary">C</span>
-                                </div>
-                                <span class="font-medium">Chevaliers</span>
-                            </div>
-                            <span class="font-bold bg-gray-100 px-2 rounded">1</span>
-                        </div>
+                <!-- Contenu knockout (position: absolute) -->
+                <div id="knockout" class="absolute top-0 left-0 flex items-center w-full h-full">
+                    <div class="mr-[100px]">
+                        <template v-for="i in 8">
+                            <singleMatchKnockout class="my-[50px]" />
+                        </template>
                     </div>
-                </div>
-
-                <!-- Match 4 -->
-                <div class="bracket-connector last-in-group">
-                    <div class="bg-white rounded-lg shadow-lg p-4 w-64 border-l-4 border-primary">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-accent">F</span>
-                                </div>
-                                <span class="font-medium">Faucons</span>
-                            </div>
-                            <span class="font-bold bg-primary text-white px-2 rounded">4</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-gray-600">S</span>
-                                </div>
-                                <span class="font-medium">Sagittaires</span>
-                            </div>
-                            <span class="font-bold bg-gray-100 px-2 rounded">1</span>
-                        </div>
+                    <div class="mr-[100px]">
+                        <template v-for="i in 4">
+                            <singleMatchKnockout class="my-[150px]" />
+                        </template>
+                    </div>
+                    <div class="mr-[100px]">
+                        <template v-for="i in 2">
+                            <singleMatchKnockout class="my-[350px]" />
+                        </template>
+                    </div>
+                    <div class="mr-[100px]">
+                        <template v-for="i in 1">
+                            <singleMatchKnockout class="my-[350px]" />
+                        </template>
                     </div>
                 </div>
             </div>
-
-            <!-- Quarts de finale -->
-            <div class="flex flex-col gap-16 pt-12 min-w-max">
-                <h2 class="text-xl font-bold text-center mb-4 bg-accent text-white py-2 px-4 rounded-lg">Demi-finales</h2>
-
-                <!-- Match 1 -->
-                <div class="bracket-connector">
-                    <div class="bg-white rounded-lg shadow-lg p-4 w-64 border-l-4 border-primary">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-primary">L</span>
-                                </div>
-                                <span class="font-medium">Les Lions</span>
-                            </div>
-                            <span class="font-bold bg-primary text-white px-2 rounded">1</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-accent">A</span>
-                                </div>
-                                <span class="font-medium">Les Aigles</span>
-                            </div>
-                            <span class="font-bold bg-gray-100 px-2 rounded">2</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Match 2 -->
-                <div class="bracket-connector last-in-group">
-                    <div class="bg-white rounded-lg shadow-lg p-4 w-64 border-l-4 border-primary">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-secondary/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-secondary">C</span>
-                                </div>
-                                <span class="font-medium">Chevaliers</span>
-                            </div>
-                            <span class="font-bold bg-primary text-white px-2 rounded">1</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-accent">F</span>
-                                </div>
-                                <span class="font-medium">Faucons</span>
-                            </div>
-                            <span class="font-bold bg-gray-100 px-2 rounded">1</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Demi-finales -->
-            <div class="flex flex-col gap-32 pt-24 min-w-max">
-                <h2 class="text-xl font-bold text-center mb-4 bg-accent text-white py-2 px-4 rounded-lg">Finale</h2>
-
-                <!-- Match 1 -->
-                <div class="bracket-connector single-connector">
-                    <div class="bg-white rounded-lg shadow-lg p-4 w-64 border-l-4 border-primary">
-                        <div class="flex justify-between items-center mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-accent">A</span>
-                                </div>
-                                <span class="font-medium">Les Aigles</span>
-                            </div>
-                            <span class="font-bold bg-primary text-white px-2 rounded">3</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center">
-                                    <span class="text-xs font-bold text-accent">F</span>
-                                </div>
-                                <span class="font-medium">Faucons</span>
-                            </div>
-                            <span class="font-bold bg-gray-100 px-2 rounded">0</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Finale -->
-            {{-- <div class="flex flex-col gap-64 pt-36 min-w-max">
-                <h2 class="text-xl font-bold text-center mb-4 bg-accent text-white py-2 px-4 rounded-lg">Finale</h2>
-
-                <!-- Vainqueur -->
-                <div class="bg-gradient-to-r from-secondary to-yellow-300 text-gray-900 rounded-lg shadow-lg p-4 w-64 border-l-4 border-secondary font-bold text-center">
-                    <div class="flex items-center justify-center gap-2">
-                        <div class="w-6 h-6 bg-white/80 rounded-full flex items-center justify-center">
-                            <span class="text-xs">A</span>
-                        </div>
-                        <span>Les Aigles Champions</span>
-                    </div>
-                </div>
-            </div> --}}
         </div>
 
         <!-- Légende -->
         <div class="mt-8 bg-white rounded-lg shadow p-4 max-w-2xl mx-auto">
             <h3 class="font-bold text-lg mb-2 flex items-center gap-2">
                 <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 Légende
             </h3>
@@ -274,4 +129,245 @@
             </div>
         </div>
     </main>
+
+    <script>
+        const count = 8;
+
+        const n = 50;
+        const m = (250 * count) / 4;
+        const canvas = document.getElementById('diagram');
+        if (canvas.getContext) {
+            var ctx = canvas.getContext("2d");
+            ctx.strokeStyle = 'rgb(255,255,255)';
+            ctx.lineWidth = 3; // Épaisseur de 5px
+            drawRound16(m, ctx, 1)
+            drawQuarter(m, ctx, 2)
+            drawSemi(m, ctx, 3)
+        }
+
+
+        const scrollableDiv = document.getElementById('scrollableDiv');
+
+        let isDown = false;
+        let startX, startY;
+        let scrollLeft, scrollTop;
+
+        scrollableDiv.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - scrollableDiv.offsetLeft;
+            startY = e.pageY - scrollableDiv.offsetTop;
+            scrollLeft = scrollableDiv.scrollLeft;
+            scrollTop = scrollableDiv.scrollTop;
+        });
+
+        scrollableDiv.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        scrollableDiv.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        scrollableDiv.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - scrollableDiv.offsetLeft;
+            const y = e.pageY - scrollableDiv.offsetTop;
+            const walkX = (x - startX) * 2; // Multiplicateur pour la vitesse horizontale
+            const walkY = (y - startY) * 2; // Multiplicateur pour la vitesse verticale
+            scrollableDiv.scrollLeft = scrollLeft - walkX;
+            scrollableDiv.scrollTop = scrollTop - walkY;
+        });
+
+
+
+        function getValueKnockout(count, n) {
+            // Vérification des paramètres
+            if (n < 1 || n > count) return undefined;
+
+            // Définition des séquences
+            const sequences = {
+                8: [-346, -246, -146, -50, 50, 146, 246, 346],
+                4: [-146, -50, 50, 146],
+                2: [-50, 50]
+            };
+
+            // Retourne la valeur correspondante
+            return sequences[count]?.[n - 1];
+        }
+
+        getValueKnockout2(totalElements, currentPosition) {
+            const sequences = {
+                8: [-346, -246, 146, -50, 50, 146, 246, 346],
+                4: [146, -50, 50, 146],
+                2: [-50, 50],
+                4: [-300, -100, 100, 300] // Nouvelle séquence pour 4 éléments
+            };
+
+            // Vérification des paramètres
+            if (currentPosition < 1 || currentPosition > totalElements) return null;
+
+            // Retourne la valeur correspondante
+            return sequences[totalElements]?.[currentPosition - 1];
+        }
+
+
+        getValueKnockout3(totalElements, currentPosition) {
+            const sequences = {
+                2: [-200, 200],
+            };
+
+            // Vérification des paramètres
+            if (currentPosition < 1 || currentPosition > totalElements) return null;
+
+            // Retourne la valeur correspondante
+            return sequences[totalElements]?.[currentPosition - 1];
+        }
+
+        export function drawRound16(m, ctx, n) {
+            const count = 8;
+
+            ctx.save();
+            ctx.translate(0, 0)
+
+            // ctx.beginPath();
+            // ctx.moveTo(230, 0);
+            // ctx.lineTo(330, m);
+            // ctx.closePath();
+            // ctx.stroke();
+
+            for (let i = 1; i <= count; i++) {
+
+                let p = getValueKnockout(count, i);
+                console.log(p, i, count)
+                ctx.beginPath();
+                ctx.moveTo(230, m - p);
+                ctx.lineTo(300, m - p);
+                ctx.closePath();
+                ctx.stroke();
+
+
+                ctx.beginPath();
+                ctx.moveTo(300, m - p);
+                if (i % 2 != 0) {
+                    ctx.lineTo(300, m - p - 50);
+                } else {
+                    ctx.lineTo(300, m - p + 50);
+                }
+                ctx.closePath();
+                ctx.stroke()
+
+                ctx.beginPath()
+                if (i % 2 != 0) {
+
+                    ctx.moveTo(300, m - p - 50);
+                    ctx.lineTo(370, m - p - 50);
+                }
+                ctx.closePath();
+                ctx.stroke();
+            }
+            ctx.restore(); // Restaure le contexte
+
+        }
+
+        export function drawQuarter(m, ctx, n) {
+            const count = 4;
+
+            ctx.save();
+            if (n == 1) {
+                ctx.translate(0, 0)
+            } else if (n == 2) {
+                ctx.translate(340, 0)
+            }
+
+
+            for (let i = 1; i <= count; i++) {
+
+                let p = getValueKnockout2(count, i);
+                ctx.beginPath();
+                ctx.moveTo(230, m - p);
+                ctx.lineTo(300, m - p);
+                ctx.closePath();
+                ctx.stroke();
+
+
+                ctx.beginPath();
+                ctx.moveTo(300, m - p);
+                if (i % 2 == 0) {
+                    ctx.lineTo(300, m - p + 150);
+                } else {
+                    ctx.lineTo(300, m - p - 150);
+                }
+                ctx.closePath();
+                ctx.stroke()
+
+                ctx.beginPath()
+                if (i % 2 != 0) {
+
+                    ctx.moveTo(300, m - p - 100);
+                    ctx.lineTo(370, m - p - 100);
+                }
+                ctx.closePath();
+                ctx.stroke();
+            }
+            ctx.restore(); // Restaure le contexte
+
+        }
+
+        export function drawSemi(m, ctx, n) {
+            const count = 2;
+
+            ctx.save();
+            if (n == 1) {
+                ctx.translate(0, 0)
+            } else if (n == 2) {
+                ctx.translate(340, 0)
+            } else if (n == 3) {
+                ctx.translate(680, 0)
+            }
+
+
+            ctx.moveTo(230, m - 200);
+            ctx.lineTo(300, m - 200);
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.moveTo(230, m + 200);
+            ctx.lineTo(300, m + 200);
+            ctx.closePath();
+            ctx.stroke();
+
+
+            for (let i = 1; i <= count; i++) {
+
+                let p = getValueKnockout3(count, i);
+                ctx.beginPath();
+                ctx.moveTo(230, m - p);
+                ctx.lineTo(300, m - p);
+                ctx.closePath();
+                ctx.stroke();
+
+
+                ctx.beginPath();
+                ctx.moveTo(300, m - p);
+                if (i % 2 == 0) {
+                    ctx.lineTo(300, m - p + 300);
+                } else {
+                    ctx.lineTo(300, m - p - 300);
+                }
+                ctx.closePath();
+                ctx.stroke()
+
+                ctx.beginPath()
+                if (i % 2 != 0) {
+                    ctx.moveTo(300, m - p - 200);
+                    ctx.lineTo(370, m - p - 200);
+                }
+                ctx.closePath();
+                ctx.stroke();
+            }
+            ctx.restore(); // Restaure le contexte
+
+        }
+    </script>
 @endsection

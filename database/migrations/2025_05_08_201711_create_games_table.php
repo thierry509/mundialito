@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('date_time');
+            $table->dateTime('date_time')->nullable();
             $table->string('location');
             $table->enum('type', ['group','knockout']);
             $table->string('stage');
@@ -25,7 +25,6 @@ return new class extends Migration
             $table->integer('team_b_goals')->nullable();
             $table->timestamps();
         });
-
     }
 
     /**
