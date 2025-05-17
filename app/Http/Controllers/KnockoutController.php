@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,8 +14,20 @@ class KnockoutController extends Controller
         return view('knockout.index');
     }
 
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        return Inertia::render('Championship.Knockout', []);
+        $year = $request->query('year');
+        $games = Game::with(['teamA', 'teamB', 'championship'])
+            ->where('type', 'knockout')
+            ->whereHas('championship', function ($query) use ($year) {
+                $query->where('year', $year);
+            })
+            ->orderBy('position')
+            ->get()
+            ->groupBy('stage');
+        return Inertia::render('Championship.Knockout', [
+            'games' => $games,
+            'teams' => Team::all(),
+        ]);
     }
 }

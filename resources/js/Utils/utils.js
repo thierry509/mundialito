@@ -137,7 +137,6 @@ export function drawRound16(m, ctx, n) {
     for (let i = 1; i <= count; i++) {
 
         let p = getValueKnockout(count, i);
-        console.log(p, i, count)
         ctx.beginPath();
         ctx.moveTo(230, m - p);
         ctx.lineTo(300, m - p);

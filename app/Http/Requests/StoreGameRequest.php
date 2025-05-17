@@ -22,10 +22,11 @@ class StoreGameRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'groupId' => 'required|exists:groups,id',
             'team1Id' => 'required',
             'team2Id' => 'required|different:team1Id',
             'type' => 'required|in:group,knockout',
+            'groupId' => 'required_if:type,group|exists:groups,id',
+            'position' => 'required_if:type,knockout',
             'stage' => 'required',
             'date' => 'nullable|date',
             'time' => 'nullable|date_format:H:i',

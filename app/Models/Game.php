@@ -15,6 +15,7 @@ class Game extends Model
         'type',
         'stage',
         'status',
+        'position',
         'championship_id',
         'team_a_id',
         'team_b_id',

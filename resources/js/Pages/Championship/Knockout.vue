@@ -3,81 +3,103 @@
     <Head>
         <title>Phase a elimination</title>
     </Head>
-    <div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-white inline-flex items-center">
-            <svg class="w-8 h-8 mr-3 p-1.5 bg-primary/10 text-primary rounded-full" xmlns="http://www.w3.org/2000/svg"
-                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <g stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                    <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5" />
-                    <path d="M20.586 3.586a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </g>
-            </svg>
-            <span class="border-l-2 border-primary pl-3">Phase a
-                <span class="text-primary font-semibold">Elimination direct</span>
-            </span>
-        </h1>
+    <pre>
+        {{ games }}
+    </pre>
+
+    <div class="h-full w-full relative bg-white shadow-xl border border-gray-200 overflow-hidden">
+  <!-- Conteneur scrollable avec header fixe -->
+  <div id="scrollableDiv" class="h-full w-full overflow-auto cursor-move scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <!-- En-tête collant avec effet de profondeur -->
+    <div class="sticky top-0 z-20 flex w-[1300px] bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg">
+      <div class="w-[300px] py-3 px-6 border-r border-blue-500 text-center shrink-0">
+        <span class="text-white font-semibold text-lg uppercase tracking-wider">Huitième de final</span>
+      </div>
+      <div class="w-[300px] py-3 px-6 border-r border-blue-500 text-center shrink-0">
+        <span class="text-white font-semibold text-lg uppercase tracking-wider">Quart de final</span>
+      </div>
+      <div class="w-[300px] py-3 px-6 border-r border-blue-500 text-center shrink-0">
+        <span class="text-white font-semibold text-lg uppercase tracking-wider">Demi-finale</span>
+      </div>
+      <div class="w-[300px] py-3 px-6 text-center shrink-0">
+        <span class="text-white font-semibold text-lg uppercase tracking-wider">Finale</span>
+      </div>
     </div>
-    <div id="scrollableDiv"
-        class="relative cursor-move h-full w-full overflow-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <!-- Conteneur scrollable (prend la taille du parent) -->
-        <!-- Conteneur interne avec une hauteur explicite (calculée) -->
-        <div class="relative" :style="{ height: `${250 * count / 2}px`, width: '1300px' }">
-            <!-- En-tête (position: absolute) -->
-            <div class="absolute top-0 left-0 flex items-center w-full bg-primary shadow-md z-10">
-                <div class="w-[400px] py-3 px-6 border-r border-primary-light text-center">
-                    <span class="text-white font-medium text-lg uppercase tracking-wider">Huitième de final</span>
-                </div>
-                <div class="w-[400px] py-3 px-6 border-r border-primary-light text-center">
-                    <span class="text-white font-medium text-lg uppercase tracking-wider">Quart de final</span>
-                </div>
-                <div class="w-[400px] py-3 px-6 border-r border-primary-light text-center">
-                    <span class="text-white font-medium text-lg uppercase tracking-wider">Demi-finale</span>
-                </div>
-                <div class="w-[400px] py-3 px-6 text-center">
-                    <span class="text-white font-medium text-lg uppercase tracking-wider">Finale</span>
-                </div>
-            </div>
 
-            <!-- Canvas (position: absolute) -->
-            <canvas id="diagram" class="absolute border top-0 left-0" width="1300" :height="250 * count / 2"></canvas>
+    <!-- Zone de tournoi avec fond subtil -->
+    <div :class="`relative w-[1300px] h-[${250 * count / 2}px] bg-gray-200`">
+      <!-- Canvas pour les lignes de connexion -->
+      <canvas id="diagram"
+              class="absolute inset-0"
+              width="1300"
+              :height="250 * count / 2"></canvas>
 
-            <!-- Contenu knockout (position: absolute) -->
-            <div id="knockout" class="absolute top-0 left-0 flex items-center w-full h-full">
-                <div class="mr-[100px]">
-                    <template v-for="i in 8">
-                        <singleMatchKnockout class="my-[50px]" />
-                    </template>
-                </div>
-                <div class="mr-[100px]">
-                    <template v-for="i in 4">
-                        <singleMatchKnockout class="my-[150px]" />
-                    </template>
-                </div>
-                <div class="mr-[100px]">
-                    <template v-for="i in 2">
-                        <singleMatchKnockout class="my-[350px]" />
-                    </template>
-                </div>
-                <div class="mr-[100px]">
-                    <template v-for="i in 1">
-                        <singleMatchKnockout class="my-[350px]" />
-                    </template>
-                </div>
-            </div>
+      <!-- Arbre de tournoi -->
+      <div id="knockout" class="absolute inset-0 flex items-center w-full h-full">
+        <!-- Colonne Huitièmes -->
+        <div class="mr-[100px] ml-4">
+          <template v-for="i in 8">
+            <singleMatchKnockout :position="i" stage='round16' @create="createGame" class="my-[50px] hover:scale-105 transition-transform" />
+          </template>
         </div>
-    </div>
 
+        <!-- Colonne Quarts -->
+        <div class="mr-[100px]">
+          <template v-for="i in 4">
+            <singleMatchKnockout :position="i" stage='quarter' @create="createGame" class="my-[150px] hover:scale-105 transition-transform" />
+          </template>
+        </div>
+
+        <!-- Colonne Demis -->
+        <div class="mr-[100px]">
+          <template v-for="i in 2">
+            <singleMatchKnockout :position="i" stage='semi' @create="createGame" class="my-[350px] hover:scale-105 transition-transform" />
+          </template>
+        </div>
+
+        <!-- Colonne Finale -->
+        <div class="mr-[100px]">
+          <template v-for="i in 1">
+            <singleMatchKnockout :position="i" stage='final' @create="createGame" class="my-[350px] hover:scale-105 transition-transform" />
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Indicateur de scroll (optionnel) -->
+  <div class="absolute bottom-2 right-2 text-xs text-gray-400">
+    ↖ Faites glisser pour naviguer
+  </div>
+  <CreateKnockoutGame v-if="showCreate" :show="showCreate" :teams="teams" type="knockout" :stage="stage" :position="position" @close="showCreate = false"/>
+</div>
 </template>
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import '../../../css/knockout.css'
 import singleMatchKnockout from '../../components/Championship/singleMatchKnockout.vue';
 import { parse } from 'marked';
 import { drawQuarter, drawRound16, drawSemi } from '../../Utils/utils';
-defineProps({
-    year: Number
+import CreateKnockoutGame from '../../components/modal/CreateKnockoutGame.vue';
+
+const props = defineProps({
+    teams: Object,
+    games: Array,
 })
+
+const position = ref(null);
+const stage = ref('')
+const showCreate = ref(false)
+const createGame = (payload) => {
+    position.value = payload.position
+    stage.value = payload.stage
+    showCreate.value = true
+}
+
+
+
+
 
 
 

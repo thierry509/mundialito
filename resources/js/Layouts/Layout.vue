@@ -131,7 +131,7 @@
             </aside>
 
             <!-- Contenu principal -->
-            <main class="flex-1 p-6 md:p-8 overflow-y-auto bg-gray-100">
+            <main class="flex-1 overflow-y-auto bg-gray-100">
                 <slot></slot>
             </main>
         </div>

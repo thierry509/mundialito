@@ -49,11 +49,13 @@ class GameController extends Controller
             $validated['date'] . ' ' . $validated['time']
         )->format('Y-m-d H:i:s') : null;
 
+        // dd($validated);
         Game::create([
             'championship_id' => $chamionship->id,
             "team_a_id" => $validated['team1Id'],
             "team_b_id" => $validated['team2Id'],
             "date_time" => $dateTime,
+            "position" => $validated['position'],
             'stage' => $validated['stage'],
             'location' => $validated['location'],
             'type' => $validated['type'],
