@@ -13,13 +13,11 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GameController;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Page d'accueil
@@ -29,7 +27,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/calendrier', [CalendarController::class, 'index'])->name('calendar');
 
 // Résultats des matchs
-Route::get('/resultats', [ResultController::class, 'index'])->name('results');
+Route::get('/match', [GameController::class, 'index'])->name('games');
 
 // Classements des poules
 Route::get('/poules', [GroupController::class, 'index'])->name('groups');

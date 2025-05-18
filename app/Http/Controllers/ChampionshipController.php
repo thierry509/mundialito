@@ -14,6 +14,7 @@ class ChampionshipController extends Controller
         $validatedData = $request->validated();
         Championship::create([
             'year' => $validatedData['year'],
+            'knockout_round' => $validatedData['knockout_round'],
         ]);
         return redirect()->route('dashboard')->with('success', 'Championat créé avec succès.');
     }

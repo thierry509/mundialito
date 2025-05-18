@@ -1,4 +1,8 @@
 <template>
+
+    <Head>
+        <title>Les Groups de la compétition </title>
+    </Head>
     <div class="p-6 md:p-8">
         <div class="mb-8">
             <h1 class="text-2xl font-bold text-gray-800 dark:text-white inline-flex items-center">
@@ -40,7 +44,7 @@
 import { ref } from 'vue'
 import SingleGroup from '../../components/Championship/SingleGroupes.vue'
 import EmptyView from '../../components/ui/EmptyView.vue';
-import { router } from '@inertiajs/vue3'
+import { router, Head } from '@inertiajs/vue3'
 import { useToasterStore } from '../../store/Toast'
 defineProps({
     groups: {

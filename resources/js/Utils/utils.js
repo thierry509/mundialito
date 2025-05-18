@@ -25,6 +25,19 @@ export function gameStatus(status) {
     return translations[status] || status;
 }
 
+export function gameStage(stage) {
+    const translations = {
+        '1': 'Première journée',
+        '2': 'Deuxième journée',
+        '3': 'Troisième journée',
+        'round16': 'Huitièmes de finale',
+        'quarter': 'Quarts de finale',
+        'semi': 'Demi-finales',  // Note: "semi" corrigé en "demi"
+        'final': 'Finale',
+    };
+    return translations[stage] || stage;
+}
+
 /**
 * Extrait la date et l'heure d'une chaîne datetime
 * @param {string} strDateTime - Chaîne au format "YYYY-MM-DD HH:MM:SS"
@@ -78,6 +91,7 @@ export function statusClass(status) {
 
     return statusMap[status] || statusMap.default;
 }
+
 
 export function getValueKnockout(count, n) {
     // Vérification des paramètres

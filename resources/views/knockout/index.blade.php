@@ -47,85 +47,86 @@
     <x-hero title="Phase à Élimination Directe" subtitle="Suivez le parcours des équipes vers la finale"
         backgroundImage="/images/stade-knockout.jpg" variant="primary" />
 
+
     <!-- Bracket Section -->
     <main class="container mx-auto px-4 py-12 flex flex-col items-center ">
-        <div id="scrollableDiv"
-            class="relative cursor-move h-full w-full overflow-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <!-- Conteneur scrollable (prend la taille du parent) -->
-            <!-- Conteneur interne avec une hauteur explicite (calculée) -->
-            <div class="relative" :style="{ height: `${250 * count / 2}px`, width: '1300px' }">
-                <!-- En-tête (position: absolute) -->
-                <div class="absolute top-0 left-0 flex items-center w-full bg-primary shadow-md z-10">
-                    <div class="w-[400px] py-3 px-6 border-r border-primary-light text-center">
-                        <span class="text-white font-medium text-lg uppercase tracking-wider">Huitième de final</span>
-                    </div>
-                    <div class="w-[400px] py-3 px-6 border-r border-primary-light text-center">
-                        <span class="text-white font-medium text-lg uppercase tracking-wider">Quart de final</span>
-                    </div>
-                    <div class="w-[400px] py-3 px-6 border-r border-primary-light text-center">
-                        <span class="text-white font-medium text-lg uppercase tracking-wider">Demi-finale</span>
-                    </div>
-                    <div class="w-[400px] py-3 px-6 text-center">
-                        <span class="text-white font-medium text-lg uppercase tracking-wider">Finale</span>
-                    </div>
+        <div class="h-full w-full relative shadow-xl border border-gray-200 overflow-hidden bg-gray-200 rounded-lg">
+            <!-- Conteneur scrollable avec header fixe -->
+            <div id="scrollableDiv"
+                class="h-full w-full overflow-auto cursor-move scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <!-- En-tête collant avec effet de profondeur -->
+                <div class="sticky top-0 z-20 flex w-full bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg">
+                    @if ($round >= 4)
+                        <div class="w-[300px] py-3 px-6 border-r border-blue-500 text-center shrink-0">
+                            <span class="text-white font-semibold text-lg uppercase tracking-wider">Huitième de final</span>
+                        </div>
+                    @endif
+                    @if ($round >= 3)
+                        <div v-if="round >= 3" class="w-[300px] py-3 px-6 border-r border-blue-500 text-center shrink-0">
+                            <span class="text-white font-semibold text-lg uppercase tracking-wider">Quart de final</span>
+                        </div>
+                    @endif
+
+                    @if ($round >= 2)
+                        <div v-if="round >= 2" class="w-[300px] py-3 px-6 border-r border-blue-500 text-center shrink-0">
+                            <span class="text-white font-semibold text-lg uppercase tracking-wider">Demi-finale</span>
+                        </div>
+                    @endif
+
+                    @if ($round >= 1)
+                        <div v-if="round >= 1" class="w-[300px] py-3 px-6 text-center shrink-0">
+                            <span class="text-white font-semibold text-lg uppercase tracking-wider">Finale</span>
+                        </div>
+                    @endif
+
                 </div>
 
-                <!-- Canvas (position: absolute) -->
-                <canvas id="diagram" class="absolute border top-0 left-0" width="1300"
-                    :height="250 * count / 2"></canvas>
+                <!-- Zone de tournoi avec fond subtil -->
+                <div class="relative w-[1300px] h-[1000px]">
+                    <!-- Canvas pour les lignes de connexion -->
+                    <canvas id="diagram" class="absolute inset-0" width="1300" height="1000"></canvas>
+                    <!-- Arbre de tournoi -->
+                    <div id="knockout" class="absolute inset-0 flex items-center w-full h-full pl-4">
+                        <!-- Colonne Huitièmes -->
+                        @if ($round >= 4)
+                            <div class="mr-[100px] ml-4">
+                                @for($i = 0; $i < 8; $i++)
+                                <x-single-match-knockout class="my-[50px]" :position="$i" stage="round16" />
+                            @endfor
+                            </div>
+                        @endif
+                        <!-- Colonne Quarts -->
+                        @if ($round >= 3)
+                            <div class="mr-[100px]">
+                                @for($i = 0; $i < 4; $i++)
+                                <x-single-match-knockout class="my-[150px]" :position="$i" stage="quarter" />
+                            @endfor
+                            </div>
+                        @endif
 
-                <!-- Contenu knockout (position: absolute) -->
-                <div id="knockout" class="absolute top-0 left-0 flex items-center w-full h-full">
-                    <div class="mr-[100px]">
-                        <template v-for="i in 8">
-                            <singleMatchKnockout class="my-[50px]" />
-                        </template>
-                    </div>
-                    <div class="mr-[100px]">
-                        <template v-for="i in 4">
-                            <singleMatchKnockout class="my-[150px]" />
-                        </template>
-                    </div>
-                    <div class="mr-[100px]">
-                        <template v-for="i in 2">
-                            <singleMatchKnockout class="my-[350px]" />
-                        </template>
-                    </div>
-                    <div class="mr-[100px]">
-                        <template v-for="i in 1">
-                            <singleMatchKnockout class="my-[350px]" />
-                        </template>
+                        <!-- Colonne Demis -->
+                        @if ($round >= 2)
+                            <div class="mr-[100px]">
+                                @for($i = 0; $i < 2; $i++)
+                                <x-single-match-knockout class="my-[350px]" :position="$i" stage="semi" />
+                            @endfor
+                            </div>
+                        @endif
+
+                        <!-- Colonne Finale -->
+                        @if ($round >= 1)
+                            <div class="mr-[100px]">
+                                <x-single-match-knockout class="my-[350px]" :position="0" stage="final" />
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Légende -->
-        <div class="mt-8 bg-white rounded-lg shadow p-4 max-w-2xl mx-auto">
-            <h3 class="font-bold text-lg mb-2 flex items-center gap-2">
-                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Légende
-            </h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 bg-primary rounded-full"></div>
-                    <span>Équipe victorieuse</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 bg-gray-100 rounded-full border border-gray-300"></div>
-                    <span>Équipe éliminée</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 bg-secondary rounded-full"></div>
-                    <span>Champion</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <div class="w-4 h-4 border-2 border-primary rounded-full"></div>
-                    <span>Match en cours</span>
-                </div>
+            <!-- Indicateur de scroll (optionnel) -->
+            <div class="absolute bottom-2 right-2 text-xs text-gray-400">
+                ↖ Faites glisser pour naviguer
             </div>
         </div>
     </main>
@@ -140,9 +141,20 @@
             var ctx = canvas.getContext("2d");
             ctx.strokeStyle = 'rgb(255,255,255)';
             ctx.lineWidth = 3; // Épaisseur de 5px
-            drawRound16(m, ctx, 1)
-            drawQuarter(m, ctx, 2)
-            drawSemi(m, ctx, 3)
+
+
+            let i = 1;
+            if ({{$round}} >= 4) {
+                drawRound16(m, ctx, i);
+                i++;
+            }
+            if ({{$round}} >= 3) {
+                drawQuarter(m, ctx, i);
+                i++;
+            }
+            if ({{$round}} >= 2) {
+                drawSemi(m, ctx, i);
+            }
         }
 
 
@@ -196,7 +208,7 @@
             return sequences[count]?.[n - 1];
         }
 
-        getValueKnockout2(totalElements, currentPosition) {
+        function getValueKnockout2(totalElements, currentPosition) {
             const sequences = {
                 8: [-346, -246, 146, -50, 50, 146, 246, 346],
                 4: [146, -50, 50, 146],
@@ -212,7 +224,7 @@
         }
 
 
-        getValueKnockout3(totalElements, currentPosition) {
+        function getValueKnockout3(totalElements, currentPosition) {
             const sequences = {
                 2: [-200, 200],
             };
@@ -224,7 +236,7 @@
             return sequences[totalElements]?.[currentPosition - 1];
         }
 
-        export function drawRound16(m, ctx, n) {
+        function drawRound16(m, ctx, n) {
             const count = 8;
 
             ctx.save();
@@ -270,7 +282,7 @@
 
         }
 
-        export function drawQuarter(m, ctx, n) {
+        function drawQuarter(m, ctx, n) {
             const count = 4;
 
             ctx.save();
@@ -314,7 +326,7 @@
 
         }
 
-        export function drawSemi(m, ctx, n) {
+        function drawSemi(m, ctx, n) {
             const count = 2;
 
             ctx.save();

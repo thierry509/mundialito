@@ -16,6 +16,22 @@ use Illuminate\Support\Carbon;
 
 class GameController extends Controller
 {
+    public function index(Request $request)
+    {
+        $year = $request->query('year');
+        $games = Game::with(['teamA', 'teamB', 'championship'])
+            ->whereHas('championship', function ($query) use ($year) {
+                $query->where('year', 2024);
+            })
+            ->orderBy('stage')
+            ->get()
+            ->groupBy('stage');
+
+        return view('games.index', [
+            'games' => $games,
+        ]);
+    }
+
     public function adminIndex(Request $request)
     {
         $year = $request->query('year');
@@ -28,7 +44,7 @@ class GameController extends Controller
             ->get()
             ->groupBy('stage');
 
-            // dd($games[1][1]);
+        // dd($games[1][1]);
 
         return Inertia::render('Championship.Games', [
             'games' =>  $games,
@@ -44,7 +60,7 @@ class GameController extends Controller
         $chamionship = Championship::where('year', $year)->first();
         $validated = $request->validated();
 
-        $dateTime = (isset($validated['date']) && isset($validated['time']))? Carbon::createFromFormat(
+        $dateTime = (isset($validated['date']) && isset($validated['time'])) ? Carbon::createFromFormat(
             'Y-m-d H:i',
             $validated['date'] . ' ' . $validated['time']
         )->format('Y-m-d H:i:s') : null;
@@ -55,7 +71,7 @@ class GameController extends Controller
             "team_a_id" => $validated['team1Id'],
             "team_b_id" => $validated['team2Id'],
             "date_time" => $dateTime,
-            "position" => $validated['position'],
+            "position" => $validated['position'] ?? null,
             'stage' => $validated['stage'],
             'location' => $validated['location'],
             'type' => $validated['type'],
@@ -81,7 +97,7 @@ class GameController extends Controller
         $game->update([
             'status' => 'postponed',
         ]);
-        redirect().back();
+        redirect() . back();
     }
 
     public function unpostpone(UnpostponeGameRequest $request)
@@ -99,7 +115,8 @@ class GameController extends Controller
         redirect()->back();
     }
 
-    function end(EndGameRequest $request){
+    function end(EndGameRequest $request)
+    {
         $game = Game::find($request->validated()['id']);
         $game->update([
             'status' => 'finished',

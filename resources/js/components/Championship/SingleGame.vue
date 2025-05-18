@@ -1,5 +1,5 @@
 <template>
-    <div class="divide-y divide-gray-200">
+    <div :id="game.id" class="divide-y divide-gray-200">
         <div class="p-4 hover:bg-gray-50/50 transition duration-200 rounded-lg shadow-[5px_5px_10px_0_rgba(7,7,7,0.1)]">
             <!-- En-tête avec date, statut et lieu -->
             <div class="flex justify-between items-center mb-3 text-xs text-gray-600">

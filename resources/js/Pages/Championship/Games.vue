@@ -1,4 +1,8 @@
 <template>
+
+    <Head>
+        <title>Les Matchs de la compétition </title>
+    </Head>
     <div class="p-6 md:p-8">
 
         <div class="flex flex-col gap-4 mb-6">
@@ -41,7 +45,7 @@
                     <!-- En-tête de journée -->
                     <div class="bg-secondary px-4 py-2 border-b border-gray-200">
                         <div class="flex justify-between items-center">
-                            <h2 class="font-semibold text-gray-50">Journée {{ matchDays[0].stage }}</h2>
+                            <h2 class="font-semibold text-gray-50">{{ gameStage(matchDays[0].stage) }}</h2>
                             <span class="text-xs bg-primary text-white px-2 py-1 rounded-full">{{ matchDays.length }}
                                 matchs</span>
                         </div>
@@ -62,7 +66,9 @@
 import EmptyView from '../../components/ui/EmptyView.vue'
 import CreateGame from '../../components/modal/CreateGame.vue';
 import SingleGame from '../../components/Championship/SingleGame.vue';
+import { gameStage } from '../../Utils/utils';
 import { ref } from 'vue';
+import { Head } from '@inertiajs/vue3';
 defineProps({
     games: {
         type: Array,

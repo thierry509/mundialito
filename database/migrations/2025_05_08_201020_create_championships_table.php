@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('championships', function (Blueprint $table) {
             $table->id();
             $table->year('year')->unique();
+            $table->integer('knockout_round');
             $table->timestamps();
         });
     }

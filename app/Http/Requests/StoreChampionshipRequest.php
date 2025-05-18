@@ -23,6 +23,7 @@ class StoreChampionshipRequest extends FormRequest
     {
         return [
             'year' => 'required|integer|min:1900|max:2100|unique:championships,year',
+            'knockout_round' => 'required|integer|min:1|max:4',
         ];
     }
 

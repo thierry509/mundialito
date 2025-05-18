@@ -8,6 +8,6 @@ class ResultController extends Controller
 {
     public function index()
     {
-        return view('results.index');
+        return view('games.index');
     }
 }

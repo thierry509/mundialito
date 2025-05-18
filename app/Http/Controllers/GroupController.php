@@ -12,9 +12,14 @@ use Inertia\Inertia;
 
 class GroupController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('groups.index');
+        $year = $request->query('year');
+        return view('groups.index', [
+            'groups' => Group::with('teams')->whereHas('championship', function ($query) use ($year) {
+                $query->where('year', 2024);
+            })->get(),
+        ]);
     }
 
     public function adminIndex(Request $request)

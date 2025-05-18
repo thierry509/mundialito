@@ -114,7 +114,7 @@ const submit = () => {
                     <Select v-model="form.location" type="text" id="location" label="Lieu" :options="[
                         { label: 'Selectionner un terrain', value: '' },
                         { label: 'Savanne poudriere', value: 'savane podriere' },
-                        { label: 'parc-vincent', value: 'parc-vincent' },
+                        { label: 'Parc stenio vincent', value: 'Parc stenio vincent' },
                     ]" :errors="form.errors?.location" />
                 </div>
             </div>

@@ -11,10 +11,11 @@
         <!-- Menu pour desktop -->
         <div id="menu" class="hidden md:flex space-x-8 items-center">
             <a href="{{ route('home') }}" class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Accueil</a>
-            <a href="{{ route('results') }}" class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Résultats</a>
+            <a href="{{ route('games') }}" class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Matchs</a>
+            <a href="{{ route('groups') }}" class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Classement</a>
+            <a href="{{ route('knockout') }}" class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Elimination</a>
             <a href="{{ route('about') }}" class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">À propos</a>
             <a href="{{ route('news') }}" class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Actualités</a>
-            <a href="{{ route('calendar') }}" class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Calendrier</a>
 
             <a href="{{ route('dashboard') }}" class="navbar-link text-white flex items-center px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full transition-all duration-300 group">
                 <svg class="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,7 +27,7 @@
 
         <!-- Menu mobile button -->
         <button id="mobile-menu-button" class="md:hidden focus:outline-none transition-colors duration-300 navbar-button">
-            <svg class="w-8 h-8 text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-8 h-8 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
         </button>
@@ -55,11 +56,23 @@
                         </svg>
                         Accueil
                     </a>
-                    <a href="{{ route('results') }}" class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
+                    <a href="{{ route('games') }}" class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
-                        Résultats
+                        Matchs
+                    </a>
+                    <a href="{{ route('groups') }}" class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        Classement
+                    </a>
+                    <a href="{{ route('knockout') }}" class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        Elimination
                     </a>
                     <a href="{{ route('about') }}" class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,12 +86,7 @@
                         </svg>
                         Actualités
                     </a>
-                    <a href="{{ route('calendar') }}" class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
-                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        Calendrier
-                    </a>
+
                     <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-3 mx-2 my-1 bg-primary/5 hover:bg-primary/10 text-primary rounded-lg transition">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>

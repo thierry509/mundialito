@@ -9,7 +9,7 @@ class Championship extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['year'];
+    protected $fillable = ['year', 'knockout_round',];
 
     public function matches()
     {

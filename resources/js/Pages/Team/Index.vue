@@ -16,6 +16,10 @@
 </style>
 
 <template>
+
+    <Head>
+        <title>Gestion des Équipes</title>
+    </Head>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Header -->
         <div class="flex justify-between items-center mb-10">
@@ -64,8 +68,8 @@
                                     {{ team.location }}
                                 </p>
                             </div>
-                            <button v-if="!team.has_relations" @click="deleteTeam(team)" class="text-gray-400 hover:text-danger transition"
-                                title="Supprimer">
+                            <button v-if="!team.has_relations" @click="deleteTeam(team)"
+                                class="text-gray-400 hover:text-danger transition" title="Supprimer">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -80,8 +84,8 @@
     </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { router, Head } from '@inertiajs/vue3';
 import CreateTeam from '../../components/modal/CreateTeam.vue';
 import { useToasterStore } from '../../store/Toast';
 import EmptyView from '../../components/ui/EmptyView.vue';

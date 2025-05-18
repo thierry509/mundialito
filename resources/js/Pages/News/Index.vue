@@ -1,4 +1,8 @@
 <template>
+
+    <Head>
+        <title>actualités</title>
+    </Head>
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
             <!-- Header -->
@@ -141,6 +145,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import {route} from 'ziggy-js';
+import { Link, Head } from '@inertiajs/vue3';
+import { route } from 'ziggy-js';
 </script>

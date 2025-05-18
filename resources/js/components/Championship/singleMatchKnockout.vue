@@ -1,14 +1,16 @@
 <template>
     <div class="flex flex-col bg-white rounded-lg w-60 p-1 text-sm cursor-pointer">
         <div v-if="game" class="px-1">
+            <Link :href="`/edition/championnat/match?year=${year}#${game.id}`">
             <div class="flex justify-between">
-                <span>Real Madrid</span>
-                <span>10</span>
+                <span>{{ game.team_a.name }}</span>
+                <span>{{ game.team_a_goals }}</span>
             </div>
             <div class="flex justify-between">
-                <span>FC Barcelone</span>
-                <span>0</span>
+                <span>{{ game.team_b.name }}</span>
+                <span>{{ game.team_a_goals }}</span>
             </div>
+            </Link>
         </div>
         <div v-else @click="createGame(position, stage)"
             class="flex justify-center items-center border-2 border-dotted border-gray-300 w-full rounded-lg py-2 px-4 hover:bg-gray-50 cursor-pointer transition-colors">
@@ -25,12 +27,16 @@
 </template>
 
 <script setup>
+import { Link } from '@inertiajs/vue3';
+import { useYearStore } from '../../store/year';
 defineProps({
     teams: Array,
     game: Object,
     position: Number,
     stage: String,
-})
+});
+
+const year = useYearStore().year
 const emit = defineEmits(['create']);
 
 const createGame = (position, stage) => {
