@@ -4,7 +4,7 @@
     $teamB = $game->teamB()->first();
 @endphp
 
-<div id="{{ $game->id }}" class="divide-y divide-gray-200">
+<div id="{{ $game->id }}" class="divide-y divide-gray-200 rounded-lg bg-white mb-2">
     <div class="p-4 hover:bg-gray-50/50 transition duration-200 rounded-lg shadow-[5px_5px_10px_0_rgba(7,7,7,0.1)]">
         <!-- En-tête avec date, statut et lieu -->
         <div class="flex justify-between items-center mb-3 text-xs text-gray-600">
@@ -14,12 +14,15 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span v-if="game.date_time"> {{ formatDate($game->date_time) }}</span>
-                <span v-else>à déterminer</span>
+                @if ($game->date_time)
+                    <span> {{ formatDate($game->date_time) }}</span>
+                @else
+                    <span>à déterminer</span>
+                @endif
             </div>
 
             <div class="flex items-center space-x-3">
-                <div class="flex items-center space-x-1">
+                {{-- <div class="flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -27,50 +30,48 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <span class="font-medium">{{ $game->location}}</span>
-                </div>
+                    <span class="font-medium">{{ $game->location }}</span>
+                </div> --}}
                 <span class="px-2 py-1 text-xs font-semibold rounded-full capitalize {{ statusClass($game->status) }}">
-                    {{  gameStatus($game->status) }}
+                    {{ gameStatus($game->status) }}
                 </span>
             </div>
         </div>
 
         <!-- Contenu du match -->
         <div class="flex items-center justify-between py-2">
-            <!-- Équipe A -->
-            <div class="flex items-center space-x-3 w-2/5">
-                <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                    <span class="text-xs font-bold text-primary">
+            <div class="flex items-center justify-end space-x-3 w-2/5 pr-2">
+                <div class="hidden md:d-block w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                    <span class=" text-xs font-bold text-primary">
                         {{ substr($teamA->name, 0, 2) }}
                     </span>
                 </div>
-                <span class="text-sm font-medium truncate">{{ $teamA->name }}</span>
+                <span class="text-xs md:text-sm font-medium truncate">{{ $teamA->name }}</span>
             </div>
 
             <!-- Score -->
-            <div class="flex flex-col items-center w-1/5">
+            <div class="flex flex-col items-center w-1/5 py-1 p-2">
                 @if ($game->status === 'soon' || $game->status === 'postponed')
                     <span
-                        class="px-2 py-1 text-xs font-semibold rounded-full capitalize {{ statusClass($game->status) }}">
-                        {{  gameStatus($game->status) }}
+                        class="h-8 px-2 py-1 text-xs flex items-center justify-center font-semibold rounded-full capitalize {{ statusClass($game->status) }}">
+                        {{ gameStatus($game->status) }}
                     </span>
                 @else
-                    <div class="flex items-center my-1 space-x-2">
+                    <div class="flex items-center">
                         <span
-                            class="w-12 h-8 rounded-md text-center flex items-center justify-center text-sm font-bold transition-all">{{ $game->team_b_goals }}</span>
-                        <span class="text-sm font-medium text-gray-500">-</span>
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ $game->team_b_goals }}</span>
+                        <span class="text-2xl font-medium text-gray-500 px-1">-</span>
                         <span
-                            class="w-12 h-8 rounded-md text-center flex items-center justify-center text-sm font-bold transition-all">{{ $game->team_b_goals }}</span>
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ $game->team_b_goals }}</span>
 
                     </div>
                 @endif
 
             </div>
 
-            <!-- Équipe B -->
-            <div class="flex items-center justify-end space-x-3 w-2/5">
-                <span class="text-sm font-medium truncate">{{ $teamB->name }}</span>
-                <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+            <div class="flex items-center just justify-start space-x-3  w-2/5 pl-2">
+                <span class="text-xs md:text-sm font-medium truncate">{{ $teamB->name }}</span>
+                <div class="hidden md:d-block w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                     <span class="text-xs font-bold text-primary">
                         {{ substr($teamB->name, 0, 2) }}
                     </span>

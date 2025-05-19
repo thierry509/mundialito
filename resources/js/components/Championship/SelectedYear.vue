@@ -1,5 +1,5 @@
 <template>
-    <div class="ml-6 relative">
+    <div class="ml-2 relative">
       <select
         v-model="selectedYear"
         @change="saveYearToStorage"

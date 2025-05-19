@@ -41,12 +41,12 @@
         <div v-for="matchDays in games" :key="matchDays?.id">
             <div class="space-y-6 my-6">
                 <!-- Journée 1 -->
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="bg-primary rounded-lg shadow-lg overflow-hidden px-2">
                     <!-- En-tête de journée -->
-                    <div class="bg-secondary px-4 py-2 border-b border-gray-200">
+                    <div class="px-4 py-2">
                         <div class="flex justify-between items-center">
-                            <h2 class="font-semibold text-gray-50">{{ gameStage(matchDays[0].stage) }}</h2>
-                            <span class="text-xs bg-primary text-white px-2 py-1 rounded-full">{{ matchDays.length }}
+                            <h2 class="text-sm md:text-xl font-semibold text-gray-50">{{ gameStage(matchDays[0].stage) }}</h2>
+                            <span class="text-xs bg-white text-primary font-semibold px-2 py-1 rounded-full">{{ matchDays.length }}
                                 matchs</span>
                         </div>
                     </div>
