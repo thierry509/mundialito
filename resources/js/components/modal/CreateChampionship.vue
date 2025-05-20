@@ -14,7 +14,7 @@ const emit = defineEmits(['close']);
 const form = useForm({
     year: null,
     hasGroupStage: false,
-    knockout_round: '4',
+    knockout_round: '',
 });
 
 const processing = ref(false);
@@ -61,7 +61,7 @@ const submit = () => {
                 <label for="hasGroupStage">Phase de groupes</label>
             </div>
 
-            <Select v-model="form.startingRound" id="startingRound" label="Round de départ" :options="roundOptions"
+            <Select v-model="form.knockout_round" id="startingRound" label="Round de départ" :options="roundOptions"
                 :error="form.errors.startingRound" required />
 
             <div class="flex justify-end space-x-3 pt-2">

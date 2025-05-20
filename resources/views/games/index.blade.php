@@ -12,7 +12,7 @@
                 <!-- Journée 1 -->
                 <div class="bg-primary rounded-lg shadow-lg overflow-hidden px-2">
                     <!-- En-tête de journée -->
-                    <div class="px-4 py-2">
+                    <div class="py-2">
                         <div class="flex justify-between items-center">
                             <h2 class="text-sm md:text-xl font-semibold text-gray-50">{{ gameStage($matchDays[0]->first()->stage) }}</h2>
                             <span class="text-xs bg-white text-primary font-semibold px-2 py-1 rounded-full">{{ $matchDays->count() }}

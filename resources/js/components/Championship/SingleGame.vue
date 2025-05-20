@@ -39,7 +39,7 @@
 
                 <!-- Score -->
                 <div class="flex flex-col items-center w-1/5 py-1 p-2">
-                    <div class="flex items-center my-1 border">
+                    <div class="flex items-center my-1">
                         <input v-model="score.teamAGoal" type="number"
                             class="w-8 md:w-12 h-8 rounded-md text-center outline-none text-sm font-bold bg-white border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
                             min="0" max="99" maxlength="2" placeholder="0" />
@@ -62,27 +62,35 @@
             </div>
 
             <!-- Section des boutons d'action -->
-            <div v-if="game.status != 'finished'"  class="flex justify-between space-x-2 mt-4 pt-3 border-t border-gray-100">
+            <div v-if="game.status != 'finished'"
+                class="flex justify-between space-x-2 mt-4 pt-3 border-t border-gray-100">
 
                 <button v-if="!game?.team_a_goals" @click="deleteGame"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition inline-flex">
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition flex flex-col md:flex-row justify-center items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
-                    Suprimmer
+                    <span class="hidden md:block">Suprimmer</span>
                 </button>
 
                 <button v-if="game.status != 'postponed' && !game?.team_a_goals" @click="postpone"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-orange-500/10 text-orange-600 hover:bg-orange-500/20 transition inline-flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2v2m0-4h-2v2" />
+                            <svg fill="currentColor" viewBox="0 0 36 36" version="1.1" class="h-4 w-4 mr-1.5"
+                        preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <title>redo-line</title>
+                            <path
+                                d="M24,4.22a1,1,0,0,0-1.41,1.42l5.56,5.49h-13A11,11,0,0,0,10.07,32,1,1,0,0,0,11,30.18a9,9,0,0,1-5-8,9.08,9.08,0,0,1,9.13-9h13l-5.54,5.48A1,1,0,0,0,24,20l8-7.91Z"
+                                class="clr-i-outline clr-i-outline-path-1"></path>
+                            <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
+                        </g>
                     </svg>
-                    Reporter
+                    <span class="hidden md:block">Reporter</span>
                 </button>
                 <button v-if="game.status == 'postponed'" @click="unpostpone"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-blue-500/10 text-blue-600 hover:bg-blue-600/20 transition inline-flex items-center">
@@ -93,7 +101,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 13l-3 3m0 0l-3-3m3 3V8" />
                     </svg>
-                    Replanifier
+                    <span class="hidden md:block">Replanifier</span>
                 </button>
 
                 <button v-if="game.team_a_goals != null && game.team_b_goals != null" @click="end"
@@ -102,17 +110,17 @@
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
-                    Terminer
+                    <span class="hidden md:block"> Terminer</span>
                 </button>
 
                 <button @click="updateScore"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition">
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    Mettre à jour
+                    <span class="hidden md:block"> Mettre à jour</span>
                 </button>
             </div>
         </div>

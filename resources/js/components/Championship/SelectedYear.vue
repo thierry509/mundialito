@@ -1,9 +1,9 @@
 <template>
-    <div class="ml-2 relative">
+    <div class="ml-2 relative w-17">
       <select
         v-model="selectedYear"
         @change="saveYearToStorage"
-        class="bg-white text-gray-900 rounded-lg px-3 py-1 pr-6 text-sm border border-gray-200 hover:border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary appearance-none cursor-pointer transition-all"
+        class="bg-white text-gray-900 rounded-lg w-full py-1 pr-6 text-xs md:text-sm border border-gray-200 hover:border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary appearance-none cursor-pointer transition-all"
       >
         <option v-for="year in availableYears" :key="year" :value="year">
           {{ year }}
@@ -12,7 +12,7 @@
       <!-- Icône de flèche moderne -->
       <div class="pointer-events-none absolute inset-y-0 right-1 flex items-center">
         <svg
-          class="h-3.5 w-3.5 text-gray-400"
+          class="h-3.5 md:w-3.5 text-gray-400"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

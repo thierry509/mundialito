@@ -17,15 +17,9 @@
 
         <div class="bg-accent text-white p-4 flex justify-between items-center rounded-t-xl">
             <div class="">
-                <h2 class="text-xl font-bold flex items-center">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
-                        </path>
-                    </svg>
-                    Groupe  {{ group.name }} - Classement
+                <h2 class="text-md md:text-xl font-bold flex items-center">
+                    Groupe  {{ group.name }}
                 </h2>
-                <div class="text-sm opacity-90 mt-1">Mis à jour le </div>
             </div>
             <div class="flex justify-end">
                 <button v-if="group.teams.length <= 0" @click="removeGroup(group.id)"
@@ -39,7 +33,7 @@
             </div>
         </div>
         <div class="bg-white rounded-b-xl">
-            <div class="overflow-y-visible h-fit">
+            <div class="overflow-y-visible border overflow-x-auto h-fit">
                 <table class="w-full">
                     <thead class="bg-light/50">
                         <tr>
@@ -53,7 +47,6 @@
                             <th class="p-3 text-center">BP</th>
                             <th class="p-3 text-center">BC</th>
                             <th class="p-3 text-center">+/-</th>
-                            <th class="p-3 text-center">Forme</th>
                             <th class="p-3 text-center w-12"></th>
                         </tr>
                     </thead>
@@ -78,13 +71,7 @@
                                 :class="{ 'text-primary': team.goalDifference > 0, 'text-danger': team.goalDifference < 0 }">
                                 {{ team.goalDifference > 0 ? '+' : '' }}{{ team.goalDifference }}
                             </td>
-                            <td class="p-3 text-center">
-                                <div class="flex justify-center space-x-1">
-                                    <span v-for="(result, i) in team.lastResults" :key="i" class="w-3 h-3 rounded-full"
-                                        :class="{ 'bg-green-500': result === 'W', 'bg-yellow-500': result === 'D', 'bg-red-500': result === 'L' }">
-                                    </span>
-                                </div>
-                            </td>
+
                             <td class="p-3 text-center">
                                 <button @click="removeTeam(team.id)"
                                     class="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-danger transition">
@@ -102,7 +89,7 @@
                             <td class="p-3 font-bold text-gray-400">{{ teamGroupes.length + 1 }}</td>
                             <td class="p-3">
                                 <div class="flex items-center relative z-40">
-                                
+
                                     <DropdownInput v-model="newTeam.team_id"
                                         :options="[...teams.map(team => ({ value: team.id, label: team.name }))]" />
                                 </div>
