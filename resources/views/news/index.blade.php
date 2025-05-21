@@ -14,18 +14,19 @@
                 <div class="space-y-8">
                     @forelse ($news as $article)
                         <!-- Article -->
-                        <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                        <article
+                            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
                             <div class="md:flex">
                                 @if ($article->image()->first())
                                     <div class="md:flex-shrink-0 md:w-1/3">
-                                        <img class="h-full w-full object-cover"
-                                            src="{{ $article->image()->first()->url }}"
+                                        <img class="h-full w-full object-cover" src="{{ $article->image()->first()->url }}"
                                             alt="{{ $article->title }}">
                                     </div>
                                 @endif
                                 <div class="p-6">
                                     <div class="flex items-center mb-2">
-                                        <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
+                                        <span
+                                            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
                                             {{ $article->category->name ?? 'Non catégorisé' }}
                                         </span>
                                         <span class="ml-2 text-sm text-gray-500">
@@ -36,9 +37,9 @@
                                     <p class="text-gray-600 mb-4">{{ $article->excerpt }}</p>
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center">
-                                            @if($article->user->image()->first())
-                                                <img class="w-8 h-8 rounded-full mr-2" 
-                                                    src="{{ $article->user->image()->first()->url }}" 
+                                            @if ($article->user->image()->first())
+                                                <img class="w-8 h-8 rounded-full mr-2"
+                                                    src="{{ $article->user->image()->first()->url }}"
                                                     alt="{{ $article->user->full_name }}">
                                             @endif
                                             <span class="text-sm font-medium">
@@ -54,9 +55,7 @@
                             </div>
                         </article>
                     @empty
-                        <div class="bg-white rounded-xl shadow-md p-8 text-center">
-                            <p class="text-gray-600">Aucun article disponible pour le moment.</p>
-                        </div>
+                        <x-empty model="actualités" />
                     @endforelse
                     {{ $news->links('components.pagination') }}
                 </div>
@@ -105,12 +104,11 @@
                         À ne pas manquer
                     </h3>
                     <div class="space-y-4">
-                        @foreach($topNews as $featured)
+                        @foreach ($topNews as $featured)
                             <article class="flex gap-4">
-                                @if($featured->image()->first())
+                                @if ($featured->image()->first())
                                     <img class="w-20 h-20 rounded-lg object-cover flex-shrink-0"
-                                        src="{{ $featured->image()->first()->url }}"
-                                        alt="{{ $featured->title }}">
+                                        src="{{ $featured->image()->first()->url }}" alt="{{ $featured->title }}">
                                 @endif
                                 <div>
                                     <div class="text-xs text-gray-500 mb-1">

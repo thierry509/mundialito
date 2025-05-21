@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DeleteGameRequest;
 use App\Http\Requests\EndGameRequest;
+use App\Http\Requests\HaveYearRequest;
 use App\Http\Requests\StoreGameRequest;
 use App\Http\Requests\UnpostponeGameRequest;
 use App\Http\Requests\UpdateGameRequest;
@@ -16,12 +17,12 @@ use Illuminate\Support\Carbon;
 
 class GameController extends Controller
 {
-    public function index(Request $request)
+    public function index(HaveYearRequest $request)
     {
         $year = $request->query('year');
         $games = Game::with(['teamA', 'teamB', 'championship'])
             ->whereHas('championship', function ($query) use ($year) {
-                $query->where('year', 2024);
+                $query->where('year', $year);
             })
             ->orderBy('stage')
             ->get()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HaveYearRequest;
 use App\Models\Championship;
 use App\Models\Game;
 use App\Models\Team;
@@ -10,9 +11,9 @@ use Inertia\Inertia;
 
 class KnockoutController extends Controller
 {
-    public function index()
+    public function index(HaveYearRequest $request)
     {
-        $year = 2024;
+        $year = $request->query('year');
 
         $round16 = Game::with(['teamA', 'teamB', 'championship'])
             ->where('stage', 'round16')

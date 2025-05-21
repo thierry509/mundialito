@@ -2,8 +2,8 @@
 
 @section('content')
     <!-- Hero Section avec le composant réutilisable -->
-    <x-hero title="Résultats des Matchs" subtitle="Tous les scores et statistiques du Mundialito 2023"
-        backgroundImage="/images/stade-resultats.jpg" variant="secondary" />
+    <x-hero title="Les Matchs" subtitle="Tous les Matchs  Mundialito" backgroundImage="/images/stade-resultats.jpg"
+        variant="secondary" />
 
     <!-- Contenu principal -->
     <main class="px-6 md:px-12 py-12">
@@ -14,17 +14,20 @@
                     <!-- En-tête de journée -->
                     <div class="py-2">
                         <div class="flex justify-between items-center">
-                            <h2 class="text-sm md:text-xl font-semibold text-gray-50">{{ gameStage($matchDays->first()->stage) }}</h2>
-                            <span class="text-xs bg-white text-primary font-semibold px-2 py-1 rounded-full">{{ $matchDays->count() }}
+                            <h2 class="text-sm md:text-xl font-semibold text-gray-50">
+                                {{ gameStage($matchDays->first()->stage) }}</h2>
+                            <span
+                                class="text-xs bg-white text-primary font-semibold px-2 py-1 rounded-full">{{ $matchDays->count() }}
                                 matchs</span>
                         </div>
                     </div>
-                        @foreach ($matchDays as $game)
-                        <x-SingleGame :game="$game"/>
-                        @endforeach
-                    </div>
+                    @foreach ($matchDays as $game)
+                        <x-SingleGame :game="$game" />
+                    @endforeach
+                </div>
             </div>
         @empty
+            <x-empty model="match"/>
         @endforelse
 
     </main>

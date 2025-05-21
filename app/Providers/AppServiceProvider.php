@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 
@@ -20,10 +21,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Récupérez d'abord les données
+        $years = \App\Models\Championship::orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        // Partagez le tableau de résultats (pas la fonction)
         Inertia::share([
-            'years' => fn() => \App\Models\Championship::orderBy('year', 'desc')
-                ->pluck('year')
-                ->toArray(),
+            'years' => $years,
+        ]);
+
+        View::share([
+            'years' => $years,
         ]);
     }
 }

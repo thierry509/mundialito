@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HaveYearRequest;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\TeamGroupRequest;
 use App\Models\Championship;
@@ -12,12 +13,12 @@ use Inertia\Inertia;
 
 class GroupController extends Controller
 {
-    public function index(Request $request)
+    public function index(HaveYearRequest $request)
     {
         $year = $request->query('year');
         return view('groups.index', [
             'groups' => Group::with('teams')->whereHas('championship', function ($query) use ($year) {
-                $query->where('year', 2024);
+                $query->where('year', $year);
             })->get(),
         ]);
     }
