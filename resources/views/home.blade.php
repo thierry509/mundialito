@@ -1,41 +1,46 @@
 @extends('layout.app')
 @section('content')
-    <!-- Hero Section Moderne avec BG Image - Version mobile optimisée -->
     <header class="relative overflow-hidden">
-        <!-- Conteneur pour l'image de fond avec hauteur adaptative -->
+        <!-- Conteneur pour l'image de fond -->
         <div class="relative h-[90vh] md:h-screen">
             <!-- Image de fond avec effet de parallaxe -->
             <div
-                class="absolute inset-0 bg-[url('https://cdn.pixabay.com/photo/2020/01/12/16/57/stadium-4760441_1280.jpg')] bg-cover bg-center bg-no-repeat md:transform md:hover:scale-105 md:transition md:duration-1000 md:ease-in-out">
+                class="absolute inset-0 bg-[url('https://cdn.pixabay.com/photo/2020/01/12/16/57/stadium-4760441_1280.jpg')] bg-cover bg-center bg-no-repeat md:transform md:hover:scale-105 md:transition md:duration-1000 md:ease-[cubic-bezier(0.25,0.1,0.25,1)]">
             </div>
-            <div class="absolute inset-0 bg-black opacity-70"></div>
 
-            <!-- Contenu superposé avec animation -->
-            <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-4 py-16 md:py-0">
-                <div class="max-w-4xl space-y-4 md:space-y-6 animate-fadeInUp">
-                    <h1 class="text-4xl md:text-7xl font-bold text-white leading-tight">
-                        {{-- <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-accent">Mundialito</span>
-                        <span class="block md:inline">Gonaïves</span>
+            <!-- Overlay avec dégradé -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50"></div>
+
+            <!-- Contenu superposé -->
+            <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
+                <div class="flex flex-col justify-center items-center max-w-4xl space-y-6 md:space-y-8 animate-fadeInUp">
+                    <!-- Logo -->
+                    <div class="transform hover:scale-105 transition duration-500">
+                        <img class="w-64 md:w-80 h-auto" src="{{ asset('images/mundialito.png') }}" alt="Mundialito Logo">
+                    </div>
+
+                    <!-- Titre accrocheur -->
+                    <h1 class="text-2xl md:text-4xl font-bold text-white tracking-tight leading-tight">
+                        Une ville une competition !
                     </h1>
-                    <p class="text-lg md:text-2xl text-gray-200 font-light max-w-2xl mx-auto">Championnat de Vacances d'Été
-                        - La passion du football réunie</p> --}}
 
+                    <!-- Phrase d'accroche -->
+                    <p class="text-sm md:text-lg text-white/90 max-w-2xl px-4">
+                        Suivez chaque match, chaque émotion du tournoi le plus attendu de l'année.
+                    </p>
 
-                    <img src="{{ asset('images/mundialito.png') }}" alt="">
-                    <!-- Boutons avec effet hover moderne -->
-                    <div class="flex flex-wrap justify-center gap-3 md:gap-4 pt-4 md:pt-6">
-                        <a href="{{ route('calendar') }}" class="relative group">
-
+                    <!-- Boutons CTA -->
+                    <div class="flex justify-center gap-4 md:gap-6 pt-2 md:pt-4">
+                        <a href="{{ route('games') }}" class="relative group">
                             <button
-                                class="relative px-6 py-2 md:px-8 md:py-3 bg-white text-gray-900 font-bold rounded-lg hover:bg-transparent hover:text-white transition duration-200 border-2 border-white text-sm md:text-base">
-                                Calendrier
+                                class="relative px-8 py-3 md:px-10 md:py-3.5 bg-white text-gray-900 font-bold rounded-lg hover:bg-transparent hover:text-white transition-all duration-300 border-2 border-white text-sm md:text-base shadow-lg hover:shadow-white/20 active:scale-95">
+                                <span class="text-sm relative z-10">Calendrier des matchs</span>
                             </button>
                         </a>
                         <a href="{{ route('groups') }}" class="relative group">
                             <button
-                                class="relative px-6 py-2 md:px-8 md:py-3 bg-transparent text-white font-bold rounded-lg hover:bg-white hover:text-gray-900 transition duration-200 border-2 border-white text-sm md:text-base">
-                                Classement
+                                class="relative px-8 py-3 md:px-10 md:py-3.5 bg-transparent text-white font-bold rounded-lg hover:bg-white hover:text-gray-900 transition-all duration-300 border-2 border-white text-sm md:text-base shadow-lg hover:shadow-white/20 active:scale-95">
+                                <span class=" text-sm relative z-10">Classements en direct</span>
                             </button>
                         </a>
                     </div>
@@ -287,6 +292,22 @@
         @media (min-width: 1024px) {
             .bg-parallax {
                 background-attachment: fixed;
+            }
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
