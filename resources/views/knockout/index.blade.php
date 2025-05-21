@@ -55,7 +55,7 @@
             <div id="scrollableDiv"
                 class="h-full w-full overflow-auto cursor-move scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <!-- En-tête collant avec effet de profondeur -->
-                <div class="sticky top-0 z-20 flex w-full bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg">
+                <div class="sticky top-0 z-20 flex w-[1300px] bg-gradient-to-r from-blue-600 to-blue-800 shadow-lg ">
                     @if ($round >= 4)
                         <div class="w-[300px] py-3 px-6 border-r border-blue-500 text-center shrink-0">
                             <span class="text-white font-semibold text-lg uppercase tracking-wider">Huitième de final</span>

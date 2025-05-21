@@ -15,14 +15,9 @@
                 <!-- Titre Poule -->
                 <div class="bg-accent text-white p-4">
                     <h2 class="text-xl font-bold flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
-                            </path>
-                        </svg>
-                        Poule {{ $group->name }} - Classement
+                        Poule {{ $group->name }}
                     </h2>
-                    <div class="text-sm opacity-90 mt-1">Mis à jour le {{ now()->format('d/m/Y à H:i') }}</div>
+                    <div class="text-sm opacity-90 mt-1">Mundialito</div>
                 </div>
 
                 <!-- Tableau classement -->
@@ -45,7 +40,7 @@
                         <tbody class="divide-y divide-light">
                             @forelse ($group->teams as $team)
                                 <tr class="hover:bg-light/30">
-                                    <td class="p-3 font-bold text-primary">1</td>
+                                    <td class="p-3 font-bold text-primary">{{$loop->iteration}}</td>
                                     <td class="p-3">
                                         <div class="flex items-center">
                                             <div
@@ -74,29 +69,7 @@
                 </div>
 
                 <!-- Légende -->
-                <div class="p-4 border-t border-light bg-light/20">
-                    <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
-                        <div class="flex items-center">
-                            <span class="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
-                            <span>Victoire</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="w-3 h-3 bg-gray-500 rounded-full mr-2"></span>
-                            <span>Nul</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="w-3 h-3 bg-red-500 rounded-full mr-2"></span>
-                            <span>Défaite</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="w-3 h-3 bg-primary rounded-full mr-2"></span>
-                            <span>Qualifié</span>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="w-3 h-3 bg-danger rounded-full mr-2"></span>
-                            <span>Éliminé</span>
-                        </div>
-                    </div>
+                <div class="px-4 py-6 border-t border-light bg-light/20">
                 </div>
             </div>
         @empty

@@ -14,7 +14,7 @@
                     <!-- En-tête de journée -->
                     <div class="py-2">
                         <div class="flex justify-between items-center">
-                            <h2 class="text-sm md:text-xl font-semibold text-gray-50">{{ gameStage($matchDays[0]->first()->stage) }}</h2>
+                            <h2 class="text-sm md:text-xl font-semibold text-gray-50">{{ gameStage($matchDays->first()->stage) }}</h2>
                             <span class="text-xs bg-white text-primary font-semibold px-2 py-1 rounded-full">{{ $matchDays->count() }}
                                 matchs</span>
                         </div>

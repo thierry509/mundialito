@@ -65,7 +65,7 @@ class GameController extends Controller
             $validated['date'] . ' ' . $validated['time']
         )->format('Y-m-d H:i:s') : null;
 
-        // dd($validated);
+        // dd($dateTime);
         Game::create([
             'championship_id' => $chamionship->id,
             "team_a_id" => $validated['team1Id'],
@@ -97,7 +97,7 @@ class GameController extends Controller
         $game->update([
             'status' => 'postponed',
         ]);
-        redirect() . back();
+        redirect()->back();
     }
 
     public function unpostpone(UnpostponeGameRequest $request)

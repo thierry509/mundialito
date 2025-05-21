@@ -1,5 +1,11 @@
 export function formatDate(dateString) {
-    const date = new Date(dateString.replace(' ', 'T') + 'Z');
+    const isoString = dateString.includes('T') ? dateString : dateString.replace(' ', 'T') + 'Z';
+    const date = new Date(isoString);
+
+    if (isNaN(date.getTime())) {
+        console.error('Date invalide:', dateString);
+        return 'Date invalide';
+    }
 
     const options = {
         day: 'numeric',
@@ -7,14 +13,22 @@ export function formatDate(dateString) {
         year: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-        hour12: false
+        hour12: false,
+        timeZone: 'UTC' // Ajoutez ceci si vous voulez afficher l'heure UTC
     };
 
     const formatter = new Intl.DateTimeFormat('fr-FR', options);
-    const formattedDate = formatter.format(date);
+    let formattedDate = formatter.format(date);
 
-    return formattedDate.replace(/,/g, ' •');
+    // Formatage personnalisé pour remplacer la virgule
+    formattedDate = formattedDate.replace(/,/g, ' •');
+
+    // Correction supplémentaire pour l'heure
+    formattedDate = formattedDate.replace(/(\d{2})h(\d{2})/, '$1:$2');
+
+    return formattedDate;
 }
+
 export function gameStatus(status) {
     const translations = {
         'soon': 'Bientôt',
@@ -30,6 +44,7 @@ export function gameStage(stage) {
         '1': 'Première journée',
         '2': 'Deuxième journée',
         '3': 'Troisième journée',
+        '4': 'Quatrième journee',
         'round16': 'Huitièmes de finale',
         'quarter': 'Quarts de finale',
         'semi': 'Demi-finales',  // Note: "semi" corrigé en "demi"

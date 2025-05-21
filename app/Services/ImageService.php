@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
@@ -8,7 +9,7 @@ use Intervention\Image\Drivers\Gd\Driver; // Ou Imagick si préféré
 
 class ImageService
 {
-    public function store($file, string $desc, $path = 'uploads', int $width = 300, int $height = 200)
+    public function     store($file, string $desc, $path = 'uploads', int $width = 300, int $height = 200)
     {
         $manager = new ImageManager(new Driver()); // GD par défaut
 
@@ -22,6 +23,9 @@ class ImageService
         $filename = $this->manageName($desc); // Meilleur format que JPEG/PNG
         $originalPath = "{$path}/{$filename}";
         $thumbnailPath = "{$path}/thumbnails/{$filename}";
+
+        Storage::makeDirectory("public/{$path}");
+        Storage::makeDirectory("public/{$path}/thumbnails");
 
         // Sauvegarde
         $image->save(storage_path("app/public/{$originalPath}"));
@@ -49,5 +53,3 @@ class ImageService
         return $baseName;
     }
 }
-
-

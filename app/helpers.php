@@ -46,6 +46,7 @@ function gameStage($stage) {
         '1' => 'Première journée',
         '2' => 'Deuxième journée',
         '3' => 'Troisième journée',
+        '4' => 'Quatrième journée',
         'round16' => 'Huitièmes de finale',
         'quarter' => 'Quarts de finale',
         'semi' => 'Demi-finales',

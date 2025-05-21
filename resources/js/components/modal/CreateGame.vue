@@ -57,7 +57,7 @@ const submit = () => {
 
 <template>
     <BaseModal :show="show" @close="emit('close')">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Enregistrer une nouvelle équipe</h2>
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Planifier un nouveau match </h2>
         <form @submit.prevent="submit" class="space-y-4">
 
             <div class="grid grid-cols-2 gap-4">

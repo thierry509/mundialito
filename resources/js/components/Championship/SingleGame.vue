@@ -67,17 +67,17 @@
 
                 <button v-if="!game?.team_a_goals" @click="deleteGame"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition flex flex-col md:flex-row justify-center items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24"
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
-                    <span class="hidden md:block">Suprimmer</span>
+                    <span class="hidden md:block mx-1.5">Suprimmer</span>
                 </button>
 
                 <button v-if="game.status != 'postponed' && !game?.team_a_goals" @click="postpone"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-orange-500/10 text-orange-600 hover:bg-orange-500/20 transition inline-flex items-center">
-                            <svg fill="currentColor" viewBox="0 0 36 36" version="1.1" class="h-4 w-4 mr-1.5"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-orange-500/10 text-orange-600 hover:bg-orange-500/20 transition inline-flex items-center justify-center">
+                    <svg fill="currentColor" viewBox="0 0 36 36" version="1.1" class="h-4 w-4"
                         preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -90,37 +90,37 @@
                             <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
                         </g>
                     </svg>
-                    <span class="hidden md:block">Reporter</span>
+                    <span class="hidden md:block mx-1.5">Reporter</span>
                 </button>
                 <button v-if="game.status == 'postponed'" @click="unpostpone"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-blue-500/10 text-blue-600 hover:bg-blue-600/20 transition inline-flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-blue-500/10 text-blue-600 hover:bg-blue-600/20 transition inline-flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 13l-3 3m0 0l-3-3m3 3V8" />
                     </svg>
-                    <span class="hidden md:block">Replanifier</span>
+                    <span class="hidden md:block mx-1.5">Replanifier</span>
                 </button>
 
                 <button v-if="game.team_a_goals != null && game.team_b_goals != null" @click="end"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition flex justify-center items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                     </svg>
-                    <span class="hidden md:block"> Terminer</span>
+                    <span class="hidden md:block mx-1.5"> Terminer</span>
                 </button>
 
                 <button @click="updateScore"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    <span class="hidden md:block"> Mettre à jour</span>
+                    <span class="hidden md:block mx-1.5"> Mettre à jour</span>
                 </button>
             </div>
         </div>
@@ -157,10 +157,8 @@ const confirm = useConfirmStore();
 
 const deleteGame = async () => {
     const isConfirmed = await confirm.show({
-        title: 'Suppression',
-        message: 'Voulez-vous vraiment supprimer cet élément ?',
-        confirmText: 'Oui, supprimer',
-        cancelText: 'Non, annuler'
+        title: 'Confirmation de suppression',
+        message: 'Attention : la suppression entraînera la perte définitive des données.',
     })
     if (isConfirmed) {
         router.delete(`/edition/championnat/match/supprimer/${props.game.id}`, {
@@ -173,8 +171,8 @@ const deleteGame = async () => {
 
 const updateScore = async () => {
     const isConfirmed = await confirm.show({
-        title: 'Mise-a-jour score',
-        message: `Voulez-vous vraiment mettre a jour ce match les score ${props.game.team_a.name}  vs ${props.game.team_b.name}`
+        title: 'Mise à jour du score',
+        message: `Souhaitez-vous enregistrer le nouveau score du match ${props.game.team_a.name} contre ${props.game.team_b.name} ?`
     });
     if (isConfirmed) {
         score.put('', {
@@ -187,8 +185,8 @@ const updateScore = async () => {
 
 const postpone = async () => {
     const isConfirmed = await confirm.show({
-        title: "Reprte match",
-        message: `Voulez-vous vraiment reporter le match ${props.game.team_a.name} VS  ${props.game.team_b.name}`
+        title: "Reporter le match",
+        message: `Le match ${props.game.team_a.name} - ${props.game.team_b.name} sera reporté. Confirmez-vous cette décision ?`
     })
 
     if (isConfirmed) {
@@ -210,8 +208,8 @@ const unpostpone = () => {
 
 const end = async () => {
     const isConfirmed = await confirm.show({
-        title: "Marquer match comme terminer",
-        message: "Voulez-vous merque cette match comme terminer"
+        title: "Marquer le match comme terminé",
+        message: `Cette action enregistrera le score final et clôturera le match. Confirmez-vous ?`
     })
 
     if (isConfirmed) {
