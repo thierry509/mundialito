@@ -24,8 +24,8 @@ class ImageService
         $originalPath = "{$path}/{$filename}";
         $thumbnailPath = "{$path}/thumbnails/{$filename}";
 
-        Storage::makeDirectory("public/{$originalPath}");
-        Storage::makeDirectory("public/{$thumbnailPath}/thumbnails");
+        Storage::makeDirectory("public/{$path}");
+        Storage::makeDirectory("public/{$path}/thumbnails");
 
         // Sauvegarde
         $image->save(storage_path("app/public/{$originalPath}"));
