@@ -8,6 +8,7 @@ use App\Services\SocialAuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
@@ -94,19 +95,25 @@ class AuthController extends Controller
      */
     public function handleProviderCallback($provider)
     {
+        if (!in_array($provider, ['google', 'facebook'])) {
+            abort(404);
+        }
+    
         try {
             $socialUser = Socialite::driver($provider)->user();
-
+    
             $user = $this->socialAuthService->findOrCreateUser($socialUser, $provider);
-
+    
             auth()->login($user, true);
-
+    
             return redirect()->intended(route('dashboard'));
         } catch (\Exception $e) {
-            dd($e);
+            Log::error("Erreur de social login avec {$provider}", ['exception' => $e]);
+    
             return redirect('/connexion')->withErrors([
                 'message' => 'Échec de l\'authentification avec ' . ucfirst($provider)
             ]);
         }
     }
+    
 }
