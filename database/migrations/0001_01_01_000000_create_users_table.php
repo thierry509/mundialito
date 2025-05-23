@@ -14,16 +14,21 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
-            $table->string('roles');
+            $table->string('roles')->default('user');
             $table->string('first_name');
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->string('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
+            $table->string('provider')->nullable()->comment('google, facebook, etc.');
+            $table->string('provider_id')->nullable()->comment('ID unique du provider');
+            $table->text('provider_token')->nullable()->comment('Token du provider');
+            $table->text('provider_refresh_token')->nullable()->comment('Refresh token du provider');
             $table->unsignedBigInteger('image_id')->nullable();
             $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
+            $table->index(['provider', 'provider_id']);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

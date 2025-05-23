@@ -2,7 +2,7 @@
     <ToastNotification />
     <ConfirmModal />
     <div class="flex flex-col h-screen w-full max-w-[100vw] overflow-x-hidden"> <!-- Header -->
-        <header class="bg-white shadow-lg z-10">
+        <header class="bg-white shadow-lg z-50">
             <nav class="flex justify-between items-center p-4">
                 <!-- Logo/Brand -->
                 <div class="flex items-center">
@@ -50,7 +50,7 @@
 
                         <!-- Dropdown Menu -->
                         <div id="userMenu"
-                            class="hidden absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-xl py-1 z-30 border border-gray-100">
+                            class="hidden absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-xl py-1 z-50 border border-gray-100">
                             <!-- Menu items with subtle hover effects -->
                             <a href="#"
                                 class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
@@ -78,15 +78,15 @@
                             <div class="border-t border-gray-100 my-1"></div>
 
                             <!-- Logout with distinct style -->
-                            <a href="#"
-                                class="flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <div @click="logout"
+                                class="cursor-pointer flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
                                 <svg class="w-5 h-5 mr-3 text-red-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
                                 Déconnexion
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -204,11 +204,10 @@
     </div>
 </template>
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import SelectedYear from '@/components/Championship/SelectedYear.vue';
 import ToastNotification from '@/components/ui/ToastNotification.vue';
 import { useYearStore } from '@/store/year';
-import { computed } from 'vue';
 import ConfirmModal from '../components/modal/ConfirmModal.vue';
 const year = useYearStore();
 const aside = document.getElementById('aside');
@@ -249,4 +248,8 @@ const toggleUserMenu = () => {
     const userMenu = document.getElementById('userMenu');
     userMenu.classList.toggle('hidden');
 };
+
+const logout = () => {
+    router.post('/edition/deconnexion', {}, {})
+}
 </script>

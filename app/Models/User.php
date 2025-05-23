@@ -25,7 +25,10 @@ class User extends Authenticatable
         'image_id',
         'first_name',
         'last_name',
-        'phone'
+        'phone',
+        'provider',
+        'provider_id',
+        'provider_token',
     ];
 
     /**

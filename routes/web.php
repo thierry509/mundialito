@@ -77,8 +77,16 @@ Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::middleware('guest')->group(function () {
     Route::get('connexion', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('connexion', [AuthController::class, 'login'])->name('login.submit');
+
     Route::get('inscription', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('inscription', [AuthController::class, 'register'])->name('register.submit');
+    Route::get('/{provider}/redirection', [AuthController::class, 'redirectToProvider'])
+        ->where('provider', 'google|facebook')
+        ->name('social.redirect');
+
+    Route::get('/{provider}/rappel', [AuthController::class, 'handleProviderCallback'])
+        ->where('provider', 'google|facebook')
+        ->name('social.callback');
 });
 
 Route::middleware('auth')->prefix('edition')->group(function () {
@@ -117,7 +125,7 @@ Route::middleware('auth')->prefix('edition')->group(function () {
             Route::put('/terminer/{id}', [GameController::class, 'end'])->name('championship.game.end');
         });
     });
-    Route::get('deconnexion', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
     Route::get('profil', [AuthController::class, 'showProfile'])->name('profile');
     Route::post('profil', [AuthController::class, 'updateProfile'])->name('profile.update');
     Route::get('modifier-mot-de-passe', [AuthController::class, 'showChangePasswordForm'])->name('password.change');

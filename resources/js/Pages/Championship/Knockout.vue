@@ -100,12 +100,6 @@ const createGame = (payload) => {
     showCreate.value = true
 }
 
-
-
-
-
-
-
 const count = 8;
 onMounted(() => {
     const n = 50;
