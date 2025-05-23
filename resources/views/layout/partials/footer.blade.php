@@ -60,14 +60,14 @@
           </div>
       </div>
   </footer>
-  <script>
-      const yearSelect = document.querySelector('select');
+  <script defer>
+      const yearSelect = document.querySelector('#selectYear');
       const storageKey = 'year-store';
 
       try {
           // Récupérer l'année stockée
           const store = sessionStorage.getItem(storageKey);
-          const storedYear = JSON.parse(store).year
+          const storedYear = JSON.parse(store)?.year
           updateLinksWithYear(storedYear)
       }catch(e){
         console.error(e)

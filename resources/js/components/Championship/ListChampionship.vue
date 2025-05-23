@@ -27,11 +27,11 @@
                 </div>
             </div>
         </div>
-        <div v-else class="flex items-center justify-center min-h-[200px] rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
+        <div v-else class="flex items-center justify-center min-h-[200px] rounded-lg bg-gray-50/50">
             <div class="text-center p-6 max-w-xs mx-auto">
                 <!-- Icône animée -->
                 <div class="animate-bounce-slow mb-4">
-                    <svg class="h-14 w-14 text-gray-400 dark:text-gray-500 mx-auto" fill="none" viewBox="0 0 24 24"
+                    <svg class="h-14 w-14 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -39,11 +39,11 @@
                 </div>
 
                 <!-- Texte -->
-                <h3 class="text-lg font-medium text-gray-600 dark:text-gray-300 mb-1">Aucune édition disponible</h3>
+                <h3 class="text-lg font-medium text-gray-600 mb-1">Aucune édition disponible</h3>
 
                 <!-- Bouton optionnel -->
-                <button v-if="showRefreshButton" @click="refreshData" class="mt-4 px-4 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 
-                   hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-md transition-all">
+                <button v-if="showRefreshButton" @click="refreshData" class="mt-4 px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-500 
+                   hover:bg-indigo-50 rounded-md transition-all">
                     Actualiser
                 </button>
             </div>

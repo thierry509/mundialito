@@ -41,7 +41,7 @@
                     <!-- Colonne Quarts -->
                     <div v-if="round >= 3" class="mr-[100px]">
                         <template v-for="i in 4">
-                            <singleMatchKnockout :position="i" stage='quarter' @create="createGame"
+                            <singleMatchKnockout :game="quarter[i]" :position="i" stage='quarter' @create="createGame"
                                 class="my-[150px] hover:scale-105 transition-transform" />
                         </template>
                     </div>
@@ -49,7 +49,7 @@
                     <!-- Colonne Demis -->
                     <div v-if="round >= 2" class="mr-[100px]">
                         <template v-for="i in 2">
-                            <singleMatchKnockout :position="i" stage='semi' @create="createGame"
+                            <singleMatchKnockout :game="semi[i]" :position="i" stage='semi' @create="createGame"
                                 class="my-[350px] hover:scale-105 transition-transform" />
                         </template>
                     </div>
@@ -57,7 +57,7 @@
                     <!-- Colonne Finale -->
                     <div v-if="round >= 1" class="mr-[100px]">
                         <template v-for="i in 1">
-                            <singleMatchKnockout :position="i" stage='final' @create="createGame"
+                            <singleMatchKnockout :game="final[1]" :position="i" stage='final' @create="createGame"
                                 class="my-[350px] hover:scale-105 transition-transform" />
                         </template>
                     </div>

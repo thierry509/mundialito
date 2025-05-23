@@ -15,7 +15,7 @@
                         leave-to="opacity-0 scale-95" >
 
                         <DialogPanel
-                        class="md:w-2/3 transform overflow-visible rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all border-4 border-primary">
+                        class="w-full lg:w-2/3 transform overflow-visible rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all border-4 border-primary">
                             <DialogTitle as="h3" class="flex items-center text-lg font-medium leading-6 text-red-800">
                                 <div class="w-full flex items-center justify-end">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

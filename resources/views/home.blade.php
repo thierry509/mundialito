@@ -34,13 +34,13 @@
                         <a href="{{ route('games') }}" class="relative group">
                             <button
                                 class="relative px-8 py-3 md:px-10 md:py-3.5 bg-white text-gray-900 font-bold rounded-lg hover:bg-transparent hover:text-white transition-all duration-300 border-2 border-white text-sm md:text-base shadow-lg hover:shadow-white/20 active:scale-95">
-                                <span class="text-sm relative z-10">Calendrier des matchs</span>
+                                <span class="text-sm relative z-10">Calendrier</span>
                             </button>
                         </a>
                         <a href="{{ route('groups') }}" class="relative group">
                             <button
                                 class="relative px-8 py-3 md:px-10 md:py-3.5 bg-transparent text-white font-bold rounded-lg hover:bg-white hover:text-gray-900 transition-all duration-300 border-2 border-white text-sm md:text-base shadow-lg hover:shadow-white/20 active:scale-95">
-                                <span class=" text-sm relative z-10">Classements en direct</span>
+                                <span class=" text-sm relative z-10">Classements</span>
                             </button>
                         </a>
                     </div>

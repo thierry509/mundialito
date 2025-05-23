@@ -47,7 +47,6 @@
     <x-hero title="Phase à Élimination Directe" subtitle="Suivez le parcours des équipes vers la finale"
         backgroundImage="/images/stade-knockout.jpg" variant="primary" />
 
-
     <!-- Bracket Section -->
     <main class="container mx-auto px-4 py-12 flex flex-col items-center ">
         <div class="h-full w-full relative shadow-xl border border-gray-200 overflow-hidden bg-gray-200 rounded-lg">
@@ -81,6 +80,7 @@
 
                 </div>
 
+
                 <!-- Zone de tournoi avec fond subtil -->
                 <div class="relative w-[1300px] h-[1000px]">
                     <!-- Canvas pour les lignes de connexion -->
@@ -90,33 +90,37 @@
                         <!-- Colonne Huitièmes -->
                         @if ($round >= 4)
                             <div class="mr-[100px] ml-4">
-                                @for($i = 0; $i < 8; $i++)
-                                <x-single-match-knockout class="my-[50px]" :position="$i" stage="round16" />
-                            @endfor
+                                @for ($i = 1; $i < 8 + 1; $i++)
+                                    <x-single-match-knockout :game="$round16[$i]??null" class="my-[50px]" :position="$i"
+                                        stage="round16" />
+                                @endfor
                             </div>
                         @endif
                         <!-- Colonne Quarts -->
                         @if ($round >= 3)
                             <div class="mr-[100px]">
-                                @for($i = 0; $i < 4; $i++)
-                                <x-single-match-knockout class="my-[150px]" :position="$i" stage="quarter" />
-                            @endfor
+                                @for ($i = 1; $i < 4 + 1; $i++)
+                                    <x-single-match-knockout :game="$quarter[$i]??null" class="my-[150px]" :position="$i"
+                                        stage="quarter" />
+                                @endfor
                             </div>
                         @endif
 
                         <!-- Colonne Demis -->
                         @if ($round >= 2)
                             <div class="mr-[100px]">
-                                @for($i = 0; $i < 2; $i++)
-                                <x-single-match-knockout class="my-[350px]" :position="$i" stage="semi" />
-                            @endfor
+                                @for ($i = 1; $i < 2 + 1; $i++)
+                                    <x-single-match-knockout :game="$semi[$i]??null" class="my-[350px]" :position="$i"
+                                        stage="semi" />
+                                @endfor
                             </div>
                         @endif
 
                         <!-- Colonne Finale -->
                         @if ($round >= 1)
                             <div class="mr-[100px]">
-                                <x-single-match-knockout class="my-[350px]" :position="0" stage="final" />
+                                <x-single-match-knockout :game="$final[$i]??null" class="my-[350px]" :position="0"
+                                    stage="final" />
                             </div>
                         @endif
 
@@ -144,15 +148,15 @@
 
 
             let i = 1;
-            if ({{$round}} >= 4) {
+            if ({{ $round }} >= 4) {
                 drawRound16(m, ctx, i);
                 i++;
             }
-            if ({{$round}} >= 3) {
+            if ({{ $round }} >= 3) {
                 drawQuarter(m, ctx, i);
                 i++;
             }
-            if ({{$round}} >= 2) {
+            if ({{ $round }} >= 2) {
                 drawSemi(m, ctx, i);
             }
         }

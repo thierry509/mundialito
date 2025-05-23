@@ -11,9 +11,12 @@ use App\Http\Requests\UpdateGameRequest;
 use App\Models\Championship;
 use App\Models\Game;
 use App\Models\Group;
+use App\Models\Log;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class GameController extends Controller
 {
@@ -24,9 +27,13 @@ class GameController extends Controller
             ->whereHas('championship', function ($query) use ($year) {
                 $query->where('year', $year);
             })
-            ->orderBy('stage')
+            ->orderBy('date_time') // Ordre principal par date/heure
             ->get()
-            ->groupBy('stage');
+            ->groupBy('stage') // Groupement après le tri
+            ->map(function ($group) {
+                // Optionnel: re-trier chaque groupe si nécessaire
+                return $group->sortBy('date_time');
+            });
 
         return view('games.index', [
             'games' => $games,
@@ -41,9 +48,13 @@ class GameController extends Controller
             ->whereHas('championship', function ($query) use ($year) {
                 $query->where('year', $year);
             })
-            ->orderBy('stage')
+            ->orderBy('date_time') // Ordre principal par date/heure
             ->get()
-            ->groupBy('stage');
+            ->groupBy('stage') // Groupement après le tri
+            ->map(function ($group) {
+                // Optionnel: re-trier chaque groupe si nécessaire
+                return $group->sortBy('date_time');
+            });
 
         // dd($games[1][1]);
 
@@ -67,29 +78,44 @@ class GameController extends Controller
         )->format('Y-m-d H:i:s') : null;
 
         // dd($dateTime);
-        Game::create([
-            'championship_id' => $chamionship->id,
-            "team_a_id" => $validated['team1Id'],
-            "team_b_id" => $validated['team2Id'],
-            "date_time" => $dateTime,
-            "position" => $validated['position'] ?? null,
-            'stage' => $validated['stage'],
-            'location' => $validated['location'],
-            'type' => $validated['type'],
-        ]);
+        DB::transaction(function () use ($validated, $dateTime, $chamionship) {
+            $game = Game::create([
+                'championship_id' => $chamionship->id,
+                "team_a_id" => $validated['team1Id'],
+                "team_b_id" => $validated['team2Id'],
+                "date_time" => $dateTime,
+                "position" => $validated['position'] ?? null,
+                'stage' => $validated['stage'],
+                'location' => $validated['location'],
+                'type' => $validated['type'],
+            ]);
+
+            Log::create([
+                'action' => "creer creer match d'identifiant " . $game->id,
+                'user_id' => Auth()->user()->id,
+            ]);
+        });
 
         return redirect()->back();
     }
 
     public function update(UpdateGameRequest $request)
     {
-        $validated = $request->validated();
-        $game = Game::find($validated['gameId']);
-        $game->update([
-            'team_a_goals' => $validated['teamAGoal'],
-            'team_b_goals' => $validated['teamBGoal'],
-        ]);
-        redirect()->back();
+        DB::transaction(function () use ($request) {
+
+            $validated = $request->validated();
+            $game = Game::find($validated['gameId']);
+            $game->update([
+                'team_a_goals' => $validated['teamAGoal'],
+                'team_b_goals' => $validated['teamBGoal'],
+            ]);
+
+            Log::create([
+                'action' => "update match d'identifiant " . $game->id,
+                'user_id' => Auth()->user()->id,
+            ]);
+        });
+        return redirect()->back();
     }
 
     public function postpone(DeleteGameRequest $request)
@@ -98,7 +124,20 @@ class GameController extends Controller
         $game->update([
             'status' => 'postponed',
         ]);
-        redirect()->back();
+        Log::create([
+            'action' => "creer creer match d'identifiant " . $game->id,
+            'user_id' => Auth()->user()->id,
+        ]);
+        return redirect()->back();
+    }
+
+    public function live(DeleteGameRequest $request)
+    {
+        $game = Game::find($request->validated()['id']);
+        $game->update([
+            'status' => 'live',
+        ]);
+        return redirect()->back();
     }
 
     public function unpostpone(UnpostponeGameRequest $request)
@@ -113,7 +152,7 @@ class GameController extends Controller
             )->format('Y-m-d H:i:s'),
             'location' => $validated['location'],
         ]);
-        redirect()->back();
+        return redirect()->back();
     }
 
     function end(EndGameRequest $request)
@@ -122,13 +161,13 @@ class GameController extends Controller
         $game->update([
             'status' => 'finished',
         ]);
-        redirect()->back();
+        return redirect()->back();
     }
 
     public function destroy(DeleteGameRequest $request)
     {
         $game = Game::find($request->validated()['id']);
         $game->delete();
-        redirect()->back();
+        return redirect()->back();
     }
 }

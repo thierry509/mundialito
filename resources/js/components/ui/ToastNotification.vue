@@ -2,9 +2,9 @@
 import { useToasterStore } from '../../store/Toast';
 const toastStore = useToasterStore()
 const statusClasses = {
-  success: "text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200",
-  error: "text-red-500 bg-red-100 dark:bg-red-800 dark:text-red-200",
-  warning: "text-orange-500 bg-orange-100 dark:bg-orange-700 dark:text-orange-200",
+  success: "text-green-500 bg-green-100",
+  error: "text-red-500 bg-red-100",
+  warning: "text-orange-500 bg-orange-100",
 };
 </script>
 
@@ -14,7 +14,7 @@ const statusClasses = {
       <div
         v-for="toast in toastStore.toasts"
         :key="toast.id"
-        class="flex items-center w-full max-w-xs p-4 text-gray-100 bg-secondary rounded-lg shadow-lg dark:text-gray-400 dark:bg-gray-800"
+        class="flex items-center w-full max-w-xs p-4 text-gray-100 bg-secondary rounded-lg shadow-lg"
         role="alert"
       >
         <div
@@ -39,7 +39,7 @@ const statusClasses = {
         <div class="ms-3 text-sm font-normal">{{ toast.text }}</div>
         <button
           type="button"
-          class="ms-auto p-1.5 rounded-lg focus:ring-2 focus:ring-gray-300 text-gray-100 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+          class="ms-auto p-1.5 rounded-lg focus:ring-2 focus:ring-gray-300 text-gray-100 hover:text-gray-900 hover:bg-gray-100"
           @click="toastStore.toasts = toastStore.toasts.filter(t => t.id !== toast.id)"
           aria-label="Close"
         >

@@ -52,14 +52,11 @@
             <!-- Score -->
             <div class="flex flex-col items-center w-1/5 py-1 p-2">
                 @if ($game->status === 'soon' || $game->status === 'postponed')
-                    <span
-                        class="h-8 px-2 py-1 text-xs flex items-center justify-center font-semibold rounded-full capitalize {{ statusClass($game->status) }}">
-                        {{ gameStatus($game->status) }}
-                    </span>
+                  <span class="font-bold">VS</span>
                 @else
                     <div class="flex items-center">
                         <span
-                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ $game->team_b_goals }}</span>
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ $game->team_a_goals }}</span>
                         <span class="text-2xl font-medium text-gray-500 px-1">-</span>
                         <span
                             class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ $game->team_b_goals }}</span>

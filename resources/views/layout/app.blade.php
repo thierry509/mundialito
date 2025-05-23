@@ -37,6 +37,45 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
+
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            const yearSelect = document.querySelector('#selectYear');
+            const storageKey = 'year-store';
+            try {
+                // Récupérer l'année stockée
+                const store = sessionStorage.getItem(storageKey);
+                const storedYear = JSON.parse(store)?.year;
+
+
+                if (storedYear) {
+                    if (yearSelect) yearSelect.value = storedYear;
+                } else {
+                    sessionStorage.setItem(storageKey, JSON.stringify({
+                        year: {{ $years[0] }}
+                    }));
+                    if (yearSelect) yearSelect.value = $years[0];
+
+                }
+
+                if (yearSelect) {
+                    // Gérer le changement de sélection
+                    yearSelect.addEventListener('change', function() {
+                        if (this.value) {
+                            sessionStorage.setItem(storageKey, JSON.stringify({
+                                year: this.value
+                            }));
+                            const url = new URL(window.location.href);
+                            url.searchParams.set('year', this.value);
+                            window.location.href = url.toString();
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error('Erreur avec sessionStorage:', e);
+            }
+        });
+    </script>
 </head>
 
 <body class="font-sans">

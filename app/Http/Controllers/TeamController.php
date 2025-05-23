@@ -22,7 +22,10 @@ class TeamController extends Controller
     public function store(StoreTeamRequest $request)
     {
         $validated = $request->validated();
-        Team::create($validated);
+        Team::create([
+            'name' => strtoupper($validated['name']),
+            'location' =>  strtoupper($validated['location']),
+        ]);
 
         return redirect()->route('teams.index')->with('success', 'Team created successfully.');
     }
@@ -31,8 +34,8 @@ class TeamController extends Controller
         $teams = Team::all()->map(function ($team) {
             return [
                 'id' => $team->id,
-                'name' => $team->name,
-                'location' => $team->location,
+                'name' => strtoupper($team->name),
+                'location' => strtoupper($team->location),
                 'has_relations' => $team->hasAnyRelations(),
             ];
         });
@@ -50,5 +53,4 @@ class TeamController extends Controller
         $team->delete();
         return redirect()->route('teams.index')->with('success', 'Team deleted successfully.');
     }
-
 }

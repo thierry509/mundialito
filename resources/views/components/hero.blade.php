@@ -24,7 +24,7 @@
     <div class="flex justify-center mt-6 py-3">
         <div class="relative group">
             <!-- Sélecteur avec bordure et coins arrondis -->
-            <select
+            <select id="selectYear"
                 class="outline-none px-6 py-3 bg-white/5 backdrop-blur-sm text-white text-lg font-medium rounded-lg border-2 border-white/20 focus:border-amber-300 focus:ring-2 focus:ring-amber-300/30 transition-all duration-300 appearance-none pr-12 cursor-pointer hover:border-white/40">
                 <option value="" disabled selected class="bg-gray-800">Choisissez une édition</option>
                 @foreach ($years as $year)
@@ -43,34 +43,4 @@
     </div>
 </header>
 
-<script defer>
-    document.addEventListener('DOMContentLoaded', function() {
-        const yearSelect = document.querySelector('select');
-        const storageKey = 'year-store';
-        try {
-            // Récupérer l'année stockée
-            const store = sessionStorage.getItem(storageKey);
-            const storedYear = JSON.parse(store).year
 
-            console.log(store, storedYear)
-
-            // Vérifier si l'année existe dans les options
-            if (storedYear) yearSelect.value = storedYear;
-
-
-            // Gérer le changement de sélection
-            yearSelect.addEventListener('change', function() {
-                if (this.value) {
-                    sessionStorage.setItem(storageKey, JSON.stringify({
-                        year: this.value
-                    }));
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('year', this.value);
-                    window.location.href = url.toString();
-                }
-            });
-        } catch (e) {
-            console.error('Erreur avec sessionStorage:', e);
-        }
-    });
-</script>

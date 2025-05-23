@@ -39,7 +39,7 @@
 
                 <!-- Score -->
                 <div class="flex flex-col items-center w-1/5 py-1 p-2">
-                    <div class="flex items-center my-1">
+                    <div v-if="game.status != 'postponed'" class="flex items-center my-1">
                         <input v-model="score.teamAGoal" type="number"
                             class="w-8 md:w-12 h-8 rounded-md text-center outline-none text-sm font-bold bg-white border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
                             min="0" max="99" maxlength="2" placeholder="0" />
@@ -49,6 +49,9 @@
                         <input v-model="score.teamBGoal" type="number"
                             class="w-8 md:w-12 h-8 rounded-md text-center outline-none text-sm font-bold bg-white border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
                             min="0" max="99" maxlength="2" placeholder="0" />
+                    </div>
+                    <div v-else class="my-1">
+                        <span class="font-bold">VS</span>
                     </div>
                 </div>
 
@@ -113,7 +116,16 @@
                     <span class="hidden md:block mx-1.5"> Terminer</span>
                 </button>
 
-                <button @click="updateScore"
+                <button v-if="game.status != 'postponed' && game.status != 'live'" @click="live"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition flex justify-center items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline animate-pulse" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <circle cx="12" cy="12" r="8" fill="red" />
+                    </svg>
+                    <span class="hidden md:block mx-1.5">En direct</span>
+                </button>
+
+                <button v-if="game.status != 'postponed'" @click="updateScore"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -199,6 +211,25 @@ const postpone = async () => {
         );
     }
 }
+
+const live = async () => {
+    const isConfirmed = await confirm.show({
+        title: "Match en cours",
+        message: `Voulez-vous marquer le match ${props.game.team_a.name} vs ${props.game.team_b.name} comme étant en cours ?`,
+    })
+
+    if (isConfirmed) {
+        router.put(`/edition/championnat/match/en-direct/${props.game.id}`, {},
+            {
+                onSuccess: () => {
+                    useToasterStore().success({ text: 'Match Repoter' })
+                }
+            }
+        );
+    }
+}
+
+
 
 const showUnpostpone = ref(false);
 

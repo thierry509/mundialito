@@ -5,7 +5,7 @@
     </Head>
     <div class="p-6 md:p-8">
         <div class="mb-8">
-            <h1 class="text-2xl font-bold text-gray-800 dark:text-white inline-flex items-center">
+            <h1 class="text-2xl font-bold text-gray-800 inline-flex items-center">
                 <svg class="w-8 h-8 mr-3 p-1.5 bg-primary/10 text-primary rounded-full"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <g stroke-linecap="round" stroke-linejoin="round" stroke-width="2">

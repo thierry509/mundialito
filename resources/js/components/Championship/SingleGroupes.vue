@@ -18,7 +18,7 @@
         <div class="bg-accent text-white p-4 flex justify-between items-center rounded-t-xl">
             <div class="">
                 <h2 class="text-md md:text-xl font-bold flex items-center">
-                    Groupe  {{ group.name }}
+                    Groupe {{ group.name }}
                 </h2>
             </div>
             <div class="flex justify-end">
@@ -74,7 +74,7 @@
 
                             <td class="p-3 text-center">
                                 <button @click="removeTeam(team.id)"
-                                    class="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-danger transition">
+                                    class="opacity-90 group-hover:opacity-100 text-gray-400 hover:text-danger transition">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -136,6 +136,8 @@
 import { ref, nextTick, computed, onMounted } from 'vue';
 import DropdownInput from '../Form/DropdownInput.vue';
 import { router, useForm } from '@inertiajs/vue3';
+import { useConfirmStore } from '../../store/confirmStore';
+
 const props = defineProps({
     teams: {
         type: Array,
@@ -207,8 +209,13 @@ const addTeam = () => {
     addingTeam.value = false;
 };
 
-const removeTeam = (id) => {
-    if (confirm('Supprimer cette équipe ?')) {
+const confirm = useConfirmStore();
+const removeTeam = async (id) => {
+    const isConfirmed = await confirm.show({
+        title: 'Confirmation de suppression',
+        message: 'Attention : la suppression entraînera la perte définitive des données.',
+    })
+    if (isConfirmed) {
         router.delete(`/edition/championnat/groupes/supprimer-equipe/${props.group.id}/${id}`, {
             preserveScroll: true,
             onSuccess: () => {
@@ -221,8 +228,12 @@ const removeTeam = (id) => {
     }
 };
 
-const removeGroup = (id) => {
-    if (confirm('Supprimer ce groupe ?')) {
+const removeGroup = async (id) => {
+    const isConfirmed = await confirm.show({
+        title: 'Confirmation de suppression',
+        message: 'Attention : la suppression entraînera la perte définitive des données.',
+    })
+    if (isConfirmed) {
         router.delete(`/edition/championnat/groupes/supprimer/${id}`, {
             preserveScroll: true,
             onSuccess: () => {

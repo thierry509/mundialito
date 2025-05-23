@@ -22,7 +22,7 @@ class StoreTeamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:teams,name',
             'location' => 'required|string|max:255',
         ];
     }
@@ -31,6 +31,7 @@ class StoreTeamRequest extends FormRequest
     {
         return [
             'name.required' => 'Le nom de l\'équipe est requis.',
+            'name.unique' => 'Le nom de l\'équipe doit être unique.',
             'location.required' => 'La localisation de l\'équipe est requise.',
             'name.string' => 'Le nom de l\'équipe doit être une chaîne de caractères.',
             'location.string' => 'La localisation de l\'équipe doit être une chaîne de caractères.',

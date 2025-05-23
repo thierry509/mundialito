@@ -7,19 +7,21 @@
 ])
 
 <div class="flex flex-col bg-white rounded-lg w-60 p-1 text-sm cursor-pointer {{ $class }}">
-    @if ($game)
-        <div class="px-1">
-            <Link href="`/edition/championnat/match?year=${year}#${game.id}`">
-            <div class="flex justify-between">
-                <span>{{ $game->team_a->name }}</span>
-                <span>{{ $game->team_a_goals }}</span>
+    @if ($game != null)
+        <a href="{{ route('games') }}#{{ $game->id }}">
+            <div class="px-1">
+                <Link href="`/edition/championnat/match?year=${year}#${game.id}`">
+                <div class="flex justify-between">
+                    <span>{{ $game->teamA()->first()->name }}</span>
+                    <span>{{ $game->teama_goals }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>{{ $game->teamB()->first()->name }}</span>
+                    <span>{{ $game->team_a_goals }}</span>
+                </div>
+                </Link>
             </div>
-            <div class="flex justify-between">
-                <span>{{ $game->team_b->name }}</span>
-                <span>{{ $game->team_a_goals }}</span>
-            </div>
-            </Link>
-        </div>
+        </a>
     @else
         <div
             class="flex justify-center items-center border-2 border-dotted border-gray-300 w-full rounded-lg py-2 px-4 hover:bg-gray-50 cursor-pointer transition-colors">
