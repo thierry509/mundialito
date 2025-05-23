@@ -97,8 +97,6 @@ class AuthController extends Controller
         try {
             $socialUser = Socialite::driver($provider)->user();
 
-            // dd($socialUser->user);
-
             $user = $this->socialAuthService->findOrCreateUser($socialUser, $provider);
 
             auth()->login($user, true);
