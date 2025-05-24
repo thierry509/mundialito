@@ -40,15 +40,11 @@
                 <!-- Score -->
                 <div class="flex flex-col items-center w-1/5 py-1 p-2">
                     <div v-if="game.status != 'postponed'" class="flex items-center my-1">
-                        <input v-model="score.teamAGoal" type="number"
-                            class="w-8 md:w-12 h-8 rounded-md text-center outline-none text-sm font-bold bg-white border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
-                            min="0" max="99" maxlength="2" placeholder="0" />
-
-                        <span class="text-sm font-medium text-gray-500">-</span>
-
-                        <input v-model="score.teamBGoal" type="number"
-                            class="w-8 md:w-12 h-8 rounded-md text-center outline-none text-sm font-bold bg-white border border-gray-200 focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
-                            min="0" max="99" maxlength="2" placeholder="0" />
+                        <span
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ game.team_a_goals }}</span>
+                        <span class="text-2xl font-medium text-gray-500 px-1">-</span>
+                        <span
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ game.team_b_goals }}</span>
                     </div>
                     <div v-else class="my-1">
                         <span class="font-bold">VS</span>
@@ -138,6 +134,7 @@
         </div>
     </div>
     <UnpostponeGame :show="showUnpostpone" :game="game" @close="showUnpostpone = false" />
+    <CreateOrUpdateResults :show="showCreateorUpdateResult" :game="game" @close="showCreateorUpdateResult = false"/>
 </template>
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3';
@@ -145,6 +142,7 @@ import { formatDate, gameStatus, statusClass } from '../../Utils/utils';
 import { useToasterStore } from '../../store/Toast';
 import { useConfirmStore } from '../../store/confirmStore';
 import UnpostponeGame from '../modal/UnpostponeGame.vue';
+import CreateOrUpdateResults from '../modal/CreateOrUpdateResults.vue';
 import { ref } from 'vue';
 import { route } from 'ziggy-js';
 
@@ -181,18 +179,10 @@ const deleteGame = async () => {
     }
 }
 
+const showCreateorUpdateResult = ref(false);
+
 const updateScore = async () => {
-    const isConfirmed = await confirm.show({
-        title: 'Mise à jour du score',
-        message: `Souhaitez-vous enregistrer le nouveau score du match ${props.game.team_a.name} contre ${props.game.team_b.name} ?`
-    });
-    if (isConfirmed) {
-        score.put('', {
-            onSuccess: () => {
-                useToasterStore().success({ text: 'Score mise a jour' })
-            }
-        })
-    }
+    showCreateorUpdateResult.value = true;
 }
 
 const postpone = async () => {

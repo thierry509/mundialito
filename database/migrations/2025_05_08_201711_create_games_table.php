@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->dateTime('date_time')->nullable();
             $table->string('location');
-            $table->enum('type', ['group','knockout']);
+            $table->enum('type', ['group', 'knockout']);
             $table->string('stage');
             $table->integer('position')->nullable();
             $table->enum('status', ['soon', 'live', 'postponed', 'finished'])->default('soon');
@@ -24,6 +24,12 @@ return new class extends Migration
             $table->foreignId('team_b_id')->constrained('teams');
             $table->integer('team_a_goals')->nullable();
             $table->integer('team_b_goals')->nullable();
+            $table->integer('team_a_yellow_cards')->nullable();
+            $table->integer('team_b_yellow_cards')->nullable();
+            $table->integer('team_a_red_cards')->nullable();
+            $table->integer('team_b_red_cards')->nullable();
+            $table->json('team_a_scorers')->nullable();
+            $table->json('team_b_scorers')->nullable();
             $table->timestamps();
         });
     }

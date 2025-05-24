@@ -18,6 +18,7 @@ use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GameController;
+use App\Models\Championship;
 use Illuminate\Support\Facades\Route;
 
 // Page d'accueil
@@ -124,6 +125,7 @@ Route::middleware('auth')->prefix('edition')->group(function () {
             Route::put('/replanifer/{id}', [GameController::class, 'unpostpone'])->name('championship.game.unpostpone');
             Route::put('/terminer/{id}', [GameController::class, 'end'])->name('championship.game.end');
         });
+        Route::get('/parametre', [ChampionshipController::class, 'setting'])->name('championship.setting');
     });
     Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
     Route::get('profil', [AuthController::class, 'showProfile'])->name('profile');

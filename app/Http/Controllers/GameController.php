@@ -104,10 +104,18 @@ class GameController extends Controller
         DB::transaction(function () use ($request) {
 
             $validated = $request->validated();
+            // dd($validated);
             $game = Game::find($validated['gameId']);
             $game->update([
-                'team_a_goals' => $validated['teamAGoal'],
-                'team_b_goals' => $validated['teamBGoal'],
+                'team_a_goals' => $validated['teamAGoals'],
+                'team_b_goals' => $validated['teamBGoals'],
+                'team_a_yellow_cards' => $validated['teamAYellowCards'],
+                'team_b_yellow_cards' => $validated['teamBYellowCards'],
+                'team_a_red_cards' => $validated['teamARedCards'],
+                'team_b_red_cards' => $validated['teamBRedCards'],
+                'team_a_scorers' => $validated['teamAScorers'] ?? null,
+                'team_b_scorers' => $validated['teamBScorers'] ?? null,
+                'status' => 'live',
             ]);
 
             Log::create([
@@ -170,4 +178,5 @@ class GameController extends Controller
         $game->delete();
         return redirect()->back();
     }
+
 }

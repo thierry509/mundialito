@@ -25,4 +25,12 @@ class Championship extends Model
     {
         return $this->hasMany(Game::class, 'championship_id');
     }
+
+    public function rankingRules()
+    {
+        return $this->belongsToMany(rankingRule::class)
+                    ->withPivot('position')
+                    ->withTimestamps()
+                    ->orderBy('position');
+    }
 }

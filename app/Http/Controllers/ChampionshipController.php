@@ -18,4 +18,9 @@ class ChampionshipController extends Controller
         ]);
         return redirect()->route('dashboard')->with('success', 'Championat créé avec succès.');
     }
+
+    public function setting(Request $request){
+        $year = $request->query('year');
+        return Inertia::render('Championship.Setting');
+    }
 }

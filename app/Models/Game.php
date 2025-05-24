@@ -20,7 +20,13 @@ class Game extends Model
         'team_a_id',
         'team_b_id',
         'team_a_goals',
-        'team_b_goals'
+        'team_b_goals',
+        'team_a_yellow_cards',
+        'team_b_yellow_cards',
+        'team_a_red_cards',
+        'team_b_red_cards',
+        'team_a_scorers',
+        'team_b_scorers'
     ];
 
     public function championship()
