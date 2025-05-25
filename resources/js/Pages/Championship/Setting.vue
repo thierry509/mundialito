@@ -1,92 +1,190 @@
 <template>
-    <div class="bg-white shadow-2xl rounded-3xl p-8 w-full max-w-3xl mx-auto">
-      <h1 class="text-2xl font-bold mb-6 text-center text-blue-700">Paramètres de la Compétition</h1>
-  
-      <!-- Règles de classement -->
-      <div class="mb-8">
-        <h2 class="text-lg font-semibold text-gray-700 mb-3">1. Ordre des Règles de Classement</h2>
-        <ul ref="rulesList" class="space-y-3">
-          <li
-            v-for="(rule, index) in rules"
-            :key="rule.rule"
-            :data-rule="rule.rule"
-            class="bg-white border border-blue-100 p-4 rounded-xl cursor-move flex items-center justify-between shadow-sm hover:shadow-md transition-all group"
-          >
-            <div class="flex items-center gap-3">
-              <span class="text-sm text-gray-500 font-medium w-6">{{ index + 1 }}</span>
-              <span class="text-gray-800 font-semibold">{{ rule.label }}</span>
+    <Head>
+        <title>Paramètres de l'edition {{ championship?.year }}</title>
+    </Head>
+
+    <div class="p-6 md:p-8">
+        <!-- Section Titre -->
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-gray-800">Paramètres de l'edition {{ championship?.year }}</h1>
+            <p class="text-gray-600 mt-2">Configurez les règles de classement et les phases finales</p>
+        </div>
+
+        <!-- Section Règles disponibles -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Règles disponibles</h2>
+            <p class="text-gray-600 mb-4">Sélectionnez les règles à appliquer :</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div v-for="rule in allRankingRules" :key="rule.code" class="flex items-center">
+                    <input
+                        type="checkbox"
+                        :id="`rule-${rule.code}`"
+                        v-model="selectedRules"
+                        :value="rule.code"
+                        class="h-4 w-4 text-primary rounded border-gray-300 focus:ring-primary"
+                    >
+                    <label :for="`rule-${rule.code}`" class="ml-3 text-sm font-medium text-gray-700">
+                        {{ rule.label }}
+                    </label>
+                </div>
             </div>
-            <div class="text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
-              <i data-lucide="chevron-up" class="w-4 h-4"></i>
-              <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </div>
+
+        <!-- Section Règles de classement -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Ordre des règles</h2>
+            <p class="text-gray-600 mb-4">Définissez l'ordre d'application des critères de classement :</p>
+
+            <div class="space-y-3">
+                <div
+                    v-for="(ruleCode, index) in activeRules"
+                    :key="ruleCode"
+                    draggable="true"
+                    @dragstart="dragStart(index)"
+                    @dragover.prevent="dragOver(index)"
+                    @drop="drop(index)"
+                    class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-move hover:bg-gray-100 transition"
+                >
+                    <div class="flex items-center">
+                        <span class="text-gray-500 mr-3 text-sm font-medium">{{ index + 1 }}.</span>
+                        <span class="font-medium text-gray-700">{{ getRuleLabel(ruleCode) }}</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+                    </svg>
+                </div>
             </div>
-          </li>
-        </ul>
-      </div>
-  
-      <!-- Round de démarrage phase finale -->
-      <div class="mb-8">
-        <h2 class="text-lg font-semibold text-gray-700 mb-3">2. Phase Finale - Commence à partir de</h2>
-        <select v-model="finalPhase" class="w-full border border-blue-300 rounded-xl p-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option value="none">Aucune phase finale</option>
-          <option value="quarter">Quart de finale</option>
-          <option value="semi">Demi-finale</option>
-          <option value="final">Finale</option>
-        </select>
-      </div>
-  
-      <button @click="saveParams" class="w-full bg-blue-600 text-white py-3 rounded-xl text-lg font-semibold shadow hover:bg-blue-700 transition-all">
-        Sauvegarder les paramètres
-      </button>
-  
-      <pre v-if="outputVisible" class="mt-6 bg-gray-100 p-4 rounded-xl text-sm">{{ output }}</pre>
+        </div>
+
+        <!-- Phase finale -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Phase finale</h2>
+
+            <div class="grid grid-cols-1">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Round de départ</label>
+                    <select
+                        v-model="finalRoundStart"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+                    >
+                        <option value="4">8èmes de finale</option>
+                        <option value="3">Quarts de finale</option>
+                        <option value="2">Demi-finales</option>
+                        <option value="1">Finale</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="flex justify-end space-x-4">
+            <button
+                @click="resetSettings"
+                class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition"
+            >
+                Réinitialiser
+            </button>
+            <button
+                @click="saveSettings"
+                class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition"
+            >
+                Enregistrer les paramètres
+            </button>
+        </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted } from 'vue';
-  import Sortable from 'sortablejs';
-//   import { createIcons } from 'lucide';
-  
-  const rulesList = ref(null);
-  
-  const rules = ref([
-    { rule: 'points', label: 'Points' },
-    { rule: 'diff_buts', label: 'Différence de buts' },
-    { rule: 'buts_marques', label: 'Buts marqués' },
-    { rule: 'confrontation_directe_points', label: 'Points en confrontation directe' },
-    { rule: 'victoires', label: 'Nombre de victoires' },
-    { rule: 'fair_play', label: 'Classement fair-play' },
-    { rule: 'match_appui', label: 'Match d\'appui' },
-    { rule: 'tirage_au_sort', label: 'Tirage au sort' },
-  ]);
-  
-  const finalPhase = ref('none');
-  const output = ref('');
-  const outputVisible = ref(false);
-  
-  onMounted(() => {
-    // createIcons();
-  
-    Sortable.create(rulesList.value, {
-      animation: 150,
-      ghostClass: 'bg-yellow-100',
-      onEnd: (evt) => {
-        const newOrder = Array.from(rulesList.value.children).map((el) => el.getAttribute('data-rule'));
-        rules.value = newOrder.map((ruleKey) => rules.value.find((r) => r.rule === ruleKey));
-      },
+</template>
+
+<script setup>
+import { Head, router } from '@inertiajs/vue3';
+import { ref, computed, watch } from 'vue';
+import {useToasterStore} from '../../store/Toast'
+const props = defineProps({
+    championship: Object,
+    allRankingRules: Array
+});
+
+// Initialisation des règles sélectionnées
+const initialSelectedRules = props.championship.ranking_rules?.map(r => r.code) || [];
+const selectedRules = ref(initialSelectedRules);
+const activeRules = ref([...initialSelectedRules]);
+
+// Phase finale - conversion de la valeur numérique
+const finalRoundStart = ref(props.championship.knockout_round?.toString() || '4 ');
+
+// Mise à jour des règles actives
+watch(selectedRules, (newVal) => {
+    const newActiveRules = activeRules.value.filter(rule => newVal.includes(rule));
+    newVal.forEach(rule => {
+        if (!newActiveRules.includes(rule)) {
+            newActiveRules.push(rule);
+        }
     });
-  });
-  
-  function saveParams() {
-    output.value = JSON.stringify({
-      rules_order: rules.value.map((r) => r.rule),
-      final_phase: finalPhase.value,
-    }, null, 2);
-    outputVisible.value = true;
-  }
-  </script>
-  
-  <style scoped>
-  </style>
-  
+    activeRules.value = newActiveRules;
+}, { deep: true });
+
+// Libellés des règles
+const getRuleLabel = (code) => {
+    const rule = props.allRankingRules.find(r => r.code === code);
+    return rule ? rule.label : code;
+};
+
+// Drag & drop
+let draggedItemIndex = null;
+
+const dragStart = (index) => {
+    draggedItemIndex = index;
+};
+
+const dragOver = (index) => {
+    if (draggedItemIndex !== null && draggedItemIndex !== index) {
+        const newItems = [...activeRules.value];
+        const [removed] = newItems.splice(draggedItemIndex, 1);
+        newItems.splice(index, 0, removed);
+        activeRules.value = newItems;
+        draggedItemIndex = index;
+    }
+};
+
+const drop = () => {
+    draggedItemIndex = null;
+};
+
+
+// Sauvegarde
+const saveSettings = () => {
+    const formData = {
+        ranking_rules: activeRules.value.map((code, index) => ({
+            code,
+            position: index + 1
+        })),
+        knockout_round: parseInt(finalRoundStart.value)
+    };
+
+    router.put('', formData, {
+        preserveScroll: true,
+        onSuccess: () => {
+            useToasterStore().success({ text: 'Parametre modifier avec succès' });
+        },
+        onError: (errors) => {
+            console.log('Erreurs de validation:', errors)
+        }
+    });
+};
+
+// Réinitialisation
+const resetSettings = () => {
+    selectedRules.value = props.allRankingRules.map(rule => rule.code);
+    finalRoundStart.value = '8';
+};
+</script>
+
+<style scoped>
+[draggable="true"] {
+    transition: transform 0.2s ease;
+}
+
+[draggable="true"]:active {
+    opacity: 0.7;
+}
+</style>

@@ -37,4 +37,7 @@ class Team extends Model
             $this->matchesAsTeamB()->exists() ||
             $this->groupParticipations()->exists();
     }
+    public function ViewRanking(){
+        return $this->hasMany(ViewRanking::class, 'team_id');
+    }
 }

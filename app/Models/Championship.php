@@ -28,7 +28,7 @@ class Championship extends Model
 
     public function rankingRules()
     {
-        return $this->belongsToMany(rankingRule::class)
+        return $this->belongsToMany(RankingRule::class)
                     ->withPivot('position')
                     ->withTimestamps()
                     ->orderBy('position');

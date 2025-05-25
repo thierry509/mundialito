@@ -22,7 +22,8 @@ class UpdateGameRequest extends FormRequest
             'teamARedCards' => 'required|integer|min:0',
             'teamBRedCards' => 'required|integer|min:0',
             'teamAScorers' => 'nullable|string',
-            'teamBScorers' => 'nullable|string'
+            'teamBScorers' => 'nullable|string',
+            'isLive' => 'required|boolean'
         ];
     }
 

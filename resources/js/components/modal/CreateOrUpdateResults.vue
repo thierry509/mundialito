@@ -207,14 +207,14 @@ const submit = () => {
 
                         <!-- Option: Oui -->
                         <div class="flex items-center justify-center space-x-2">
-                            <input type="radio" id="enDirectOui" value="true" v-model="form.isLive"
+                            <input type="radio" id="enDirectOui" :value="true" v-model="form.isLive"
                                 class="accent-green-600" />
                             <label for="enDirectOui" class="text-gray-600">Oui</label>
                         </div>
 
                         <!-- Option: Non -->
                         <div class="flex items-center justify-center space-x-2">
-                            <input type="radio" id="enDirectNon" value="false" v-model="form.isLive"
+                            <input type="radio" id="enDirectNon" :value="false" v-model="form.isLive"
                                 class="accent-red-600" />
                             <label for="enDirectNon" class="text-gray-600">Non</label>
                         </div>

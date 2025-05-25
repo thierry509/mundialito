@@ -21,9 +21,9 @@
         <title>Gestion des Équipes</title>
     </Head>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-3xl font-bold text-gray-900">Gestion des Équipes</h1>
         <!-- Header -->
-        <div class="flex justify-between items-center mb-10">
-            <h1 class="text-3xl font-bold text-gray-900">Gestion des Équipes</h1>
+        <div class="flex justify-end items-center mb-10">
             <button @click="showForm = !showForm"
                 class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"

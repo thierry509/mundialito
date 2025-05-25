@@ -172,7 +172,7 @@ const teamGroupes = computed(() => {
         id: team.id,
         name: team.name,
         color: team.color || 'gray',
-        initials: team.initials || team.name.charAt(0).toUpperCase(),
+        // initials: team.initials || team.name.charAt(0).toUpperCase(),
         points: team.points || 0,
         played: team.played || 0,
         wins: team.wins || 0,
@@ -181,7 +181,6 @@ const teamGroupes = computed(() => {
         goalsFor: team.goalsFor || 0,
         goalsAgainst: team.goalsAgainst || 0,
         goalDifference: team.goalDifference || 0,
-        lastResults: team.lastResults || []
     }));
 });
 

@@ -125,7 +125,10 @@ Route::middleware('auth')->prefix('edition')->group(function () {
             Route::put('/replanifer/{id}', [GameController::class, 'unpostpone'])->name('championship.game.unpostpone');
             Route::put('/terminer/{id}', [GameController::class, 'end'])->name('championship.game.end');
         });
-        Route::get('/parametre', [ChampionshipController::class, 'setting'])->name('championship.setting');
+        Route::prefix('parametre')->group(function(){
+            Route::get('/', [ChampionshipController::class, 'setting'])->name('championship.setting');
+            Route::put('/', [ChampionshipController::class, 'updateSettings'])->name('championship.setting.post');
+        });
     });
     Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
     Route::get('profil', [AuthController::class, 'showProfile'])->name('profile');

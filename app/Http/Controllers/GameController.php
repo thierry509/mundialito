@@ -104,7 +104,6 @@ class GameController extends Controller
         DB::transaction(function () use ($request) {
 
             $validated = $request->validated();
-            // dd($validated);
             $game = Game::find($validated['gameId']);
             $game->update([
                 'team_a_goals' => $validated['teamAGoals'],
@@ -115,7 +114,7 @@ class GameController extends Controller
                 'team_b_red_cards' => $validated['teamBRedCards'],
                 'team_a_scorers' => $validated['teamAScorers'] ?? null,
                 'team_b_scorers' => $validated['teamBScorers'] ?? null,
-                'status' => 'live',
+                'status' => $validated['isLive']? 'live' : 'finished    ',
             ]);
 
             Log::create([

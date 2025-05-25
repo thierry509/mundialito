@@ -8,6 +8,8 @@ use App\Http\Requests\TeamGroupRequest;
 use App\Models\Championship;
 use App\Models\Group;
 use App\Models\Team;
+use App\Models\ViewRanking;
+use App\Services\RankingService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,11 +28,12 @@ class GroupController extends Controller
     public function adminIndex(Request $request)
     {
         $year = $request->query('year');
+
+        $rankingService = new RankingService();
+        $groups = $rankingService->getGroupRankings($year);
         return Inertia::render('Championship.Groupes', [
             'teams' => Team::whereDoesntHave('groupParticipations')->get(),
-            'groups' => Group::with('teams')->whereHas('championship', function ($query) use ($year) {
-                $query->where('year', $year);
-            })->get(),
+            'groups' => $groups,
         ]);
     }
 
