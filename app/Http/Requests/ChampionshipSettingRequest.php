@@ -19,18 +19,7 @@ class ChampionshipSettingRequest extends FormRequest
             'ranking_rules.*.code' => [
                 'required',
                 'string',
-                Rule::in([
-                    'points',
-                    'diff_buts',
-                    'buts_marques',
-                    'confrontation_directe_points',
-                    'confrontation_directe_diff',
-                    'confrontation_directe_buts',
-                    'victoires',
-                    'fair_play',
-                    'match_appui',
-                    'tirage_au_sort'
-                ])
+                'exists:ranking_rules,code'
             ],
             'ranking_rules.*.position' => 'required|integer|min:1',
             'knockout_round' => 'required|integer|in:1,2,3,4'

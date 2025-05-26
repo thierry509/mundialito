@@ -4,9 +4,7 @@ namespace App\Services;
 
 use App\Models\Championship;
 use App\Models\Group;
-use App\Models\Team;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class RankingService
 {
@@ -21,13 +19,13 @@ class RankingService
                 $query->where('year', $year);
             })
             ->get()
-            ->map(function ($group) {
+            ->map(function ($group) use ($year) {
                 $group->teams->each(function ($team) {
-                    if ($team->viewRanking) {
+                    if ($team->viewRanking && $team->viewRanking->isNotEmpty()) {
                         $ranking = $team->viewRanking->first();
                         if ($ranking) {
                             foreach ($ranking->toArray() as $key => $value) {
-                                if ($key !== 'team_id' && $key !== 'id') {
+                                if (!in_array($key, ['team_id', 'id'])) {
                                     $team->$key = $value;
                                 }
                             }
@@ -35,9 +33,8 @@ class RankingService
                         unset($team->viewRanking);
                     }
                 });
-                $group->teams = $this->sortTeams($group->teams->toArray());
-                // echo ($group->teams);
 
+                $group->teams = $this->sortTeams($group->teams, $year);
                 return $group;
             });
     }
@@ -45,34 +42,27 @@ class RankingService
     /**
      * Trie un tableau d'équipes selon des règles de classement footballistiques
      *
-     * @param array $teams Tableau d'équipes à trier
-     * @param array $rules Règles de tri personnalisées (par défaut: FIFA standard)
-     * @return array Tableau trié
+     * @param Collection $teams Collection d'équipes à trier
+     * @param array|null $rules Règles de tri personnalisées (par défaut: FIFA standard)
+     * @return Collection Collection triée
      */
-    function sortTeams(array $teams, ?array $rules = null): array
+    public function sortTeams(Collection $teams, $year, ?array $rules = null): Collection
     {
-        // Règles par défaut (ordre FIFA standard)
-        $defaultRules = [
-            'points' => 'desc',
-            'goalDifference' => 'desc',
-            'goalsFor' => 'desc',
-            'fair_play_points' => 'asc',
-            'name' => 'asc',
-        ];
+        $rankingRules = Championship::where('year', $year)->with('rankingRules')->first()->rankingRules->pluck('order', 'code');
 
-        $rules = $rules ?? $defaultRules;
 
-        usort($teams, function ($a, $b) use ($rules) {
+        $rules = $rules ?? $rankingRules;
+        $teamArray = $teams->all();
+
+        usort($teamArray, function ($a, $b) use ($rules) {
             foreach ($rules as $field => $order) {
-                // Récupère les valeurs à comparer
-                $valueA = $a[$field] ?? 0;
-                $valueB = $b[$field] ?? 0;
+                $valueA = $a->$field ?? 0;
+                $valueB = $b->$field ?? 0;
 
-                // Convertit les chaînes numériques en nombres
-                if (is_numeric($valueA)) $valueA = (float)$valueA;
-                if (is_numeric($valueB)) $valueB = (float)$valueB;
+                // Si c'est numérique, forcer la comparaison numérique
+                if (is_numeric($valueA)) $valueA = (float) $valueA;
+                if (is_numeric($valueB)) $valueB = (float) $valueB;
 
-                // Compare selon l'ordre spécifié
                 if ($valueA != $valueB) {
                     if ($order === 'desc') {
                         return $valueA > $valueB ? -1 : 1;
@@ -84,6 +74,6 @@ class RankingService
             return 0; // égalité sur tous les critères
         });
 
-        return $teams;
+        return collect($teamArray)->values(); // <= ajout de ->values()
     }
 }

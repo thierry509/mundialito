@@ -2,7 +2,6 @@
     <Head>
         <title>Paramètres de l'edition {{ championship?.year }}</title>
     </Head>
-
     <div class="p-6 md:p-8">
         <!-- Section Titre -->
         <div class="mb-8">
@@ -161,6 +160,7 @@ const saveSettings = () => {
         knockout_round: parseInt(finalRoundStart.value)
     };
 
+    console.log('Données à envoyer:', formData);
     router.put('', formData, {
         preserveScroll: true,
         onSuccess: () => {

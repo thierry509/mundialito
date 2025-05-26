@@ -39,12 +39,14 @@
 
                 <!-- Score -->
                 <div class="flex flex-col items-center w-1/5 py-1 p-2">
-                    <div v-if="game.status != 'postponed' && game.team_a_goals" class="flex items-center my-1">
+                    <div v-if="game.status != 'postponed' && game.team_a_goals != null" class="flex items-center my-1">
                         <span
-                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ game.team_a_goals }}</span>
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{
+                                game.team_a_goals }}</span>
                         <span class="text-2xl font-medium text-gray-500 px-1">-</span>
                         <span
-                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ game.team_b_goals }}</span>
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{
+                                game.team_b_goals }}</span>
                     </div>
                     <div v-else class="my-1">
                         <span class="font-bold">VS</span>
@@ -61,8 +63,7 @@
             </div>
 
             <!-- Section des boutons d'action -->
-            <div
-                class="flex justify-between space-x-2 mt-4 pt-3 border-t border-gray-100">
+            <div class="flex justify-between space-x-2 mt-4 pt-3 border-t border-gray-100">
 
                 <button @click="deleteGame"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition flex flex-col md:flex-row justify-center items-center">
@@ -103,7 +104,9 @@
                     <span class="hidden md:block mx-1.5">Replanifier</span>
                 </button>
 
-                <button v-if="game.team_a_goals != null && game.team_b_goals != null && game.status != 'finished' && game.status != 'posponed'" @click="end"
+                <button
+                    v-if="game.team_a_goals != null && game.team_b_goals != null && game.status != 'finished' && game.status != 'posponed'"
+                    @click="end"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition flex justify-center items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -134,7 +137,7 @@
         </div>
     </div>
     <UnpostponeGame :show="showUnpostpone" :game="game" @close="showUnpostpone = false" />
-    <CreateOrUpdateResults :show="showCreateorUpdateResult" :game="game" @close="showCreateorUpdateResult = false"/>
+    <CreateOrUpdateResults :show="showCreateorUpdateResult" :game="game" @close="showCreateorUpdateResult = false" />
 </template>
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3';
@@ -156,6 +159,7 @@ const props = defineProps({
         required: true
     }
 })
+
 
 const score = useForm({
     gameId: props.game.id,

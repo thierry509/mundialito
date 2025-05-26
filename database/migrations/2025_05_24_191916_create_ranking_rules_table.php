@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('label');
+            $table->enum('order', ['asc', 'desc'])->default('desc');
+
             $table->timestamps();
         });
     }

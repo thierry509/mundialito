@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateGameRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use App\Services\SocialAuthService;
 use Illuminate\Http\Request;
@@ -98,22 +100,33 @@ class AuthController extends Controller
         if (!in_array($provider, ['google', 'facebook'])) {
             abort(404);
         }
-    
+
         try {
             $socialUser = Socialite::driver($provider)->user();
-    
+
             $user = $this->socialAuthService->findOrCreateUser($socialUser, $provider);
-    
+
             auth()->login($user, true);
-    
+
             return redirect()->intended(route('dashboard'));
         } catch (\Exception $e) {
             Log::error("Erreur de social login avec {$provider}", ['exception' => $e]);
-    
+
             return redirect('/connexion')->withErrors([
                 'message' => 'Échec de l\'authentification avec ' . ucfirst($provider)
             ]);
         }
     }
-    
+
+    public function showProfile()
+    {
+        return Inertia::render('Profile/Index', [
+            'user' => Auth::user(),
+        ]);
+    }
+
+    public function updateProfile(UpdateProfileRequest $request){
+        dd($request->validated());
+    }
+
 }

@@ -6,7 +6,7 @@ SELECT
     g.name AS group_name,
     g.championship_id,
     ch.year,
-    COUNT(DISTINCT gm.id) AS games_played,
+    COUNT(DISTINCT gm.id) AS played,
 
     SUM(
         CASE
@@ -80,5 +80,5 @@ LEFT JOIN games gm ON (
     (gm.team_a_id = t.id OR gm.team_b_id = t.id)
     AND gm.championship_id = g.championship_id
 )
-
+WHERE TYPE = 'group'
 GROUP BY t.id, t.name, g.id, g.name, g.championship_id, ch.year;

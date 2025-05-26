@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RankingRule extends Model
 {
-    protected $fillable = ['code', 'label'];
+    protected $fillable = ['code', 'label', 'order'];
 
     public function championships()
     {

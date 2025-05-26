@@ -97,10 +97,15 @@ const submit = () => {
         }
     });
 };
+
+const close = () => {
+    form.reset();
+    emit('close');
+};
 </script>
 
 <template>
-    <BaseModal :show="show" @close="emit('close')">
+    <BaseModal :show="show" @close="close">
         <form @submit.prevent="submit" class="space-y-4">
             <div class="overflow-hidden">
                 <div class="py-4">

@@ -18,10 +18,11 @@ class GroupController extends Controller
     public function index(HaveYearRequest $request)
     {
         $year = $request->query('year');
+        $rankingService = new RankingService();
+        $groups = $rankingService->getGroupRankings($year);
+        // return response()->json($groups);
         return view('groups.index', [
-            'groups' => Group::with('teams')->whereHas('championship', function ($query) use ($year) {
-                $query->where('year', $year);
-            })->get(),
+            'groups' => $groups,
         ]);
     }
 
@@ -31,9 +32,16 @@ class GroupController extends Controller
 
         $rankingService = new RankingService();
         $groups = $rankingService->getGroupRankings($year);
+        // dd($groups[0]->teams);
         return Inertia::render('Championship.Groupes', [
             'teams' => Team::whereDoesntHave('groupParticipations')->get(),
-            'groups' => $groups,
+            'groups' => $groups->map(function ($group) {
+                return [
+                    'id' => $group->id,
+                    'name' => $group->name,
+                    'teams' => $group->teams->values(),
+                ];
+            })
         ]);
     }
 

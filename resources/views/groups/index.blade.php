@@ -5,6 +5,7 @@
     <x-hero title="Classement des Poules" subtitle="Consultez les statistiques complètes de chaque groupe"
         backgroundImage="/images/stade-classement.jpg" variant="dark" />
 
+        {{$groups}}
     <!-- Contenu principal -->
     <main class="container mx-auto px-4 py-12">
 

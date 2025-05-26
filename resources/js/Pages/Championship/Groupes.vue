@@ -1,5 +1,4 @@
 <template>
-
     <Head>
         <title>Les Groups de la compétition </title>
     </Head>

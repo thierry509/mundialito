@@ -125,14 +125,14 @@ Route::middleware('auth')->prefix('edition')->group(function () {
             Route::put('/replanifer/{id}', [GameController::class, 'unpostpone'])->name('championship.game.unpostpone');
             Route::put('/terminer/{id}', [GameController::class, 'end'])->name('championship.game.end');
         });
-        Route::prefix('parametre')->group(function(){
+        Route::prefix('parametre')->group(function () {
             Route::get('/', [ChampionshipController::class, 'setting'])->name('championship.setting');
             Route::put('/', [ChampionshipController::class, 'updateSettings'])->name('championship.setting.post');
         });
     });
     Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
-    Route::get('profil', [AuthController::class, 'showProfile'])->name('profile');
-    Route::post('profil', [AuthController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/profil', [AuthController::class, 'showProfile'])->name('profile');
+    Route::put('profil', [AuthController::class, 'updateProfile'])->name('profile.update');
     Route::get('modifier-mot-de-passe', [AuthController::class, 'showChangePasswordForm'])->name('password.change');
     Route::post('modifier-mot-de-passe', [AuthController::class, 'changePassword'])->name('password.update');
 });

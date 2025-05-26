@@ -14,14 +14,12 @@ class RankingRuleSeeder extends Seeder
     public function run(): void
     {
         $rules = [
-            ['code' => 'points', 'label' => 'Points'],
-            ['code' => 'diff_buts', 'label' => 'Différence de buts'],
-            ['code' => 'buts_marques', 'label' => 'Buts marqués'],
-            ['code' => 'confrontation_directe_points', 'label' => 'Points en confrontation directe'],
-            ['code' => 'victoires', 'label' => 'Nombre de victoires'],
-            ['code' => 'fair_play', 'label' => 'Classement fair-play'],
-            ['code' => 'match_appui', 'label' => 'Match d\'appui'],
-            ['code' => 'tirage_au_sort', 'label' => 'Tirage au sort'],
+            ['code' => 'points', 'label' => 'Points', 'order' => 'desc'],
+            ['code' => 'goalDifference', 'label' => 'Différence de buts', 'order' => 'desc'],
+            ['code' => 'goalsFor', 'label' => 'Buts marqués', 'order' => 'desc'],
+            ['code' => 'directConfrontation', 'label' => 'Direct Confrontation', 'order' => 'desc'],
+            ['code' => 'wins', 'label' => 'Nombre de victoires', 'order' => 'desc'],
+            ['code' => 'fair_play_points', 'label' => 'Classement fair-play', 'order' => 'asc'],
         ];
 
         foreach ($rules as $rule) {

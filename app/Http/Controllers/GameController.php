@@ -104,6 +104,7 @@ class GameController extends Controller
         DB::transaction(function () use ($request) {
 
             $validated = $request->validated();
+            // dd($validated);
             $game = Game::find($validated['gameId']);
             $game->update([
                 'team_a_goals' => $validated['teamAGoals'],
