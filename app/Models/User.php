@@ -73,4 +73,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Images::class, 'image_id');
     }
+
+    public function isAdmin()
+    {
+        return $this->roles === 'admin';
+    }
+
+    public function isEditor()
+    {
+        return $this->roles === 'editor';
+    }
+
+    public function isReporter()
+    {
+        return $this->roles === 'reporter';
+    }
 }

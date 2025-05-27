@@ -9,9 +9,8 @@ class ChampionshipSettingRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // Changez selon votre logique d'autorisation
+        return $this->user()->isAdmin();
     }
-
     public function rules(): array
     {
         return [

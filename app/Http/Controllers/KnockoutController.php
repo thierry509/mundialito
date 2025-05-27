@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminViewRequest;
 use App\Http\Requests\HaveYearRequest;
 use App\Models\Championship;
 use App\Models\Game;
@@ -52,7 +53,7 @@ class KnockoutController extends Controller
         ]);
     }
 
-    public function adminIndex(Request $request)
+    public function adminIndex(AdminViewRequest $request)
     {
         $year = $request->query('year');
 

@@ -48,7 +48,7 @@ class RankingService
      */
     public function sortTeams(Collection $teams, $year, ?array $rules = null): Collection
     {
-        $rankingRules = Championship::where('year', $year)->with('rankingRules')->first()->rankingRules->pluck('order', 'code');
+        $rankingRules = Championship::where('year', $year)->with('rankingRules')->first()->rankingRules->pluck('position', 'code');
 
 
         $rules = $rules ?? $rankingRules;

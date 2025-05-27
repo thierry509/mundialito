@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminViewRequest;
 use App\Http\Requests\DeleteTeamRequest;
 use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
@@ -29,7 +30,7 @@ class TeamController extends Controller
 
         return redirect()->route('teams.index')->with('success', 'Team created successfully.');
     }
-    public function adminIndex()
+    public function adminIndex(AdminViewRequest $request)
     {
         $teams = Team::all()->map(function ($team) {
             return [

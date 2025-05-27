@@ -10,6 +10,7 @@ use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\ContactController;
@@ -97,7 +98,6 @@ Route::middleware('auth')->prefix('edition')->group(function () {
         Route::get('/creer', [NewsController::class, 'create'])->name('news.create');
         Route::post('/creer', [NewsController::class, 'store'])->name('news.store');
     });
-
     Route::prefix('equipes')->group(function () {
         Route::get('/', [TeamController::class, 'adminIndex'])->name('teams.index');
         Route::post('/', [TeamController::class, 'store'])->name('teams.store');
@@ -131,8 +131,14 @@ Route::middleware('auth')->prefix('edition')->group(function () {
         });
     });
     Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/profil', [AuthController::class, 'showProfile'])->name('profile');
-    Route::put('profil', [AuthController::class, 'updateProfile'])->name('profile.update');
+    Route::prefix('/profil')->group(function () {
+        Route::get('/', [AuthController::class, 'showProfile'])->name('profile');
+        Route::put('', [AuthController::class, 'updateProfile'])->name('profile.update');
+        Route::get('/moderation', [AdminController::class, 'index'])->name('moderation.index');
+        Route::put('/moderation', [AdminController::class, 'updateRoles'])->name('moderation.update');
+    });
+
+    Route::put('/modifier-mots-de-passe', [AuthController::class, 'updatePassword'])->name('password.update');
     Route::get('modifier-mot-de-passe', [AuthController::class, 'showChangePasswordForm'])->name('password.change');
     Route::post('modifier-mot-de-passe', [AuthController::class, 'changePassword'])->name('password.update');
 });

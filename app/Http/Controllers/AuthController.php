@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateGameRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use App\Services\SocialAuthService;
@@ -53,8 +54,6 @@ class AuthController extends Controller
             'roles' => 'user',
             'password' => Hash::make($validated['password']),
         ]);
-
-        dd();
 
         Auth::login($user);
 
@@ -120,13 +119,32 @@ class AuthController extends Controller
 
     public function showProfile()
     {
-        return Inertia::render('Profile/Index', [
+        return Inertia::render('Users.Profil', [
             'user' => Auth::user(),
         ]);
     }
 
-    public function updateProfile(UpdateProfileRequest $request){
-        dd($request->validated());
+    public function updateProfile(UpdateProfileRequest $request)
+    {
+        $validated = $request->validated();
+
+        $user = Auth::user();
+
+        $user->update([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'phone' => $validated['phone'],
+        ]);
+        return redirect()->back();
     }
 
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+        $validated = $request->validated();
+        $user = Auth::user();
+        $user->update([
+            'password' => $validated['password'],
+        ]);
+        return redirect()->back();
+    }
 }

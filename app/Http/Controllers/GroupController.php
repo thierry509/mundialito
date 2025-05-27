@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminViewRequest;
 use App\Http\Requests\HaveYearRequest;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\TeamGroupRequest;
 use App\Models\Championship;
 use App\Models\Group;
+use App\Models\RankingRule;
 use App\Models\Team;
 use App\Models\ViewRanking;
 use App\Services\RankingService;
@@ -20,19 +22,28 @@ class GroupController extends Controller
         $year = $request->query('year');
         $rankingService = new RankingService();
         $groups = $rankingService->getGroupRankings($year);
-        // return response()->json($groups);
+        $rankingRules = Championship::where('year', $year)
+            ->with(['rankingRules' => function ($query) {
+                $query->orderByPivot('position'); // Utilisation de orderByPivot pour la table de liaison
+            }])
+            ->first()
+            ->rankingRules
+            ->pluck('pivot.position', 'label');
+
         return view('groups.index', [
             'groups' => $groups,
+            'rankingRules' => $rankingRules,
         ]);
     }
 
-    public function adminIndex(Request $request)
+    public function adminIndex(AdminViewRequest $request)
     {
         $year = $request->query('year');
 
         $rankingService = new RankingService();
         $groups = $rankingService->getGroupRankings($year);
         // dd($groups[0]->teams);
+
         return Inertia::render('Championship.Groupes', [
             'teams' => Team::whereDoesntHave('groupParticipations')->get(),
             'groups' => $groups->map(function ($group) {

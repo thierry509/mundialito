@@ -1,6 +1,6 @@
 <template>
-    <div class="relative inline-block w-full">
-      <!-- Input field -->
+  <div class="relative"> <!-- Important pour le contexte -->
+    <!-- Input field -->
       <input
         v-model="searchQuery"
         @focus="focusInput"
@@ -37,9 +37,10 @@
 
       <!-- Dropdown menu -->
       <div
-        v-show="showDropdown && filteredOptions.length > 0"
-        class="z-50 absolute mt-1 w-full min-w-[280px] bg-white rounded shadow-lg border border-gray-200 max-h-60 overflow-auto"
-      >
+      v-show="showDropdown && filteredOptions.length > 0"
+      class="absolute mt-1 min-w-[280px] bg-white rounded shadow-lg border border-gray-200 max-h-60 overflow-auto"
+      style="position: fixed;"
+    >
         <ul>
           <li
             v-for="(option, index) in filteredOptions"

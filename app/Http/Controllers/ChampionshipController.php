@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminViewRequest;
 use App\Http\Requests\ChampionshipSettingRequest;
 use App\Http\Requests\StoreChampionshipRequest;
 use App\Models\Championship;
@@ -38,11 +39,11 @@ class ChampionshipController extends Controller
                     ]);
                 }
             }
-        }); 
+        });
         return redirect()->route('dashboard')->with('success', 'Championat créé avec succès.');
     }
 
-    public function setting(Request $request)
+    public function setting(AdminViewRequest $request)
     {
         $year = $request->query('year');
         $rankingRules = RankingRule::All();
@@ -56,7 +57,7 @@ class ChampionshipController extends Controller
     public function updateSettings(ChampionshipSettingRequest $request)
     {
         $year = $request->query('year');
-        $championship =     $championship = Championship::where('year', $year)->first();
+        $championship = $championship = Championship::where('year', $year)->first();
         DB::transaction(function () use ($request, $championship) {
             // Mettre à jour le knockout round
             $championship->update([

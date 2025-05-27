@@ -4,8 +4,6 @@
     <!-- Hero Section -->
     <x-hero title="Classement des Poules" subtitle="Consultez les statistiques complètes de chaque groupe"
         backgroundImage="/images/stade-classement.jpg" variant="dark" />
-
-        {{$groups}}
     <!-- Contenu principal -->
     <main class="container mx-auto px-4 py-12">
 
@@ -42,22 +40,22 @@
                                     <td class="p-3 font-bold text-primary">{{ $loop->iteration }}</td>
                                     <td class="p-3">
                                         <div class="flex items-center">
-                                            <div
-                                                class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mr-3">
-                                                <span class="font-bold text-primary">
-                                                    {{ substr($team->name, 0, 2) }}</span>
-                                            </div>
                                             <span>{{ $team->name }}</span>
                                         </div>
                                     </td>
-                                    <td class="p-3 text-center font-bold">9</td>
-                                    <td class="p-3 text-center">0</td>
-                                    <td class="p-3 text-center">0</td>
-                                    <td class="p-3 text-center">0</td>
-                                    <td class="p-3 text-center">0</td>
-                                    <td class="p-3 text-center">0</td>
-                                    <td class="p-3 text-center">0</td>
-                                    <td class="p-3 text-center font-bold text-primary">0</td>
+                                    <td class="p-3 text-center font-bold">{{ $team->points }}</td>
+                                    <td class="p-3 text-center">{{ $team->played }}</td>
+                                    <td class="p-3 text-center">{{ $team->wins }}</td>
+                                    <td class="p-3 text-center">{{ $team->draws }}</td>
+                                    <td class="p-3 text-center">{{ $team->losses }}</td>
+                                    <td class="p-3 text-center">{{ $team->goalsFor }}</td>
+                                    <td class="p-3 text-center">{{ $team->goalsAgainst }}</td>
+                                    <td
+                                        class="p-3 text-center font-bold
+                                    @if ($team->goalDifference > 0) text-primary
+                                    @elseif($team->goalDifference < 0) text-red-500 @endif">
+                                        {{ $team->goalDifference > 0 ? '+' : '' }}{{ $team->goalDifference }}
+                                    </td>
                                 </tr>
                             @empty
                             @endforelse
@@ -65,8 +63,20 @@
                     </table>
                 </div>
 
-                <!-- Légende -->
                 <div class="px-4 py-6 border-t border-light bg-light/20">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Règles de classement</h3>
+
+                    <ul class="space-y-3">
+                        @foreach ($rankingRules as $label => $position)
+                            <li class="flex items-start">
+                                <span
+                                    class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white text-sm font-medium mr-3 flex-shrink-0">
+                                    {{ $position }}
+                                </span>
+                                <span class="text-gray-700">{{ ucfirst($label) }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         @empty

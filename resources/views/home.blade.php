@@ -52,46 +52,130 @@
     <!-- Contenu principal moderne -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Section À propos - Design carte moderne -->
-        <section id="about" class="py-20">
+        <section class="py-20">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <span class="inline-block px-3 py-1 bg-accent/10 text-accent rounded-full text-sm font-semibold">LE
-                        TOURNOI</span>
-                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900">
-                        Plus qu'un championnat, <span class="text-primary">une tradition</span>
-                    </h2>
-                    <p class="text-lg text-gray-600 leading-relaxed">
-                        Depuis 1998, le Mundialito des Gonaïves rassemble chaque été les passionnés de football autour d'un
-                        tournoi explosif.
-                        Ce championnat est devenu bien plus qu'une compétition sportive, c'est un événement culturel qui
-                        anime la ville.
-                    </p>
-                    <div class="grid grid-cols-2 gap-4 pt-4">
-                        <div class="p-4 bg-light/50 rounded-xl border border-light">
-                            <h3 class="text-xl font-bold text-primary">24</h3>
-                            <p class="text-gray-600">Équipes</p>
-                        </div>
-                        <div class="p-4 bg-light/50 rounded-xl border border-light">
-                            <h3 class="text-xl font-bold text-primary">25e</h3>
-                            <p class="text-gray-600">Édition</p>
-                        </div>
+                <div class="relative group">
+                    <div class="absolute -inset-2 bg-gradient-to-r from-secondary to-accent rounded-2xl opacity-75 group-hover:opacity-100 blur-lg transition duration-200"></div>
+                    <div class="relative h-full rounded-2xl overflow-hidden">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Crowd_football_match.jpg/800px-Crowd_football_match.jpg" alt="Ambiance Mundialito" class="w-full h-auto object-cover transition duration-500 group-hover:scale-105">
                     </div>
                 </div>
+                <div class="space-y-6">
+                    <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-semibold">L'ESPRIT</span>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Une ambiance <span class="text-secondary">incomparable</span></h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Chaque édition du Mundialito, c’est une explosion de couleurs, de chants, de klaxons et de passion. Des
+                        quartiers entiers se mobilisent pour soutenir leur équipe avec ferveur. Entre les matchs, on assiste à des
+                        prestations culturelles, des animations musicales et des rassemblements festifs qui transforment chaque
+                        journée de compétition en une célébration populaire.
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Ce n’est pas seulement le football qui attire les foules, mais aussi cette atmosphère unique, conviviale et
+                        survoltée qui fait du Mundialito une expérience inoubliable pour tous les âges.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-light/50 rounded-3xl">
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold">JEUNESSE & AVENIR</span>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Révéler <span class="text-primary">la relève</span> du football haïtien</h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Au fil des ans, le Mundialito est devenu une vitrine exceptionnelle pour les jeunes talents. De nombreux joueurs
+                        qui ont foulé la pelouse de ce tournoi ont ensuite intégré des clubs nationaux et parfois même étrangers.
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        C’est un espace d’opportunités où les recruteurs et les passionnés viennent découvrir les stars de demain.
+                        L’organisation met un point d’honneur à encourager la discipline, le fair-play et l’excellence, offrant ainsi
+                        une base solide pour l’avenir du sport.
+                    </p>
+                </div>
                 <div class="relative group">
-                    <div
-                        class="absolute -inset-2 bg-gradient-to-r from-primary to-accent rounded-2xl opacity-75 group-hover:opacity-100 blur-lg transition duration-200">
-                    </div>
+                    <div class="absolute -inset-2 bg-gradient-to-r from-primary to-secondary rounded-2xl opacity-75 group-hover:opacity-100 blur-lg transition duration-200"></div>
                     <div class="relative h-full rounded-2xl overflow-hidden">
-                        <img src="https://scontent-mia3-3.cdninstagram.com/v/t39.30808-6/490739523_3326385414202174_6671966704155999471_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4yMDQ4eDEzNjYuc2RyLmYzMDgwOC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-mia3-3.cdninstagram.com&_nc_cat=110&_nc_oc=Q6cZ2QF64Z0-fIt5Y6qt8mqCwunk8IwIXXzICy_UQeJAjA5BnVLL3uKtGfGxPcK4rAzhDNs&_nc_ohc=7sB3WWtVlIsQ7kNvwEJPs-H&_nc_gid=oP-hzwwIEEepc1avdb9C-A&edm=ANTKIIoAAAAA&ccb=7-5&oh=00_AfGCUA4c_0h3C2hKX8MbWPFGQz0HtsgTweJUm_er2zrAFA&oe=6815760A&_nc_sid=d885a2"
-                            alt="Équipes du Mundialito"
-                            class="w-full h-auto object-cover transition duration-500 group-hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Football_training.jpg/800px-Football_training.jpg" alt="Jeunes joueurs" class="w-full h-auto object-cover transition duration-500 group-hover:scale-105">
                     </div>
                 </div>
             </div>
         </section>
 
+        <section class="py-20">
+            <div class="max-w-6xl mx-auto text-center space-y-8">
+                <span class="inline-block px-3 py-1 bg-accent/10 text-accent rounded-full text-sm font-semibold">HISTOIRE</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Une histoire <span class="text-accent">riche en émotions</span></h2>
+                <p class="text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto">
+                    Né en 1998 dans les rues animées des Gonaïves, le Mundialito est rapidement devenu un rendez-vous
+                    incontournable de l’été. D’une initiative locale entre amis, le tournoi a évolué pour devenir une véritable
+                    institution sportive et culturelle, avec une organisation professionnelle et des supporters toujours plus nombreux.
+                </p>
+                <p class="text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto">
+                    Chaque édition marque une nouvelle page de son histoire, remplie de rivalités légendaires, de buts inoubliables et
+                    de moments qui resteront gravés dans la mémoire collective de toute une ville.
+                </p>
+            </div>
+        </section>
+        <section class="py-20 bg-white rounded-3xl">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold">PALMARÈS</span>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Les champions <span class="text-primary">depuis 1998</span></h2>
+                    <p class="text-lg text-gray-600 mt-4 max-w-2xl mx-auto">Découvrez les clubs qui ont marqué l’histoire du Mundialito
+                        par leurs performances exceptionnelles.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Exemples -->
+                    <div class="bg-light/50 border border-light rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-primary mb-2">Les Lions</h3>
+                        <p class="text-gray-600">6 titres remportés<br><span class="text-sm italic">Dernier titre : 2023</span></p>
+                    </div>
+                    <div class="bg-light/50 border border-light rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-secondary mb-2">Tigres FC</h3>
+                        <p class="text-gray-600">4 titres remportés<br><span class="text-sm italic">Dernier titre : 2021</span></p>
+                    </div>
+                    <div class="bg-light/50 border border-light rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-accent mb-2">Espoir Gonaïves</h3>
+                        <p class="text-gray-600">3 titres remportés<br><span class="text-sm italic">Dernier titre : 2017</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-20">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-semibold">TEMOIGNAGES</span>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Ils racontent <span class="text-secondary">leur Mundialito</span></h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Témoignage 1 -->
+                    <div class="bg-white border border-light rounded-2xl p-6 shadow-sm">
+                        <p class="text-gray-600 italic mb-4">"Le Mundialito, c’est l’âme des Gonaïves. Chaque été, on vit au rythme des
+                            matchs. C’est une fierté locale qu’on partage en famille."</p>
+                        <div class="text-sm font-semibold text-gray-800">— Marie S., résidente de Raboteau</div>
+                    </div>
+
+                    <!-- Témoignage 2 -->
+                    <div class="bg-white border border-light rounded-2xl p-6 shadow-sm">
+                        <p class="text-gray-600 italic mb-4">"Je suis venu une fois par curiosité, j’y retourne chaque année. L’ambiance
+                            est folle, et le niveau est vraiment impressionnant."</p>
+                        <div class="text-sm font-semibold text-gray-800">— Kevin J., supporter capois</div>
+                    </div>
+
+                    <!-- Témoignage 3 -->
+                    <div class="bg-white border border-light rounded-2xl p-6 shadow-sm">
+                        <p class="text-gray-600 italic mb-4">"C’est un moment de rassemblement exceptionnel. Le Mundialito nous fait
+                            vibrer, rire et rêver. Une vraie tradition populaire."</p>
+                        <div class="text-sm font-semibold text-gray-800">— Eddy M., ancien joueur</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <!-- Section Classement & Résultats -->
-        <section id="live" class="py-20">
+        <section id="live" class="py-20 hidden">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Classement -->
                 <div>
@@ -195,72 +279,6 @@
                                 </svg>
                                 Suivre en direct
                             </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section Calendrier -->
-        <section id="calendrier" class="py-20">
-            <div class="text-center mb-12">
-                <span
-                    class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold">CALENDRIER</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-4">Programme des <span
-                        class="text-accent">matchs</span></h2>
-            </div>
-
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-                <!-- Navigation mois -->
-                <div class="flex justify-between items-center p-4 border-b border-light">
-                    <button class="p-2 rounded-full hover:bg-light transition duration-200">
-                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
-                            </path>
-                        </svg>
-                    </button>
-                    <div class="text-lg font-bold">Juillet 2023</div>
-                    <button class="p-2 rounded-full hover:bg-light transition duration-200">
-                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                            </path>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- En-têtes jours -->
-                <div class="grid grid-cols-7 bg-light text-center font-medium text-sm text-gray-600">
-                    <div class="p-3">Lun</div>
-                    <div class="p-3">Mar</div>
-                    <div class="p-3">Mer</div>
-                    <div class="p-3">Jeu</div>
-                    <div class="p-3">Ven</div>
-                    <div class="p-3">Sam</div>
-                    <div class="p-3">Dim</div>
-                </div>
-
-                <!-- Jours du mois -->
-                <div class="grid grid-cols-7 text-center">
-                    <!-- Exemple de jour avec match -->
-                    <div class="p-3 border border-light min-h-16 hover:bg-light/50 transition duration-200">
-                        <div class="text-gray-400">1</div>
-                    </div>
-                    <div class="p-3 border border-light min-h-16 hover:bg-light/50 transition duration-200">
-                        <div class="text-gray-400">2</div>
-                    </div>
-                    <div class="p-3 border border-light min-h-16 hover:bg-light/50 transition duration-200 relative">
-                        <div class="text-gray-900 font-medium">3</div>
-                        <div class="absolute bottom-1 left-0 right-0">
-                            <div class="w-2 h-2 bg-primary rounded-full mx-auto"></div>
-                        </div>
-                    </div>
-                    <!-- Jour avec match -->
-                    <div
-                        class="p-3 border border-light min-h-16 bg-primary/10 hover:bg-primary/20 transition duration-200">
-                        <div class="font-medium">10</div>
-                        <div class="text-xs mt-1">
-                            <div class="truncate">Lions vs Tigres</div>
-                            <div class="text-primary font-semibold">16:00</div>
                         </div>
                     </div>
                 </div>

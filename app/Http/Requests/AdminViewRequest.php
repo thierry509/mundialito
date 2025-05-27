@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Team;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteTeamRequest extends FormRequest
+class AdminViewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,20 +22,7 @@ class DeleteTeamRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:teams,id',
-            function ($value, $fail) {
-                $game = Team::find($value);
-                if ($game->hasAnyRelations()) {
-                    $fail('Le match ne peut pas être supprimé car il a des scores enregistrés');
-                }
-            },
+            //
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'id' => $this->route('id')
-        ]);
     }
 }

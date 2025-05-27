@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeleteGameRequest;
+use App\Http\Requests\EditorViewRequest;
 use App\Http\Requests\EndGameRequest;
 use App\Http\Requests\HaveYearRequest;
 use App\Http\Requests\StoreGameRequest;
@@ -40,7 +41,7 @@ class GameController extends Controller
         ]);
     }
 
-    public function adminIndex(Request $request)
+    public function adminIndex(EditorViewRequest $request)
     {
         $year = $request->query('year');
 

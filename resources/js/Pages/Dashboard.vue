@@ -81,7 +81,7 @@
 
             <!-- Stats and Championships Grid -->
             <div class="col-span-full grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <ListChampionship />
+                <ListChampionship v-if="auth?.user.roles == 'admin'"/>
             </div>
         </div>
 
@@ -90,4 +90,9 @@
 <script setup>
 import { Link, Head } from '@inertiajs/vue3';
 import ListChampionship from '../components/Championship/ListChampionship.vue';
+
+defineProps({
+    auth: Object,
+});
+
 </script>

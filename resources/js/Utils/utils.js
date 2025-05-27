@@ -39,6 +39,15 @@ export function gameStatus(status) {
     return translations[status] || status;
 }
 
+export function roles(role) {
+    const translations = {
+        'admin': 'Administrateur',
+        'editor': 'Editeur',
+        'reporter': 'Jornaliste',
+        'user': 'Utilisateur'
+    };
+    return translations[role] || role;
+}
 export function gameStage(stage) {
     const translations = {
         '1': 'Première journée',
@@ -278,7 +287,7 @@ export function drawSemi(m, ctx, n) {
 
         ctx.beginPath();
         ctx.moveTo(300, m - p);
-        if (i % 2 == 0  ) {
+        if (i % 2 == 0) {
             ctx.lineTo(300, m - p + 300);
         }
         else {
