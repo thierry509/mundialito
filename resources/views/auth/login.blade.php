@@ -29,8 +29,9 @@
                             </div>
                             <div class="ml-3">
                                 <p class="text-sm text-red-700">
-                                    Identifiants incorrects ou compte inexistant
-                                </p>
+                                    @foreach ($errors->all() as $error)
+                                    {{ $error }}<br>
+                                @endforeach                                </p>
                             </div>
                         </div>
                     </div>

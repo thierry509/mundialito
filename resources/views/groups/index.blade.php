@@ -8,6 +8,7 @@
     <main class="container mx-auto px-4 py-12">
 
         @forelse ($groups as $group)
+        @if ($group->teams->count() > 0)
             <div class="bg-white rounded-xl shadow-md overflow-hidden mb-12">
                 <!-- Titre Poule -->
                 <div class="bg-accent text-white p-4">
@@ -79,6 +80,7 @@
                     </ul>
                 </div>
             </div>
+            @endif
         @empty
             <x-empty model="groupe" />
         @endforelse

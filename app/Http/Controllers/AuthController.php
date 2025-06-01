@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -110,9 +109,8 @@ class AuthController extends Controller
             return redirect()->intended(route('dashboard'));
         } catch (\Exception $e) {
             Log::error("Erreur de social login avec {$provider}", ['exception' => $e]);
-
             return redirect('/connexion')->withErrors([
-                'message' => 'Échec de l\'authentification avec ' . ucfirst($provider)
+                'error' => $e->getMessage() ?? 'Échec de l\'authentification avec ' . ucfirst($provider)
             ]);
         }
     }

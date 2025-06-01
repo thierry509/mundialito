@@ -29,7 +29,6 @@ class GroupController extends Controller
             ->first()
             ->rankingRules
             ->pluck('pivot.position', 'label');
-
         return view('groups.index', [
             'groups' => $groups,
             'rankingRules' => $rankingRules,

@@ -7,10 +7,10 @@ use App\Models\Category;
 use App\Models\Images;
 use App\Models\News;
 use App\Services\ImageService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
-use PhpParser\Node\Stmt\Return_;
 
 class NewsController extends Controller
 {
@@ -81,7 +81,13 @@ class NewsController extends Controller
 
     public function adminIndex()
     {
-        return Inertia::render('News.Index');
+        $news = News::with(['user', 'category'])
+            ->latest()
+            ->paginate(5)->where('user_id', Auth::user()->id);
+
+        return Inertia::render('News.Index', [
+            'news' => $news,
+        ]);
     }
     public function store(StoreNewsRequest $request, ImageService $imageService)
     {
@@ -105,7 +111,7 @@ class NewsController extends Controller
                 ]);
             }
 
-            
+
             $news = News::create([
                 'title' => $validatedData['title'],
                 'slug' => $slug,

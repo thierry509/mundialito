@@ -1,6 +1,6 @@
 <template>
-  <div class="relative"> <!-- Important pour le contexte -->
-    <!-- Input field -->
+    <div class="relative">
+      <!-- Input field -->
       <input
         v-model="searchQuery"
         @focus="focusInput"
@@ -12,7 +12,8 @@
           'outline-none w-full rounded-lg border focus:ring-2 p-3',
           error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/50'
                 : 'border-light focus:border-primary focus:ring-primary/50'
-        ]"        :placeholder="placeholder"
+        ]"
+        :placeholder="placeholder"
       />
       <div class="pointer-events-none absolute inset-y-0 right-1 flex items-center text-primary">
         <svg
@@ -37,10 +38,9 @@
 
       <!-- Dropdown menu -->
       <div
-      v-show="showDropdown && filteredOptions.length > 0"
-      class="absolute mt-1 min-w-[280px] bg-white rounded shadow-lg border border-gray-200 max-h-60 overflow-auto"
-      style="position: fixed;"
-    >
+        v-show="showDropdown && filteredOptions.length > 0"
+        class="absolute z-10 mt-1 w-full min-w-[280px] bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-auto"
+      >
         <ul>
           <li
             v-for="(option, index) in filteredOptions"
@@ -60,8 +60,7 @@
   </template>
 
   <script setup>
-import { options } from 'marked'
-import { ref, computed, watch } from 'vue'
+  import { ref, computed, watch } from 'vue'
 
   const props = defineProps({
     options: {
@@ -75,7 +74,6 @@ import { ref, computed, watch } from 'vue'
     },
     placeholder: String,
     error: String,
-
   })
 
   const emit = defineEmits(['update:modelValue'])
@@ -127,6 +125,6 @@ import { ref, computed, watch } from 'vue'
 
   function focusInput(event) {
     showDropdown.value = true
-    event.target.select();
+    event.target.select()
   }
   </script>
