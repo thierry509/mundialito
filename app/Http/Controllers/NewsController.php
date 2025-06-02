@@ -63,7 +63,7 @@ class NewsController extends Controller
     {
         // Récupération des catégories
         $categories = Category::all();
-        return Inertia::render('News.Create', [
+        return Inertia::render('News.Edit', [
             'categories' => $categories,
         ]);
     }
@@ -73,15 +73,23 @@ class NewsController extends Controller
         $news = News::where('slug', $slug)->firstOrFail();
         $categories = Category::all();
 
-        return Inertia::render('News.edit', [
+        return Inertia::render('News.Edit', [
             'news' => $news,
             'categories' => $categories,
         ]);
     }
 
+    public function update($slug){
+        $news = News::where('slug', $slug)->firstOrFail();
+
+        $news->update([
+
+        ]);
+    }
+
     public function adminIndex()
     {
-        $news = News::with(['user', 'category'])
+        $news = News::with(['user', 'category', 'image'])
             ->latest()
             ->paginate(5)->where('user_id', Auth::user()->id);
 

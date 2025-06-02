@@ -97,6 +97,8 @@ Route::middleware('auth')->prefix('edition')->group(function () {
         Route::get('/', [NewsController::class, 'adminIndex'])->name('news.index');
         Route::get('/creer', [NewsController::class, 'create'])->name('news.create');
         Route::post('/creer', [NewsController::class, 'store'])->name('news.store');
+        Route::get('/modifier/{slug}', [NewsController::class, 'edit'])->name('news.edit');
+        Route::put('/modifier/{slug}', [NewsController::class, 'update'])->name('news.edit');
     });
     Route::prefix('equipes')->group(function () {
         Route::get('/', [TeamController::class, 'adminIndex'])->name('teams.index');

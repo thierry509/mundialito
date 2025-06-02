@@ -132,10 +132,10 @@
 
                 <!-- Boutons de soumission -->
                 <div class="flex flex-col sm:flex-row justify-end gap-4 pt-6">
-                    <button type="button"
+                    <!-- <button type="button"
                         class="px-6 py-3 border border-primary text-primary font-medium rounded-lg hover:bg-primary/10 transition duration-200">
                         Prévisualiser
-                    </button>
+                    </button> -->
                     <button type="submit"
                         class="px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition duration-200"
                         :disabled="processing">
@@ -150,7 +150,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useForm, usePage } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
 import Input from '../../components/ui/Input.vue'
@@ -161,28 +161,29 @@ import ImageUpload from '../../components/ui/ImageUpload.vue'
 import ErrorModal from '../../components/modal/ErrorModal.vue'
 const processing = ref(false)
 
-defineProps({
+const props = defineProps({
     categories: {
         type: Array,
         default: () => []
-    }
+    },
+    news: Object,
 })
 // const { categories } = usePage<{ props: { categories: { id: string; name: string }[] } }>().props
 
 // Utilisation de useForm d'Inertia
 const news = useForm({
-    title: '',
-    slug: '',
-    category: '',
-    excerpt: '',
-    content: '',
-    featured_image: undefined as File | undefined,
-    image_description: '',
+    title: props?.news?.title,
+    slug: props?.news?.slug,
+    category: props?.news?.categories,
+    excerpt: props?.news?.excerpt,
+    content: props?.news?.content,
+    featured_image: undefined,
+    image_description: props?.news?.image_description,
     status: 'draft',
     tags: ''
 })
 
-const validationErrors = ref<string[]>([])
+const validationErrors = ref([])
 
 // Génération automatique du slug
 watch(() => news.title, (newTitle) => {
@@ -193,7 +194,7 @@ watch(() => news.title, (newTitle) => {
 
 
 
-function generateSlug(text: string): string {
+function generateSlug(text){
     return text
         .toLowerCase()
         .trim()
@@ -223,24 +224,24 @@ const submit = () => {
 }
 
 // Gestion du fichier image
-const handleFeaturedImageChange = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    if (target.files && target.files[0]) {
-        const file = target.files[0]
+// const handleFeaturedImageChange = (event: Event) => {
+//     const target = event.target as HTMLInputElement
+//     if (target.files && target.files[0]) {
+//         const file = target.files[0]
 
-        // Vérification du type de fichier
-        const validTypes = ['image/jpeg', 'image/png', 'image/jpg']
-        if (!validTypes.includes(file.type)) {
-            validationErrors.value.push("Le format de l'image doit être JPG, JPEG ou PNG")
-            return
-        } else if (file.size > 5 * 1024 * 1024) {
-            validationErrors.value.push("L'image ne peut pas dépasser 5MB")
-            return
-        } else if (file.size === 0) {
-            validationErrors.value.push("L'image ne peut pas être vide")
-            return
-        }
-        news.featured_image = file
-    }
-}
+//         // Vérification du type de fichier
+//         const validTypes = ['image/jpeg', 'image/png', 'image/jpg']
+//         if (!validTypes.includes(file.type)) {
+//             validationErrors.value.push("Le format de l'image doit être JPG, JPEG ou PNG")
+//             return
+//         } else if (file.size > 5 * 1024 * 1024) {
+//             validationErrors.value.push("L'image ne peut pas dépasser 5MB")
+//             return
+//         } else if (file.size === 0) {
+//             validationErrors.value.push("L'image ne peut pas être vide")
+//             return
+//         }
+//         news.featured_image = file
+//     }
+// }
 </script>

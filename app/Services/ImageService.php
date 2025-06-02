@@ -4,32 +4,38 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\ImageManager; // Nouvelle approche en v3+
-use Intervention\Image\Drivers\Gd\Driver; // Ou Imagick si préféré
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Exceptions\EncoderException;
 
 class ImageService
 {
-    public function     store($file, string $desc, $path = 'uploads', int $width = 300, int $height = 200)
+    public function store($file, string $desc, string $path = 'uploads', int $width = 300, int $height = 200): array
     {
-        $manager = new ImageManager(new Driver()); // GD par défaut
+        $manager = new ImageManager(new Driver());
 
         // Création de l'image et de la miniature
         $image = $manager->read($file->getRealPath());
-
-        // Redimensionnement + encodage
         $thumbnail = $image->resize($width, $height);
 
+        // Gestion du nom et de l'extension
+        $extension = $this->getOptimalExtension($file);
+        $filename = $this->generateUniqueFilename($desc, $extension, $path);
+
         // Chemins de stockage
-        $filename = $this->manageName($desc); // Meilleur format que JPEG/PNG
         $originalPath = "{$path}/{$filename}";
         $thumbnailPath = "{$path}/thumbnails/{$filename}";
 
-        Storage::makeDirectory("public/{$path}");
-        Storage::makeDirectory("public/{$path}/thumbnails");
+        // Création des répertoires si nécessaire
+        $this->ensureDirectoriesExist($path);
 
-        // Sauvegarde
-        $image->save(storage_path("app/public/{$originalPath}"));
-        $thumbnail->save(storage_path("app/public/{$thumbnailPath}"));
+        // Sauvegarde avec gestion d'erreur
+        try {
+            $image->save(storage_path("app/public/{$originalPath}"));
+            $thumbnail->save(storage_path("app/public/{$thumbnailPath}"));
+        } catch (EncoderException $e) {
+            throw new \RuntimeException("Failed to save image: " . $e->getMessage());
+        }
 
         return [
             'original' => $originalPath,
@@ -37,19 +43,44 @@ class ImageService
         ];
     }
 
-    protected function manageName(string $description): string
+    protected function generateUniqueFilename(string $description, string $extension, string $path): string
     {
         $slug = Str::slug($description);
-
-        $extension = 'webp';
         $baseName = "{$slug}.{$extension}";
 
-        // 3. Si le fichier existe déjà, ajouter un random_int
-        if (Storage::exists("public/images/{$baseName}")) {
-            $suffix = random_int(1000, 9999);
+        // Si le fichier existe déjà, ajouter un suffixe unique
+        if (Storage::exists("public/{$path}/{$baseName}")) {
+            $suffix = time() . '-' . random_int(1000, 9999);
             $baseName = "{$slug}-{$suffix}.{$extension}";
         }
 
         return $baseName;
+    }
+
+    protected function getOptimalExtension($file): string
+    {
+        $mime = $file->getMimeType();
+
+        return match ($mime) {
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'image/gif' => 'gif',
+            'image/webp' => 'webp',
+            default => 'webp', // Fallback to WebP si format inconnu
+        };
+    }
+
+    protected function ensureDirectoriesExist(string $path): void
+    {
+        $paths = [
+            "public/{$path}",
+            "public/{$path}/thumbnails"
+        ];
+
+        foreach ($paths as $directory) {
+            if (!Storage::exists($directory)) {
+                Storage::makeDirectory($directory, 0755, true);
+            }
+        }
     }
 }
