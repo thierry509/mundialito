@@ -3,7 +3,7 @@
 @section('content')
     <!-- Hero Section -->
     <x-hero title="Actualités & Annonces" subtitle="Toute l'actualité du Mundialito 2023"
-        backgroundImage="/images/stade-actualites.jpg" variant="accent" />
+        backgroundImage="/images/stade-actualites.jpg" haveYear="{{ false }}" variant="accent" />
 
     <!-- Contenu principal -->
     <main class="container mx-auto px-4 py-12">

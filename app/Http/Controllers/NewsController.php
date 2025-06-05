@@ -79,12 +79,39 @@ class NewsController extends Controller
         ]);
     }
 
-    public function update($slug){
+    public function update(StoreNewsRequest $request, ImageService $imageService, $slug)
+    {
+        $validatedData = $request->validated();
         $news = News::where('slug', $slug)->firstOrFail();
+        DB::transaction(function () use ($validatedData, $request, $imageService, &$news) {
+            $image = null;
+            $slug = $this->manage_slug($validatedData['slug']);
+            $category = Category::find($validatedData['category']);
 
-        $news->update([
+            if ($request->hasFile('featured_image')) {
 
-        ]);
+                $imageUrls = $imageService->store($request->file('featured_image'), $validatedData['image_description']);
+
+                $image->update([
+                    'url' => $imageUrls['original'] ? '/storage/' . $imageUrls['original'] : null,
+                    'min' => $imageUrls['thumbnail'] ? '/storage/' . $imageUrls['thumbnail'] : null,
+                    'description' => $validatedData['image_description']
+                ]);
+            }
+
+
+            $news->update([
+                'title' => $validatedData['title'],
+                'slug' => $slug,
+                'category_id' => $category?->id,
+                'excerpt' => $validatedData['excerpt'],
+                'content' => $validatedData['content'],
+                'image_id' => $image?->id,
+                'user_id' => 1,
+            ]);
+
+            return redirect()->back();
+        });
     }
 
     public function adminIndex()

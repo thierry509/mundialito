@@ -1,9 +1,42 @@
 @extends('layout.app')
 
 @section('content')
+    <style>
+        /* Styles Quill par défaut */
+        .ql-editor {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+        }
+
+        .ql-editor a {
+            color: #3182ce;
+            text-decoration: underline;
+        }
+
+        .ql-editor ol,
+        .ql-editor ul {
+            padding-left: 1.5em;
+        }
+
+        .ql-editor ol {
+            list-style-type: decimal;
+        }
+
+        .ql-editor ul {
+            list-style-type: disc;
+        }
+
+        .ql-editor blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 1em;
+            color: #555;
+            font-style: italic;
+        }
+    </style>
+
     <!-- Hero Section for Article -->
     <x-hero title="Actualités" subtitle="{{ $news->title }}" backgroundImage="/images/article-hero.jpg" variant="primary"
-        :center="false" />
+        haveYear="{{ false }}" :center="false" />
 
 
     <!-- Article Content -->
@@ -12,9 +45,16 @@
             <!-- Article Meta -->
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
                 <div class="flex items-center mb-4 md:mb-0">
-                    <img class="w-10 h-10 rounded-full mr-3"
-                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADgCAMAAADCMfHtAAAAgVBMVEXb29sAAAABAQHd3d3i4uLj4+PZ2dnm5ua0tLTU1NS+vr5CQkK7u7uhoaGenp7Ly8uSkpLExMQ4ODhqampaWlqtra2BgYGHh4cYGBhycnIhISG2trZMTExtbW1TU1OVlZUsLCxiYmIVFRUnJyczMzM8PDx7e3sMDAzv7+9HR0cWFhYi2cbcAAAL8UlEQVR4nO2diZajKhCGxQKJ2TfTnfSW7k4n0/f9H/CyuIsmAk4w43/m3DNnrkE+QSiKovS8QYMGDRo0aNCgQYMGDRo0aNCgQYMGDRo0qAMBl/yv/OtDCQALEUJSznvXyaIAaBidX4/Ph+f19ukFyKO1IXjRK8prMyUPRAgYlt+Mykc+k/gL02+E8WMQsg75xIkkXF7H2SMgsp74hGr1POt9TwU8OyTdUqnJmPQaEYdyfKknRGjf51akM/76XSFEhxXu6dyI8TKBayREqKczB50fm7lyeh3Re1e3tXC4vtp0eW3uXeG2wtPrfbOoddCrbopXbQHZ3NgnWxwWqYl2M6aPTj2yxeHEyXzfr1pqTXoj3ETvg+heZYVeb0QU9YPPgzFCLVsvQexHJwXyi9r2T0noox2+d+1vEURImxCFfWhE+iOrq0Hoo3MPGhFe0upqEF56MO+Tz7ZkeULElv3Oz4q6gHL8PVJh2twbokEwNyNEC89xQvJuROijJXabEAJtwJhw4jphZErIpkS3CZc680RBY7cJ6Tn2Pelr5DYh2aDWS9+SZm4T0k9jwrnbhH+2xoQfbhPSV2PCJXaakK0NTQmf3CakE3NCMhDeVRYId4/fS91e5lvppfeGaBS1MJYSz+leamE+BLcJ3x+e0IbV5jbhpzHh3G1CK6snpwn5tpMhYeQ2IT4/POGTMeEUHN4nBQwfxoQLp1vwDZnP+O9o5qxlCqHEMyJkP167Szg2arxMzm6xmTi8C3J2J/gfIBw9POHUDuDF2fmCB3vZ0NFVQGaJ2CF8ddaPAfj2mNkmvbk7H+rHYRT04W4vxQ1HK26Wj17cJbQ0XTg7lPJlnQ3Ao8tR7XStFXdZlNMBiuKEheHqSSyBnZWc880Ijy43YewvNdOH24RGhpto+4PLfZQLsxXURptxgw4L1wk9DAHoAh7/hO7OhZkA6LMm4d7tVzAReFS3m8560IAeJxROUx05PRNmAm1vxsVZ70VRoD1lnPpz6BkOWoRbl03uokRERns5HiuUF3nTIpxhp/fV8tKMhR67vK9WFMy0CEO390bzEls07Qm9HrWh1nTBF4a9acOFThuuSY8IQ50zCT89I2zfhpM+EQY6hL99eg+1CF/56rAvhJ42YU80ED4IYWsNhC7pHyDUOg086RNhqEP40yNCb6GzeDo5G4JRVbDQsbwPPWpDWGll/uiJxcYFL1pejL4YpZ7w0+i8iO5vrKUCvXj2cX8INc+V9GTriUvz9NOyP4OpOP3UXv1oQ8BsRNSMbxPbh64nT8ah8LasdAC/eZ721cZpVw2QCE34Fpk4/tRWEX8NMVovnG1GAHKOow0Csm9tt8nk3vQLoTl1ExHwim+MxofNqZgSW1g2L9LuFluP76GLo6oIn2VAc/n8gXy0IhzjQPwuDhuLsGOMAHS8ljnl4gyd4BFhut1IuIoBPbyX/7ANCQSuDDoAGMabpFOO0lrhUZKl9RrndxaEgXf8H/j1uwXBUNYd8AI2AY42z9mHD3IxMXzSuIVwnat5HKEqfnDardjDC7y7EfIdWxrMPmX1E5K8+SzyCV8lfAUIMsKPNEGvaN3zCxExKPcgZHiLjyRtftYbV/laQPh9dbzZFsYUmZUwLkz+bBOF5O+3IcZ4tfxBudZLCBf5erC/rq9k+tyQQr1lCECuQPHT93lI/t7OFCMgZHo+pXXkLZj8KRMG4P02Ep5LMTSCsPyH63e5oDjXnbvjwxSifUOnKy/UAW8bVlJLWsqS2HSG8ftpinGn7cgWDTicXUluWSEEUh+MOcflXJ5XTmn+t4kC0lFTslmPLpavjfdXEwpzVamIeC0JmS7bWUittyT/GNV4J06mXTNSFIRAlspLp9jTIOSafKyoxS9GASZetIkjm4sD3Y2EICy4cluscHJBS0I5UwpzwAIh65vhfBsXLObiwsh5IyFfOJb0nAy6lbH0Zh3eIv7tL/1JhN0ak9VyffstVYSxcOmM8HeozjXbhpDrfV4xX2+lIyRcRJuvdvdDJZsmj7i65AzxSVBTG41My8fdaBFg0o4Q49E+ntLbOgVr3bp48ZyaY+/JJwKrV+lFwV8muxW5nZCtXmUYs++3/8pBfbw9BN+xBSfDndWE6mG3SUn1JiN6IyGeHm8YM+vUcMQVvIMgfE8BFYTtHZFxOyDu/bipixKRYubqmFlzt6avcNCnuCoj7nSqIdzpEUrz9fJyg5+O7vS+v3GdEM/Thd8qWfJVL2qyeW9QdNW/I5+z9ilJv941T6K074s5Rd2GmhsCmV6aEQPx+Q2DLDp+7QFJPiGmK2Xumakh1M9aH9cgbCTMggq1T7rWJOfMHBoS8VTzlQfNoxo5TRrPpbCFTvwGahOqvzIC4VfJGfCK1YTmiSfmDf00t6Oi3UvfFDEjAQS84rnxmRW/oUrCS8vRu6qmc7b406RkSag6vATxt2eK155VqzxqMpLHmtcbHVqhTAX5qtdAODJQtV8sqzswgJVXttN3PeE8Hkj1xUbJKmEyx1VKVswsgfrKdprVmG4BH8cMewj7MS07USDwa8bn18rTiM+iGNbhUBc/Fpq/A+zHVTdR6t0vXXxSdKNxUoxBHWrzv0iryjhj3kJR8lT17J4VdjKeJcUY1MEv+dFTkeuOtFtKVximAYyqG21fC0U1TM3SuA7qfGgWRlJRuvJQPY7KiMJPU6kHbukzqamD2rJq6yGpK32tfM3FZmJ2GWtB1ZerLD1lX50gxUoaq3jdoEIsuKJONZa3jbyElU2+5PEFhpNQXHqdXQiFjHyAlYQWkr/EhLvq07OTxUo4KZTvABRqL0LYKoQQXGzUgb8Ol8q0rBfkUy29fiAr9NJLoCS0lVoSqbya2glJChKEqmU+0OIouSOKXtqwS9ValdHUUlZHufRTLS+i0jQeKtoQW6mDVOVsg8FX/fKSlotie4+UJ7pz9bQhtpXhVag8pGMbo1hCWPXVKLaUqjM+sVOHWKVVIkD7HQqVpN+yer4HnyoX7it7YwZfFlTos1gJa2mcpcoDmXJXMCwRYjsvSqLnUhu23y5o0q5E+KfchOIiUnwP6Y/VOpQes411RU4HvrdU6CEVg4n9Q6kbaQUW18ovpkG1Y0zkFBV6IFbMc1mgZnJR+x2LJpVsK1tZnFNtaa4NlQcuuXmXX4UAtVsD1kfyxWvs2l1RPnG8ck3ECH8KhFYnQ0GYexHB4Bu3NVrmCVVvGCMsuG5tV6G4yLHdQ5i+cy9B/KnuUg38wmE1W7nA8+Xnckqz4m0sDgvKubuUHbC0CKFWljbF8k85QrtzrdB7Zn4row+KsagAVpY2pfKzJ6iZm6tZmeVLVPOAX3Br2h5nJGEu5tyyNSH0lITfqx8gJ0wXkmDbnpHlp4fhTD6m3aD0LVDu6/JnnNXArj0jy/fRZzIdWZ/vxR0y17ByX5fXIM1rzVrZ9lBX8ClaNrsTpWso/F1Tg7d4NNLLK9WsgsfIOP6hRvFQqV575t0dwqTqgjDxmlr6aEP5FuiTpi2krsFPfIHIlWmfMDuEZcOVrrhF0knUw4iIOYmDhCPjfUtl+T46y6HG8vo+u0fs0VMPZLwCX+lIZLx3ryo/fQ26sGhikXg2V9RejgSiAisL0Qmq8vmGtByq9/atUnEPcS4UACs3tbL4NrxR7hCb3j33CHknsVt6cg+0FoTKgEpRA/ElwFC9B258d16kGEz50qkrQmF5qndEBBI3CujuhvNtOndP7UJus3VEKF919XQrkPhXVYNLN7cXElYTG+psPz+p5E1TB+OJR8wGW8te0pLElMxu0RmhWGfT/2rGUuH3pnac7TUSliPZdUnIZn31ey7+75baXxgW9CUItx0S8vUDKMv3pdmGf7u4dSZuVvFNkw4JUY2PSfzPC+3Inkq14iEfl44IY32oV7cS/4/VDTWFItDMatxCR5UvMWlh2z7EipZYThZdEiK1q1cSdt2EfKtZM3+6seK3tOs7byk/htMxobrwLiw1hdgim77dk7BzxAPmrr679NK/JD/gYSCPTIgW/IspD0248vji5ZEJR96iAz+XS5rFbqB716M7fXjTByfceV14Y13S3ps9OOH7/214pyuZ1EcgAAAAAElFTkSuQmCC"
-                        alt="Jean Bernard">
+                    <svg class="w-10 h-10 rounded-full mr-3 bg-gray-400 p-1" viewBox="0 0 16 16"
+                        xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="m 8 1 c -1.65625 0 -3 1.34375 -3 3 s 1.34375 3 3 3 s 3 -1.34375 3 -3 s -1.34375 -3 -3 -3 z m -1.5 7 c -2.492188 0 -4.5 2.007812 -4.5 4.5 v 0.5 c 0 1.109375 0.890625 2 2 2 h 8 c 1.109375 0 2 -0.890625 2 -2 v -0.5 c 0 -2.492188 -2.007812 -4.5 -4.5 -4.5 z m 0 0"
+                                fill="#2e3436"></path>
+                        </g>
+                    </svg>
                     <div>
                         <div class="font-medium">{{ $author->first_name }} {{ $author->last_name }}</div>
                         <div class="text-sm text-gray-500">Publié le {{ $news->created_at }} • 5 min de lecture</div>
@@ -22,7 +62,7 @@
                 </div>
                 <div class="flex items-center">
                     <span
-                        class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold">{{ $news->category }}</span>
+                        class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold">{{ $news->category->name }}</span>
                 </div>
             </div>
 
@@ -38,7 +78,11 @@
             @endif
             <!-- Article Body -->
             <article class="prose max-w-none prose-lg">
-                {!! Str::markdown(str_replace(['@markdown', '@endmarkdown'], '', $news->content)) !!}            </article>
+                <div class="ql-editor">
+
+                    {!! Str::markdown(str_replace(['@markdown', '@endmarkdown'], '', $news->content)) !!}
+                </div>
+            </article>
             <!-- Article Footer -->
             <div class="border-t border-light pt-8 mt-12">
                 {{-- <div class="flex flex-wrap gap-2 mb-6">

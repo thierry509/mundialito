@@ -25,12 +25,12 @@
                         Informations de base
                     </h2>
                     <!-- Titre -->
-                    <Input v-model="news.title" name="title" label="Titre de l'article" placeholder="Entrez le titre"
-                        :error="news.errors.title" required />
+                    <Input v-model="form.title" name="title" label="Titre de l'article" placeholder="Entrez le titre"
+                        :error="form.errors.title" required />
 
                     <!-- Slug -->
-                    <Input v-model="news.slug" name="slug" label="Slug" placeholder="Entrez le slug"
-                        :error="news.errors.slug" required
+                    <Input v-model="form.slug" name="slug" label="Slug" placeholder="Entrez le slug"
+                        :error="form.errors.slug" required
                         helper-text="Le slug est utilisé dans l'URL de l'article. Utilisez des tirets pour séparer les mots." />
 
                     <!-- Catégorie -->
@@ -39,14 +39,14 @@
                         { value: '', label: 'Sélectionnez une catégorie' },
                         ...categories.map(category => ({ value: category.id, label: category.name }))
 
-                    ]" name="category" v-model="news.category" label="Catégorie" placeholder="Sélectionnez une catégorie"
-                        :error="news.errors.category" required
+                    ]" name="category" v-model="form.category" label="Catégorie" placeholder="Sélectionnez une catégorie"
+                        :error="form.errors.category" required
                         helper-text="Sélectionnez la catégorie qui correspond le mieux à votre article." />
 
 
                     <!-- Extrait -->
-                    <Textarea v-model="news.excerpt" name="excerpt" label="Extrait de l'article"
-                        placeholder="Entrez un extrait de l'article" :error="news.errors.excerpt" required
+                    <Textarea v-model="form.excerpt" name="excerpt" label="Extrait de l'article"
+                        placeholder="Entrez un extrait de l'article" :error="form.errors.excerpt" required
                         helper-text="Résumé court qui apparaîtra dans la liste des actualités." />
                 </div>
 
@@ -60,8 +60,8 @@
                         </svg>
                         Contenu détaillé
                     </h2>
-                    <RichText v-model="news.content" name="content" label="Contenu de l'article"
-                        placeholder="Rédigez le contenu de votre article ici..." :error="news.errors.content"
+                    <RichText v-model="form.content" name="content" label="Contenu de l'article"
+                        placeholder="Rédigez le contenu de votre article ici..." :error="form.errors.content"
                         required />
                 </div>
 
@@ -76,13 +76,13 @@
                         Médias
                     </h2>
 
-                    <ImageUpload v-model="news.featured_image" label="Image mise en avant"
-                        :error="news.errors.featured_image" required file-requirements="PNG, JPG, JPEG jusqu'à 10MB" />
+                    <ImageUpload v-model="form.featured_image" label="Image mise en avant"
+                        :error="form.errors.featured_image" required file-requirements="PNG, JPG, JPEG jusqu'à 10MB" />
 
 
                     <!-- Vidéo -->
-                    <Input v-model="news.image_description" name="image_description" label="Description de l'image"
-                        placeholder="Entrez une description de l'image" :error="news.errors.image_description"
+                    <Input v-model="form.image_description" name="image_description" label="Description de l'image"
+                        placeholder="Entrez une description de l'image" :error="form.errors.image_description"
                         helper-text="Ajoutez une description pour l'image mise en avant." />
                 </div>
 
@@ -171,10 +171,10 @@ const props = defineProps({
 // const { categories } = usePage<{ props: { categories: { id: string; name: string }[] } }>().props
 
 // Utilisation de useForm d'Inertia
-const news = useForm({
+const form = useForm({
     title: props?.news?.title,
     slug: props?.news?.slug,
-    category: props?.news?.categories,
+    category: props?.news?.category_id,
     excerpt: props?.news?.excerpt,
     content: props?.news?.content,
     featured_image: undefined,
@@ -186,8 +186,8 @@ const news = useForm({
 const validationErrors = ref([])
 
 // Génération automatique du slug
-watch(() => news.title, (newTitle) => {
-    news.slug = generateSlug(newTitle)
+watch(() => form.title, (newTitle) => {
+    form.slug = generateSlug(newTitle)
 })
 // Validation du formulaire
 
@@ -205,7 +205,9 @@ function generateSlug(text){
 
 // Gestion de la soumission
 const submit = () => {
-    news.post('', {
+
+if(!props.news){
+    form.post('', {
         preserveScroll: true,
         onStart: () => {
             processing.value = true
@@ -221,6 +223,24 @@ const submit = () => {
             console.log('Erreurs de validation:', errors)
         }
     })
+}else{
+    form.put('', {
+        preserveScroll: true,
+        onStart: () => {
+            processing.value = true
+            validationErrors.value = []
+        },
+        onFinish: () => {
+            processing.value = false
+        },
+        onSuccess: () => {
+            form.reset()
+        },
+        onError: (errors) => {
+            console.log('Erreurs de validation:', errors)
+        }
+    })
+}
 }
 
 // Gestion du fichier image

@@ -16,12 +16,15 @@
 
 <script setup>
 import Quill from 'quill';
-import { onMounted } from 'vue';
+import { onMounted, watch, ref } from 'vue';
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
-import MarkdownConverter from '../../Utils/MarkdownConverter.js';
+
 const props = defineProps({
-    modelValue: [String, Number],
+    modelValue: {
+        type: [String, Number],
+        default: ''
+    },
     name: String,
     label: String,
     placeholder: String,
@@ -34,6 +37,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue', 'blur']);
+const quillInstance = ref(null);
 
 onMounted(() => {
     const container = document.getElementById('editor');
@@ -43,7 +47,7 @@ onMounted(() => {
         return;
     }
 
-    const quill = new Quill(container, {
+    quillInstance.value = new Quill(container, {
         modules: {
             toolbar: [
                 [{ header: [2, false] }],
@@ -56,13 +60,21 @@ onMounted(() => {
         theme: 'snow',
     });
 
-    quill.on('text-change', () => {
-        const content = quill.root.innerHTML;
-        const markdown = MarkdownConverter.toMarkdown(quill.root.innerHTML);
-        const html = MarkdownConverter.toHtml(markdown);
+    // Set initial content if modelValue exists
+    if (props.modelValue) {
+        quillInstance.value.root.innerHTML = props.modelValue;
+    }
 
-        emit('update:modelValue', markdown);
+    quillInstance.value.on('text-change', () => {
+        const content = quillInstance.value.root.innerHTML;
+        emit('update:modelValue', content);
     });
 });
 
+// Watch for changes in modelValue from parent
+watch(() => props.modelValue, (newValue) => {
+    if (quillInstance.value && newValue !== quillInstance.value.root.innerHTML) {
+        quillInstance.value.root.innerHTML = newValue;
+    }
+});
 </script>
