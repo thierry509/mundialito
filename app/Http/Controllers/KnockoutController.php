@@ -83,6 +83,7 @@ class KnockoutController extends Controller
                 $query->where('year', $year);
             })->orderBy('position')
             ->get()->keyBy('position');
+        
 
         return Inertia::render('Championship.Knockout', [
             'round16' => $round16,

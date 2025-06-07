@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('content');
-            $table->string('category')->default('general');
             $table->text('excerpt')->nullable();
             $table->unsignedBigInteger('image_id')->nullable();
             $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');
+            $table->foreignId('category_id')->references('id')->on('categories');
             $table->enum('status', ['draft', 'publish'])->default('draft');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

@@ -57,7 +57,7 @@
                     </svg>
                     <div>
                         <div class="font-medium">{{ $author->first_name }} {{ $author->last_name }}</div>
-                        <div class="text-sm text-gray-500">Publié le {{ $news->created_at }} • 5 min de lecture</div>
+                        <div class="text-sm text-gray-500">Publié le {{ formatDate($news->created_at) }}</div>
                     </div>
                 </div>
                 <div class="flex items-center">
@@ -78,8 +78,7 @@
             @endif
             <!-- Article Body -->
             <article class="prose max-w-none prose-lg">
-                <div class="ql-editor">
-
+                <div class="ql-editor text-justify">
                     {!! Str::markdown(str_replace(['@markdown', '@endmarkdown'], '', $news->content)) !!}
                 </div>
             </article>

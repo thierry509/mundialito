@@ -75,7 +75,7 @@
                     <span class="hidden md:block mx-1.5">Suprimmer</span>
                 </button>
 
-                <button v-if="game.status != 'postponed' && !game?.team_a_goals" @click="postpone"
+                <button v-if="game.status != 'postponed' && game.status!= 'finished' && !game?.team_a_goals"  @click="postpone"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-orange-500/10 text-orange-600 hover:bg-orange-500/20 transition inline-flex items-center justify-center">
                     <svg fill="currentColor" viewBox="0 0 36 36" version="1.1" class="h-4 w-4"
                         preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"

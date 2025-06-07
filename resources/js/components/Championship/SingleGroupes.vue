@@ -84,39 +84,34 @@
                             </td>
                         </tr>
 
-                        <!-- Nouvelle équipe -->
-                        <tr v-if="addingTeam" class="bg-primary/5">
-                            <td class="p-3 font-bold text-gray-400">{{ teamGroupes.length + 1 }}</td>
-                            <td class="p-3">
-                                <div class="flex items-center relative z-40">
 
-                                    <DropdownInput v-model="newTeam.team_id"
-                                        :options="[...teams.map(team => ({ value: team.id, label: team.name }))]" />
-                                </div>
-                            </td>
-                            <td class="p-3 text-center font-bold text-gray-400">0</td>
-                            <td class="p-3 text-center text-gray-400">0</td>
-                            <td class="p-3 text-center text-gray-400">0</td>
-                            <td class="p-3 text-center text-gray-400">0</td>
-                            <td class="p-3 text-center text-gray-400">0</td>
-                            <td class="p-3 text-center text-gray-400">0</td>
-                            <td class="p-3 text-center text-gray-400">0</td>
-                            <td class="p-3 text-center font-bold text-gray-400">0</td>
-                            <td class="p-3 text-center text-gray-400">-</td>
-                            <td class="p-3 text-center">
-                                <button @click="addTeam" class="text-primary hover:text-primary-dark transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
                     </tbody>
+                    <!-- Nouvelle équipe -->
+                    
                 </table>
             </div>
-
+            <div class="overflow-y-visible border overflow-x-autoh-fit">
+                <table class="w-full">
+                    <tr v-if="addingTeam" class="bg-primary/5">
+                        <td class="px-3 font-bold text-gray-400">{{ teamGroupes.length + 1 }}</td>
+                        <td class="">
+                            <div class="flex items-center relative z-40">
+                                <DropdownInput v-model="newTeam.team_id"
+                                    :options="[...teams.map(team => ({ value: team.id, label: team.name }))]" />
+                            </div>
+                        </td>
+                        <td class="p-3 text-center">
+                            <button @click="addTeam" class="text-primary hover:text-primary-dark transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <!-- Bouton Ajouter -->
             <div class="p-4 border-t border-light flex justify-center">
                 <button @click="startAddingTeam" v-if="teams.length > 0 && !addingTeam"
