@@ -217,7 +217,7 @@ if(!props.news){
             processing.value = false
         },
         onSuccess: () => {
-            news.reset()
+            form.reset()
         },
         onError: (errors) => {
             console.log('Erreurs de validation:', errors)

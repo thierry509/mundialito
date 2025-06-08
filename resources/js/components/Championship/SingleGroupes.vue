@@ -87,7 +87,7 @@
 
                     </tbody>
                     <!-- Nouvelle équipe -->
-                    
+
                 </table>
             </div>
             <div class="overflow-y-visible border overflow-x-autoh-fit">
@@ -113,7 +113,7 @@
                 </table>
             </div>
             <!-- Bouton Ajouter -->
-            <div class="p-4 border-t border-light flex justify-center">
+            <div class="p-8 border-t border-light flex justify-center">
                 <button @click="startAddingTeam" v-if="teams.length > 0 && !addingTeam"
                     class="flex items-center px-4 py-2 rounded-full form-badge text-white shadow-md hover:shadow-lg transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"

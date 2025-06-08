@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteGameRequest;
+use App\Http\Requests\DeleteNewsRequest;
 use App\Http\Requests\StoreNewsRequest;
 use App\Models\Category;
 use App\Models\Images;
@@ -109,9 +111,8 @@ class NewsController extends Controller
                 'image_id' => $image?->id,
                 'user_id' => 1,
             ]);
-
-            return redirect()->back();
         });
+        return redirect()->route('dashboard')->with('success', 'News updated successfully.');
     }
 
     public function adminIndex()
@@ -156,9 +157,16 @@ class NewsController extends Controller
                 'image_id' => $image?->id,
                 'user_id' => 1,
             ]);
-
-            return to_route('dashboard');
         });
+        return redirect()->route('dashboard')->with('success', 'News updated successfully.');
+    }
+
+    public function destroy(DeleteNewsRequest $request)
+    {
+        $news = News::where('slug', $request->slug)->firstOrFail();
+        $news->delete();
+        return redirect()->back()->with('success', 'News deleted successfully.');
+
     }
 
     private function manage_slug(string $title): string
@@ -173,5 +181,4 @@ class NewsController extends Controller
         return $slug;
     }
 
-    private function manageImage($imageData) {}
 }

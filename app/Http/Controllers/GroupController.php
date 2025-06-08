@@ -41,10 +41,11 @@ class GroupController extends Controller
 
         $rankingService = new RankingService();
         $groups = $rankingService->getGroupRankings($year);
-        // dd($groups[0]->teams);
 
         return Inertia::render('Championship.Groupes', [
-            'teams' => Team::whereDoesntHave('groupParticipations')->get(),
+            'teams' => Team::whereDoesntHave('groupParticipations.group.championship', function ($query) use ($year) {
+                $query->where('year', $year);
+            })->get(),
             'groups' => $groups->map(function ($group) {
                 return [
                     'id' => $group->id,

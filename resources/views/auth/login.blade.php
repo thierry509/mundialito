@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="text-sm">
-                        <a href="#" class="font-medium text-primary hover:text-accent underline">
+                        <a href="{{ route('password.request') }}" class="font-medium text-primary hover:text-accent underline">
                             Mot de passe oublié ?
                         </a>
                     </div>

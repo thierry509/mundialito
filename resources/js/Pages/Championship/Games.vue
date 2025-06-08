@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="flex justify-end">
+        <div class="flex justify-end my-4">
             <button @click="createMatch"
                 class="px-4 py-2 mt-4 bg-primary text-white rounded-md hover:bg-primary-dark transition">
                 Ajouter un match

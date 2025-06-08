@@ -177,7 +177,7 @@ const deleteGame = async () => {
     if (isConfirmed) {
         router.delete(`/edition/championnat/match/supprimer/${props.game.id}`, {
             onSuccess: () => {
-                useToasterStore().success({ text: 'Match supprimer' })
+                useToasterStore().success({ text: 'Match supprimé' })
             }
         });
     }
@@ -245,6 +245,4 @@ const end = async () => {
         })
     }
 }
-
-
 </script>

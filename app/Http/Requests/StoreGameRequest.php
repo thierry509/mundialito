@@ -52,6 +52,9 @@ class StoreGameRequest extends FormRequest
             'time.required' => 'L\'heure est obligatoire.',
             'time.date_format' => 'L\'heure doit être au format HH:MM.',
             'stage.required' => 'La tour droit etre mentionner',
+            'location.required' => 'Le lieu est obligatoire.',
+            'location.string' => 'Le lieu doit être une chaîne de caractères.',
+            'type.required' => 'Le type de match est obligatoire.',
         ];
     }
 }

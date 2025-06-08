@@ -82,6 +82,11 @@ Route::middleware('guest')->group(function () {
 
     Route::get('inscription', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('inscription', [AuthController::class, 'register'])->name('register.submit');
+    Route::get('mot-de-passe-oublie', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('mot-de-passe-oublie', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/reinitialiser-mot-de-passe/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/reinitialiser-mot-de-passe', [AuthController::class, 'reset'])->name('password.update');
+
     Route::get('/{provider}/redirection', [AuthController::class, 'redirectToProvider'])
         ->where('provider', 'google|facebook')
         ->name('social.redirect');
@@ -99,6 +104,7 @@ Route::middleware('auth')->prefix('edition')->group(function () {
         Route::post('/creer', [NewsController::class, 'store'])->name('news.store');
         Route::get('/modifier/{slug}', [NewsController::class, 'edit'])->name('news.edit');
         Route::put('/modifier/{slug}', [NewsController::class, 'update'])->name('news.edit');
+        Route::delete('/supprimer/{slug}', [NewsController::class, 'destroy'])->name('news.delete');
     });
     Route::prefix('equipes')->group(function () {
         Route::get('/', [TeamController::class, 'adminIndex'])->name('teams.index');

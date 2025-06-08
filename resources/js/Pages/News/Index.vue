@@ -54,7 +54,7 @@
                                         </svg>
                                     </button>
                                     </Link>
-                                    <button class="text-danger hover:text-red-700">
+                                    <button class="text-danger hover:text-red-700" @click="deleteNews(item.slug)">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
@@ -75,10 +75,29 @@
 import { Link, Head } from '@inertiajs/vue3';
 import EmptyView from '../../components/ui/EmptyView.vue'
 import { formatDate } from '../../Utils/utils';
+import { useToasterStore } from '../../store/Toast';
+import { useConfirmStore } from '../../store/confirmStore';
+import { router } from '@inertiajs/vue3';
+
 defineProps({
     news: {
         type: Array,
         default: [],
     },
 })
+
+const confirm = useConfirmStore();
+const deleteNews = async (slug) => {
+    const isConfirmed = await confirm.show({
+        title: 'Confirmation de suppression',
+        message: 'Attention : la suppression entraînera la perte définitive des données.',
+    })
+    if (isConfirmed) {
+        router.delete(`/edition/actualites/supprimer/${slug}`, {
+            onSuccess: () => {
+                useToasterStore().success({ text: 'Actualité supprimée' })
+            }
+        });
+    }
+}
 </script>
