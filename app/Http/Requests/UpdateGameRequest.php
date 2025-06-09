@@ -21,8 +21,11 @@ class UpdateGameRequest extends FormRequest
             'teamBYellowCards' => 'required|integer|min:0',
             'teamARedCards' => 'required|integer|min:0',
             'teamBRedCards' => 'required|integer|min:0',
+            'shootoutScoreA' => 'nullable|integer|min:0',
+            'shootoutScoreB' => 'nullable|integer|min:0',
             'teamAScorers' => 'nullable|string',
             'teamBScorers' => 'nullable|string',
+
             'isLive' => 'required|boolean'
         ];
     }

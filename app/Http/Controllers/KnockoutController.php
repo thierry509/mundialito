@@ -16,6 +16,7 @@ class KnockoutController extends Controller
     {
         $year = $request->query('year');
 
+        
         $round16 = Game::with(['teamA', 'teamB', 'championship'])
             ->where('stage', 'round16')
             ->whereHas('championship', function ($query) use ($year) {
@@ -42,13 +43,11 @@ class KnockoutController extends Controller
                 $query->where('year', $year);
             })->orderBy('position')
             ->get()->keyBy('position');
-
         return view('knockout.index', [
             'round16' => $round16,
             'quarter' => $quarter,
             'semi' => $semi,
             'final' => $final,
-            'teams' => Team::all(),
             'round' => Championship::where('year', $year)->get()->first()->knockout_round,
         ]);
     }
@@ -56,6 +55,19 @@ class KnockoutController extends Controller
     public function adminIndex(AdminViewRequest $request)
     {
         $year = $request->query('year');
+        $teamsNotInKnockout = Team::whereDoesntHave('matchesAsTeamA', function($query) {
+            $query->where('type', 'knockout')
+                  ->whereHas('championship', function($q) {
+                      $q->where('year', 2024);
+                  });
+        })
+        ->whereDoesntHave('matchesAsTeamB', function($query) {
+            $query->where('type', 'knockout')
+                  ->whereHas('championship', function($q) {
+                      $q->where('year', 2024);
+                  });
+        })
+        ->get();
 
         $round16 = Game::with(['teamA', 'teamB', 'championship'])
             ->where('stage', 'round16')
@@ -90,7 +102,7 @@ class KnockoutController extends Controller
             'quarter' => $quarter,
             'semi' => $semi,
             'final' => $final,
-            'teams' => Team::all(),
+            'teams' => $teamsNotInKnockout,
             'round' => Championship::where('year', $year)->get()->first()->knockout_round,
         ]);
     }

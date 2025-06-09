@@ -8,23 +8,32 @@ class StoreNewsRequest extends FormRequest
 {
     public function authorize()
     {
-        return true;
+        return $this->user()->isAdmin() || $this->user()->isReporter();
     }
 
     public function rules()
     {
-        return [
-            'category' => 'nullable|exists:categories,id',
+        $rules = [
+            'category' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:news,slug',
             'content' => 'required|string',
             'excerpt' => 'required|string|max:500',
             'featured_image' => 'image|mimes:jpeg,png,jpg|max:5120',
-            'image_description' => 'nullable|required_if:featured_image,value|string',
+            'image_description' => 'required_with:featured_image|string',
             'status' => 'required|in:published,draft',
             'tags' => 'nullable|string|max:255',
         ];
+        if ($this->form) {
+            // En mode update
+            $rules['slug'] = 'required|string|max:255|unique:news,slug,' . $this->form->id;
+            // featured_image n'est pas toujours requise en update
+            $rules['featured_image'] = 'nullable|image|mimes:jpeg,png,jpg|max:5120';
+        }
+
+        return $rules;
     }
+
 
     public function messages()
     {
@@ -44,6 +53,7 @@ class StoreNewsRequest extends FormRequest
             'slug.unique' => 'Le slug doit être unique',
             'category.required' => 'La catégorie est requise',
             'excerpt.required' => 'L\'extrait est requis',
+            'excerpt.max' => 'L\'extrait ne doit pas dépasser 500 caractères',
             'content.required' => 'Le contenu est requis',
             'status.required' => 'Le statut est requis',
             'tags.max' => 'Les tags ne doivent pas dépasser 255 caractères',

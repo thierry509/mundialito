@@ -67,11 +67,11 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        if (request()->header('X-Inertia')) {
-            return Inertia::location('/');
-        } else {
+        // if (request()->header('X-Inertia')) {
+        //     return Inertia::location('/');
+        // } else {
             return redirect('/');
-        }
+        // }
     }
     public function showLoginForm()
     {

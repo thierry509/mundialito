@@ -12,12 +12,22 @@
             <div class="px-1">
                 <Link href="`/edition/championnat/match?year=${year}#${game.id}`">
                 <div class="flex justify-between">
-                    <span>{{ $game->teamA()->first()->name }}</span>
-                    <span>{{ $game->teama_goals }}</span>
+                    <span>{{ $game->teamA()->first()->name?? 'N/A' }}</span>
+                    <span>
+                        {{ $game->team_a_goals }}
+                        @if ($game->shootout_score_a)
+                        <span class="mx-2 text-sm">({{ $game->shootout_score_a }})</span>
+                    @endif
+                </span>
                 </div>
                 <div class="flex justify-between">
-                    <span>{{ $game->teamB()->first()->name }}</span>
-                    <span>{{ $game->team_a_goals }}</span>
+                    <span>{{ $game->teamB()->first()->name ?? 'N/A' }}</span>
+                    <span>
+                        {{ $game->team_b_goals }}
+                        @if ($game->shootout_score_a)
+                        <span class="mx-2 text-sm">({{ $game->shootout_score_b }})</span>
+                    @endif
+                    </span>
                 </div>
                 </Link>
             </div>

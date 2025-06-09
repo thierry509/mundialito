@@ -52,14 +52,24 @@
             <!-- Score -->
             <div class="flex flex-col items-center w-1/5 py-1 p-2">
                 @if ($game->status === 'soon' || $game->status === 'postponed')
-                  <span class="font-bold">VS</span>
+                    <span class="font-bold">VS</span>
                 @else
                     <div class="flex items-center">
                         <span
-                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ $game->team_a_goals }}</span>
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
+                            @if ($game->shootout_score_a)
+                                <span class="mx-2 text-sm">({{ $game->shootout_score_a }})</span>
+                            @endif
+                            {{ $game->team_a_goals }}
+                        </span>
                         <span class="text-2xl font-medium text-gray-500 px-1">-</span>
                         <span
-                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{ $game->team_b_goals }}</span>
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
+                            {{ $game->team_b_goals }}
+                            @if ($game->shootout_score_b)
+                                <span class="mx-2 text-sm">({{ $game->shootout_score_b }})</span>
+                            @endif
+                        </span>
 
                     </div>
                 @endif

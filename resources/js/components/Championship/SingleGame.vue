@@ -5,7 +5,13 @@
             <div class="flex justify-between items-center mb-3 text-xs text-gray-600">
                 <div class="flex items-center space-x-2">
                     <span v-if="game.date_time"> {{ formatDate(game.date_time) }}</span>
-                    <span v-else>à déterminer</span>
+                    <span v-else class="flex items-center space-x-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Non spécifié</span>
                 </div>
 
                 <div class="flex items-center space-x-3">
@@ -41,12 +47,16 @@
                 <div class="flex flex-col items-center w-1/5 py-1 p-2">
                     <div v-if="game.status != 'postponed' && game.team_a_goals != null" class="flex items-center my-1">
                         <span
-                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{
+                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
+                            <span v-if="game.shootout_score_a" class="mx-2 text-sm">({{ game.shootout_score_a }})</span>
+                            {{
                                 game.team_a_goals }}</span>
                         <span class="text-2xl font-medium text-gray-500 px-1">-</span>
                         <span
                             class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{
-                                game.team_b_goals }}</span>
+                                game.team_b_goals }}
+                            <span v-if="game.shootout_score_b" class="mx-2 text-sm">({{ game.shootout_score_b }})</span>
+                        </span>
                     </div>
                     <div v-else class="my-1">
                         <span class="font-bold">VS</span>
@@ -75,7 +85,8 @@
                     <span class="hidden md:block mx-1.5">Suprimmer</span>
                 </button>
 
-                <button v-if="game.status != 'postponed' && game.status!= 'finished' && !game?.team_a_goals"  @click="postpone"
+                <button v-if="game.status != 'postponed' && game.status != 'finished' && !game?.team_a_goals"
+                    @click="postpone"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-orange-500/10 text-orange-600 hover:bg-orange-500/20 transition inline-flex items-center justify-center">
                     <svg fill="currentColor" viewBox="0 0 36 36" version="1.1" class="h-4 w-4"
                         preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +103,9 @@
                     </svg>
                     <span class="hidden md:block mx-1.5">Reporter</span>
                 </button>
-                <button v-if="game.status == 'postponed'" @click="unpostpone"
+                <button
+                    v-if="game.status == 'postponed' || (!game.date_time && game.team_a_goals == null && game.team_b_goals == null)"
+                    @click="unpostpone"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-blue-500/10 text-blue-600 hover:bg-blue-600/20 transition inline-flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">

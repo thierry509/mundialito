@@ -18,9 +18,12 @@ const teamAYellowCards = ref(props.game.team_a_yellow_cards || 0);
 const teamBYellowCards = ref(props.game.team_b_yellow_cards || 0);
 const teamARedCards = ref(props.game.team_a_red_cards || 0);
 const teamBRedCards = ref(props.game.team_b_red_cards || 0);
+const shootoutScoreA = ref(props.game.shootout_score_a || null);
+const shootoutScoreB = ref(props.game.shootout_score_b || null);
 const teamAScorers = ref(props.game.team_a_scorers ? props.game.team_a_scorers.split(',') : []);
 const teamBScorers = ref(props.game.team_b_scorers ? props.game.team_b_scorers.split(',') : []);
-const isLive = ref(props.game.status == 'live'? true : false);
+const isLive = ref(props.game.status == 'live' ? true : false);
+const shootoutScore = ref(props.game.shootout_score_a ? true : false);
 
 
 const refMap = {
@@ -28,9 +31,12 @@ const refMap = {
     teamBGoals,
     teamAYellowCards,
     teamBYellowCards,
-    teamARedCards, teamBRedCards,
+    teamARedCards,
+    teamBRedCards,
     teamAScorers,
     teamBScorers,
+    shootoutScoreA,
+    shootoutScoreB,
 }
 // Initialisation du formulaire Inertia
 const form = useForm({
@@ -41,7 +47,11 @@ const form = useForm({
     teamBYellowCards: teamBYellowCards.value,
     teamARedCards: teamARedCards.value,
     teamBRedCards: teamBRedCards.value,
-    isLive : isLive,
+    isLive: isLive,
+    shootoutScoreA: shootoutScoreA.value,
+    shootoutScoreB: shootoutScoreB.value,
+    extraTime: false,
+    shootoutScore: shootoutScore.value,
 });
 
 const processing = ref(false);
@@ -77,6 +87,18 @@ const updateForm = () => {
     form.teamBYellowCards = teamBYellowCards.value;
     form.teamARedCards = teamARedCards.value;
     form.teamBRedCards = teamBRedCards.value;
+    form.shootoutScoreA = shootoutScoreA;
+    form.shootoutScoreB = shootoutScoreB;
+};
+
+const shootoutScoreToggle = () => {
+    if (form.shootoutScore) {
+        form.shootoutScoreA = shootoutScoreA.value;
+        form.shootoutScoreB = shootoutScoreB.value;
+    } else {
+        form.shootoutScoreA = null;
+        form.shootoutScoreB = null;
+    }
 };
 
 const submit = () => {
@@ -206,6 +228,50 @@ const close = () => {
                             </button>
                         </div>
                     </div>
+                    <div v-if="game.type == 'knockout' && teamAGoals === teamBGoals"
+                        class="grid grid-cols-3 items-center gap-4 py-3 border-b border-gray-100">
+                        <div class="font-medium text-gray-700">Tire au but</div>
+
+                        <!-- Option: Oui -->
+                        <div class="flex items-center justify-center space-x-2">
+                            <input type="radio" id="enDirectOui" @change="shootoutScoreToggle" :value="true"
+                                v-model="form.shootoutScore" class="accent-green-600" />
+                            <label for="enDirectOui" class="text-gray-600">Oui</label>
+                        </div>
+
+                        <!-- Option: Non -->
+                        <div class="flex items-center justify-center space-x-2">
+                            <input type="radio" id="enDirectNon" @change="shootoutScoreToggle" :value="false"
+                                v-model="form.shootoutScore" class="accent-red-600" />
+                            <label for="enDirectNon" class="text-gray-600">Non</label>
+                        </div>
+                    </div>
+                    <div v-if="form.shootoutScore"
+                        class="grid grid-cols-3 items-center gap-4 py-3 border-b border-gray-100">
+                        <div class="font-medium text-gray-700">Score tire au but</div>
+                        <div class="flex items-center justify-center space-x-2">
+                            <button type="button" @click="decrement('shootoutScoreA')"
+                                class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full hover:bg-red-700 transition">
+                                -
+                            </button>
+                            <span class="text-xl font-bold w-8 text-center">{{ shootoutScoreA }}</span>
+                            <button type="button" @click="increment('shootoutScoreA')"
+                                class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full hover:bg-red-700 transition">
+                                +
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-center space-x-2">
+                            <button type="button" @click="decrement('shootoutScoreB')"
+                                class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full hover:bg-red-700 transition">
+                                -
+                            </button>
+                            <span class="text-xl font-bold w-8 text-center">{{ shootoutScoreB }}</span>
+                            <button type="button" @click="increment('shootoutScoreB')"
+                                class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full hover:bg-red-700 transition">
+                                +
+                            </button>
+                        </div>
+                    </div>
                     <!-- Ligne en direct ou non -->
                     <div class="grid grid-cols-3 items-center gap-4 py-3 border-b border-gray-100">
                         <div class="font-medium text-gray-700">En-direct</div>
@@ -224,7 +290,9 @@ const close = () => {
                             <label for="enDirectNon" class="text-gray-600">Non</label>
                         </div>
                     </div>
+
                 </div>
+
 
                 <!-- Actions -->
                 <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-3 border-t">

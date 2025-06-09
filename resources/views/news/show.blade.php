@@ -139,39 +139,20 @@
             <div class="mt-16">
                 <h3 class="text-2xl font-bold mb-6">Articles similaires</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                        <img class="w-full h-40 object-cover"
-                            src="https://img.olympics.com/images/image/private/t_s_16_9_g_auto/t_s_w1460/f_auto/primary/ngdjbafv3twathukjbq2"
-                            alt="Article similaire">
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-2">16 Juillet 2023</div>
-                            <h4 class="font-medium hover:text-primary transition duration-200">
-                                <a href="#">Les Aigles s'imposent face aux Étoiles</a>
-                            </h4>
-                        </div>
-                    </article>
-                    <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                        <img class="w-full h-40 object-cover"
-                            src="https://img.olympics.com/images/image/private/t_s_16_9_g_auto/t_s_w1460/f_auto/primary/ngdjbafv3twathukjbq2"
-                            alt="Article similaire">
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-2">14 Juillet 2023</div>
-                            <h4 class="font-medium hover:text-primary transition duration-200">
-                                <a href="#">Analyse tactique des Lions</a>
-                            </h4>
-                        </div>
-                    </article>
-                    <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                        <img class="w-full h-40 object-cover"
-                            src="https://img.olympics.com/images/image/private/t_s_16_9_g_auto/t_s_w1460/f_auto/primary/ngdjbafv3twathukjbq2"
-                            alt="Article similaire">
-                        <div class="p-4">
-                            <div class="text-xs text-gray-500 mb-2">12 Juillet 2023</div>
-                            <h4 class="font-medium hover:text-primary transition duration-200">
-                                <a href="#">Préparatifs des équipes avant le tournoi</a>
-                            </h4>
-                        </div>
-                    </article>
+                    @foreach ($relatedNews as $news)
+                        <article
+                            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                            <img class="w-full h-40 object-cover" src="{{ $news->image()->first()->url }}"
+                                alt="{{ $news->image()->first()->description }}">
+                            <div class="p-4">
+                                <div class="text-xs text-gray-500 mb-2">{{ formatDate($news->created_at) }}</div>
+                                <h4 class="font-medium hover:text-primary transition duration-200">
+                                    <a href="{{ route('news.show', $news->slug) }}">{{ $news->title }}</a>
+                                </h4>
+                            </div>
+                        </article>
+                    @endforeach
+
                 </div>
             </div>
         </div>

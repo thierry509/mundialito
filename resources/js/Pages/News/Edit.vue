@@ -1,4 +1,8 @@
 <template>
+    <Head>
+        <title v-if="!news">Ecrire une article</title>
+        <title v-else>Modifier l'article {{ news.title }}</title>
+    </Head>
     <div class="p-6 md:p-8">
         <div class="mb-8">
             <h1 class="text-2xl font-bold text-gray-800 dark:text-white inline-flex items-center">
@@ -13,7 +17,7 @@
 
         <div class="max-w-7xl">
             <form @submit.prevent="submit" class="space-y-8" enctype="multipart/form-data">
-                <ErrorModal :errors="$page.props.errors" @close="news.clearErrors()" />
+                <ErrorModal :errors="$page.props.errors" />
                 <!-- Section 1: Informations de base -->
                 <div class="rounded-xl shadow-md p-6 border border-gray-100 bg-white">
                     <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
@@ -39,8 +43,8 @@
                         { value: '', label: 'Sélectionnez une catégorie' },
                         ...categories.map(category => ({ value: category.id, label: category.name }))
 
-                    ]" name="category" v-model="form.category" label="Catégorie" placeholder="Sélectionnez une catégorie"
-                        :error="form.errors.category" required
+                    ]" name="category" v-model="form.category" label="Catégorie"
+                        placeholder="Sélectionnez une catégorie" :error="form.errors.category" required
                         helper-text="Sélectionnez la catégorie qui correspond le mieux à votre article." />
 
 
@@ -76,7 +80,7 @@
                         Médias
                     </h2>
 
-                    <ImageUpload v-model="form.featured_image" label="Image mise en avant"
+                    <ImageUpload v-model="form.featured_image" label="Image mise en avant" :initial-image="props.news?.image?.url"
                         :error="form.errors.featured_image" required file-requirements="PNG, JPG, JPEG jusqu'à 10MB" />
 
 
@@ -87,8 +91,8 @@
                 </div>
 
                 <!-- Section 4: Paramètres -->
-                <div class="rounded-xl shadow-md p-6 border border-gray-100 bg-white">
-                    <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                <!-- <div class="rounded-xl shadow-md p-6 border border-gray-100 bg-white"> -->
+                <!-- <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
                         <svg class="w-5 h-5 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
@@ -97,10 +101,10 @@
                                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
                         Paramètres
-                    </h2>
+                    </h2> -->
 
-                    <!-- Statut -->
-                    <div class="mb-6">
+                <!-- Statut -->
+                <!-- <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Statut *</label>
                         <div class="space-y-2">
                             <div class="flex items-center">
@@ -118,17 +122,17 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <!-- Tags -->
-                    <div>
+                <!-- Tags -->
+                <!-- <div>
                         <label for="tags" class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
                         <input type="text" id="tags" name="tags"
                             class="outline-none w-full rounded-lg border border-light focus:border-primary focus:ring-2 focus:ring-primary/50 p-3"
                             placeholder="Ex: Lions, Tigres, Match d'ouverture">
                         <p class="mt-1 text-sm text-gray-500">Séparez les tags par des virgules</p>
-                    </div>
-                </div>
+                    </div> -->
+                <!-- </div> -->
 
                 <!-- Boutons de soumission -->
                 <div class="flex flex-col sm:flex-row justify-end gap-4 pt-6">
@@ -143,11 +147,10 @@
                         <span v-else>Publier l'actualité</span>
                     </button>
                 </div>
-
-
             </form>
         </div>
     </div>
+    {{form.featured_image}}
 </template>
 
 <script setup>
@@ -159,6 +162,7 @@ import Select from '../../components/ui/Select.vue'
 import RichText from '../../components/Form/RichText.vue'
 import ImageUpload from '../../components/ui/ImageUpload.vue'
 import ErrorModal from '../../components/modal/ErrorModal.vue'
+import {Head} from '@inertiajs/vue3'
 const processing = ref(false)
 
 const props = defineProps({
@@ -172,13 +176,14 @@ const props = defineProps({
 
 // Utilisation de useForm d'Inertia
 const form = useForm({
+    id: props?.news?.id || null,
     title: props?.news?.title,
     slug: props?.news?.slug,
     category: props?.news?.category_id,
     excerpt: props?.news?.excerpt,
     content: props?.news?.content,
     featured_image: undefined,
-    image_description: props?.news?.image_description,
+    image_description: props?.news?.image?.description,
     status: 'draft',
     tags: ''
 })
@@ -194,7 +199,7 @@ watch(() => form.title, (newTitle) => {
 
 
 
-function generateSlug(text){
+function generateSlug(text) {
     return text
         .toLowerCase()
         .trim()
@@ -205,43 +210,38 @@ function generateSlug(text){
 
 // Gestion de la soumission
 const submit = () => {
+    // Configuration commune
+    const config = {
+        preserveScroll: true,
+        onStart: () => {
+            processing.value = true;
+            validationErrors.value = [];
+        },
+        onFinish: () => {
+            processing.value = false;
+        },
+        onSuccess: () => {
+            form.reset();
+        },
+        onError: (errors) => {
+            console.log('Erreurs de validation:', errors);
+        },
+        forceFormData: true // Essentiel pour les uploads de fichiers
+    };
 
-if(!props.news){
-    form.post('', {
-        preserveScroll: true,
-        onStart: () => {
-            processing.value = true
-            validationErrors.value = []
-        },
-        onFinish: () => {
-            processing.value = false
-        },
-        onSuccess: () => {
-            form.reset()
-        },
-        onError: (errors) => {
-            console.log('Erreurs de validation:', errors)
-        }
-    })
-}else{
-    form.put('', {
-        preserveScroll: true,
-        onStart: () => {
-            processing.value = true
-            validationErrors.value = []
-        },
-        onFinish: () => {
-            processing.value = false
-        },
-        onSuccess: () => {
-            form.reset()
-        },
-        onError: (errors) => {
-            console.log('Erreurs de validation:', errors)
-        }
-    })
-}
-}
+
+    if (!props.news) {
+        // Cas création (POST)
+        form.post('', config);
+    } else {
+        // Cas modification (PUT avec fichiers)
+        form.transform((data) => ({
+            ...data,
+            _method: 'PUT', // Laravel reconnaîtra cela comme une requête PUT
+            _token: usePage().props.csrf_token // Token CSRF explicite
+        })).post('', config);
+    }
+};
 
 // Gestion du fichier image
 // const handleFeaturedImageChange = (event: Event) => {

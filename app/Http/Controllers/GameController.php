@@ -13,6 +13,7 @@ use App\Models\Championship;
 use App\Models\Game;
 use App\Models\Group;
 use App\Models\Log;
+use App\Services\GameService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Carbon;
@@ -21,43 +22,22 @@ use Illuminate\Support\Facades\DB;
 
 class GameController extends Controller
 {
-    public function index(HaveYearRequest $request)
+    public function index(HaveYearRequest $request, GameService $gameService)
     {
         $year = $request->query('year');
-        $games = Game::with(['teamA', 'teamB', 'championship'])
-            ->whereHas('championship', function ($query) use ($year) {
-                $query->where('year', $year);
-            })
-            ->orderBy('date_time') // Ordre principal par date/heure
-            ->get()
-            ->groupBy('stage') // Groupement après le tri
-            ->map(function ($group) {
-                // Optionnel: re-trier chaque groupe si nécessaire
-                return $group->sortBy('date_time');
-            });
+        $games = $gameService->all($year);
 
         return view('games.index', [
             'games' => $games,
         ]);
     }
 
-    public function adminIndex(EditorViewRequest $request)
+    public function adminIndex(EditorViewRequest $request, GameService $gameService)
     {
         $year = $request->query('year');
 
-        $games = Game::with(['teamA', 'teamB', 'championship'])
-            ->whereHas('championship', function ($query) use ($year) {
-                $query->where('year', $year);
-            })
-            ->orderBy('date_time') // Ordre principal par date/heure
-            ->get()
-            ->groupBy('stage') // Groupement après le tri
-            ->map(function ($group) {
-                // Optionnel: re-trier chaque groupe si nécessaire
-                return $group->sortBy('date_time');
-            });
+        $games = $gameService->all($year);
 
-        // dd($games[1][1]);
 
         return Inertia::render('Championship.Games', [
             'games' =>  $games,
@@ -67,45 +47,22 @@ class GameController extends Controller
         ]);
     }
 
-    public function store(StoreGameRequest $request)
+    public function store(StoreGameRequest $request, GameService $gameService)
     {
         $year = $request->query('year');
         $chamionship = Championship::where('year', $year)->first();
         $validated = $request->validated();
 
-        $dateTime = (isset($validated['date']) && isset($validated['time'])) ? Carbon::createFromFormat(
-            'Y-m-d H:i',
-            $validated['date'] . ' ' . $validated['time']
-        )->format('Y-m-d H:i:s') : null;
-
-        // dd($dateTime);
-        DB::transaction(function () use ($validated, $dateTime, $chamionship) {
-            $game = Game::create([
-                'championship_id' => $chamionship->id,
-                "team_a_id" => $validated['team1Id'],
-                "team_b_id" => $validated['team2Id'],
-                "date_time" => $dateTime,
-                "position" => $validated['position'] ?? null,
-                'stage' => $validated['stage'],
-                'location' => $validated['location'],
-                'type' => $validated['type'],
-            ]);
-
-            Log::create([
-                'action' => "creer creer match d'identifiant " . $game->id,
-                'user_id' => Auth()->user()->id,
-            ]);
-        });
+        $gameService->create($validated, $chamionship);
 
         return redirect()->back();
     }
 
-    public function update(UpdateGameRequest $request)
+    public function update(UpdateGameRequest $request, GameService $gameService)
     {
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request, $gameService) {
 
             $validated = $request->validated();
-            // dd($validated);
             $game = Game::find($validated['gameId']);
             $game->update([
                 'team_a_goals' => $validated['teamAGoals'],
@@ -116,13 +73,52 @@ class GameController extends Controller
                 'team_b_red_cards' => $validated['teamBRedCards'],
                 'team_a_scorers' => $validated['teamAScorers'] ?? null,
                 'team_b_scorers' => $validated['teamBScorers'] ?? null,
-                'status' => $validated['isLive']? 'live' : 'finished    ',
+                'shootout_score_a' => $validated['shootoutScoreA'] ?? null,
+                'shootout_score_b' => $validated['shootoutScoreB'] ?? null,
+                'status' => $validated['isLive'] ? 'live' : 'finished',
             ]);
 
             Log::create([
                 'action' => "update match d'identifiant " . $game->id,
                 'user_id' => Auth()->user()->id,
             ]);
+
+            if ($game->type == 'knockout') {
+                if ($game->status == 'finished') {
+                    $nextGame = Game::with('championship')
+                        ->whereHas('championship', function ($query) use ($game) {
+                            $query->where('year', $game->championship->year);
+                        })
+                        ->where('position', getNextMatchPosition($game->position, $game->stage)['next_position'])
+                        ->where('stage', getNextMatchPosition($game->position, $game->stage)['next_phase'])
+                        ->first();
+                    if (!$nextGame) {
+                        $gameService->createKnockout([
+                            ($game->position % 2 === 1 ? 'team1Id' : 'team2Id') => $gameService->determineWinner(
+                                [$game->team_a_id, $game->team_a_goals, $game->shootout_score_a],
+                                [$game->team_b_id, $game->team_b_goals, $game->shootout_score_b]
+                            ),
+                            'position' => getNextMatchPosition($game->position, $game->stage)['next_position'],
+                            'location' => $game->location,
+                            'stage' => nextStage($game->stage),
+                            'type' => 'knockout',
+                        ], $game->championship);
+                    } else {
+                        $nextGame->update([
+                            ($game->position % 2 === 1 ? 'team_a_id' : 'team_b_id') => $gameService->determineWinner(
+                                [$game->team_a_id, $game->team_a_goals, $game->shootout_score_a],
+                                [$game->team_b_id, $game->team_b_goals, $game->shootout_score_b]
+                            ),
+                        ]);
+                        // dd($game->position, $nextGame , [
+                        //     ($game->position % 2 === 1 ? 'team_a_id' : 'team_b_id') => $gameService->determineWinner(
+                        //         [$game->team_a_id, $game->team_a_goals, $game->shootout_score_a],
+                        //         [$game->team_b_id, $game->team_b_goals, $game->shootout_score_b]
+                        //     ),
+                        // ]);
+                    }
+                }
+            }
         });
         return redirect()->back();
     }
@@ -179,5 +175,4 @@ class GameController extends Controller
         $game->delete();
         return redirect()->back();
     }
-
 }

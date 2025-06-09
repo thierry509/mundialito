@@ -15,7 +15,8 @@
             <!-- Quick Actions Grid -->
             <div class="col-span-full grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Gestion des matchs -->
-                <Link href="/edition/matchs">
+                <Link v-if="auth?.user.roles == 'admin' || auth?.user.roles == 'editor'"
+                    :href="`/edition/championnat/match?year=${year.year}`">
                 <div
                     class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:border-blue-200 transition-all hover:shadow-md flex items-start">
                     <div class="p-3 rounded-lg bg-blue-50 text-blue-600 mr-4">
@@ -32,7 +33,7 @@
                 </div>
                 </Link>
                 <!-- Gestion des équipes -->
-                <Link href="/edition/equipes"
+                <Link v-if="auth?.user.roles == 'admin'" :href="`/edition/equipes`"
                     class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:border-purple-200 transition-all hover:shadow-md flex items-start">
                 <div class="p-3 rounded-lg bg-purple-50 text-purple-600 mr-4">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,25 +64,25 @@
                         <p class="text-sm text-gray-500 mt-1">Configurer votre espace</p>
                     </div>
                 </a>
-                <a href="#"
+                <Link v-if="auth?.user.roles == 'reporter' || auth?.user?.roles == 'admin'" href="/edition/actualites"
                     class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:border-gray-200 transition-all hover:shadow-md flex items-start">
-                    <div class="p-3 rounded-lg bg-red-50 text-red-600 mr-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4m0 0h14">
-                            </path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-900">Actualites</h3>
-                        <p class="text-sm text-gray-500 mt-1">Gerer vos articles</p>
-                    </div>
-                </a>
+                <div class="p-3 rounded-lg bg-red-50 text-red-600 mr-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V7a2 2 0 00-2-2H7a2 2 0 00-2 2v4m0 0h14">
+                        </path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-gray-900">Actualites</h3>
+                    <p class="text-sm text-gray-500 mt-1">Gerer vos articles</p>
+                </div>
+                </Link>
             </div>
 
             <!-- Stats and Championships Grid -->
             <div class="col-span-full grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <ListChampionship v-if="auth?.user.roles == 'admin'"/>
+                <ListChampionship v-if="auth?.user.roles == 'admin'" />
             </div>
         </div>
 
@@ -90,6 +91,9 @@
 <script setup>
 import { Link, Head } from '@inertiajs/vue3';
 import ListChampionship from '../components/Championship/ListChampionship.vue';
+import { useYearStore } from '@/store/year';
+
+const year = useYearStore();
 
 defineProps({
     auth: Object,

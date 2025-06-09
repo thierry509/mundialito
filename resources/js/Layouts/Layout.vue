@@ -38,8 +38,8 @@
                         <button id="userMenuButton" class="flex items-center space-x-2 focus:outline-none"
                             @click="toggleUserMenu">
                             <div
-                                class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white font-semibold">
-                                JP
+                                class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white font-semibold text-sm">
+                                {{ auth.user?.first_name?.charAt(0) }} {{ auth.user?.last_name?.charAt(0) }}
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -330,6 +330,7 @@ import SelectedYear from '@/components/Championship/SelectedYear.vue';
 import ToastNotification from '@/components/ui/ToastNotification.vue';
 import { useYearStore } from '@/store/year';
 import ConfirmModal from '../components/modal/ConfirmModal.vue';
+import { onMounted } from 'vue';
 
 
 defineProps({
@@ -337,6 +338,16 @@ defineProps({
 });
 
 const year = useYearStore();
+onMounted(() => {
+    const aside = document.getElementById('aside');
+    const asideItems = document.querySelectorAll('#aside ul li');
+    asideItems.forEach(item => {
+        item.addEventListener('click', () => {
+            aside.classList.add('-translate-x-full');
+            aside.classList.remove('translate-x-0');
+        });
+    });
+});
 const aside = document.getElementById('aside');
 const openAsideButton = document.getElementById('openAside');
 

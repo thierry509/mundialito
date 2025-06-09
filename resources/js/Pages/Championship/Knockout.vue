@@ -33,7 +33,7 @@
                     <!-- Colonne Huitièmes -->
                     <div v-if="round >= 4" class="mr-[100px] ml-4">
                         <template v-for="i in 8">
-                            <singleMatchKnockout :game="round16[i]" :position="i" stage='round16' @create="createGame"
+                            <singleMatchKnockout  :firstRound="round === 4"  :game="round16[i]" :position="i" stage='round16' @create="createGame"
                                 class="my-[50px] hover:scale-105 transition-transform" />
                         </template>
                     </div>
@@ -41,7 +41,7 @@
                     <!-- Colonne Quarts -->
                     <div v-if="round >= 3" class="mr-[100px]">
                         <template v-for="i in 4">
-                            <singleMatchKnockout :game="quarter[i]" :position="i" stage='quarter' @create="createGame"
+                            <singleMatchKnockout  :firstRound="round === 3"  :game="quarter[i]" :position="i" stage='quarter' @create="createGame"
                                 class="my-[150px] hover:scale-105 transition-transform" />
                         </template>
                     </div>
@@ -49,7 +49,7 @@
                     <!-- Colonne Demis -->
                     <div v-if="round >= 2" class="mr-[100px]">
                         <template v-for="i in 2">
-                            <singleMatchKnockout :game="semi[i]" :position="i" stage='semi' @create="createGame"
+                            <singleMatchKnockout :firstRound="round === 2"  :game="semi[i]" :position="i" stage='semi' @create="createGame"
                                 class="my-[350px] hover:scale-105 transition-transform" />
                         </template>
                     </div>
@@ -57,7 +57,7 @@
                     <!-- Colonne Finale -->
                     <div v-if="round >= 1" class="mr-[100px]">
                         <template v-for="i in 1">
-                            <singleMatchKnockout :game="final[1]" :position="i" stage='final' @create="createGame"
+                            <singleMatchKnockout :firstRound="round === 1" :game="final[1]" :position="i" stage='final' @create="createGame"
                                 class="my-[350px] hover:scale-105 transition-transform" />
                         </template>
                     </div>

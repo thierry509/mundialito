@@ -25,6 +25,8 @@ class Game extends Model
         'team_b_yellow_cards',
         'team_a_red_cards',
         'team_b_red_cards',
+        'shootout_score_a',
+        'shootout_score_b',
         'team_a_scorers',
         'team_b_scorers'
     ];

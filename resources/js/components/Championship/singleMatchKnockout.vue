@@ -3,16 +3,20 @@
         <div v-if="game" class="px-1">
             <Link :href="`/edition/championnat/match?year=${year}#${game.id}`">
             <div class="flex justify-between">
-                <span>{{ game.team_a.name }}</span>
-                <span>{{ game.team_a_goals }}</span>
+                <span>{{ game.team_a?.name?? 'N/A' }}</span>
+                <span>{{ game.team_a_goals }} <span v-if="game.shootout_score_a" class="text-sm">({{
+                    game.shootout_score_a }})</span>
+                </span>
             </div>
             <div class="flex justify-between">
-                <span>{{ game.team_b.name }}</span>
-                <span>{{ game.team_a_goals }}</span>
+                <span>{{ game.team_b?.name?? 'N/A' }}</span>
+                <span>{{ game.team_b_goals }} <span v-if="game.shootout_score_b" class="text-sm">({{
+                    game.shootout_score_b }})</span>
+                </span>
             </div>
             </Link>
         </div>
-        <div v-else @click="createGame(position, stage)"
+        <div v-else-if="previousGame.length == 0 && firstRound" @click="createGame(position, stage)"
             class="flex justify-center items-center border-2 border-dotted border-gray-300 w-full rounded-lg py-2 px-4 hover:bg-gray-50 cursor-pointer transition-colors">
             <div class="flex items-center gap-2 text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -23,7 +27,14 @@
                 <span class="font-medium">Planifier un match</span>
             </div>
         </div>
+        <div v-else
+            class="flex justify-center items-center border-2 border-dotted border-gray-300 w-full rounded-lg py-2 px-4">
+            <div class="flex items-center gap-2 text-gray-500">
+                <span class="font-medium">Match en attente</span>
+            </div>
+        </div>
     </div>
+
 </template>
 
 <script setup>
@@ -34,6 +45,11 @@ defineProps({
     game: Object,
     position: Number,
     stage: String,
+    firstRound: Boolean,
+    previousGame: {
+        type: Array,
+        default: []
+    },
 });
 
 const year = useYearStore().year

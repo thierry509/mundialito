@@ -3,7 +3,7 @@
       <label class="block text-sm font-medium text-gray-700 mb-1">
         {{ label }} <span v-if="required" class="text-red-500">*</span>
       </label>
-
+  
       <div
         @dragover.prevent="dragover = true"
         @dragleave.prevent="dragover = false"
@@ -39,7 +39,7 @@
           <p class="text-xs text-gray-500">{{ fileRequirements }}</p>
           <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
         </div>
-
+  
         <div v-else class="relative w-full">
           <img :src="previewUrl" class="max-h-64 mx-auto rounded-lg" :alt="`Prévisualisation ${label}`" />
           <button
@@ -55,10 +55,10 @@
       </div>
     </div>
   </template>
-
+  
   <script setup>
-  import { ref, computed } from 'vue'
-
+  import { ref, watch, onMounted } from 'vue'
+  
   const props = defineProps({
     modelValue: File,
     label: {
@@ -77,15 +77,31 @@
     fileRequirements: {
       type: String,
       default: 'PNG, JPG, JPEG jusqu\'à 5MB'
+    },
+    initialImage: {
+      type: String,
+      default: null
     }
   })
-
+  
   const emit = defineEmits(['update:modelValue'])
-
+  
   const fileInput = ref(null)
   const dragover = ref(false)
   const previewUrl = ref(null)
-
+  
+  onMounted(() => {
+    if (props.initialImage && !previewUrl.value) {
+      previewUrl.value = props.initialImage
+    }
+  })
+  
+  watch(() => props.initialImage, (newVal) => {
+    if (newVal && !previewUrl.value) {
+      previewUrl.value = newVal
+    }
+  })
+  
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (file && validateFile(file)) {
@@ -93,7 +109,7 @@
       createPreview(file)
     }
   }
-
+  
   const handleDrop = (e) => {
     dragover.value = false
     const file = e.dataTransfer.files[0]
@@ -102,16 +118,15 @@
       createPreview(file)
     }
   }
-
+  
   const validateFile = (file) => {
-    // Validation basique - vous pouvez ajouter plus de vérifications
     if (!file.type.match('image.*')) {
       alert('Veuillez sélectionner une image valide')
       return false
     }
     return true
   }
-
+  
   const createPreview = (file) => {
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -119,7 +134,7 @@
     }
     reader.readAsDataURL(file)
   }
-
+  
   const removeImage = () => {
     previewUrl.value = null
     emit('update:modelValue', null)
@@ -128,3 +143,4 @@
     }
   }
   </script>
+  
