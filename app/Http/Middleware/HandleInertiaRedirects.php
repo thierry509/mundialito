@@ -13,14 +13,20 @@ class HandleInertiaRedirects
     {
         $response = $next($request);
 
-        // Si la requête est Inertia et qu'on a une redirection HTTP (302, 303, etc.)
-        if (
-            $request->header('X-Inertia') &&
-            $response->isRedirection() &&
-            in_array($response->getStatusCode(), [301, 302, 303])
-        ) {
-            // On force un vrai rechargement vers la nouvelle URL
-            return Inertia::location($response->headers->get('Location'));
+        // Si la requête vient d'Inertia
+        if ($request->header('X-Inertia')) {
+            // Cas 1 : Redirection
+            if ($response->isRedirection()) {
+                return Inertia::location($response->headers->get('Location'));
+            }
+
+            // Cas 2 : Réponse HTML inattendue (ex: une vue Blade comme login.blade.php)
+            $contentType = $response->headers->get('Content-Type');
+
+            if (str_starts_with($contentType, 'text/html')) {
+                // On force un rechargement complet pour éviter document.write
+                return Inertia::location($request->getRequestUri());
+            }
         }
 
         return $response;

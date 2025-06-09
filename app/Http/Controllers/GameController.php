@@ -38,7 +38,6 @@ class GameController extends Controller
 
         $games = $gameService->all($year);
 
-
         return Inertia::render('Championship.Games', [
             'games' =>  $games,
             'groups' => Group::with('teams')->whereHas('championship', function ($query) use ($year) {
