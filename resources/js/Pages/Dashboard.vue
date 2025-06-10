@@ -4,8 +4,8 @@
         <title>Tableau de bord</title>
     </Head>
     <div class="p-6 md:p-8">
-
-        <div class="max-w-7xl mx-auto grid grid-cols-1 gap-6">
+        <UserBanner v-if="auth?.user.roles === 'user'" />
+        <div v-else class="max-w-7xl mx-auto grid grid-cols-1 gap-6">
             <!-- Header -->
             <div class="col-span-full">
                 <h1 class="text-3xl font-bold text-gray-900">Tableau de bord</h1>
@@ -92,7 +92,7 @@
 import { Link, Head } from '@inertiajs/vue3';
 import ListChampionship from '../components/Championship/ListChampionship.vue';
 import { useYearStore } from '@/store/year';
-
+import UserBanner from '../components/ui/UserBanner.vue';
 const year = useYearStore();
 
 defineProps({
