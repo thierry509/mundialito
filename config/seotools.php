@@ -17,7 +17,7 @@ return [
             'url' => null,
             'type' => 'article',
             'images' => [
-                public_path('mundialito.jpg')
+                env('APP_URL') . '/images/mundialito.jpg'
             ],
         ],
     ],
