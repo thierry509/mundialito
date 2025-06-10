@@ -41,20 +41,31 @@ class NewsController extends Controller
     public function show($slug)
     {
         $cacheKey = "news_{$slug}";
-
+        $news = News::where('slug', $slug)
+        ->firstOrFail();
         // $data = Cache::remember($cacheKey, now()->addHours(2), function () use ($slug) {
 
-        SEOMeta::setTitle('News - ' . $slug);
-        SEOMeta::setDescription('Description de la news ' . $slug);
+        SEOMeta::setTitle('Actualite - ' . $news->title);
+        SEOMeta::setDescription('Description de l\'actualite ' . $news->title);
+        SEOMeta::setCanonical(url()->current());
 
-        OpenGraph::setTitle('News - ' . $slug);
-        OpenGraph::setDescription('Description de la news ' . $slug);
 
-        TwitterCard::setTitle('News - ' . $slug);
-        TwitterCard::setDescription('Description de la news ' . $slug);
+        OpenGraph::setTitle('Actualite - ' . $news->title);
+        OpenGraph::setDescription('Description de l\'actualite ' . $news->title);
+        OpenGraph::setUrl(url()->current());
+        OpenGraph::addProperty('type', 'article');
+        OpenGraph::addImage($news->image?->url ?? asset('/images/mundialito.jpg'), [
+            'width' => 1200,
+            'height' => 630,
+        ]);
 
-        $news = News::where('slug', $slug)
-            ->firstOrFail();
+        TwitterCard::setTitle('Actualite - ' . $news->title);
+        TwitterCard::setDescription('Description de l\'actualite ' . $news->title);
+        TwitterCard::setUrl(url()->current());
+        TwitterCard::setImage($news->image?->url ?? asset('/images/mundialito.jpg'));
+
+
+
         $author = $news->user;
         $category = $news->category;
         $data = [

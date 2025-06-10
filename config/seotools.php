@@ -4,7 +4,7 @@ return [
     'meta' => [
         'defaults' => [
             'title' => 'Mondialito',
-            'description' => 'Description par défaut',
+            'description' => 'site web officiel du mondialito',
             'separator' => ' - ',
             'keywords' => ['tournoi', 'foot', 'Gonaïves', 'Mundialito'],
         ],
