@@ -3,20 +3,22 @@
 return [
     'meta' => [
         'defaults' => [
-            'title' => 'Titre par défaut',
+            'title' => 'Mondialito',
             'description' => 'Description par défaut',
             'separator' => ' - ',
-            'keywords' => [],
+            'keywords' => ['tournoi', 'foot', 'Gonaïves', 'Mundialito'],
         ],
     ],
 
     'opengraph' => [
         'defaults' => [
-            'title' => 'Titre par défaut',
+            'title' => 'Mondialito',
             'description' => 'Description par défaut',
             'url' => null,
             'type' => 'article',
-            'images' => [asset('/mundialito.jpg')],
+            'images' => [
+                public_path('mundialito.jpg')
+            ],
         ],
     ],
 
