@@ -84,10 +84,9 @@
                         :error="form.errors.featured_image" required file-requirements="PNG, JPG, JPEG jusqu'à 10MB" />
 
 
-                    <!-- Vidéo -->
-                    <Input v-model="form.image_description" name="image_description" label="Description de l'image"
+                    <Input v-if="form.featured_image != null" v-model="form.image_description" name="image_description" label="Description de l'image"
                         placeholder="Entrez une description de l'image" :error="form.errors.image_description"
-                        helper-text="Ajoutez une description pour l'image mise en avant." />
+                        helper-text="Ajoutez une description pour l'image mise en avant." required/>
                 </div>
 
                 <!-- Section 4: Paramètres -->
@@ -150,7 +149,6 @@
             </form>
         </div>
     </div>
-    {{form.featured_image}}
 </template>
 
 <script setup>

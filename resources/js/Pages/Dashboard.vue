@@ -4,7 +4,7 @@
         <title>Tableau de bord</title>
     </Head>
     <div class="p-6 md:p-8">
-        <UserBanner v-if="auth?.user.roles === 'user'" />
+        <UserBanner v-if="auth?.user.roles === 'user'" :users="users"  />
         <div v-else class="max-w-7xl mx-auto grid grid-cols-1 gap-6">
             <!-- Header -->
             <div class="col-span-full">
@@ -97,6 +97,7 @@ const year = useYearStore();
 
 defineProps({
     auth: Object,
+    users: Array,
 });
 
 </script>

@@ -29,29 +29,31 @@
                         <p class="text-green-700 text-sm mb-3">Contactez nos administrateurs pour accéder à des
                             fonctionnalités supplémentaires :</p>
 
-                        <div class="space-y-2">
-                            <div class="flex items-center">
-                                <div class="bg-green-100 p-2 rounded-full mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                    </svg>
+                        <ul class="space-y-4">
+                            <li v-for="user in users" :key="user.id" class="flex items-center space-x-4 bg-green-50 p-4 rounded-lg border border-green-200">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
                                 </div>
-                                <span class="text-gray-700 font-medium">+1 234 567 890</span>
-                            </div>
-
-                            <div class="flex items-center">
-                                <div class="bg-green-100 p-2 rounded-full mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
+                                <div>
+                                    <p class="text-gray-700 font-semibold">{{ user.first_name }} {{ user.last_name }}</p>
+                                    <p class="text-gray-500 text-sm">
+                                        <a :href="'mailto:' + user.email" class="text-blue-600 hover:underline">{{ user.email }}</a>
+                                    </p>
+                                    <p class="text-gray-500 text-sm">
+                                        <a :href="'tel:' + user.phone" class="text-blue-600 hover:underline">{{ user.phone }}</a>
+                                    </p>
+                                    <p v-if="user.phone" class="text-gray-500 text-sm">
+                                        <a :href="'https://wa.me/' + user.phone + '?text=' + encodeURIComponent('Bonjour, je viens de créer un compte sur le site de Mundialito. J\'ai besoin d\'avoir plus d\'accès sur le site pour collaborer.')" target="_blank" class="text-green-600 hover:underline">
+                                            Contacter via WhatsApp
+                                        </a>
+                                    </p>
                                 </div>
-                                <span class="text-gray-700 font-medium">contact@organisation.com</span>
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="text-center mb-6">
@@ -80,3 +82,8 @@
             </div>
         </div>
 </template>
+<script setup>
+    defineProps({
+        users: Array,
+    });
+</script>

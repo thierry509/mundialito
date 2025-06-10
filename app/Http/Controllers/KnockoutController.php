@@ -16,7 +16,7 @@ class KnockoutController extends Controller
     {
         $year = $request->query('year');
 
-        
+
         $round16 = Game::with(['teamA', 'teamB', 'championship'])
             ->where('stage', 'round16')
             ->whereHas('championship', function ($query) use ($year) {
@@ -55,16 +55,16 @@ class KnockoutController extends Controller
     public function adminIndex(AdminViewRequest $request)
     {
         $year = $request->query('year');
-        $teamsNotInKnockout = Team::whereDoesntHave('matchesAsTeamA', function($query) {
+        $teamsNotInKnockout = Team::whereDoesntHave('matchesAsTeamA', function($query) use ($year) {
             $query->where('type', 'knockout')
-                  ->whereHas('championship', function($q) {
-                      $q->where('year', 2024);
+                  ->whereHas('championship', function($q) use ($year) {
+                      $q->where('year', $year);
                   });
         })
-        ->whereDoesntHave('matchesAsTeamB', function($query) {
+        ->whereDoesntHave('matchesAsTeamB', function($query) use ($year) {
             $query->where('type', 'knockout')
-                  ->whereHas('championship', function($q) {
-                      $q->where('year', 2024);
+                  ->whereHas('championship', function($q) use ($year) {
+                      $q->where('year', $year);
                   });
         })
         ->get();
@@ -95,7 +95,7 @@ class KnockoutController extends Controller
                 $query->where('year', $year);
             })->orderBy('position')
             ->get()->keyBy('position');
-        
+
 
         return Inertia::render('Championship.Knockout', [
             'round16' => $round16,
