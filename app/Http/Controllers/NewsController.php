@@ -10,6 +10,9 @@ use App\Models\Category;
 use App\Models\Images;
 use App\Models\News;
 use App\Services\ImageService;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\TwitterCard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -40,6 +43,16 @@ class NewsController extends Controller
         $cacheKey = "news_{$slug}";
 
         // $data = Cache::remember($cacheKey, now()->addHours(2), function () use ($slug) {
+
+        SEOMeta::setTitle('News - ' . $slug);
+        SEOMeta::setDescription('Description de la news ' . $slug);
+
+        OpenGraph::setTitle('News - ' . $slug);
+        OpenGraph::setDescription('Description de la news ' . $slug);
+
+        TwitterCard::setTitle('News - ' . $slug);
+        TwitterCard::setDescription('Description de la news ' . $slug);
+
         $news = News::where('slug', $slug)
             ->firstOrFail();
         $author = $news->user;
