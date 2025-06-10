@@ -46,12 +46,12 @@ class NewsController extends Controller
         // $data = Cache::remember($cacheKey, now()->addHours(2), function () use ($slug) {
 
         SEOMeta::setTitle('Actualite - ' . $news->title);
-        SEOMeta::setDescription('Description de l\'actualite ' . $news->title);
+        SEOMeta::setDescription('Description ' . $news->excerpt);
         SEOMeta::setCanonical(url()->current());
 
 
         OpenGraph::setTitle('Actualite - ' . $news->title);
-        OpenGraph::setDescription('Description de l\'actualite ' . $news->title);
+        OpenGraph::setDescription('Description ' . $news->excerpt);
         OpenGraph::setUrl(url()->current());
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addImage($news->image?->url ?? asset('/images/mundialito.jpg'), [
@@ -60,7 +60,7 @@ class NewsController extends Controller
         ]);
 
         TwitterCard::setTitle('Actualite - ' . $news->title);
-        TwitterCard::setDescription('Description de l\'actualite ' . $news->title);
+        TwitterCard::setDescription('Description ' . $news->excerpt);
         TwitterCard::setUrl(url()->current());
         TwitterCard::setImage($news->image?->url ?? asset('/images/mundialito.jpg'));
 

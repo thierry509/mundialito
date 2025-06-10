@@ -10,14 +10,16 @@ use Intervention\Image\Exceptions\EncoderException;
 
 class ImageService
 {
-    public function store($file, string $desc, string $path = 'uploads', int $width = 300, int $height = 200): array
+    public function store($file, string $desc, string $path = 'uploads', int $width = 700, int $height = 1000): array
     {
         $manager = new ImageManager(new Driver());
 
         // Création de l'image et de la miniature
         $image = $manager->read($file->getRealPath());
-        $thumbnail = $image->resize($width, $height);
-
+        $thumbnail = $image->scale($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize(); // empêche d’agrandir les petites images
+        });
         // Gestion du nom et de l'extension
         $extension = $this->getOptimalExtension($file);
         $filename = $this->generateUniqueFilename($desc, $extension, $path);
@@ -31,8 +33,8 @@ class ImageService
 
         // Sauvegarde avec gestion d'erreur
         try {
-            $image->save(storage_path("app/public/{$originalPath}"));
-            $thumbnail->save(storage_path("app/public/{$thumbnailPath}"));
+            $image->save(storage_path("app/public/{$originalPath}"), quality: 100); // qualité de 90%
+            $thumbnail->save(storage_path("app/public/{$thumbnailPath}"), quality: 100);
         } catch (EncoderException $e) {
             throw new \RuntimeException("Failed to save image: " . $e->getMessage());
         }
@@ -85,7 +87,7 @@ class ImageService
 
         return $newPaths;
     }
-    
+
     protected function generateUniqueFilename(string $description, string $extension, string $path): string
     {
         $slug = Str::slug($description);
@@ -109,7 +111,7 @@ class ImageService
             'image/png' => 'png',
             'image/gif' => 'gif',
             'image/webp' => 'webp',
-            default => 'webp', // Fallback to WebP si format inconnu
+            default => 'webp',
         };
     }
 

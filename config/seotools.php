@@ -13,7 +13,7 @@ return [
     'opengraph' => [
         'defaults' => [
             'title' => 'Mondialito',
-            'description' => 'Description par défaut',
+            'description' => 'site web officiel du mondialito',
             'url' => null,
             'type' => 'article',
             'images' => [
