@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
-  <head>
-<meta name="robots" content="noindex, nofollow">
+
+<head>
+    <meta name="robots" content="noindex, nofollow">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <link rel="shortcut icon" href="{{ asset('images/mundialito.ico') }}" type="image/x-icon">
@@ -19,12 +20,15 @@
                         light: '#ECF0F1',
                     }
                 }
-            }
+            },
+            important: true,
         }
     </script>
     @inertiaHead
-  </head>
-  <body>
+</head>
+
+<body>
     @inertia
-  </body>
+</body>
+
 </html>

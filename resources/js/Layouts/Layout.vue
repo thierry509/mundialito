@@ -39,7 +39,7 @@
                             @click="toggleUserMenu">
                             <div
                                 class="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white font-semibold text-sm">
-                                {{ auth.user?.first_name?.charAt(0) }} {{ auth.user?.last_name?.charAt(0) }}
+                                {{ auth.user?.first_name?.charAt(0).toUpperCase() }} {{ auth.user?.last_name?.charAt(0).toUpperCase() }}
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">

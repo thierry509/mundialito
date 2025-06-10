@@ -107,9 +107,8 @@ class NewsController extends Controller
     {
         // Validation des données
         $validatedData = $request->validated();
-        Gate::authorize('create', News::class);
+        // Gate::authorize('create', News::class);
         // Gestion de l'upload de l'image
-
         DB::transaction(function () use ($validatedData, $request, $imageService) {
             $image = null;
             $slug = $this->manage_slug($validatedData['slug']);

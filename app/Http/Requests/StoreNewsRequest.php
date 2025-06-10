@@ -19,18 +19,11 @@ class StoreNewsRequest extends FormRequest
             'slug' => 'required|string|max:255|unique:news,slug',
             'content' => 'required|string',
             'excerpt' => 'required|string|max:500',
-            'featured_image' => 'image|mimes:jpeg,png,jpg|max:5120',
-            'image_description' => 'required_with:featured_image|string',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'image_description' => 'nullable|required_if:featured_image,true|string',
             'status' => 'required|in:published,draft',
             'tags' => 'nullable|string|max:255',
         ];
-        if ($this->form) {
-            // En mode update
-            $rules['slug'] = 'required|string|max:255|unique:news,slug,' . $this->form->id;
-            // featured_image n'est pas toujours requise en update
-            $rules['featured_image'] = 'nullable|image|mimes:jpeg,png,jpg|max:5120';
-        }
-
         return $rules;
     }
 

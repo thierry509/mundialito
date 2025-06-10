@@ -57,7 +57,7 @@
                     <div class="flex items-center">
                         <span
                             class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
-                            @if ($game->shootout_score_a)
+                            @if ($game->shootout_score_a !== null)
                                 <span class="mx-2 text-sm">({{ $game->shootout_score_a }})</span>
                             @endif
                             {{ $game->team_a_goals }}
@@ -66,7 +66,7 @@
                         <span
                             class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
                             {{ $game->team_b_goals }}
-                            @if ($game->shootout_score_b)
+                            @if ($game->shootout_score_b !== null)
                                 <span class="mx-2 text-sm">({{ $game->shootout_score_b }})</span>
                             @endif
                         </span>

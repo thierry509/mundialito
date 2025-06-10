@@ -3,14 +3,14 @@
         <div v-if="game" class="px-1">
             <Link :href="`/edition/championnat/match?year=${year}#${game.id}`">
             <div class="flex justify-between">
-                <span>{{ game.team_a?.name?? 'N/A' }}</span>
-                <span>{{ game.team_a_goals }} <span v-if="game.shootout_score_a" class="text-sm">({{
+                <span>{{ game.team_a?.name ?? 'N/A' }}</span>
+                <span>{{ game.team_a_goals }} <span v-if="game.shootout_score_a != null" class="text-sm">({{
                     game.shootout_score_a }})</span>
                 </span>
             </div>
             <div class="flex justify-between">
-                <span>{{ game.team_b?.name?? 'N/A' }}</span>
-                <span>{{ game.team_b_goals }} <span v-if="game.shootout_score_b" class="text-sm">({{
+                <span>{{ game.team_b?.name ?? 'N/A' }}</span>
+                <span>{{ game.team_b_goals }} <span v-if="game.shootout_score_b != null" class="text-sm">({{
                     game.shootout_score_b }})</span>
                 </span>
             </div>

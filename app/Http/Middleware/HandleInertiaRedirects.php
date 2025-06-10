@@ -24,8 +24,9 @@ class HandleInertiaRedirects
             $contentType = $response->headers->get('Content-Type');
 
             if (str_starts_with($contentType, 'text/html')) {
+                // dd($contentType);
                 // On force un rechargement complet pour éviter document.write
-                return Inertia::location($request->getRequestUri());
+                // return Inertia::location($request->getRequestUri());
             }
         }
 

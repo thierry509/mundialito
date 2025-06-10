@@ -93,8 +93,10 @@ const updateForm = () => {
 
 const shootoutScoreToggle = () => {
     if (form.shootoutScore) {
+        shootoutScoreA.value = shootoutScoreA.value || 0;
+        shootoutScoreB.value = shootoutScoreB.value || 0;
         form.shootoutScoreA = shootoutScoreA.value;
-        form.shootoutScoreB = shootoutScoreB.value;
+        form.shootoutScoreB = shootoutScoreB.value
     } else {
         form.shootoutScoreA = null;
         form.shootoutScoreB = null;
@@ -129,6 +131,7 @@ const close = () => {
 <template>
     <BaseModal :show="show" @close="close">
         <form @submit.prevent="submit" class="space-y-4">
+            {{ form }}
             <div class="overflow-hidden">
                 <div class="py-4">
                     <!-- En-tête du match -->

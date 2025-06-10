@@ -24,14 +24,14 @@
         </div>
 
         <div class="flex justify-end my-4">
-            <button @click="createMatch"
+            <button v-if="auth?.user.roles == 'admin'"@click="createMatch"
                 class="px-4 py-2 mt-4 bg-primary text-white rounded-md hover:bg-primary-dark transition">
                 Ajouter un match
             </button>
         </div>
         <div v-if="games.length === 0" class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
             <EmptyView model="match">
-                <button @click="createMatch"
+                <button v-if="auth?.user.roles == 'admin'" @click="createMatch"
                     class="px-4 py-2 mt-4 bg-primary text-white rounded-md hover:bg-primary-dark transition">
                     Ajouter un match
                 </button>
@@ -77,8 +77,8 @@ defineProps({
     groups: {
         type: Array,
         default: () => []
-    }
-
+    },
+    auth: Object,
 })
 const showCreateGame = ref(false);
 
