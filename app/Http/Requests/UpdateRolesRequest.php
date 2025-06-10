@@ -23,7 +23,7 @@ class UpdateRolesRequest extends FormRequest
     {
         return [
             'userId' => 'required|exists:users,id',
-            'roles' => 'required|in:user,editor,admin'
+            'roles' => 'required|in:user,editor,admin,reporter'
         ];
     }
 }
