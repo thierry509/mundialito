@@ -29,7 +29,7 @@ class NewsPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin || $user->isEditor;
+        return $user->isAdmin() || $user->isReporter();
     }
 
     /**
@@ -45,7 +45,7 @@ class NewsPolicy
      */
     public function delete(User $user, News $news): bool
     {
-        return $user->id === $news->user_id || $user->isAdmin;
+        return $user->id === $news->user_id || $user->isAdmin();
     }
 
     /**
