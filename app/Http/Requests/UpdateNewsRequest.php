@@ -8,7 +8,7 @@ class UpdateNewsRequest extends FormRequest
 {
     public function authorize()
     {
-        return;
+        return $this->user()->isAdmin() || $this->user()->isReporter();;
     }
 
     public function rules()
@@ -22,7 +22,7 @@ class UpdateNewsRequest extends FormRequest
             'content' => 'required|string',
             'excerpt' => 'required|string|max:500',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
-            'image_description' => 'required_with:featured_image|string',
+            'image_description' => 'nullable|required_if:featured_image,true|string',
             'status' => 'required|in:published,draft',
             'tags' => 'nullable|string|max:255',
             'video_url' => 'nullable|url|mimes:mp4,avi,mov,mkv|max:10240',
