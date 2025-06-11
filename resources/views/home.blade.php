@@ -5,7 +5,7 @@
         <div class="relative h-[90vh] md:h-screen">
             <!-- Image de fond avec effet de parallaxe -->
             <div
-                class="absolute inset-0 bg-[url('https://cdn.pixabay.com/photo/2020/01/12/16/57/stadium-4760441_1280.jpg')] bg-cover bg-center bg-no-repeat md:transform md:hover:scale-105 md:transition md:duration-1000 md:ease-[cubic-bezier(0.25,0.1,0.25,1)]">
+                class="absolute inset-0 bg-[url({{asset('images/stadium.jpg')}})] bg-cover bg-center bg-no-repeat md:transform md:hover:scale-105 md:transition md:duration-1000 md:ease-[cubic-bezier(0.25,0.1,0.25,1)]">
             </div>
 
             <!-- Overlay avec dégradé -->

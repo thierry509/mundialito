@@ -53,7 +53,7 @@
 
                     <!-- Liste des matchs -->
                     <template v-for="game in matchDays">
-                        <SingleGame :game="game" />
+                        <SingleGame :game="game" :auth="auth"/>
                     </template>
                 </div>
             </div>

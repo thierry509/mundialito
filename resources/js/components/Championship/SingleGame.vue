@@ -76,18 +76,19 @@
 
             <!-- Section des boutons d'action -->
             <div class="flex justify-between space-x-2 mt-4 pt-3 border-t border-gray-100">
-
-                <button v-if="auth?.user.roles == 'admin'" @click="deleteGame"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition flex flex-col md:flex-row justify-center items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                    <span class="hidden md:block mx-1.5">Suprimmer</span>
-                </button>
-
-                <button v-if="auth?.user.roles == 'admin' && game.status != 'postponed' && game.status != 'finished' && !game?.team_a_goals"
+                <div class="">
+                    <button v-if="auth?.user.roles == 'admin'" @click="deleteGame"
+                        class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition flex flex-col md:flex-row justify-center items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span class="hidden md:block mx-1.5">Suprimmer</span>
+                    </button>
+                </div>
+                <button
+                    v-if="auth?.user.roles == 'admin' && game.status != 'postponed' && game.status != 'finished' && !game?.team_a_goals"
                     @click="postpone"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-orange-500/10 text-orange-600 hover:bg-orange-500/20 transition inline-flex items-center justify-center">
                     <svg fill="currentColor" viewBox="0 0 36 36" version="1.1" class="h-4 w-4"
@@ -120,7 +121,7 @@
                 </button>
 
                 <button
-                    v-if=" auth?.user.roles == 'admin' && game.team_a_goals != null && game.team_b_goals != null && game.status != 'finished' && game.status != 'posponed'"
+                    v-if="auth?.user.roles == 'admin' && game.team_a_goals != null && game.team_b_goals != null && game.status != 'finished' && game.status != 'posponed'"
                     @click="end"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition flex justify-center items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
