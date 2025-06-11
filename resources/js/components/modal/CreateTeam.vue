@@ -46,10 +46,8 @@ const submit = () => {
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Enregistrer une nouvelle équipe</h2>
             <form @submit.prevent="submit" class="space-y-4">
                 <Input v-model="form.name" type="text" id="name" label="Nom de l'équipe"
-                    placeholder="Ex: Jarguard de Gatreau" :error="form.errors.name" required />
-                <Input v-model="form.location" type="text" id="location" label="Localite" placeholder="Ex: Gatreau"
-                    :error="form.errors.location" required />
-
+                    placeholder="Ex: Real Madrid" :error="form.errors.name" required />
+        
                 <div class="flex justify-end space-x-3 pt-2">
                     <button type="button" @click="emit('close')"
                         class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition">

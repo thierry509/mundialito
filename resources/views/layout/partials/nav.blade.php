@@ -5,7 +5,8 @@
         <a href="{{ route('home') }}">
             <div class="flex items-center">
                 <img src="{{ asset('images/logo.png') }}" alt="">
-                <span class=" ml-2 text-2xl font-bold text-white transition-colors duration-300 navbar-logo">Mundialito</span>
+                <span
+                    class=" ml-2 text-2xl font-bold text-white transition-colors duration-300 navbar-logo">Mundialito</span>
             </div>
         </a>
 
@@ -14,11 +15,11 @@
             <a href="{{ route('home') }}"
                 class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Accueil</a>
             <a href="{{ route('games') }}"
-                class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Matchs</a>
+                class="needsYear text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Matchs</a>
             <a href="{{ route('groups') }}"
-                class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Classement</a>
+                class="needsYear text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Classement</a>
             <a href="{{ route('knockout') }}"
-                class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Elimination</a>
+                class="needsYear text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Elimination</a>
             <a href="{{ route('about') }}"
                 class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">À
                 propos</a>
@@ -26,7 +27,7 @@
                 class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Actualités</a>
         </div>
         <div class="flex">
-            <a href="{{ route('dashboard') }}"
+            <a href="{{ route('dashboard') }}" aria-label="Tableau de bord" rel="nofollow noopener"
                 class="justify-center flex items-center px-4 py-3 mx-2 my-1 text-primary transition rounded-2xl shadow-sm hover:bg-primary/10 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/50">
                 <svg class="w-5 h-5 md:mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     aria-hidden="true">
@@ -38,7 +39,7 @@
 
 
             <!-- Menu mobile button -->
-            <button id="mobile-menu-button"
+            <button id="mobile-menu-button" aria-label="Ouvrir le menu mobile"
                 class="lg:hidden text-white focus:outline-none transition-colors duration-300 navbar-button">
                 <svg class="w-8 h-8 transition-colors duration-300" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
@@ -77,7 +78,7 @@
                         Accueil
                     </a>
                     <a href="{{ route('games') }}"
-                        class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
+                        class="needsYear block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
 
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -87,7 +88,7 @@
                         Matchs
                     </a>
                     <a href="{{ route('groups') }}"
-                        class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
+                        class="needsYear block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
@@ -96,7 +97,7 @@
                         Classement
                     </a>
                     <a href="{{ route('knockout') }}"
-                        class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
+                        class="needsYear block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8 21h8m-4-4v4m0-4c-5.523 0-10-4.477-10-10V5a2 2 0 012-2h2.5a2 2 0 012 2h5a2 2 0 012-2H20a2 2 0 012 2v2c0 5.523-4.477 10-10 10z" />

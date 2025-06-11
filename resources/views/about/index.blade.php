@@ -2,219 +2,73 @@
 
 @section('content')
     <!-- Hero Section -->
-    <x-hero
-        title="À Propos du Mundialito"
-        subtitle="Découvrez l'histoire et l'esprit de notre tournoi"
-        backgroundImage="/images/about-hero.jpg"
-        variant="primary"
-    />
+    <x-hero title="À Propos du Mundialito" subtitle="Découvrez l'histoire et l'esprit de notre tournoi"
+        backgroundImage="/images/about-hero.jpg" variant="primary" haveYear="{{ false }}" :center="false" />
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-12">
         <!-- History Section -->
-        <section class="mb-16">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                        Notre <span class="text-primary">Histoire</span>
-                    </h2>
-                    <div class="prose max-w-none text-gray-600">
-                        <p class="text-lg leading-relaxed">
-                            Le Mundialito des Gonaïves a été créé en 1998 par un groupe de passionnés de football souhaitant offrir à la jeunesse locale un tournoi estival de qualité.
-                        </p>
-                        <p>
-                            Ce qui a commencé comme un petit tournoi entre quartiers est rapidement devenu l'événement sportif le plus attendu de la région. Aujourd'hui, le Mundialito rassemble chaque année les meilleures équipes locales et attire des milliers de spectateurs.
-                        </p>
-                        <p>
-                            À travers les années, le tournoi a gardé son esprit communautaire tout en gagnant en professionnalisme, devenant un véritable tremplin pour les jeunes talents de la région.
-                        </p>
-                    </div>
-                </div>
-                <div class="relative group">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-primary to-accent rounded-2xl opacity-75 group-hover:opacity-100 blur-lg transition duration-200"></div>
-                    <div class="relative h-full rounded-2xl overflow-hidden">
-                        <img src="https://img.olympics.com/images/image/private/t_s_16_9_g_auto/t_s_w1460/f_auto/primary/ngdjbafv3twathukjbq2" alt="Première édition du Mundialito" class="w-full h-auto object-cover transition duration-500 group-hover:scale-105">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Values Section -->
-        <section class="mb-16 py-12 bg-gradient-to-r from-light to-white rounded-3xl">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
-                    Nos <span class="text-accent">Valeurs</span>
+        <section class="mb-16 max-w-6xl mx-auto px-4">
+            <div class="relative">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center mb-4">
+                    L'histoire du <span class="text-primary">Mundialito</span>
                 </h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
-                    Le Mundialito est bien plus qu'un simple tournoi de football
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-                <!-- Value 1 -->
-                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
-                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4 mx-auto">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-center mb-3">Communauté</h3>
-                    <p class="text-gray-600 text-center">
-                        Un événement qui rassemble tous les habitants des Gonaïves autour de leur passion commune pour le football.
-                    </p>
-                </div>
-
-                <!-- Value 2 -->
-                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
-                    <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center text-secondary mb-4 mx-auto">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-center mb-3">Fair-play</h3>
-                    <p class="text-gray-600 text-center">
-                        Le respect des adversaires, des arbitres et des règles est au cœur de notre philosophie.
-                    </p>
-                </div>
-
-                <!-- Value 3 -->
-                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
-                    <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center text-accent mb-4 mx-auto">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-center mb-3">Développement</h3>
-                    <p class="text-gray-600 text-center">
-                        Nous croyons au pouvoir du sport pour développer les compétences et le caractère des jeunes.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Team Section -->
-        <section class="mb-16">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
-                    L'<span class="text-primary">Équipe</span> du Mundialito
-                </h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
-                    Une équipe dévouée qui travaille toute l'année pour organiser le tournoi
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Member 1 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <img src="/images/team1.jpg" alt="Jean Dupont" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold">Jean Dupont</h3>
-                        <p class="text-primary font-medium">Président</p>
-                        <p class="text-gray-600 mt-2">Fondateur du Mundialito en 1998</p>
-                    </div>
-                </div>
-
-                <!-- Member 2 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <img src="/images/team2.jpg" alt="Marie Legrand" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold">Marie Legrand</h3>
-                        <p class="text-primary font-medium">Directrice Sportive</p>
-                        <p class="text-gray-600 mt-2">Ancienne joueuse internationale</p>
-                    </div>
-                </div>
-
-                <!-- Member 3 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <img src="/images/team3.jpg" alt="Pierre Martin" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold">Pierre Martin</h3>
-                        <p class="text-primary font-medium">Coordinateur</p>
-                        <p class="text-gray-600 mt-2">Organisateur depuis 15 ans</p>
-                    </div>
-                </div>
-
-                <!-- Member 4 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                    <img src="/images/team4.jpg" alt="Lucie Bernard" class="w-full h-64 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold">Lucie Bernard</h3>
-                        <p class="text-primary font-medium">Responsable Communication</p>
-                        <p class="text-gray-600 mt-2">Journaliste sportive</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stats Section -->
-        <section class="py-12 bg-primary rounded-3xl text-white">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">
-                    Le Mundialito <span class="text-secondary">en Chiffres</span>
-                </h2>
-                <p class="text-lg max-w-2xl mx-auto">
-                    Quelques statistiques qui montrent l'ampleur de l'événement
-                </p>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 px-4">
-                <div class="text-center">
-                    <div class="text-4xl font-bold mb-2">25+</div>
-                    <div class="text-sm uppercase tracking-wider">Éditions</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold mb-2">24</div>
-                    <div class="text-sm uppercase tracking-wider">Équipes</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold mb-2">5,000+</div>
-                    <div class="text-sm uppercase tracking-wider">Spectateurs</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl font-bold mb-2">150+</div>
-                    <div class="text-sm uppercase tracking-wider">Bénévoles</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials -->
-        <section class="mt-16">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
-                    Témoignages
-                </h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto mt-4">
-                    Ce que les participants disent du Mundialito
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="bg-white p-6 rounded-xl shadow-md">
-                    <div class="flex items-center mb-4">
-                        <img src="/images/testimonial1.jpg" alt="Marc Antoine" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h3 class="font-bold">Marc Antoine</h3>
-                            <p class="text-primary text-sm">Capitaine des Aigles</p>
+                
+                <!-- Première image flottante à gauche -->
+                <div class="float-right w-full sm:w-1/3 pr-0 sm:pr-6 ml-8 mt-4 mb-8 sm:mb-0">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-2xl opacity-50 group-hover:opacity-75 blur-lg transition duration-200"></div>
+                        <div class="relative h-full rounded-2xl overflow-hidden">
+                            <x-picture 
+                                imageName="match-de-football-mondialito-parc-vincent-des-gonaives"
+                                alt="Match de football mondialito parc vincent des gonaives" 
+                                mobilePath="images/mobile/"
+                                desktopPath="images/" 
+                                loading="lazy"
+                                class="w-full h-auto object-cover transition duration-500 group-hover:scale-105" />
                         </div>
                     </div>
-                    <blockquote class="text-gray-600 italic">
-                        "Le Mundialito est bien plus qu'un tournoi, c'est une institution. J'y participe depuis 10 ans et l'ambiance est toujours aussi incroyable."
-                    </blockquote>
                 </div>
-
-                <!-- Testimonial 2 -->
-                <div class="bg-white p-6 rounded-xl shadow-md">
-                    <div class="flex items-center mb-4">
-                        <img src="/images/testimonial2.jpg" alt="Sophie Durand" class="w-12 h-12 rounded-full mr-4">
-                        <div>
-                            <h3 class="font-bold">Sophie Durand</h3>
-                            <p class="text-primary text-sm">Spectatrice</p>
-                        </div>
-                    </div>
-                    <blockquote class="text-gray-600 italic">
-                        "Chaque été, toute ma famille attend avec impatience le Mundialito. C'est l'occasion de se retrouver entre amis autour de notre passion commune."
-                    </blockquote>
+                
+                <div class="prose max-w-none text-gray-600 text-justify text-lg leading-relaxed">
+                    <h3 class="font-bold text-3xl mt-4 text-primary">Creation</h3>
+                    <p class="text-lg leading-relaxed">
+                        Le <em>championnat de football des vacances d'été</em> aux Gonaïves, connu sous le nom de <em>Mundialito</em>, est né en 1966 grâce à Mme <em>Antoinette Jean Louis dite Tisò</em>. Il visait à promouvoir les activités sportives dans le quartier populaire de <em>Raboteau</em>, en particulier dans la zone de bidonville près de la <em>Cité de l'Indépendance</em>. Ce tournoi portait le nom de <em>Coupe Jacky Ti Sò</em>, en hommage à son fils décédé, <em>Jacky Jean Noël</em>, et symbolisait pour elle une façon de transformer la douleur en action sociale.
+                    </p>
+                    
+                    <p>
+                        Ce championnat s'adressait aux jeunes de <em>moins de 13 ans (U-13)</em> et devint rapidement un pilier de la vie communautaire, réunissant passion, rivalité et solidarité. Le <em>terrain de Rénovation</em>, qui devait être détruit dans un projet d'urbanisation initié par <em>François Duvalier</em>, devint finalement un <em>lieu mythique</em> du football local grâce à la Coupe Jacky Ti Sò, freinant les démolitions prévues à Raboteau.
+                    </p>
+                                        
+                    
+                    <p>
+                        Parmi les éditions les plus marquantes figure celle où l'équipe <em>Toison d'Or</em> de Pierre Saint Armand, composée de jeunes très soudés, affronta <em>Tchaker</em>, grand favori du tournoi, dirigée par des légendes locales comme <em>Trujillo, Zizi, Gracia Jean Charles</em> et <em>Manno Beaugé</em>. Contre toute attente, malgré les pronostics en leur défaveur, Toison d'Or triompha dans une ambiance féroce, appuyée par une mystérieuse prédiction de <em>Marco</em>, un personnage fantasque qui avait annoncé la victoire des "Trois Zombis".
+                    </p>
+                    
+                    <p>
+                        Ce championnat fut donc bien plus qu'un simple tournoi : c'était un <em>rituel social, une échappatoire pour la jeunesse, un espace d'espoir, de mémoire et d'identité</em> pour le quartier de Raboteau. Il a mêlé <em>football, culture populaire, spiritualité et résistance urbaine</em>, et reste un héritage vivant pour toute une génération. Ce championnat restera dans les mémoires comme une leçon : <em>l'unité, la foi et l'esprit d'équipe</em> peuvent triompher face à la force brute et aux statistiques.
+                    </p>
+                    
+                    <h3 class="font-bold text-3xl mt-4 text-primary">L'appelation du mundialito</h3>
+                    <p>
+                        Le championnat d'été des Gonaïves a connu une montée spectaculaire grâce à la couverture médiatique de journalistes influents comme <em>Belfond Pierre</em> de Radio Lumière et <em>Claude Valbrun</em> de Radio Soleil. Profitant de l'engouement populaire, ils ont su présenter cette compétition locale sous un jour favorable, attirant ainsi l'attention <em>nationale</em>. Leurs reportages, diffusés <em>un mois avant le lancement officiel</em>, ont contribué à créer une véritable ambiance autour du tournoi, en donnant la parole aux dirigeants d'équipes et aux membres du comité organisateur.
+                    </p>
+                    
+                    <p>
+                        Quelques mois avant le Mondial, le Brésil avait déjà montré l'étendue de son talent dans un tournoi préliminaire appelé <em>le Mundialito</em>, organisé en Espagne à la fin de 1981. Ce nom avait fortement résonné jusque dans les rues de <em>Gonaïves</em>, tant l'engouement pour cette équipe était grand.
+                    </p>
+                    
+                    <p>
+                        Quand la Coupe du monde 1982 débuta, du 13 juin au 11 juillet, toute la ville vibrait au rythme des matchs. Des correspondants comme <em>Dieusel Dieufort Placide</em>, dépêchés par les radios de la capitale, permettaient au public haïtien de <em>vivre chaque instant de cette aventure planétaire avec émotion et ferveur</em>.
+                    </p>
+                    
+                    <p>
+                        L'impact fut tel que des <em>rumeurs circulaient</em> : le gouvernement de <em>Jean Claude Duvalier</em> aurait envisagé d'envoyer des émissaires aux Gonaïves pour rencontrer les responsables du championnat. Face à cette notoriété soudaine, <em>Jacky Jean Noël</em>, l'homme derrière le tournoi, s'est entouré de figures locales influentes : <em>Dr Frantz Jean Charles, Gracia Jacques, Gérard Jospitre, Ernst Démésier, Michel Fortuné, Gessy Lionel Joseph, Claude Valbrun, Franck Arthus, Dr Amisial, Elie Cantave dit Pil, Clairmond Numa, Maurice Pepit</em>, entre autres. Leur soutien fut décisif pour faire du <em>Mundialito</em> un événement majeur.
+                    </p>
+                    
+                    <p class="italic mt-8">
+                        Inspiré du livre <strong>Le football aux Gonaïves à travers le temps</strong> de Joanes Clairzius.
+                    </p>
                 </div>
             </div>
         </section>

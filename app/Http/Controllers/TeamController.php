@@ -25,7 +25,6 @@ class TeamController extends Controller
         $validated = $request->validated();
         Team::create([
             'name' => strtoupper($validated['name']),
-            'location' =>  strtoupper($validated['location']),
         ]);
 
         return redirect()->route('teams.index')->with('success', 'Team created successfully.');
@@ -36,7 +35,6 @@ class TeamController extends Controller
             return [
                 'id' => $team->id,
                 'name' => strtoupper($team->name),
-                'location' => strtoupper($team->location),
                 'has_relations' => $team->hasAnyRelations(),
             ];
         });

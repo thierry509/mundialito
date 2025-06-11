@@ -10,16 +10,25 @@ use Intervention\Image\Exceptions\EncoderException;
 
 class ImageService
 {
-    public function store($file, string $desc, string $path = 'uploads', int $width = 700, int $height = 1000): array
-    {
+    public function store(
+        $file,
+        string $desc,
+        string $path = 'uploads',
+        int $thumbnailWidth = 300,
+        int $thumbnailHeight = 200,
+        int $quality = 90
+    ): array {
         $manager = new ImageManager(new Driver());
 
         // Création de l'image et de la miniature
         $image = $manager->read($file->getRealPath());
-        $thumbnail = $image->scale($width, $height, function ($constraint) {
+        $thumbnail = clone $image;
+
+        // Utilisation de resize + crop si fit() ne fonctionne pas
+        $thumbnail->resize($thumbnailWidth, $thumbnailHeight, function ($constraint) {
             $constraint->aspectRatio();
-            $constraint->upsize(); // empêche d’agrandir les petites images
-        });
+        })->crop($thumbnailWidth, $thumbnailHeight);
+
         // Gestion du nom et de l'extension
         $extension = $this->getOptimalExtension($file);
         $filename = $this->generateUniqueFilename($desc, $extension, $path);
@@ -33,8 +42,8 @@ class ImageService
 
         // Sauvegarde avec gestion d'erreur
         try {
-            $image->save(storage_path("app/public/{$originalPath}"), quality: 100); // qualité de 90%
-            $thumbnail->save(storage_path("app/public/{$thumbnailPath}"), quality: 100);
+            $image->save(storage_path("app/public/{$originalPath}"), quality: $quality);
+            $thumbnail->save(storage_path("app/public/{$thumbnailPath}"), quality: $quality);
         } catch (EncoderException $e) {
             throw new \RuntimeException("Failed to save image: " . $e->getMessage());
         }
@@ -45,19 +54,6 @@ class ImageService
         ];
     }
 
-    /**
-     * Update an existing image and its thumbnail
-     *
-     * @param mixed $file The new image file
-     * @param string $desc The new description for the image
-     * @param string $currentOriginalPath Current original image path
-     * @param string $currentThumbnailPath Current thumbnail path
-     * @param string $path Storage path (default: 'uploads')
-     * @param int $width Thumbnail width (default: 300)
-     * @param int $height Thumbnail height (default: 200)
-     * @return array Paths of the updated images
-     * @throws \RuntimeException
-     */
     public function update(
         $file,
         string $desc,
@@ -67,7 +63,6 @@ class ImageService
         int $width = 300,
         int $height = 200
     ): array {
-        // First store the new image
         $newPaths = $this->store($file, $desc, $path, $width, $height);
 
         try {
@@ -77,7 +72,7 @@ class ImageService
                 "public/{$currentThumbnailPath}"
             ]);
         } catch (\Exception $e) {
-            // If deletion fails, try to delete the new images and rethrow the exception
+            // Rollback en cas d'échec
             Storage::delete([
                 "public/{$newPaths['original']}",
                 "public/{$newPaths['thumbnail']}"
@@ -93,9 +88,8 @@ class ImageService
         $slug = Str::slug($description);
         $baseName = "{$slug}.{$extension}";
 
-        // Si le fichier existe déjà, ajouter un suffixe unique
         if (Storage::exists("public/{$path}/{$baseName}")) {
-            $suffix = time() . '-' . random_int(1000, 9999);
+            $suffix = time() . '-' . bin2hex(random_bytes(2));
             $baseName = "{$slug}-{$suffix}.{$extension}";
         }
 
@@ -104,28 +98,22 @@ class ImageService
 
     protected function getOptimalExtension($file): string
     {
-        $mime = $file->getMimeType();
-
-        return match ($mime) {
+        return match ($file->getMimeType()) {
             'image/jpeg' => 'jpg',
             'image/png' => 'png',
             'image/gif' => 'gif',
             'image/webp' => 'webp',
-            default => 'webp',
+            default => $file->guessExtension() ?? 'webp',
         };
     }
 
     protected function ensureDirectoriesExist(string $path): void
     {
-        $paths = [
+        collect([
             "public/{$path}",
             "public/{$path}/thumbnails"
-        ];
-
-        foreach ($paths as $directory) {
-            if (!Storage::exists($directory)) {
-                Storage::makeDirectory($directory, 0755, true);
-            }
-        }
+        ])->each(function ($directory) {
+            Storage::makeDirectory($directory, 0755, true);
+        });
     }
-}
+}   

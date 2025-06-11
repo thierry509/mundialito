@@ -23,7 +23,6 @@ class StoreTeamRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:teams,name',
-            'location' => 'required|string|max:255',
         ];
     }
 

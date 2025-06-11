@@ -27,7 +27,7 @@ const form = useForm({
     date: '',
     stage: props.stage || '',
     time: '',
-    location: '',
+    location: 'Parc Vincent',
 });
 
 const processing = ref(false);
@@ -112,8 +112,7 @@ const submit = () => {
                 <!-- Stade -->
                 <div>
                     <Select v-model="form.location" type="text" id="location" label="Lieu" :options="[
-                        { label: 'Selectionner un terrain', value: '' },
-                        { label: 'Parc stenio vincent', value: 'Parc stenio vincent' },
+                        { label: 'Parc Vincent', value: 'Parc Vincent' },
                     ]" :error="form.errors?.location" />
                 </div>
             </div>

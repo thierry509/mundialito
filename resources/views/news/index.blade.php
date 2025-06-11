@@ -19,7 +19,7 @@
                             <div class="md:flex">
                                 @if ($article->image()->first())
                                     <div class="md:flex-shrink-0 md:w-1/3">
-                                        <img class="h-full w-full object-cover" src="{{ $article->image()->first()->url }}"
+                                        <img class="h-full w-full object-cover" src="{{ $article->image()->first()->min_url }}"
                                             alt="{{ $article->title }}">
                                     </div>
                                 @endif
@@ -30,7 +30,7 @@
                                             {{ $article->category->name ?? 'Non catégorisé' }}
                                         </span>
                                         <span class="ml-2 text-sm text-gray-500">
-                                            {{ $article->created_at->translatedFormat('d M Y') }}
+                                            {{ $article->created_at->diffForHumans()}}
                                         </span>
                                     </div>
                                     <h2 class="text-2xl font-bold text-gray-900 mb-3">{{ $article->title }}</h2>
@@ -39,7 +39,7 @@
                                         <div class="flex items-center">
                                             @if ($article->user->image()->first())
                                                 <img class="w-8 h-8 rounded-full mr-2"
-                                                    src="{{ $article->user->image()->first()->url }}"
+                                                    src="{{ $article->user->image()->first()->min_url }}"
                                                     alt="{{ $article->user->full_name }}">
                                             @endif
                                             <span class="text-sm font-medium">
@@ -80,7 +80,7 @@
                             <li class="border-b border-light pb-4 last:border-0 last:pb-0">
                                 <a href="{{ route('news.show', $topArticle->slug) }}" class="group">
                                     <div class="text-sm text-gray-500 mb-1">
-                                        {{ $topArticle->created_at->translatedFormat('d M Y') }}
+                                        {{ $topArticle->created_at->diffForHumans() }}
                                     </div>
                                     <h4 class="font-medium group-hover:text-primary transition duration-200">
                                         {{ $topArticle->title }}
@@ -108,11 +108,11 @@
                             <article class="flex gap-4">
                                 @if ($featured->image()->first())
                                     <img class="w-20 h-20 rounded-lg object-cover flex-shrink-0"
-                                        src="{{ $featured->image()->first()->url }}" alt="{{ $featured->title }}">
+                                        src="{{ $featured->image()->first()->min_url }}" alt="{{ $featured->title }}">
                                 @endif
                                 <div>
                                     <div class="text-xs text-gray-500 mb-1">
-                                        {{ $featured->created_at->translatedFormat('d M Y') }}
+                                        {{ $featured->created_at->diffForHumans() }}
                                     </div>
                                     <h4 class="font-medium hover:text-primary transition duration-200">
                                         <a href="{{ route('news.show', $featured->slug) }}">

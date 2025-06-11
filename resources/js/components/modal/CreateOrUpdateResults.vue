@@ -89,6 +89,7 @@ const updateForm = () => {
     form.teamBRedCards = teamBRedCards.value;
     form.shootoutScoreA = shootoutScoreA;
     form.shootoutScoreB = shootoutScoreB;
+    shootoutScoreToggle();
 };
 
 const shootoutScoreToggle = () => {
@@ -96,7 +97,7 @@ const shootoutScoreToggle = () => {
         shootoutScoreA.value = shootoutScoreA.value || 0;
         shootoutScoreB.value = shootoutScoreB.value || 0;
         form.shootoutScoreA = shootoutScoreA.value;
-        form.shootoutScoreB = shootoutScoreB.value
+        form.shootoutScoreB = shootoutScoreB.value;
     } else {
         form.shootoutScoreA = null;
         form.shootoutScoreB = null;
