@@ -54,8 +54,82 @@
     <!-- Contenu principal moderne -->
     <main class="">
 
+        <!-- Section Actualités -->
+        @if ($inTheNews->count() > 0)
+            <section class="py-12 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container mx-auto px-4">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-3xl font-bold text-gray-900">À la Une</h2>
+                        <a href="{{ route('news.index') }}"
+                            class="text-primary hover:text-accent transition flex items-center">
+                            Voir toutes les actualités
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="flex flex-wrap gap-6">
+                        @forelse ($inTheNews as $article)
+                            <article
+                                class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col h-full 
+                           @if ($inTheNews->count() <= 2) flex-grow min-w-[300px] basis-[calc(50%-12px)] @else w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] @endif">
+                                @if ($article->image()->first())
+                                    <div class="h-48 overflow-hidden">
+                                        <img class="w-full h-full object-cover transition duration-300 hover:scale-105"
+                                            src="{{ $article->image()->first()->min_url }}" alt="{{ $article->title }}">
+                                    </div>
+                                @endif
 
-        <!-- Section À propos - Design carte moderne -->
+                                <div class="p-6 flex flex-col flex-grow">
+                                    <div class="flex items-center mb-3">
+                                        <span
+                                            class="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
+                                            {{ $article->category->name ?? 'Général' }}
+                                        </span>
+                                        <span class="ml-auto text-xs text-gray-500">
+                                            {{ $article->created_at->diffForHumans() }}
+                                        </span>
+                                    </div>
+
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">{{ $article->title }}</h3>
+                                    <p class="text-gray-600 mb-4 line-clamp-3">{{ $article->excerpt }}</p>
+
+                                    <div class="mt-auto flex items-center justify-between gap-2">
+                                        <div class="flex items-center min-w-0">
+                                            @if ($article->user->image()->first())
+                                                <img class="w-8 h-8 rounded-full mr-2 flex-shrink-0"
+                                                    src="{{ $article->user->image()->first()->min_url }}"
+                                                    alt="{{ $article->user->full_name }}">
+                                            @endif
+                                            <span class="text-sm font-medium truncate">
+                                                Par {{ $article->user->first_name }}
+                                            </span>
+                                        </div>
+                                        <a href="{{ route('news.show', $article->slug) }}"
+                                            class="text-primary hover:text-accent transition flex items-center text-sm font-medium whitespace-nowrap">
+                                            Lire
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20"
+                                                fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        @empty
+                            <div class="w-full">
+                                <x-empty model="actualités" />
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </section>
+        @endif
         <section class="py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="relative group">
@@ -92,78 +166,6 @@
 
             </div>
         </section>
-        <!-- Section Actualités -->
-        <section class="py-12 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container mx-auto px-4">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900">À la Une</h2>
-                    <a href="{{ route('news.index') }}" class="text-primary hover:text-accent transition flex items-center">
-                        Voir toutes les actualités
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20"
-                            fill="currentColor">
-                            <path fill-rule="evenodd"
-                                d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                </div>
-                <div class="flex flex-wrap gap-6">
-                    @forelse ($inTheNews as $article)
-                        <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col h-full 
-                                      @if($inTheNews->count() <= 2) flex-grow min-w-[300px] basis-[calc(50%-12px)] @else w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] @endif">
-                            @if ($article->image()->first())
-                                <div class="h-48 overflow-hidden">
-                                    <img class="w-full h-full object-cover transition duration-300 hover:scale-105"
-                                        src="{{ $article->image()->first()->min_url }}" alt="{{ $article->title }}">
-                                </div>
-                            @endif
-                
-                            <div class="p-6 flex flex-col flex-grow">
-                                <div class="flex items-center mb-3">
-                                    <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
-                                        {{ $article->category->name ?? 'Général' }}
-                                    </span>
-                                    <span class="ml-auto text-xs text-gray-500">
-                                        {{ $article->created_at->diffForHumans() }}
-                                    </span>
-                                </div>
-                
-                                <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">{{ $article->title }}</h3>
-                                <p class="text-gray-600 mb-4 line-clamp-3">{{ $article->excerpt }}</p>
-                
-                                <div class="mt-auto flex items-center justify-between gap-2">
-                                    <div class="flex items-center min-w-0">
-                                        @if ($article->user->image()->first())
-                                            <img class="w-8 h-8 rounded-full mr-2 flex-shrink-0"
-                                                src="{{ $article->user->image()->first()->min_url }}"
-                                                alt="{{ $article->user->full_name }}">
-                                        @endif
-                                        <span class="text-sm font-medium truncate">
-                                            Par {{ $article->user->first_name }}
-                                        </span>
-                                    </div>
-                                    <a href="{{ route('news.show', $article->slug) }}"
-                                        class="text-primary hover:text-accent transition flex items-center text-sm font-medium whitespace-nowrap">
-                                        Lire
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
-                    @empty
-                        <div class="w-full">
-                            <x-empty model="actualités" />
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-        </section>
-
         <section class="py-20 bg-gray-50 rounded-3xl">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mx-auto text-center space-y-8">
                 <span

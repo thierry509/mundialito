@@ -61,18 +61,9 @@
             <h2 class="text-xl font-semibold text-gray-700 mb-4">Phase finale</h2>
 
             <div class="grid grid-cols-1">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Round de départ</label>
-                    <select
-                        v-model="finalRoundStart"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
-                    >
-                        <option value="4">8èmes de finale</option>
-                        <option value="3">Quarts de finale</option>
-                        <option value="2">Demi-finales</option>
-                        <option value="1">Finale</option>
-                    </select>
-                </div>
+                <Select v-model="finalRoundStart" :options="[{ value: '4', label: '8èmes de finale' }, { value: '3', label: 'Quarts de finale' }, { value: '2', label: 'Demi-finales' }, { value: '1', label: 'Finale' }]" required
+                :label="'Phase finale à partir de'" :placeholder="'Sélectionnez une phase finale'" class="w-full"
+                />
             </div>
         </div>
 
@@ -98,6 +89,7 @@
 import { Head, router } from '@inertiajs/vue3';
 import { ref, computed, watch } from 'vue';
 import {useToasterStore} from '../../store/Toast'
+import Select from '../../components/ui/Select.vue'
 const props = defineProps({
     championship: Object,
     allRankingRules: Array
@@ -175,7 +167,7 @@ const saveSettings = () => {
 // Réinitialisation
 const resetSettings = () => {
     selectedRules.value = props.allRankingRules.map(rule => rule.code);
-    finalRoundStart.value = '8';
+    finalRoundStart.value = '4';
 };
 </script>
 
