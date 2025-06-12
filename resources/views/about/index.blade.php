@@ -33,7 +33,7 @@
                 <div class="prose max-w-none text-gray-600 text-lg leading-relaxed">
                     <h3 class="font-bold text-3xl mt-4 text-primary">Creation</h3>
                     <p class="text-lg leading-relaxed">
-                        Le <em>championnat de football des vacances d'été</em> aux Gonaïves, connu sous le nom de <em>Mundialito</em>, est né en 1966 grâce à Mme <em>Antoinette Jean Louis dite Tisò</em>. Il visait à promouvoir les activités sportives dans le quartier populaire de <em>Raboteau</em>, en particulier dans la zone de bidonville près de la <em>Cité de l'Indépendance</em>. Ce tournoi portait le nom de <em>Coupe Jacky Ti Sò</em>, en hommage à son fils décédé, <em>Jacky Jean Noël</em>, et symbolisait pour elle une façon de transformer la douleur en action sociale.
+                        Le <em>championnat de football des vacances d'été</em> aux Gonaïves, connu sous le nom de <em>Mundialito</em>, est né en 1966 grâce à Mme <em>Antoinette Jean Louis dite Tisò</em>. Il visait à promouvoir les activités sportives dans le quartier populaire de <em>Raboteau</em>, en particulier dans la zone de bidonville près de la <em>Cité de l'Indépendance</em>. Ce tournoi portait le nom de <em>Coupe Jacky Ti Sò</em>, en hommage à son fils, <em>Jacky Jean Noël</em>, et symbolisait pour elle une façon de transformer la douleur en action sociale.
                     </p>
                     
                     <p>
