@@ -1,6 +1,6 @@
 @extends('layout.app')
 @section('content')
-    <header class="relative overflow-hidden">
+    <header class="hidden relative overflow-hidden">
         <!-- Conteneur pour l'image de fond -->
         <div class="relative h-[90vh] md:h-screen">
             <!-- Image de fond avec effet de parallaxe -->
@@ -50,6 +50,55 @@
             </div>
         </div>
     </header>
+        <!-- Hero Section Moderne avec BG Image - Version mobile optimisée -->
+        <header class="relative overflow-hidden">
+            <!-- Conteneur pour l'image de fond avec hauteur adaptative -->
+            <div class="relative h-[60vh] md:h-screen">
+                <!-- Image de fond avec effet de parallaxe -->
+                <div
+                    class="absolute inset-0 bg-[url({{ asset('images/stadium.jpg') }})] bg-cover bg-center bg-no-repeat md:transform md:hover:scale-105 md:transition md:duration-1000 md:ease-in-out">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50"></div>
+    
+                <!-- Contenu superposé avec animation -->
+                <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-4 py-16 md:py-0">
+                    <div class="max-w-4xl space-y-4 md:space-y-6 animate-fadeInUp">
+                        <span
+                            class="inline-block px-3 py-1 bg-secondary text-gray-900 rounded-full text-xs md:text-sm font-semibold tracking-widest">ÉDITION
+                            2025</span>
+                        <h1 class="text-4xl md:text-7xl font-bold text-white leading-tight">
+                            <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-accent">Mundialito</span>
+                            <span class="block md:inline">Gonaïves</span>
+                        </h1>
+                        <p class="text-lg md:text-2xl text-gray-200 font-light max-w-2xl mx-auto">Championnat de Vacances d'Été
+                            - La passion du football réunie</p>
+    
+                        <!-- Boutons avec effet hover moderne -->
+                        <div class="flex flex-wrap justify-center gap-3 md:gap-4 pt-4 md:pt-6">
+                            <a href="{{ route('games') }}" class="relative group">
+                                <div
+                                    class="absolute -inset-1 bg-gradient-to-r from-secondary to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
+                                </div>
+                                <button
+                                    class="relative px-6 py-2 md:px-8 md:py-3 bg-white text-gray-900 font-bold rounded-lg hover:bg-transparent hover:text-white transition duration-200 border-2 border-white text-sm md:text-base">
+                                    Calendrier
+                                </button>
+                            </a>
+                            <a href="{{ route('groups') }}" class="relative group">
+                                <div
+                                    class="absolute -inset-1 bg-gradient-to-r from-danger to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
+                                </div>
+                                <button
+                                    class="relative px-6 py-2 md:px-8 md:py-3 bg-transparent text-white font-bold rounded-lg hover:bg-white hover:text-gray-900 transition duration-200 border-2 border-white text-sm md:text-base">
+                                    Classement
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
 
     <!-- Contenu principal moderne -->
     <main class="">

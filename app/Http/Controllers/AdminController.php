@@ -38,9 +38,9 @@ class AdminController extends Controller
         $validated = $request->validated();
 
         $user = User::find($validated['userId']);
-
         $user->update([
             'roles' => $validated['roles'],
         ]);
+        return redirect()->back();
     }
 }
