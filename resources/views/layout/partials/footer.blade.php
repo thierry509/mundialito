@@ -55,7 +55,7 @@
               </div>
           </div>
           <div class="border-t border-light border-opacity-20 mt-8 pt-8 text-center text-light">
-              <p>&copy; 2023 Mundialito Gonaïves. Tous droits réservés.</p>
+              <p>&copy; 2025 Mundialito. Tous droits réservés.</p>
           </div>
       </div>
   </footer>

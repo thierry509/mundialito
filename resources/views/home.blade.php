@@ -225,7 +225,7 @@
                     Né en <strong>1966</strong> dans le quartier populaire de <strong>Raboteau</strong> aux Gonaïves, le
                     championnat de football d’été – aujourd’hui connu sous le nom de <strong>Mundialito</strong> – a été
                     fondé par <strong>Mme Antoinette Jean Louis dite Tisò</strong>. D’abord appelé <em>Coupe Jacky Ti
-                        Sò</em>, en hommage à son fils décédé, ce tournoi visait à offrir à la jeunesse défavorisée un
+                        Sò</em>, en hommage à son fils, ce tournoi visait à offrir à la jeunesse défavorisée un
                     espace de jeu, de mémoire et de solidarité.
                 </p>
                 <p class="text-lg text-gray-600 leading-relaxed ">
