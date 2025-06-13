@@ -76,7 +76,7 @@
     
                         <!-- Boutons avec effet hover moderne -->
                         <div class="flex flex-wrap justify-center gap-3 md:gap-4 pt-4 md:pt-6">
-                            <a href="{{ route('games') }}" class="relative group">
+                            <a href="{{ route('games') }}" class="haveYear relative group">
                                 <div
                                     class="absolute -inset-1 bg-gradient-to-r from-secondary to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
                                 </div>
@@ -85,7 +85,7 @@
                                     Calendrier
                                 </button>
                             </a>
-                            <a href="{{ route('groups') }}" class="relative group">
+                            <a href="{{ route('groups') }}" class="haveYear relative group">
                                 <div
                                     class="absolute -inset-1 bg-gradient-to-r from-danger to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
                                 </div>
