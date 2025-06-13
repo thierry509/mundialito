@@ -25,6 +25,8 @@
                 propos</a>
             <a href="{{ route('news') }}"
                 class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Actualités</a>
+            <a href="{{ route('prize-list') }}"
+                class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Palmares</a>
         </div>
         <div class="flex">
             <a href="{{ route('dashboard') }}" aria-label="Tableau de bord" rel="nofollow noopener"
@@ -120,6 +122,15 @@
                             </path>
                         </svg>
                         Actualités
+                    </a>
+                    <a href="{{ route('prize-list') }}"
+                        class="block px-4 py-3 rounded-lg hover:bg-primary/10 text-gray-800 hover:text-primary font-medium transition-colors duration-200 flex items-center">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4m0 0v4m0-4h4m-4 0H8m6 8H6a2 2 0 01-2-2V6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                        Palmarès
                     </a>
 
                 </nav>

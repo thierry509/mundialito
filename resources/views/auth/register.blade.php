@@ -79,7 +79,7 @@
                     <input id="terms" name="terms" type="checkbox"
                         class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
                     <label for="terms" class="ml-2 block text-sm text-gray-900">
-                        J'accepte les <a href="#" class="text-primary hover:text-accent">conditions
+                        J'accepte les <a href="{{ route('cgu') }}" class="text-primary hover:text-accent">conditions
                             d'utilisation</a>
                     </label>
                 </div>

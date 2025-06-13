@@ -13,6 +13,10 @@ use Inertia\Inertia;
 
 class ChampionshipController extends Controller
 {
+    public function index(Request $request)
+    {
+        return view('prizeList.index');
+    }
     public function store(StoreChampionshipRequest $request)
     {
         $validatedData = $request->validated();

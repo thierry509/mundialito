@@ -12,14 +12,26 @@
               <div>
                   <h4 class="text-lg font-semibold mb-4">Navigation</h4>
                   <ul class="space-y-2">
-                      <li><a href="{{ route('home') }}" class="needsYear text-light hover:text-secondary transition">Accueil</a>
+                      <li><a href="{{ route('home') }}" class="text-light hover:text-secondary transition">Accueil</a>
                       </li>
-                      <li><a href="{{ route('games') }}" class="needsYear text-light hover:text-secondary transition">Match</a>
+                      <li><a href="{{ route('games') }}"
+                              class="needsYear text-light hover:text-secondary transition">Match</a>
+                      </li>
+                      <li><a href="{{ route('groups') }}"
+                              class="needsYear text-light hover:text-secondary transition">classement</a>
+                      </li>
+                      <li><a href="{{ route('knockout') }}"
+                              class="needsYear text-light hover:text-secondary transition">Elimination</a>
                       </li>
                       <li><a href="{{ route('about') }}" class="needsYear text-light hover:text-secondary transition">À
                               propos</a></li>
                       <li><a href="{{ route('news') }}"
                               class="text-light hover:text-secondary transition">Actualités</a></li>
+
+                      <li><a href="{{ route('prize-list') }}"
+                              class="text-light hover:text-secondary transition">Palmarès</a></li>
+                      <li><a href="{{ route('cgu') }}" class="text-light hover:text-secondary transition">Conditions
+                              d'utilisation</a></li>
                   </ul>
               </div>
               <div>
@@ -89,9 +101,9 @@
               const url = new URL(link.href);
 
               // Ajouter ou mettre à jour le paramètre 'year'
-                if (!year) {
-                    year = {{ $years[0] }};
-                }
+              if (!year) {
+                  year = {{ $years[0] }};
+              }
               url.searchParams.set('year', year);
 
               // Mettre à jour le href du lien

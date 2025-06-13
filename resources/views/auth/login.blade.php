@@ -12,7 +12,7 @@
                     Accédez à votre espace Mundialito
                 </p>
             </div>
-           @include('layout.partials.socialAuth')
+            @include('layout.partials.socialAuth')
             <form class="mt-8 space-y-6" action="{{ route('login.submit') }}" method="POST">
                 @csrf
 
@@ -30,8 +30,9 @@
                             <div class="ml-3">
                                 <p class="text-sm text-red-700">
                                     @foreach ($errors->all() as $error)
-                                    {{ $error }}<br>
-                                @endforeach                                </p>
+                                        {{ $error }}<br>
+                                    @endforeach
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -69,7 +70,8 @@
                     </div>
 
                     <div class="text-sm">
-                        <a href="{{ route('password.request') }}" class="font-medium text-primary hover:text-accent underline">
+                        <a href="{{ route('password.request') }}"
+                            class="font-medium text-primary hover:text-accent underline">
                             Mot de passe oublié ?
                         </a>
                     </div>

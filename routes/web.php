@@ -43,6 +43,7 @@ Route::get('/equipes', [TeamController::class, 'index'])->name('teams');
 // Détail d'une équipe
 Route::get('/equipes/{id}', [TeamController::class, 'show'])->name('teams.show');
 
+Route::get('palmares', [ChampionshipController::class, 'index'])->name('prize-list');
 // Liste des joueurs
 Route::get('/joueurs', [PlayerController::class, 'index'])->name('players');
 
@@ -73,6 +74,9 @@ Route::get('/reglements', [RegulationController::class, 'index'])->name('regulat
 // Sponsors
 Route::get('/sponsors', [SponsorController::class, 'index'])->name('sponsors');
 
+Route::get('conditions-generales-utilisation', [AboutController::class, 'cgu'])->name('cgu');
+Route::get('mentions-legales', [AboutController::class, 'legal'])->name('legal');
+Route::get('politique-de-confidentialite', [AboutController::class, 'privacy'])->name('privacy');
 // FAQ
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
