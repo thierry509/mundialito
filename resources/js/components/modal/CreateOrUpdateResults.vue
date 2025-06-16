@@ -132,7 +132,6 @@ const close = () => {
 <template>
     <BaseModal :show="show" @close="close">
         <form @submit.prevent="submit" class="space-y-4">
-            {{ form }}
             <div class="overflow-hidden">
                 <div class="py-4">
                     <!-- En-tête du match -->
@@ -149,6 +148,15 @@ const close = () => {
                             <div class="text-center">
                                 <div class="text-lg font-bold truncate max-w-[100px]">{{ game.team_b.name }}</div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 items-center gap-4 py-3 border-b border-gray-100">
+                        <div class="font-medium text-gray-700"> </div>
+                        <div class="flex items-center justify-center space-x-2 text-bold">
+                            {{ game.team_a.name }}
+                        </div>
+                        <div class="flex items-center justify-center space-x-2">
+                            {{ game.team_b.name }}
                         </div>
                     </div>
 

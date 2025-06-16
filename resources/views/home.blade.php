@@ -248,7 +248,7 @@
             </div>
         </section>
 
-        <!-- Section Classement & Résultats -->
+        <!-- Section Résultats -->
         <section class="py-8">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
                 @if ($lastGame)
@@ -256,20 +256,20 @@
                         <h2 class="text-3xl font-bold text-gray-900 mb-6">Dernière affiche</h2>
                         <div
                             class="bg-gradient-to-r from-primary to-accent rounded-2xl shadow-lg overflow-hidden text-white">
-                            <div class="p-6 text-center">
+                            <div class="md:p-6 text-center">
                                 <div class="text-lg font-semibold mb-2">{{ gameStage($lastGame->stage) }}</div>
                                 <div class="text-sm bg-white/20 rounded-full px-4 py-1 inline-block mb-6">
                                     {{ formatDate($lastGame->date_time) }}</div>
 
                                 <div class="flex justify-around items-center">
-                                    <div class="text-center">
+                                    <div class="text-center w-24 md:w-40">
                                         <div
                                             class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
                                             {{ substr($lastGame->TeamA()->first()->name, 0, 2) }}</div>
-                                        <div class="text-xl font-bold">{{ $lastGame->TeamA()->first()->name }}</div>
+                                        <div class="text-x text-sm md:text-xl font-bold truncate">{{ $lastGame->TeamA()->first()->name }}</div>
                                     </div>
 
-                                    <div class="mx-4">
+                                    <div class="mx-4 ">
                                         <div class="flex items-center">
                                             <span
                                                 class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
@@ -290,14 +290,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="text-center">
+                                    <div class="text-center w-24 md:w-40">
                                         <div
                                             class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
                                             {{ substr($lastGame->TeamB()->first()->name, 0, 2) }}</div>
-                                        <div class="text-xl font-bold">{{ $lastGame->TeamB()->first()->name }}</div>
+                                        <div class="text-x text-sm md:text-xl font-bold truncate">{{ $lastGame->TeamB()->first()->name }}</div>
                                     </div>
                                 </div>
-
                                 <div class="mt-8 pt-4 border-t border-white/20">
                                     <div class="flex justify-center space-x-4">
                                         <div class="flex items-center">
@@ -323,49 +322,65 @@
                     <div>
                         <h2 class="text-3xl font-bold text-gray-900 mb-6">Prochaine affiche</h2>
                         <div
-                            class="bg-gradient-to-r from-primary to-accent rounded-2xl shadow-lg overflow-hidden text-white">
-                            <div class="p-6 text-center">
-                                <div class="text-lg font-semibold mb-2">{{ gameStage($nextGame->stage) }}</div>
-                                <div class="text-sm bg-white/20 rounded-full px-4 py-1 inline-block mb-6">
-                                    {{ formatDate($nextGame->date_time) }}</div>
+                        class="bg-gradient-to-r from-primary to-accent rounded-2xl shadow-lg overflow-hidden text-white">
+                        <div class="md:p-6 text-center">
+                            <div class="text-lg font-semibold mb-2">{{ gameStage($nextGame->stage) }}</div>
+                            <div class="text-sm bg-white/20 rounded-full px-4 py-1 inline-block mb-6">
+                                {{ formatDate($nextGame->date_time) }}</div>
 
-                                <div class="flex justify-around items-center">
-                                    <div class="text-center">
-                                        <div
-                                            class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
-                                            {{ substr($nextGame->TeamA()->first()->name, 0, 2) }}</div>
-                                        <div class="text-xl font-bold">{{ $nextGame->TeamA()->first()->name }}</div>
-                                    </div>
+                            <div class="flex justify-around items-center">
+                                <div class="text-center w-24 md:w-40">
+                                    <div
+                                        class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
+                                        {{ substr($nextGame->TeamA()->first()->name, 0, 2) }}</div>
+                                    <div class="text-x text-sm md:text-xl font-bold truncate">{{ $nextGame->TeamA()->first()->name }}</div>
+                                </div>
 
-                                    <div class="mx-4">
-                                        <div class="text-2xl font-bold bg-white/20 rounded-full px-4 py-2">VS</div>
-                                    </div>
+                                <div class="mx-4 ">
+                                    <div class="flex items-center">
+                                        <span
+                                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
+                                            @if ($nextGame->shootout_score_a !== null)
+                                                <span class="mx-2 text-sm">({{ $nextGame->shootout_score_a }})</span>
+                                            @endif
+                                            {{ $nextGame->team_a_goals }}
+                                        </span>
+                                        <span class="text-2xl font-medium px-1">-</span>
+                                        <span
+                                            class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
+                                            {{ $nextGame->team_b_goals }}
+                                            @if ($nextGame->shootout_score_b !== null)
+                                                <span class="mx-2 text-sm">({{ $nextGame->shootout_score_b }})</span>
+                                            @endif
+                                        </span>
 
-                                    <div class="text-center">
-                                        <div
-                                            class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
-                                            {{ substr($nextGame->TeamB()->first()->name, 0, 2) }}</div>
-                                        <div class="text-xl font-bold">{{ $nextGame->TeamB()->first()->name }}</div>
                                     </div>
                                 </div>
 
-                                <div class="mt-8 pt-4 border-t border-white/20">
-                                    <div class="flex justify-center space-x-4">
-                                        <div class="flex items-center">
-                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                                </path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            </svg>
-                                            <span class="text-sm">{{ $nextGame->location }}</span>
-                                        </div>
+                                <div class="text-center w-24 md:w-40">
+                                    <div
+                                        class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
+                                        {{ substr($nextGame->TeamB()->first()->name, 0, 2) }}</div>
+                                    <div class="text-x text-sm md:text-xl font-bold truncate">{{ $nextGame->TeamB()->first()->name }}</div>
+                                </div>
+                            </div>
+                            <div class="mt-8 pt-4 border-t border-white/20">
+                                <div class="flex justify-center space-x-4">
+                                    <div class="flex items-center">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                            </path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        <span class="text-sm">{{ $nextGame->location }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 @else
                     <x-empty message="Aucune match n'est programmé pour le futur" />
