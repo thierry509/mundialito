@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="min-h-screen bg-cover bg-center flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
-        style="background-image: url('https://img.freepik.com/photos-gratuite/concept-faire-du-sport_23-2151937746.jpg')">
+        style="background-image: url({{ asset('images/stadium.jpg') }})">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50"></div>
+        
         <div class="w-full lg:w-4/6 bg-white p-8 rounded-xl shadow-2xl backdrop-blur-sm">
             <div class="text-center">
                 <h2 class="text-3xl font-extrabold text-gray-900">

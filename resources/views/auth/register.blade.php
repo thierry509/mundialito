@@ -1,9 +1,11 @@
 @extends('layout.app')
 
 @section('content')
-    <div
-        class="min-h-screen bg-light flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 bg-[url('https://img.freepik.com/photos-gratuite/concept-faire-du-sport_23-2151937746.jpg?ga=GA1.1.90895242.1736884756&semt=ais_hybrid&w=740')]">
-        <div class="w-7/10 w-full space-y-8 bg-white p-10 rounded-lg shadow-xl">
+    <div class="min-h-screen bg-cover bg-center flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+        style="background-image: url({{ asset('images/stadium.jpg') }})">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50"></div>
+
+        <div class="w-full lg:w-4/6 bg-white px-8 my-8 rounded-xl shadow-2xl backdrop-blur-sm">
             <div class="text-center">
                 <h2 class="mt-6 text-3xl font-bold text-gray-900">
                     Créer un compte
@@ -92,7 +94,7 @@
                 </div>
             </form>
 
-            <div class="text-center">
+            <div class="text-center pb-4">
                 <p class="mt-4 text-sm text-gray-600">
                     Déjà un compte?
                     <a href="{{ route('login') }}" class="font-medium text-primary hover:text-accent">

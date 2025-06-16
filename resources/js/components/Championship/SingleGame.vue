@@ -36,7 +36,7 @@
             <!-- Contenu du match -->
             <div class="flex items-center justify-between py-2">
                 <!-- Équipe A -->
-                <div class="flex items-center justify-end space-x-3 w-2/5 pr-2">
+                <div class="flex items-center justify-end space-x-3  w-2/6 md:w-2/5 pr-2">
                     <div class="hidden md:d-block w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                         <span class="text-xs font-bold text-primary">{{ game.team_a.name.slice(0, 2) }}</span>
                     </div>
@@ -44,7 +44,7 @@
                 </div>
 
                 <!-- Score -->
-                <div class="flex flex-col items-center w-1/5 py-1 p-2">
+                <div class="flex flex-col items-center w-2/6 md:w-1/5 py-1 p-2">
                     <div v-if="game.status != 'postponed' && game.team_a_goals != null" class="flex items-center my-1">
                         <span
                             class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- Équipe B -->
-                <div class="flex items-center just justify-start space-x-3  w-2/5 pl-2">
+                <div class="flex items-center just justify-start space-x-3  w-2/6 md:w-2/5 pl-2">
                     <span class="text-xs md:text-sm font-medium truncate">{{ game.team_b.name }}</span>
                     <div class="hidden md:d-block w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                         <span class="text-xs font-bold text-primary">{{ game.team_b.name.slice(0, 2) }}</span>

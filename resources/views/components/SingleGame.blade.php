@@ -40,7 +40,7 @@
 
         <!-- Contenu du match -->
         <div class="flex items-center justify-between py-2">
-            <div class="flex items-center justify-end space-x-3 w-2/5 pr-2">
+            <div class="flex items-center justify-end space-x-3 w-2/6 md:w-2/5 pr-2">
                 <div class="hidden md:d-block w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                     <span class=" text-xs font-bold text-primary">
                         {{ substr($teamA->name, 0, 2) }}
@@ -50,7 +50,7 @@
             </div>
 
             <!-- Score -->
-            <div class="flex flex-col items-center w-1/5 py-1 p-2">
+            <div class="flex flex-col items-center w-2/6 md:w-1/5 py-1 p-2">
                 @if ($game->status === 'soon' || $game->status === 'postponed')
                     <span class="font-bold">VS</span>
                 @else
@@ -76,7 +76,7 @@
 
             </div>
 
-            <div class="flex items-center just justify-start space-x-3  w-2/5 pl-2">
+            <div class="flex items-center just justify-start space-x-3  w-2/6 md:w-2/5 pl-2">
                 <span class="text-xs md:text-sm font-medium truncate">{{ $teamB->name }}</span>
                 <div class="hidden md:d-block w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                     <span class="text-xs font-bold text-primary">

@@ -1,5 +1,5 @@
   <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-12 overflow-hidden">
+  <footer class="bg-gray-900 text-white pt-12 overflow-hidden">
       <div class="max-w-7xl px-6 md:px-12 mx-auto sm:px-6">
           <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div class="md:col-span-2">
@@ -10,28 +10,47 @@
                   </p>
               </div>
               <div>
-                  <h4 class="text-lg font-semibold mb-4">Navigation</h4>
-                  <ul class="space-y-2">
-                      <li><a href="{{ route('home') }}" class="text-light hover:text-secondary transition">Accueil</a>
+                  <h4 class="text-lg font-semibold mb-4">Liens Utiles</h4>
+                  <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <li >
+                          <a href="{{ route('home') }}" class="text-light hover:text-secondary transition">
+                              Accueil
+                          </a>
                       </li>
-                      <li><a href="{{ route('games') }}"
-                              class="needsYear text-light hover:text-secondary transition">Match</a>
+                      <li >
+                          <a href="{{ route('games') }}" class="needsYear text-light hover:text-secondary transition">
+                              Match
+                          </a>
                       </li>
-                      <li><a href="{{ route('groups') }}"
-                              class="needsYear text-light hover:text-secondary transition">classement</a>
+                      <li >
+                          <a href="{{ route('groups') }}" class="needsYear text-light hover:text-secondary transition">
+                              classement
+                          </a>
                       </li>
-                      <li><a href="{{ route('knockout') }}"
-                              class="needsYear text-light hover:text-secondary transition">Elimination</a>
+                      <li>
+                          <a href="{{ route('knockout') }}"
+                              class="needsYear text-light hover:text-secondary transition">
+                              Elimination
+                          </a>
                       </li>
-                      <li><a href="{{ route('about') }}" class="needsYear text-light hover:text-secondary transition">À
-                              propos</a></li>
-                      <li><a href="{{ route('news') }}"
-                              class="text-light hover:text-secondary transition">Actualités</a></li>
+                      <li>
+                          <a href="{{ route('about') }}" class="needsYear text-light hover:text-secondary transition">
+                              À propos
+                          </a>
+                      </li>
+                      <li>
+                          <a href="{{ route('news') }}"
+                              class="text-light hover:text-secondary transition">Actualités</a>
+                      </li>
 
-                      <li><a href="{{ route('prize-list') }}"
-                              class="text-light hover:text-secondary transition">Palmarès</a></li>
-                      <li><a href="{{ route('cgu') }}" class="text-light hover:text-secondary transition">Conditions
-                              d'utilisation</a></li>
+                      <li>
+                          <a href="{{ route('prize-list') }}"
+                              class="text-light hover:text-secondary transition">Palmarès</a>
+                      </li>
+                      <li>
+                          <a href="{{ route('cgu') }}" class="text-light hover:text-secondary transition">Conditions
+                              d'utilisation</a>
+                      </li>
                   </ul>
               </div>
               <div>
@@ -66,8 +85,33 @@
                   </ul>
               </div>
           </div>
-          <div class="border-t border-light border-opacity-20 mt-8 pt-8 text-center text-light">
-              <p>&copy; 2025 Mundialito. Tous droits réservés.</p>
+          <div class="border-t border-light border-opacity-20 mt-8 py-4">
+              <div class="container mx-auto px-4">
+                  <div class="flex flex-col md:flex-row justify-between items-center">
+                      <!-- Colonne gauche - Crédits -->
+                      <div class="mb-4 md:mb-0 text-center md:text-left">
+                          <p class="text-light text-opacity-70 text-sm font-light">
+                              Conçu par
+                              <a href="https://desirthierry.net"
+                                  class="text-light hover:text-primary transition-colors duration-300 font-medium">
+                                  Desir Thierry
+                              </a>
+                          </p>
+                      </div>
+                      <!-- Colonne droite - Contact -->
+                      <div class="flex items-center space-x-4">
+                          <a href="mailto:contact@desirthierry.net"
+                              class="text-light hover:text-primary text-sm transition-colors duration-300 flex items-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none"
+                                  viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                              contact@desirthierry.net
+                          </a>
+                      </div>
+                  </div>
+              </div>
           </div>
       </div>
   </footer>

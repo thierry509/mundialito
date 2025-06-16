@@ -76,7 +76,7 @@
     
                         <!-- Boutons avec effet hover moderne -->
                         <div class="flex flex-wrap justify-center gap-3 md:gap-4 pt-4 md:pt-6">
-                            <a href="{{ route('games') }}" class="needsYear relative group">
+                            <a href="{{ route('games') }}" class="relative group">
                                 <div
                                     class="absolute -inset-1 bg-gradient-to-r from-secondary to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
                                 </div>
@@ -85,7 +85,7 @@
                                     Calendrier
                                 </button>
                             </a>
-                            <a href="{{ route('groups') }}" class="needsYear relative group">
+                            <a href="{{ route('groups') }}" class="relative group">
                                 <div
                                     class="absolute -inset-1 bg-gradient-to-r from-danger to-accent rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200">
                                 </div>
@@ -101,8 +101,7 @@
         </header>
 
     <!-- Contenu principal moderne -->
-    <main class="">
-
+    <main>
         <!-- Section Actualités -->
         @if ($inTheNews->count() > 0)
             <section class="py-12 bg-gray-50">
