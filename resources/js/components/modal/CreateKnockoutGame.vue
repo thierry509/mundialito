@@ -55,6 +55,7 @@ const submit = () => {
     })
 }
 
+
 </script>
 
 <template>
@@ -80,7 +81,7 @@ const submit = () => {
                 <div class="md:flex-1">
                     <label for="team2" class="block text-sm font-medium text-gray-700">Équipe 2</label>
                     <DropdownInput v-model="form.team2Id"
-                        :options="[...teams.map(team => ({ value: team.id, label: team.name }))]" id="team2Id"
+                        :options="[...teams.filter(team => team.id != form.team1Id).map(team => ({ value: team.id, label: team.name }))]" id="team2Id"
                         label="Équipe 2" placeholder="Ex: Équipe 2" :error="form.errors?.team2Id" />
                 </div>
             </div>
@@ -102,7 +103,7 @@ const submit = () => {
             </div>
             <!-- Boutons -->
             <div class="flex justify-end space-x-4 pt-4">
-                <button type="reset"
+                <button type="reset" @click="emit('close')"
                     class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
                     Annuler
                 </button>

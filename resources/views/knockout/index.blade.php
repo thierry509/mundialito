@@ -119,7 +119,7 @@
                         <!-- Colonne Finale -->
                         @if ($round >= 1)
                             <div class="mr-[100px]">
-                                <x-single-match-knockout :game="$final[$i]??null" class="my-[350px]" :position="0"
+                                <x-single-match-knockout :game="$final[1]??null" class="my-[350px]" :position="0"
                                     stage="final" />
                             </div>
                         @endif

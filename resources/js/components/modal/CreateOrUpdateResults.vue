@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import BaseModal from './BaseModal.vue';
 import { useToasterStore } from '@/store/Toast';
@@ -10,6 +10,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close']);
+
 
 // Données réactives
 const teamAGoals = ref(props.game.team_a_goals || 0);
@@ -304,11 +305,9 @@ const close = () => {
                     </div>
 
                 </div>
-
-
                 <!-- Actions -->
                 <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-3 border-t">
-                    <button type="button" @click="emit('close')"
+                    <button type="button" @click="close"
                         class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 text-sm hover:bg-gray-100 transition">
                         Annuler
                     </button>
@@ -318,9 +317,6 @@ const close = () => {
                         <span v-else>Enregistrer</span>
                     </button>
                 </div>
-
-
-
             </div>
         </form>
     </BaseModal>
