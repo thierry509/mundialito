@@ -78,7 +78,6 @@ class NewsController extends Controller
         TwitterCard::setImage($news->image?->url ?? asset('/images/mundialito.jpg'));
 
 
-
         $author = $news->user;
         $category = $news->category;
         $data = [
@@ -133,9 +132,15 @@ class NewsController extends Controller
     public function adminIndex()
     {
         $news = News::with(['user', 'category', 'image'])
-            ->latest()
-            ->where('user_id', Auth::user()->id)
-            ->paginate(5);
+        ->latest()
+        ->where('user_id', Auth::user()->id)
+        ->get() // Récupère tous les résultats sans pagination
+        ->map(function ($item) { // Utilisez map() au lieu de through() pour les collections
+            return [
+                ...$item->toArray(),
+                'created_at_local' => $item->created_at->diffForHumans(), // Format "il y a X temps"
+            ];
+        });
         return Inertia::render('News.Index', [
             'news' => $news,
         ]);

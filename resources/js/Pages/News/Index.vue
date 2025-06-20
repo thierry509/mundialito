@@ -21,12 +21,12 @@
 
             </div>
             <!-- News Table -->
-            <div v-if="news?.data?.length > 0" class="bg-white shadow rounded-lg overflow-hidden">
+            <div v-if="news?.length > 0" class="bg-white shadow rounded-lg overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h2 class="text-lg font-medium text-gray-900">Mes actualités</h2>
                 </div>
                 <div class="divide-y divide-gray-200">
-                    <div v-for="item in news.data" :key="item?.id" class="px-6 py-4 hover:bg-gray-50 transition">
+                    <div v-for="item in news" :key="item?.id" class="px-6 py-4 hover:bg-gray-50 transition">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-4">
                                 <div v-if="item.image" class="flex-shrink-0">
@@ -36,7 +36,7 @@
                                 <div>
                                     <a :href="`/actualites/${item.slug}`" class="text-lg font-medium text-primary">{{
                                         item.title }}</a>
-                                    <p class="text-sm text-gray-500">Publié le {{ formatDate(item.created_at) }}</p>
+                                    <p class="text-sm text-gray-500">Publié le {{ (item.created_at_local) }}</p>
                                 </div>
                             </div>
                             <div class="flex items-center space-x-6">
