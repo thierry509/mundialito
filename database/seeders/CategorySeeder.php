@@ -14,26 +14,14 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Actualités générales'],
-            ['name' => 'Résultats en direct'],
-            ['name' => 'Classements'],
-            ['name' => 'Reportages exclusifs'],
-            ['name' => 'Interviews joueurs'],
-            ['name' => 'Analyse tactique'],
-            ['name' => 'Blessures et suspensions'],
-            ['name' => 'Calendrier des matchs'],
-            ['name' => 'Jeunes talents'],
-            ['name' => 'Histoire de club'],
-            ['name' => 'Opinion éditoriale'],
-            ['name' => 'Stades et infrastructures'],
-            ['name' => 'Supporters et ambiance'],
-            ['name' => 'Staff technique'],
-            ['name' => 'Arbitrage'],
-            ['name' => 'Comparaisons statistiques'],
-            ['name' => 'Revue de presse'],
-            ['name' => 'Conférences de presse'],
-            ['name' => 'Controverses'],
-            ['name' => 'Économie du football'],
+            ['name' => 'Actualités du championnat'], // fusionne actualités générales, conférences de presse, revue de presse
+            ['name' => 'Résultats & Classements'],   // fusionne résultats en direct et classements
+            ['name' => 'Interviews & Reportages'],   // fusionne interviews joueurs et reportages exclusifs
+            ['name' => 'Analyse & Tactique'],        // fusionne analyse tactique et comparaisons statistiques
+            ['name' => 'Blessures & Suspensions'],   // reste pertinent pour les infos d’effectifs
+            ['name' => 'Calendrier & Matchs'],       // calendrier des matchs, matchs à venir, etc.
+            ['name' => 'Supporters & Ambiance'],     // fusionne supporters, ambiance et stades
+            ['name' => 'Polémiques & Arbitrage'],    // fusionne controverses et arbitrage
         ];
 
         DB::table('categories')->insert($categories);

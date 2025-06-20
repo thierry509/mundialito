@@ -15,7 +15,6 @@ class ChampionshipSeeder extends Seeder
     public function run(): void
     {
         $championships = [
-            ['year' => 2022, 'knockout_round' => 2],
             ['year' => 2023, 'knockout_round' => 3],
             ['year' => 2024, 'knockout_round' => 4],
         ];
