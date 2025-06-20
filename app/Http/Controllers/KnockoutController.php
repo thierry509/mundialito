@@ -7,6 +7,9 @@ use App\Http\Requests\HaveYearRequest;
 use App\Models\Championship;
 use App\Models\Game;
 use App\Models\Team;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\TwitterCard;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,6 +17,19 @@ class KnockoutController extends Controller
 {
     public function index(HaveYearRequest $request)
     {
+        SEOMeta::setTitle('Schemat de l\'elimination du mundialito ');
+        SEOMeta::setDescription('Schemat de l\'elimination du mundialito');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('Schemat de l\'elimination du mundialito ');
+        OpenGraph::setDescription('Schemat de l\'elimination du mundialito');
+        OpenGraph::setUrl(url()->current());
+        OpenGraph::addProperty('type', 'article');
+
+        TwitterCard::setTitle('Schemat de l\'elimination du mundialito ');
+        TwitterCard::setDescription('Schemat de l\'elimination du mundialito');
+        TwitterCard::setUrl(url()->current());
+
         $year = $request->query('year');
 
 

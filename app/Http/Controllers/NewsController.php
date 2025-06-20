@@ -23,6 +23,19 @@ class NewsController extends Controller
 {
     public function index()
     {
+        SEOMeta::setTitle('Actualites du mundialito ');
+        SEOMeta::setDescription('Listes des actualites du mundialito');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('Actualites du mundialito ');
+        OpenGraph::setDescription('Listes des actualites du mundialito');
+        OpenGraph::setUrl(url()->current());
+        OpenGraph::addProperty('type', 'article');
+
+        TwitterCard::setTitle('Actualites du mundialito ');
+        TwitterCard::setDescription('Listes des actualites du mundialito');
+        TwitterCard::setUrl(url()->current());
+
         $news = News::with(['user', 'category'])
             ->latest()
             ->paginate(5);

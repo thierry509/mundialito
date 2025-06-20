@@ -14,6 +14,9 @@ use App\Models\Game;
 use App\Models\Group;
 use App\Models\Log;
 use App\Services\GameService;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\TwitterCard;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Carbon;
@@ -24,6 +27,19 @@ class GameController extends Controller
 {
     public function index(HaveYearRequest $request, GameService $gameService)
     {
+        SEOMeta::setTitle('List des matchs du mundialito ');
+        SEOMeta::setDescription('Liste des matchs du mundialito');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('Liste des matchs du mundialito ');
+        OpenGraph::setDescription('Liste des matchs du mundialito');
+        OpenGraph::setUrl(url()->current());
+        OpenGraph::addProperty('type', 'article');
+
+        TwitterCard::setTitle('List des matchs du mundialito ');
+        TwitterCard::setDescription('Liste des matchs du mundialito');
+        TwitterCard::setUrl(url()->current());
+
         $year = $request->query('year');
         $games = $gameService->all($year);
 

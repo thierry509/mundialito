@@ -7,6 +7,9 @@ use App\Http\Requests\ChampionshipSettingRequest;
 use App\Http\Requests\StoreChampionshipRequest;
 use App\Models\Championship;
 use App\Models\RankingRule;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\TwitterCard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -15,6 +18,19 @@ class ChampionshipController extends Controller
 {
     public function index(Request $request)
     {
+        SEOMeta::setTitle('Palmares du mundialito ');
+        SEOMeta::setDescription('Palmares des equipes championnes du mundialito');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('Palmares du mundialito ');
+        OpenGraph::setDescription('Palmares des equipes championnes du mundialito');
+        OpenGraph::setUrl(url()->current());
+        OpenGraph::addProperty('type', 'article');
+
+        TwitterCard::setTitle('Palmares du mundialito ');
+        TwitterCard::setDescription('Palmares des equipes championnes du mundialito');
+        TwitterCard::setUrl(url()->current());
+
         return view('prizeList.index');
     }
     public function store(StoreChampionshipRequest $request)

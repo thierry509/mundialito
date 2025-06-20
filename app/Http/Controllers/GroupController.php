@@ -12,6 +12,10 @@ use App\Models\RankingRule;
 use App\Models\Team;
 use App\Models\ViewRanking;
 use App\Services\RankingService;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\TwitterCard;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,6 +23,19 @@ class GroupController extends Controller
 {
     public function index(HaveYearRequest $request)
     {
+        SEOMeta::setTitle('Liste des groups et le classements du mundialito ');
+        SEOMeta::setDescription('Liste des groupes et le classement du mundialito');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('Liste des groups et le classements du mundialito ');
+        OpenGraph::setDescription('Liste des groupes et le classement du mundialito');
+        OpenGraph::setUrl(url()->current());
+        OpenGraph::addProperty('type', 'article');
+
+        TwitterCard::setTitle('Liste des groupes et le classement du mundialito ');
+        TwitterCard::setDescription('Liste des groupes et le classement du mundialito');
+        TwitterCard::setUrl(url()->current());
+
         $year = $request->query('year');
         $rankingService = new RankingService();
         $groups = $rankingService->getGroupRankings($year);
