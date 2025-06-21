@@ -119,11 +119,10 @@
                             </svg>
                         </a>
                     </div>
-                    <div class="flex flex-wrap gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
                         @forelse ($inTheNews as $article)
                             <article
-                                class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col h-full
-                           @if ($inTheNews->count() <= 2) flex-grow min-w-[300px] basis-[calc(50%-12px)] @else w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] @endif">
+                                class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col h-full">
                                 @if ($article->image()->first())
                                     <div class="h-48 overflow-hidden">
                                         <img class="w-full h-full object-cover transition duration-300 hover:scale-105"

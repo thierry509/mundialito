@@ -17,7 +17,7 @@ class RankingRuleSeeder extends Seeder
             ['code' => 'points', 'label' => 'Points', 'order' => 'desc'],
             ['code' => 'goalDifference', 'label' => 'Différence de buts', 'order' => 'desc'],
             ['code' => 'goalsFor', 'label' => 'Buts marqués', 'order' => 'desc'],
-            ['code' => 'directConfrontation', 'label' => 'Direct Confrontation', 'order' => 'desc'],
+            ['code' => 'directConfrontation', 'label' => 'Confrontation direct', 'order' => 'desc'],
             ['code' => 'wins', 'label' => 'Nombre de victoires', 'order' => 'desc'],
             ['code' => 'fair_play_points', 'label' => 'Classement fair-play', 'order' => 'asc'],
         ];

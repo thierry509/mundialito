@@ -117,7 +117,7 @@
                                             stroke-linejoin="round"></path>
                                     </g>
                                 </svg>
-                                Dashboard
+                                Tableau de bord
                                 </Link>
                             </li>
 
