@@ -108,7 +108,7 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 container mx-auto px-4">
                     <div class="flex justify-between items-center mb-8">
                         <h2 class="text-3xl font-bold text-gray-900">À la Une</h2>
-                        <a href="{{ route('news.index') }}"
+                        <a href="{{ route('news') }}"
                             class="text-primary hover:text-accent transition flex items-center">
                             Voir toutes les actualités
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20"
