@@ -19,11 +19,11 @@
                             <div class="md:flex">
                                 @if ($article->image()->first())
                                     <div class="md:flex-shrink-0 md:w-1/3">
-                                        <img class="h-full w-full object-cover" src="{{ $article->image()->first()->min_url }}"
+                                        <img class="h-[200px] w-full object-cover" src="{{ $article->image()->first()->url }}"
                                             alt="{{ $article->title }}">
                                     </div>
                                 @endif
-                                <div class="p-6">
+                                <div class="p-3 flex flex-col justify-between w-full">
                                     <div class="flex items-center mb-2">
                                         <span
                                             class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold">
@@ -39,7 +39,7 @@
                                         <div class="flex items-center">
                                             @if ($article->user->image()->first())
                                                 <img class="w-8 h-8 rounded-full mr-2"
-                                                    src="{{ $article->user->image()->first()->min_url }}"
+                                                    src="{{ $article->user->image()->first()->url }}"
                                                     alt="{{ $article->user->full_name }}">
                                             @endif
                                             <span class="text-sm font-medium">
@@ -108,7 +108,7 @@
                             <article class="flex gap-4">
                                 @if ($featured->image()->first())
                                     <img class="w-20 h-20 rounded-lg object-cover flex-shrink-0"
-                                        src="{{ $featured->image()->first()->min_url }}" alt="{{ $featured->title }}">
+                                        src="{{ $featured->image()->first()->url }}" alt="{{ $featured->title }}">
                                 @endif
                                 <div>
                                     <div class="text-xs text-gray-500 mb-1">

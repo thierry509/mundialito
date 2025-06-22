@@ -149,6 +149,7 @@
             </form>
         </div>
     </div>
+    {{ form }}
 </template>
 
 <script setup>

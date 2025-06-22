@@ -25,9 +25,9 @@ class ImageService
         $thumbnail = clone $image;
 
         // Utilisation de resize + crop si fit() ne fonctionne pas
-        $thumbnail->resize($thumbnailWidth, $thumbnailHeight, function ($constraint) {
-            $constraint->aspectRatio();
-        })->crop($thumbnailWidth, $thumbnailHeight);
+            $thumbnail->resize($thumbnailWidth, $thumbnailHeight, function ($constraint) {
+                $constraint->aspectRatio();
+            })->crop($thumbnailWidth, $thumbnailHeight);
 
         // Gestion du nom et de l'extension
         $extension = $this->getOptimalExtension($file);
@@ -116,4 +116,4 @@ class ImageService
             Storage::makeDirectory($directory, 0755, true);
         });
     }
-}   
+}

@@ -16,25 +16,6 @@
             </div>
             @include('layout.partials.socialAuth')
             <form class="mt-8 space-y-6" action="{{ route('register.submit') }}" method="POST">
-                @if ($errors->any())
-                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm text-red-700">
-                                    Identifiants incorrects ou compte inexistant
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                @endif
                 @csrf
                 <div class="rounded-md shadow-sm space-y-4">
                     <div class="grid grid-cols-2 gap-4">
@@ -43,7 +24,7 @@
                             <input id="first-name" name="first_name" type="text" autocomplete="given-name" required
                                 class="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                                 placeholder="Prénom">
-                            @error('name')
+                            @error('first_name')
                                 <span class="text-xs text-red-500" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -54,6 +35,12 @@
                             <input id="last-name" name="last_name" type="text" autocomplete="family-name" required
                                 class="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                                 placeholder="Nom">
+
+                            @error('last_name')
+                                <span class="text-xs text-red-500" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div>
@@ -61,12 +48,22 @@
                         <input id="email" name="email" type="email" autocomplete="email" required
                             class="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                             placeholder="Adresse email">
+                        @error('email')
+                            <span class="text-xs text-red-500" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div>
                         <label for="password" class="sr-only">Mot de passe</label>
                         <input id="password" name="password" type="password" autocomplete="new-password" required
                             class="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                             placeholder="Mot de passe (min. 8 caractères)">
+                            @error('password')
+                            <span class="text-xs text-red-500" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div>
                         <label for="confirm-password" class="sr-only">Confirmer le mot de passe</label>

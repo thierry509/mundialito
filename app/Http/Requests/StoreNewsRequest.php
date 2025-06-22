@@ -20,13 +20,17 @@ class StoreNewsRequest extends FormRequest
             'content' => 'required|string',
             'excerpt' => 'required|string|max:500',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
-            'image_description' => 'nullable|required_if:featured_image,true|string',
             'status' => 'required|in:published,draft',
             'tags' => 'nullable|string|max:255',
         ];
+
+        // Ajoute la règle pour image_description seulement si featured_image est présent
+        if ($this->hasFile('featured_image')) {
+            $rules['image_description'] = 'required|string';
+        }
+
         return $rules;
     }
-
 
     public function messages()
     {
@@ -50,6 +54,8 @@ class StoreNewsRequest extends FormRequest
             'content.required' => 'Le contenu est requis',
             'status.required' => 'Le statut est requis',
             'tags.max' => 'Les tags ne doivent pas dépasser 255 caractères',
+            'image_description.required' => 'La description de l\'image est requise quand une image est fournie',
+            'image_description.string' => 'La description doit être du texte',
         ];
     }
 }

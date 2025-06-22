@@ -124,9 +124,9 @@
                             <article
                                 class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300 flex flex-col h-full">
                                 @if ($article->image()->first())
-                                    <div class="h-48 overflow-hidden">
+                                    <div class="h-48 overflow-hidden overflow-hidden">
                                         <img class="w-full h-[400px] object-cover object-cover transition duration-300 hover:scale-105"
-                                            src="{{ $article->image()->first()->min_url }}" alt="{{ $article->title }}">
+                                            src="{{ $article->image()->first()->url }}" alt="{{ $article->title }}">
                                     </div>
                                 @endif
 
