@@ -18,17 +18,17 @@ class ChampionshipController extends Controller
 {
     public function index(Request $request)
     {
-        SEOMeta::setTitle('Palmares du mundialito ');
-        SEOMeta::setDescription('Palmares des equipes championnes du mundialito');
+        SEOMeta::setTitle('Palmarès du Mundialito - Tous les Champions depuis sa Création');
+        SEOMeta::setDescription('Retrouvez la liste complète des vainqueurs du Mundialito Gonaïves depuis sa première édition.');
         SEOMeta::setCanonical(url()->current());
 
-        OpenGraph::setTitle('Palmares du mundialito ');
-        OpenGraph::setDescription('Palmares des equipes championnes du mundialito');
+        OpenGraph::setTitle('Palmarès du Mundialito - Tous les Champions depuis sa Création');
+        OpenGraph::setDescription('Retrouvez la liste complète des vainqueurs du Mundialito Gonaïves depuis sa première édition.');
         OpenGraph::setUrl(url()->current());
         OpenGraph::addProperty('type', 'article');
 
-        TwitterCard::setTitle('Palmares du mundialito ');
-        TwitterCard::setDescription('Palmares des equipes championnes du mundialito');
+        TwitterCard::setTitle('Palmarès du Mundialito - Tous les Champions depuis sa Création');
+        TwitterCard::setDescription('Retrouvez la liste complète des vainqueurs du Mundialito Gonaïves depuis sa première édition.');
         TwitterCard::setUrl(url()->current());
 
         return view('prizeList.index');

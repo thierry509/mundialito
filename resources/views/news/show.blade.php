@@ -35,7 +35,7 @@
     </style>
 
     <!-- Hero Section for Article -->
-    <x-hero title="Actualités" subtitle="{{ $news->title }}" backgroundImage="/images/article-hero.jpg" variant="primary"
+    <x-hero title="Actualités" subtitle="{!! $news->title !!}" backgroundImage="/images/article-hero.jpg" variant="primary"
         haveYear="{{ false }}" :center="false" />
 
 

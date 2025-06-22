@@ -6,7 +6,6 @@ return [
             'title' => 'Mondialito',
             'description' => 'site web officiel du mondialito',
             'separator' => ' - ',
-            'keywords' => ['tournoi', 'foot', 'Gonaïves', 'Mundialito'],
         ],
     ],
 

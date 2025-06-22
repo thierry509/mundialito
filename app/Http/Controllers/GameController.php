@@ -27,20 +27,21 @@ class GameController extends Controller
 {
     public function index(HaveYearRequest $request, GameService $gameService)
     {
-        SEOMeta::setTitle('List des matchs du mundialito ');
-        SEOMeta::setDescription('Liste des matchs du mundialito');
+        $year = $request->query('year');
+
+        SEOMeta::setTitle('Calendrier des Matchs - Mundialito Gonaïves' . $year);
+        SEOMeta::setDescription('Consultez le programme complet des matchs du Mundialito aux Gonaïves. Dates, heures et lieux des rencontres.');
         SEOMeta::setCanonical(url()->current());
 
-        OpenGraph::setTitle('Liste des matchs du mundialito ');
-        OpenGraph::setDescription('Liste des matchs du mundialito');
+        OpenGraph::setTitle('Calendrier des Matchs - Mundialito Gonaïves' . $year);
+        OpenGraph::setDescription('Consultez le programme complet des matchs du Mundialito aux Gonaïves. Dates, heures et lieux des rencontres.');
         OpenGraph::setUrl(url()->current());
         OpenGraph::addProperty('type', 'article');
 
-        TwitterCard::setTitle('List des matchs du mundialito ');
-        TwitterCard::setDescription('Liste des matchs du mundialito');
+        TwitterCard::setTitle('Calendrier des Matchs - Mundialito Gonaïves' . $year);
+        TwitterCard::setDescription('Consultez le programme complet des matchs du Mundialito aux Gonaïves. Dates, heures et lieux des rencontres.');
         TwitterCard::setUrl(url()->current());
 
-        $year = $request->query('year');
         $games = $gameService->all($year);
 
         return view('games.index', [

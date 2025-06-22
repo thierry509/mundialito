@@ -11,17 +11,17 @@ class AboutController extends Controller
 {
     public function index()
     {
-        SEOMeta::setTitle('A propos du mundialito ');
-        SEOMeta::setDescription('Histoire et appelations du mundialito');
+        SEOMeta::setTitle('Histoire du Mundialito - Championnat de Football des Gonaïves');
+        SEOMeta::setDescription('Découvrez l’origine du Mundialito, son créateur et pourquoi ce tournoi est devenu un événement incontournable en Haïti.');
         SEOMeta::setCanonical(url()->current());
 
-        OpenGraph::setTitle('A propos du mundialito ');
-        OpenGraph::setDescription('Histoire et appelations du mundialito');
+        OpenGraph::setTitle('Histoire du Mundialito - Championnat de Football des Gonaïves');
+        OpenGraph::setDescription('Découvrez l’origine du Mundialito, son créateur et pourquoi ce tournoi est devenu un événement incontournable en Haïti.');
         OpenGraph::setUrl(url()->current());
         OpenGraph::addProperty('type', 'article');
 
-        TwitterCard::setTitle('A propos du mundialito ');
-        TwitterCard::setDescription('Histoire et appelations du mundialito');
+        TwitterCard::setTitle('Histoire du Mundialito - Championnat de Football des Gonaïves');
+        TwitterCard::setDescription('Découvrez l’origine du Mundialito, son créateur et pourquoi ce tournoi est devenu un événement incontournable en Haïti.');
         TwitterCard::setUrl(url()->current());
 
         return view('about.index');

@@ -100,6 +100,7 @@ class NewsController extends Controller
                 'description' => Str::limit(strip_tags($news->content), 160)
             ]
         ];
+
         // });
 
         return view('news.show', $data);

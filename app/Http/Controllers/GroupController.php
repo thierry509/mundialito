@@ -23,20 +23,21 @@ class GroupController extends Controller
 {
     public function index(HaveYearRequest $request)
     {
-        SEOMeta::setTitle('Liste des groups et le classements du mundialito ');
-        SEOMeta::setDescription('Liste des groupes et le classement du mundialito');
+        $year = $request->query('year');
+
+        SEOMeta::setTitle('Classement du Mundialito Gonaïves' . $year .'- Groupes et Résultats');
+        SEOMeta::setDescription('Découvrez le classement en direct du Mundialito : points, buts et qualifications des équipes participantes.');
         SEOMeta::setCanonical(url()->current());
 
-        OpenGraph::setTitle('Liste des groups et le classements du mundialito ');
-        OpenGraph::setDescription('Liste des groupes et le classement du mundialito');
+        OpenGraph::setTitle('Classement du Mundialito Gonaïves' . $year .'- Groupes et Résultats');
+        OpenGraph::setDescription('Découvrez le classement en direct du Mundialito : points, buts et qualifications des équipes participantes.');
         OpenGraph::setUrl(url()->current());
         OpenGraph::addProperty('type', 'article');
 
-        TwitterCard::setTitle('Liste des groupes et le classement du mundialito ');
-        TwitterCard::setDescription('Liste des groupes et le classement du mundialito');
+        TwitterCard::setTitle('Classement du Mundialito Gonaïves' . $year .'- Groupes et Résultats');
+        TwitterCard::setDescription('Découvrez le classement en direct du Mundialito : points, buts et qualifications des équipes participantes.');
         TwitterCard::setUrl(url()->current());
 
-        $year = $request->query('year');
         $rankingService = new RankingService();
         $groups = $rankingService->getGroupRankings($year);
         $rankingRules = Championship::where('year', $year)

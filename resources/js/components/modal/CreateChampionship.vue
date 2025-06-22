@@ -55,7 +55,7 @@ const submit = () => {
             <Input v-model="form.year" type="number" id="year" label="Année de l'édition" placeholder="Ex: 2025"
                 :error="form.errors.year" required />
 
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 hidden">
                 <input v-model="form.hasGroupStage" type="checkbox" id="hasGroupStage"
                     class="rounded border-gray-300 text-primary focus:ring-primary">
                 <label for="hasGroupStage">Phase de groupes</label>
