@@ -20,6 +20,10 @@
             ['year' => 2019, 'team' => 'Ti Monnen Pa Ja FC'],
             ['year' => 2020, 'team' => 'Non organisé / Covid-19'],
             ['year' => 2021, 'team' => 'Top Marc FC'],
+            ['year' => 2022, 'team' => 'LOS TECNICOS'],
+            ['year' => 2023, 'team' => 'TOP FRIENDS'],
+            ['year' => 2024, 'team' => 'OOOCHA'],
+
         ];
         $prizeList = array_reverse($prizeList);
 

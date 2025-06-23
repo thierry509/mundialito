@@ -4,7 +4,7 @@
         <!-- Logo -->
         <a href="{{ route('home') }}">
             <div class="flex items-center">
-                <img src="{{ asset('images/logo.png') }}" alt="">
+                <img src="{{ asset('images/logo.png') }}" alt="logo mundialito">
                 <span
                     class=" ml-2 text-2xl font-bold text-white transition-colors duration-300 navbar-logo">Mundialito</span>
             </div>
