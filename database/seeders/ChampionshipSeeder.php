@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Championship;
 use App\Models\RankingRule;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ChampionshipSeeder extends Seeder
@@ -15,8 +14,7 @@ class ChampionshipSeeder extends Seeder
     public function run(): void
     {
         $championships = [
-            ['year' => 2023, 'knockout_round' => 3],
-            ['year' => 2024, 'knockout_round' => 4],
+            ['year' => 2025, 'knockout_round' => 4],
         ];
 
         foreach ($championships as $championship) {

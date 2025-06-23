@@ -112,7 +112,7 @@
 
                         @php
                             $shareUrl = route('news.show', $news->slug);
-                            $shareText = urlencode('Check out this news: ' . $news->title);
+                            $shareText = urlencode('Cliquez ici pour lire l’article complet : ' . $news->title);
                         @endphp
 
                         <!-- Facebook Share -->

@@ -19,6 +19,7 @@ use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\SitemapController;
 use App\Models\Championship;
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +80,10 @@ Route::get('mentions-legales', [AboutController::class, 'legal'])->name('legal')
 Route::get('politique-de-confidentialite', [AboutController::class, 'privacy'])->name('privacy');
 // FAQ
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+
+// routes/web.php
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+
 
 Route::middleware('guest')->group(function () {
     Route::get('connexion', [AuthController::class, 'showLoginForm'])->name('login');

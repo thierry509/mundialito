@@ -5,9 +5,12 @@
     </Head>
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto">
-            <!-- Header -->
-            <div class="mb-8 flex justify-between items-center">
-                <h1 class="text-3xl font-bold text-primary">Actualités</h1>
+            <div class="mb-4">
+                <h1 class="text-2xl font-bold text-gray-800">Actualités du Sport</h1>
+                <p class="text-gray-600 mt-2">Dernières informations sur la compétition</p>
+            </div>
+            <div class="flex justify-between items-center mb-4">
+                <div class=""></div>
                 <Link href="/edition/actualites/creer">
 
                 <button class="bg-primary hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center">
@@ -18,8 +21,8 @@
                     Nouvelle actualité
                 </button>
                 </Link>
-
             </div>
+
             <!-- News Table -->
             <div v-if="news?.length > 0" class="bg-white shadow rounded-lg overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200">

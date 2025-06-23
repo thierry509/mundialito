@@ -4,7 +4,11 @@
         <title>Moderation</title>
     </Head>
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold text-gray-800 mb-6">Modération des Utilisateurs</h1>
+
+        <div class="mb-4">
+            <h1 class="text-2xl font-bold text-gray-800">Modération des Membres</h1>
+            <p class="text-gray-600 mt-2">Gestion des comptes utilisateurs</p>
+        </div>
 
         <!-- Barre de recherche -->
         <div class="mb-6">
@@ -51,7 +55,9 @@
                             <div class="text-sm text-gray-500">{{ user.phone }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div v-if="auth?.user.id === user.id" class="h-7 w-40 bg-gray-200 border capitalize border-gray-300 rounded px-2 py-1 text-sm focus:ring-blue-500 focus:border-blue-500">{{ roles(user.roles) }}</div>
+                            <div v-if="auth?.user.id === user.id"
+                                class="h-7 w-40 bg-gray-200 border capitalize border-gray-300 rounded px-2 py-1 text-sm focus:ring-blue-500 focus:border-blue-500">
+                                {{ roles(user.roles) }}</div>
                             <select v-else v-model="user.roles"
                                 class="h-7 w-40 border border-gray-300 rounded px-2 py-1 text-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option value="user">Utilisateur</option>

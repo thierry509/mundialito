@@ -36,6 +36,7 @@ class NewsController extends Controller
         TwitterCard::setDescription('Listes des actualites du mundialito');
         TwitterCard::setUrl(url()->current());
 
+
         $news = News::with(['user', 'category'])
             ->latest()
             ->paginate(5);
@@ -76,7 +77,6 @@ class NewsController extends Controller
         TwitterCard::setDescription('Description ' . $news->excerpt);
         TwitterCard::setUrl(url()->current());
         TwitterCard::setImage($news->image?->url ?? asset('/images/mundialito.jpg'));
-
 
         $author = $news->user;
         $category = $news->category;

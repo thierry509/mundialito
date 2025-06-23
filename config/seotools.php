@@ -25,6 +25,9 @@ return [
         'defaults' => [
             'card' => 'summary_large_image',
             'site' => '@votrecompte',
+            'images' => [
+                env('APP_URL') . '/images/mundialito.jpg'
+            ],
         ],
     ],
 ];
