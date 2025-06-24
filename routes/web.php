@@ -81,6 +81,9 @@ Route::get('politique-de-confidentialite', [AboutController::class, 'privacy'])-
 // FAQ
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
+Route::get('/test-mail', function(){
+    return view('vendor.mail.html.message');
+});
 // routes/web.php
 Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
@@ -91,10 +94,12 @@ Route::middleware('guest')->group(function () {
 
     Route::get('inscription', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('inscription', [AuthController::class, 'register'])->name('register.submit');
+    Route::get('verifier-email', [AuthController::class, 'verifyEmail'])->name('verification.verify');
+
     Route::get('mot-de-passe-oublie', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
     Route::post('mot-de-passe-oublie', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
     Route::get('/reinitialiser-mot-de-passe/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
-    Route::post('/reinitialiser-mot-de-passe', [AuthController::class, 'reset'])->name('password.update');
+    Route::post('/reinitialiser-mot-de-passe', [AuthController::class, 'resetPassword'])->name('password.reset.post');
 
     Route::get('/{provider}/redirection', [AuthController::class, 'redirectToProvider'])
         ->where('provider', 'google|facebook')
