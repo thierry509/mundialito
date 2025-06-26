@@ -39,6 +39,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
+    <script type="module" src="https://desirthierry.net//js/thierry-banner.js"></script>
 
     <script defer>
         document.addEventListener('DOMContentLoaded', function() {
@@ -105,6 +106,8 @@
     @include('layout.partials.nav')
 
     @hasSection('content')
+        <thierry-banner type="sticky"></thierry-banner>
+
         @yield('content')
     @else
         @inertia
