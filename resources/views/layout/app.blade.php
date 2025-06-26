@@ -106,8 +106,6 @@
     @include('layout.partials.nav')
 
     @hasSection('content')
-        <thierry-banner type="sticky"></thierry-banner>
-
         @yield('content')
     @else
         @inertia

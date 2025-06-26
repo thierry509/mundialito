@@ -44,3 +44,6 @@
         </div>
     @endif
 </header>
+<thierry-banner type="announcement"></thierry-banner>
+<thierry-banner type="promo"></thierry-banner>
+<thierry-banner type="ribbon"></thierry-banner>
