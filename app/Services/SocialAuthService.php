@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
-
+use Illuminate\Auth\Events\Verified;
 use App\Models\User;
 use Laravel\Socialite\Contracts\User as SocialUser;
 
