@@ -46,8 +46,9 @@
 
             <!-- Back to login link -->
             <div class="mt-6 text-center">
+                Vous vous souvenez de votre mot de passe?
                 <a href="{{ route('login') }}" class="text-sm font-medium text-primary hover:text-secondary">
-                    Vous vous souvenez de votre mot de passe ? Se connecter
+                     Se connecter
                 </a>
             </div>
         </div>
