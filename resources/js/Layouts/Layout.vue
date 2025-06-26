@@ -296,7 +296,7 @@ const toggleUserMenu = () => {
 };
 
 const logout = () => {
-    router.post('/edition/deconnexion', {}, {})
+    router.post('/deconnexion', {}, {})
 }
 </script>
 <style>
