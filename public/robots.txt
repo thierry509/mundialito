@@ -1,2 +1,15 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /edition/
+Disallow: /login/
+Disallow: /*.php$     # Fichiers PHP (si non nécessaires)
+
+# Favoriser les robots des moteurs de recherche
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Lien vers votre sitemap
+Sitemap: https://mundialito.desirthierry.net/sitemap.xml
