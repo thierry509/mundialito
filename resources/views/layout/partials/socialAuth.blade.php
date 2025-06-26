@@ -1,4 +1,4 @@
-<div class="mt-6 grid grid-cols-2 gap-3">
+<div class="mt-6 grid grid-cols-1 gap-3">
     <a href="{{ route('social.redirect', 'google') }}">
         <button
             class="flex items-center w-full justify-center bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100">
@@ -27,7 +27,7 @@
             <span class="hidden lg:block">Continue avec Google</span>
         </button>
     </a>
-    <a href="{{ route('social.redirect', 'facebook') }}">
+    <a href="{{ route('social.redirect', 'facebook') }}" class="hidden">
         <button
             class="flex items-center w-full justify-center bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100">
             <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg"

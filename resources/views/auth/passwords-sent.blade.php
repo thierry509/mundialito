@@ -7,14 +7,21 @@
 
         <div class="w-full lg:w-4/6 bg-white p-8 rounded-xl shadow-2xl backdrop-blur-sm text-center">
             <!-- Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-green-500" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-green-500" viewBox="0 0 20 20"
+                fill="currentColor">
                 <path fill-rule="evenodd"
                     d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                     clip-rule="evenodd" />
             </svg>
 
             <h2 class="mt-4 text-2xl font-bold text-gray-800">Lien envoyé !</h2>
-            <p class="mt-2 text-gray-600">Un lien de réinitialisation du mot de passe a été envoyé à votre adresse email.</p>
+            <p class="mt-2 text-gray-600">
+                Un lien de réinitialisation du mot de passe a été envoyé à votre adresse email.
+            </p>
+            <p class="mt-1 text-sm text-gray-500">
+                Si vous ne voyez pas l’email dans votre boîte de réception, pensez à vérifier votre dossier
+                <strong>spam</strong> ou <strong>courrier indésirable</strong>.
+            </p>
 
             <!-- Resend Email Link -->
             <form method="POST" action="{{ route('password.email') }}" class="mt-6 space-y-4">

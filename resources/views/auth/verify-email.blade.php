@@ -15,8 +15,14 @@
                 </svg>
                 <h1 class="text-2xl font-bold text-gray-800 mt-4">Vérifiez votre adresse email</h1>
                 <p class="text-gray-600 mt-2">
-                    Avant de continuer, veuillez vérifier votre adresse email en cliquant sur le lien que nous venons de vous envoyer.
+                    Avant de continuer, veuillez vérifier votre adresse email en cliquant sur le lien que nous venons de
+                    vous envoyer.
                 </p>
+                <p class="text-sm text-gray-500 mt-1">
+                    Si vous ne trouvez pas l’email, pensez à vérifier votre dossier <strong>spam</strong> ou
+                    <strong>courrier indésirable</strong>.
+                </p>
+
                 <p class="mt-2 text-sm text-gray-800">
                     <strong>Adresse :</strong> {{ Auth::user()->email }}
                 </p>
