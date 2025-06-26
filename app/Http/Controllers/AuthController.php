@@ -53,20 +53,16 @@ class AuthController extends Controller
         $user = User::create([
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
-            'email' => $request->email,
+            'email' => $validated['email'],
             'roles' => 'user',
             'password' => Hash::make($validated['password']),
         ]);
 
         event(new Registered($user));
 
-        // $user->sendEmailVerificationNotification();
-
-
         Auth::login($user);
 
-        return redirect(route('verification.notice'));
-        // return redirect()->back();
+        return $user ? redirect(route('verification.notice')) : redirect()->back()->withInput();
     }
 
     public function logout(Request $request)
