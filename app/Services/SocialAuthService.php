@@ -32,6 +32,7 @@ class SocialAuthService
                 'provider_token' => $socialUser->token,
                 'email_verified_at' => now(),
             ]);
+                event(new Verified($user));
         }
 
         return $user;
