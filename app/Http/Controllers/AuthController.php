@@ -59,7 +59,7 @@ class AuthController extends Controller
         ]);
 
         event(new Registered($user));
-        Auth::user()->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification();
 
         Auth::login($user);
 
