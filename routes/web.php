@@ -23,6 +23,14 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\SitemapController;
 use App\Models\Championship;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
+
+Route::get('/proxy-composant', function () {
+    $response = Http::get('https://desirthierry.net//js/thierry-banner.js');
+
+    return response($response->body(), $response->status())
+        ->header('Content-Type', $response->header('Content-Type'));
+});
 
 // Page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');

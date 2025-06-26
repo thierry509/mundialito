@@ -20,6 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
             // HandleInertiaRedirects::class,
             GzipMiddleware::class,
             StaticCache::class,
+            \Illuminate\Http\Middleware\HandleCors::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

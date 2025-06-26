@@ -99,6 +99,8 @@
             </div>
         </div>
     </header>
+    <thierry-banner type="top" theme="light"></thierry-banner>
+
 
     <!-- Contenu principal moderne -->
     <main>
