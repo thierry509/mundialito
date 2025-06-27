@@ -56,7 +56,7 @@ class NewsController extends Controller
     {
         $cacheKey = "news_{$slug}";
         $news = News::where('slug', $slug)
-        ->firstOrFail();
+            ->firstOrFail();
         // $data = Cache::remember($cacheKey, now()->addHours(2), function () use ($slug) {
 
         SEOMeta::setTitle('Actualite - ' . $news->title);
@@ -68,15 +68,18 @@ class NewsController extends Controller
         OpenGraph::setDescription('Description ' . $news->excerpt);
         OpenGraph::setUrl(url()->current());
         OpenGraph::addProperty('type', 'article');
-        OpenGraph::addImage($news->image?->url ?? asset('/images/mundialito.jpg'), [
-            'width' => 1200,
-            'height' => 630,
-        ]);
+        OpenGraph::addImage(
+            $news->image?->url ?? (getYouTubeThumbnail($news->videoUrl) ?? asset('/images/mundialito.jpg')),
+            [
+                'width' => 1200,
+                'height' => 630,
+            ]
+        );
 
         TwitterCard::setTitle('Actualite - ' . $news->title);
         TwitterCard::setDescription('Description ' . $news->excerpt);
         TwitterCard::setUrl(url()->current());
-        TwitterCard::setImage($news->image?->url ?? asset('/images/mundialito.jpg'));
+        TwitterCard::setImage(getYouTubeThumbnail($news->videoUrl) ?? asset('/images/mundialito.jpg'));
 
         $author = $news->user;
         $category = $news->category;
@@ -133,15 +136,15 @@ class NewsController extends Controller
     public function adminIndex()
     {
         $news = News::with(['user', 'category', 'image'])
-        ->latest()
-        ->where('user_id', Auth::user()->id)
-        ->get() // Récupère tous les résultats sans pagination
-        ->map(function ($item) { // Utilisez map() au lieu de through() pour les collections
-            return [
-                ...$item->toArray(),
-                'created_at_local' => $item->created_at->diffForHumans(), // Format "il y a X temps"
-            ];
-        });
+            ->latest()
+            ->where('user_id', Auth::user()->id)
+            ->get() // Récupère tous les résultats sans pagination
+            ->map(function ($item) { // Utilisez map() au lieu de through() pour les collections
+                return [
+                    ...$item->toArray(),
+                    'created_at_local' => $item->created_at->diffForHumans(), // Format "il y a X temps"
+                ];
+            });
         return Inertia::render('News.Index', [
             'news' => $news,
         ]);

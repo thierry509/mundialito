@@ -21,16 +21,16 @@ class HomeController extends Controller
             ->orderBy('date_time', 'asc')
             ->first();
 
-        $inTheNews = News::with('User')
-            ->whereHas('User', function ($query) {
+            $inTheNews = News::with(['user', 'image'])
+            ->whereHas('user', function ($query) {
                 $query->where('roles', 'admin');
             })
-            ->whereHas('Image', function ($query) {
-                $query->whereNotNull('url');
-            })
             ->orderBy('created_at', 'desc')
-            ->take(3)
-            ->get();
+            ->get()
+            ->filter(function ($news) {
+                return optional($news->image)->url || getYouTubeThumbnail($news->video_url);
+            })
+            ->take(3);
 
         return view('home', [
             'lastGame' => $lastGame,

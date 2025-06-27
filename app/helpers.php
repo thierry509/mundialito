@@ -73,7 +73,7 @@ function nextStage($stage)
 
 /**
  * Détermine la position du match suivant dans la phase suivante
- * 
+ *
  * @param int $currentPosition Position actuelle dans la phase (1 à n)
  * @param string $currentPhase Phase actuelle (ex: 'round16', 'quarter', 'semi', 'final')
  * @return array ['next_phase' => string, 'next_position' => int]
@@ -170,4 +170,11 @@ function statusClass($status)
     ];
 
     return $statusMap[$status] ?? $statusMap['default'];
+}
+
+function getYouTubeThumbnail(string $url): ?string {
+    if (preg_match('/(youtu\.be\/|v=)([^&]+)/', $url, $matches)) {
+        return 'https://img.youtube.com/vi/' . $matches[2] . '/hqdefault.jpg';
+    }
+    return null;
 }
