@@ -21,9 +21,6 @@
         <title>Gestion des Équipes</title>
     </Head>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 class="text-3xl font-bold text-gray-900">Gestion des Équipes</h1>
-
-
         <div class="mb-4">
             <h1 class="text-2xl font-bold text-gray-800">Gestion des Équipes</h1>
             <p class="text-gray-600 mt-2">Ajout et suppression des équipes</p>
