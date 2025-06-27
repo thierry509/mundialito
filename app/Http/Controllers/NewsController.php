@@ -69,7 +69,7 @@ class NewsController extends Controller
         OpenGraph::setUrl(url()->current());
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addImage(
-            $news->image?->url ?? (getYouTubeThumbnail($news->videoUrl) ?? asset('/images/mundialito.jpg')),
+            $news->image?->url ?? (getYouTubeThumbnail($news->video_url) ?? asset('/images/mundialito.jpg')),
             [
                 'width' => 1200,
                 'height' => 630,
@@ -79,7 +79,7 @@ class NewsController extends Controller
         TwitterCard::setTitle('Actualite - ' . $news->title);
         TwitterCard::setDescription('Description ' . $news->excerpt);
         TwitterCard::setUrl(url()->current());
-        TwitterCard::setImage(getYouTubeThumbnail($news->videoUrl) ?? asset('/images/mundialito.jpg'));
+        TwitterCard::setImage(getYouTubeThumbnail($news->video_url) ?? asset('/images/mundialito.jpg'));
 
         $author = $news->user;
         $category = $news->category;
