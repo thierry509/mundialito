@@ -17,7 +17,7 @@
                         <article
                             class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
                             <div class="md:flex">
-                                @if ($article->image()->first() || getYouTubeThumbnail($article->video_url))
+                                @if ($article->image()->first()  || getYouTubeThumbnail($article->video_url) !== null)
                                     <div class="md:flex-shrink-0 md:w-1/3">
                                         <img class="h-[200px] w-full object-cover"
                                         src="{{ $article->image()->first()->url ?? getYouTubeThumbnail($article->video_url) }}"

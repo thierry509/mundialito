@@ -172,9 +172,15 @@ function statusClass($status)
     return $statusMap[$status] ?? $statusMap['default'];
 }
 
-function getYouTubeThumbnail(string $url): ?string {
+function getYouTubeThumbnail(?string $url): ?string {
+    if (!$url) {
+        return null;
+    }
+
     if (preg_match('/(youtu\.be\/|v=)([^&]+)/', $url, $matches)) {
         return 'https://img.youtube.com/vi/' . $matches[2] . '/hqdefault.jpg';
     }
+
     return null;
 }
+
