@@ -1,6 +1,6 @@
   <!-- Footer -->
   <footer class="bg-gray-900 text-white pt-12 overflow-hidden">
-      <div class="max-w-7xl px-6 md:px-12 mx-auto sm:px-6">
+      <div class="max-w-7xl px-6 md:px-0 mx-auto sm:px-6">
           <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div class="md:col-span-2">
                   <h3 class="text-2xl font-bold mb-4">Mundialito Gonaïves</h3>
