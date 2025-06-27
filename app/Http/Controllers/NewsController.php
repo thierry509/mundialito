@@ -172,6 +172,7 @@ class NewsController extends Controller
                 'excerpt' => $validatedData['excerpt'],
                 'content' => $validatedData['content'],
                 'image_id' => $image?->id,
+                'video_url' => $validatedData['video_url'],
                 'user_id' => Auth::user()->id,
             ]);
         });
@@ -220,6 +221,7 @@ class NewsController extends Controller
                 'category_id' => $category?->id,
                 'excerpt' => $validatedData['excerpt'],
                 'content' => $validatedData['content'],
+                'video_url' => $validatedData['video_url'],
                 'image_id' => $image->id ?? $image?->id,
             ]);
         });

@@ -21,6 +21,11 @@ class StoreNewsRequest extends FormRequest
             'excerpt' => 'required|string|max:500',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'status' => 'required|in:published,draft',
+            'video_url' => [
+                'nullable',
+                'url',
+                'regex:/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//',
+            ],
             'tags' => 'nullable|string|max:255',
         ];
 
@@ -38,9 +43,8 @@ class StoreNewsRequest extends FormRequest
             'title.required' => 'Le titre est requis',
             'title.string' => 'Le titre doit être une chaîne de caractères',
             'title.max' => 'Le titre ne doit pas dépasser 255 caractères',
-            'video_url.url' => 'L\'URL de la vidéo doit être valide',
-            'video_url.mimes' => 'Le fichier vidéo doit être au format mp4, avi, mov, mkv',
-            'video_url.max' => 'La vidéo ne doit pas dépasser 10MB',
+            'video_url.url' => 'Le lien vidéo doit être une URL valide.',
+            'video_url.regex' => 'Seuls les liens YouTube sont autorisés.', 
             'featured_image.mimes' => 'Le fichier doit être au format jpeg, png, jpg',
             'featured_image.dimensions' => 'L\'image doit avoir une largeur et une hauteur minimales de 300x300 pixels',
             'featured_image.required' => 'Une image mise en avant est requise',

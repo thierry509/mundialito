@@ -24,8 +24,12 @@ class UpdateNewsRequest extends FormRequest
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
             'image_description' => 'nullable|required_if:featured_image,true|string',
             'status' => 'required|in:published,draft',
+            'video_url' => [
+                'nullable',
+                'url',
+                'regex:/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//',
+            ],
             'tags' => 'nullable|string|max:255',
-            'video_url' => 'nullable|url|mimes:mp4,avi,mov,mkv|max:10240',
         ];
 
         return $rules;
@@ -58,9 +62,8 @@ class UpdateNewsRequest extends FormRequest
             'status.in' => 'Le statut doit être "published" ou "draft"',
             'tags.string' => 'Les tags doivent être une chaîne de caractères',
             'tags.max' => 'Les tags ne doivent pas dépasser 255 caractères',
-            'video_url.url' => 'L\'URL de la vidéo doit être valide',
-            'video_url.mimes' => 'Le format vidéo doit être mp4, avi, mov ou mkv',
-            'video_url.max' => 'La vidéo ne doit pas dépasser 10MB',
+            'video_url.url' => 'Le lien vidéo doit être une URL valide.',
+            'video_url.regex' => 'Seuls les liens YouTube sont autorisés.',
         ];
     }
 }

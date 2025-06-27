@@ -32,7 +32,7 @@
     <x-hero title="Palmarès du Mundialito" subtitle="Revivez chaque édition et découvrez les équipes légendaires"
         backgroundImage="/images/champions-hero.jpg" variant="primary" haveYear="{{ false }}" />
     <section class="py-20 bg-white rounded-3xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
             <div class="text-center mb-12">
                 <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold">PALMARÈS
                     RÉCENT</span>

@@ -8,7 +8,7 @@
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-12">
         <!-- History Section -->
-        <section class="mb-16 max-w-6xl mx-auto px-4">
+        <section class="mb-16 max-w-7xl mx-auto px-4">
             <div class="relative">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center mb-4">
                     L'histoire du <span class="text-primary">Mundialito</span>

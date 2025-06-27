@@ -41,7 +41,7 @@
 
     <!-- Article Content -->
     <main class="container mx-auto px-4 py-12">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-7xl mx-auto">
             <!-- Article Meta -->
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
                 <div class="flex items-center mb-4 md:mb-0">
@@ -81,6 +81,9 @@
                     {!! Str::markdown(str_replace(['@markdown', '@endmarkdown'], '', $news->content)) !!}
                 </div>
             </article>
+            @if($news->video_url)
+            <x-video-embed url="{{ $news->video_url }}" />
+            @endif
             <!-- Article Footer -->
             <div class="border-t border-light pt-8 mt-12">
                 {{-- <div class="flex flex-wrap gap-2 mb-6">

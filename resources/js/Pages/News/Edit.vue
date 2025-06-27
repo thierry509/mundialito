@@ -87,7 +87,11 @@
                     <Input v-if="form.featured_image != null" v-model="form.image_description" name="image_description" label="Description de l'image"
                         placeholder="Entrez une description de l'image" :error="form.errors.image_description"
                         helper-text="Ajoutez une description pour l'image mise en avant." required/>
+
+                    <Input name="video_url" label="Lien video" placeholder="Collez le lien YouTube ici..." v-model="form.video_url" :error="form.errors.video_url"/>
                 </div>
+
+
 
                 <!-- Section 4: Paramètres -->
                 <!-- <div class="rounded-xl shadow-md p-6 border border-gray-100 bg-white"> -->
@@ -149,7 +153,6 @@
             </form>
         </div>
     </div>
-    {{ form }}
 </template>
 
 <script setup>
@@ -183,6 +186,7 @@ const form = useForm({
     content: props?.news?.content,
     featured_image: undefined,
     image_description: props?.news?.image?.description,
+    video_url: props?.news?.video_url,
     status: 'draft',
     tags: ''
 })

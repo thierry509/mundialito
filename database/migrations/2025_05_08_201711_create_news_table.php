@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('image_id')->references('id')->on('images')->onDelete('set null');
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->enum('status', ['draft', 'publish'])->default('draft');
+            $table->string('video_url')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
