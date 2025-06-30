@@ -220,7 +220,6 @@ class NewsController extends Controller
 
             $news->update([
                 'title' => $validatedData['title'],
-                'slug' => $slug,
                 'category_id' => $category?->id,
                 'excerpt' => $validatedData['excerpt'],
                 'content' => $validatedData['content'],
