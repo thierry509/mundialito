@@ -317,14 +317,13 @@
                         </div>
                     </div>
                 @else
-                    <x-empty message="Aucun match n'a été encore joué" />
                 @endif
                 @if ($nextGame)
                     <div>
                         <h2 class="text-3xl font-bold text-gray-900 mb-6">Prochaine affiche</h2>
                         <div
                             class="bg-gradient-to-r from-primary to-accent rounded-2xl shadow-lg overflow-hidden text-white">
-                            <div class="md:p-6 text-center">
+                            <div class="py-6 md:px-0 text-center">
                                 <div class="text-lg font-semibold mb-2">{{ gameStage($nextGame->stage) }}</div>
                                 <div class="text-sm bg-white/20 rounded-full px-4 py-1 inline-block mb-6">
                                     {{ formatDate($nextGame->date_time) }}</div>
@@ -386,7 +385,6 @@
                         </div>
                     </div>
                 @else
-                    <x-empty message="Aucune match n'est programmé pour le futur" />
                 @endif
             </div>
         </section>
