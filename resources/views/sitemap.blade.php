@@ -8,31 +8,31 @@
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
+    @foreach ($years as $year)
+        {{-- Matchs (exemple avec 2024) --}}
+        <url>
+            <loc>{{ route('games', ['year' => $year->year]) }}</loc>
+            <lastmod>{{ now()->toDateString() }}</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>0.9</priority>
+        </url>
 
-    {{-- Matchs (exemple avec 2024) --}}
-    <url>
-        <loc>{{ route('games', ['year' => 2024]) }}</loc>
-        <lastmod>{{ now()->toDateString() }}</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
+        {{-- Classement --}}
+        <url>
+            <loc>{{ route('groups', ['year' => $year->year]) }}</loc>
+            <lastmod>{{ now()->toDateString() }}</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>0.8</priority>
+        </url>
 
-    {{-- Classement --}}
-    <url>
-        <loc>{{ route('groups', ['year' => 2024]) }}</loc>
-        <lastmod>{{ now()->toDateString() }}</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    {{-- Phase à élimination --}}
-    <url>
-        <loc>{{ route('knockout', ['year' => 2024]) }}</loc>
-        <lastmod>{{ now()->toDateString() }}</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
-    </url>
-
+        {{-- Phase à élimination --}}
+        <url>
+            <loc>{{ route('knockout', ['year' => $year->year    ]) }}</loc>
+            <lastmod>{{ now()->toDateString() }}</lastmod>
+            <changefreq>weekly</changefreq>
+            <priority>0.7</priority>
+        </url>
+    @endforeach
     {{-- À propos --}}
     <url>
         <loc>{{ route('about') }}</loc>
@@ -51,7 +51,7 @@
 
     {{-- actualite --}}
     <url>
-        <loc>{{route('news')}}</loc>
+        <loc>{{ route('news') }}</loc>
         <lastmod>{{ optional($news->first())->updated_at?->toDateString() ?? now()->toDateString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
