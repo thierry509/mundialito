@@ -49,7 +49,7 @@
                         <span
                             class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
                             <span v-if="game.shootout_score_a !== null" class="mx-2 text-sm">({{ game.shootout_score_a
-                                }})</span>
+                            }})</span>
                             {{
                                 game.team_a_goals }}</span>
                         <span class="text-2xl font-medium text-gray-500 px-1">-</span>
@@ -57,7 +57,7 @@
                             class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{
                                 game.team_b_goals }}
                             <span v-if="game.shootout_score_b !== null" class="mx-2 text-sm">({{ game.shootout_score_b
-                                }})</span>
+                            }})</span>
                         </span>
                     </div>
                     <div v-else class="my-1">
@@ -141,7 +141,7 @@
                 </button> -->
 
                 <button v-if="game.status != 'postponed'" @click="updateScore" style="justify-self: end !important;"
-                    class="!justify-self-end px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex justify-center">
+                    class="hidden !justify-self-end px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -149,19 +149,31 @@
                     </svg>
                     <span class="hidden md:block mx-1.5"> Mettre à jour</span>
                 </button>
+
+                <Link :href="`/edition/championnat/match/${game.id}`" v-if="game.status != 'postponed'" style="justify-self: end !important;"
+                    class="!justify-self-end px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    <span class="hidden md:block mx-1.5">Evenement</span>
+                </Link>
             </div>
         </div>
     </div>
     <UnpostponeGame :show="showUnpostpone" :game="game" @close="showUnpostpone = false" />
     <CreateOrUpdateResults :show="showCreateorUpdateResult" :game="game" @close="showCreateorUpdateResult = false" />
+
 </template>
 <script setup lang="ts">
-import { router, useForm } from '@inertiajs/vue3';
+import { Link,router, useForm } from '@inertiajs/vue3';
 import { formatDate, gameStatus, statusClass } from '../../Utils/utils';
 import { useToasterStore } from '../../store/Toast';
 import { useConfirmStore } from '../../store/confirmStore';
 import UnpostponeGame from '../modal/UnpostponeGame.vue';
 import CreateOrUpdateResults from '../modal/CreateOrUpdateResults.vue';
+import Event from '../modal/Event.vue';
 import { ref } from 'vue';
 import { route } from 'ziggy-js';
 
@@ -205,6 +217,7 @@ const showCreateorUpdateResult = ref(false);
 const updateScore = async () => {
     showCreateorUpdateResult.value = true;
 }
+
 
 const postpone = async () => {
     const isConfirmed = await confirm.show({

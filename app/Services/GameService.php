@@ -25,6 +25,10 @@ class GameService
     
     return $games;
     }
+
+    public function find($id){
+        return Game::with(['teamA', 'teamB', 'championship', 'events'])->findOrFail($id);
+    }
     public function create(array $data, $chamionship)
     {
         $dateTime = (isset($data['date']) && isset($data['time'])) ? Carbon::createFromFormat(

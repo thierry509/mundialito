@@ -85,5 +85,10 @@
                 </div>
             </div>
         </div>
+        <div class="flex items-center justify-end">
+            <div class="text-xs text-gray-500">
+                <a href="{{ route('games.show', $game->id) }}" class="hover:underline">Voir les détails</a>
+            </div>
+        </div>
     </div>
 </div>

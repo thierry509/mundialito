@@ -40,6 +40,7 @@ Route::get('/calendrier', [CalendarController::class, 'index'])->name('calendar'
 
 // Résultats des matchs
 Route::get('/match', [GameController::class, 'index'])->name('games');
+Route::get('/match/{id}', [GameController::class, 'show'])->name('games.show');
 
 // Classements des poules
 Route::get('/poules', [GroupController::class, 'index'])->name('groups');
@@ -168,9 +169,14 @@ Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
         });
         Route::prefix('/match')->group(function () {
             Route::get('/', [GameController::class, 'adminIndex'])->name('championship.game');
+            Route::get('/{id}', [GameController::class, 'adminShow'])->name('championship.game.show');
             Route::post('/', [GameController::class, 'store'])->name('championship.game.store');
+
             Route::delete('/supprimer/{id}', [GameController::class, 'destroy'])->name('championship.game.delete');
             Route::put('/', [GameController::class, 'update'])->name('championship.game->update');
+            Route::put('/tir-au-but', [GameController::class, 'shootOnGoal'])->name('championship.game.shootOnGoal');
+            Route::post('/event', [GameController::class, 'storeEvent'])->name('championship.game->update');
+            Route::delete('/event/{id}', [GameController::class, 'destroyEvent'])->name('championship.game.event.delete');
             Route::put('/reporte/{id}', [GameController::class, 'postpone'])->name('championship.game.postpone');
             Route::put('/en-direct/{id}', [GameController::class, 'live'])->name('championship.game.live');
             Route::put('/replanifer/{id}', [GameController::class, 'unpostpone'])->name('championship.game.unpostpone');

@@ -60,4 +60,8 @@ class Game extends Model
     {
         return $this->hasMany(Game::class);
     }
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

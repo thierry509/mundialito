@@ -39,6 +39,18 @@ export function gameStatus(status) {
     return translations[status] || status;
 }
 
+export function strEvent(eventType) {
+    const translations = {
+        'goal': 'But',
+        'yellow_card': 'Carton jaune',
+        'red_card': 'Carton rouge',
+        'substitution': 'Remplacement',
+        'penalty': 'Penalty',
+        'own_goal': 'But contre son camp'
+    };
+    return translations[eventType] || eventType;
+}
+
 export function roles(role) {
     const translations = {
         'admin': 'Administrateur',

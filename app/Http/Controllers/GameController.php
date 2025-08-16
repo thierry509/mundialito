@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteEventRequest;
 use App\Http\Requests\DeleteGameRequest;
 use App\Http\Requests\EditorViewRequest;
 use App\Http\Requests\EndGameRequest;
 use App\Http\Requests\HaveYearRequest;
+use App\Http\Requests\ShootOnGoalRequest;
+use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\StoreGameRequest;
 use App\Http\Requests\UnpostponeGameRequest;
 use App\Http\Requests\UpdateGameRequest;
 use App\Models\Championship;
+use App\Models\Event;
 use App\Models\Game;
 use App\Models\Group;
 use App\Models\Log;
@@ -49,6 +53,29 @@ class GameController extends Controller
         ]);
     }
 
+    public function show(Request $request, $id)
+    {
+
+        SEOMeta::setTitle('Match ' . $id . ' - Mundialito Gonaïves ');
+        SEOMeta::setDescription('Détails du match ' . $id . ' du Mundialito aux Gonaïves. Résultats, buteurs et statistiques.');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('Match ' . $id . ' - Mundialito Gonaïves ');
+        OpenGraph::setDescription('Détails du match ' . $id . ' du Mundialito aux Gonaïves. Résultats, buteurs et statistiques.');
+        OpenGraph::setUrl(url()->current());
+        OpenGraph::addProperty('type', 'article');
+
+        TwitterCard::setTitle('Match ' . $id . ' - Mundialito Gonaïves ');
+        TwitterCard::setDescription('Détails du match ' . $id . ' du Mundialito aux Gonaïves. Résultats, buteurs et statistiques.');
+        TwitterCard::setUrl(url()->current());
+
+        $game = Game::findOrFail($id);
+
+        return view('games.show', [
+            'game' => $game,
+        ]);
+    }
+
     public function adminIndex(EditorViewRequest $request, GameService $gameService)
     {
         $year = $request->query('year');
@@ -62,6 +89,19 @@ class GameController extends Controller
             })->get(),
         ]);
     }
+    public function adminShow(EditorViewRequest $request, GameService $gameService, $id)
+    {
+        $game = $gameService->find($id);
+        return Inertia::render('Championship.ShowGame', [
+            'game' => $game,
+            'championship' => $game->championship,
+            'events' => $game->events()
+                ->with('team')
+                ->orderByDesc('minute')
+                ->orderByDesc('added_time')
+                ->get()
+        ]);
+    }
 
     public function store(StoreGameRequest $request, GameService $gameService)
     {
@@ -73,7 +113,144 @@ class GameController extends Controller
 
         return redirect()->back();
     }
+public function shootOnGoal(ShootOnGoalRequest $request, GameService $gameService)
+    {
+        $validated = $request->validated();
+        $game = Game::find($validated['game_id']);
 
+        DB::transaction(function () use ($validated, $game, $gameService) {
+            $game->update([
+                'shootout_score_a' => $validated['shootout_score_a'],
+                'shootout_score_b' => $validated['shootout_score_b'],
+            ]);
+
+            $this->nextGame($gameService, $game);
+            $game->status = 'finished';
+            $game->save();
+
+            Log::create([
+                'action' => "créer un tir au but pour le match d'identifiant " . $game->id,
+                'user_id' => Auth()->user()->id,
+            ]);
+        });
+
+        return redirect()->back();
+    }
+    public function storeEvent(StoreEventRequest $request, GameService $gameService)
+    {
+        $validated = $request->validated();
+        $game = Game::find($validated['game_id']);
+
+        $team = $validated['team'] === 'team_a' ? $game->teamA : $game->teamB;
+
+        DB::transaction(function () use ($validated, $game, $team, $gameService) {
+            $event = $game->events()->create([
+                'type' => $validated['event_type'],
+                'minute' => $validated['minute'],
+                'added_time' => $validated['added_time'] ?? null,
+                'player_name' => $validated['player_name'],
+                'team_id' => $team->id,
+            ]);
+
+            if ($game->team_a_goals === null) {
+                $game->team_a_goals = 0;
+            }
+            if ($game->team_b_goals === null) {
+                $game->team_b_goals = 0;
+            }
+
+            if ($game->team_a_yellow_cards === null) {
+                $game->team_a_yellow_cards = 0;
+            }
+            if ($game->team_b_yellow_cards === null) {
+                $game->team_b_yellow_cards = 0;
+            }
+            if ($game->team_a_red_cards === null) {
+                $game->team_a_red_cards = 0;
+            }
+            if ($game->team_b_red_cards === null) {
+                $game->team_b_red_cards = 0;
+            }
+
+
+            $game->save();
+
+            if ($event->type === 'goal') {
+                if ($validated['team'] === 'team_a') {
+                    $game->increment('team_a_goals');
+                } else {
+                    $game->increment('team_b_goals');
+                }
+                $game->save();
+            }
+            if ($event->type === 'carton_jaune') {
+                if ($validated['team'] === 'team_a') {
+                    $game->increment('team_a_yellow_cards');
+                } else {
+                    $game->increment('team_b_yellow_cards');
+                }
+                $game->save();
+            }
+            if ($event->type === 'carton_rouge') {
+                if ($validated['team'] === 'team_a') {
+                    $game->increment('team_a_red_cards');
+                } else {
+                    $game->increment('team_b_red_cards');
+                }
+                $game->save();
+            }
+
+            $game->status = 'finished';
+            $game->save();
+            $this->nextGame($gameService, $game);
+
+            Log::create([
+                'action' => "créer un événement de match d'identifiant " . $event->id,
+                'user_id' => Auth()->user()->id,
+            ]);
+        });
+
+        return redirect()->back();
+    }
+
+    public function destroyEvent(DeleteEventRequest $request, $id)
+    {
+        $event = Event::findOrFail($id);
+
+        $game = $event->game;
+
+        DB::transaction(function () use ($event, $game) {
+            if ($event->type === 'goal') {
+                if ($event->team->id === $game->teamA->id) {
+                    $game->decrement('team_a_goals');
+                } else {
+                    $game->decrement('team_b_goals');
+                }
+            }
+            if ($event->type === 'carton_jaune') {
+                if ($event->team->id === $game->teamA->id) {
+                    $game->decrement('team_a_yellow_cards');
+                } else {
+                    $game->decrement('team_b_yellow_cards');
+                }
+            }
+            if ($event->type === 'carton_rouge') {
+                if ($event->team->id === $game->teamA->id) {
+                    $game->decrement('team_a_red_cards');
+                } else {
+                    $game->decrement('team_b_red_cards');
+                }
+            }
+
+            $event->delete();
+            Log::create([
+                'action' => "supprimer un événement de match d'identifiant " . $event->id,
+                'user_id' => Auth()->user()->id,
+            ]);
+        });
+
+        return redirect()->back();
+    }
     public function update(UpdateGameRequest $request, GameService $gameService)
     {
         DB::transaction(function () use ($request, $gameService) {
@@ -99,42 +276,7 @@ class GameController extends Controller
                 'user_id' => Auth()->user()->id,
             ]);
 
-            if ($game->type == 'knockout') {
-                if ($game->status == 'finished') {
-                    $nextGame = Game::with('championship')
-                        ->whereHas('championship', function ($query) use ($game) {
-                            $query->where('year', $game->championship->year);
-                        })
-                        ->where('position', getNextMatchPosition($game->position, $game->stage)['next_position'])
-                        ->where('stage', getNextMatchPosition($game->position, $game->stage)['next_phase'])
-                        ->first();
-                    if (!$nextGame) {
-                        $gameService->createKnockout([
-                            ($game->position % 2 === 1 ? 'team1Id' : 'team2Id') => $gameService->determineWinner(
-                                [$game->team_a_id, $game->team_a_goals, $game->shootout_score_a],
-                                [$game->team_b_id, $game->team_b_goals, $game->shootout_score_b]
-                            ),
-                            'position' => getNextMatchPosition($game->position, $game->stage)['next_position'],
-                            'location' => $game->location,
-                            'stage' => nextStage($game->stage),
-                            'type' => 'knockout',
-                        ], $game->championship);
-                    } else {
-                        $nextGame->update([
-                            ($game->position % 2 === 1 ? 'team_a_id' : 'team_b_id') => $gameService->determineWinner(
-                                [$game->team_a_id, $game->team_a_goals, $game->shootout_score_a],
-                                [$game->team_b_id, $game->team_b_goals, $game->shootout_score_b]
-                            ),
-                        ]);
-                        // dd($game->position, $nextGame , [
-                        //     ($game->position % 2 === 1 ? 'team_a_id' : 'team_b_id') => $gameService->determineWinner(
-                        //         [$game->team_a_id, $game->team_a_goals, $game->shootout_score_a],
-                        //         [$game->team_b_id, $game->team_b_goals, $game->shootout_score_b]
-                        //     ),
-                        // ]);
-                    }
-                }
-            }
+            $this->nextGame($gameService, $game);
         });
         return redirect()->back();
     }
@@ -190,5 +332,47 @@ class GameController extends Controller
         $game = Game::find($request->validated()['id']);
         $game->delete();
         return redirect()->back();
+    }
+
+
+    public function nextGame(GameService $gameService, Game $game)
+    {
+
+        if ($game->type == 'knockout') {
+            if ($game->status == 'finished') {
+                $nextGame = Game::with('championship')
+                    ->whereHas('championship', function ($query) use ($game) {
+                        $query->where('year', $game->championship->year);
+                    })
+                    ->where('position', getNextMatchPosition($game->position, $game->stage)['next_position'])
+                    ->where('stage', getNextMatchPosition($game->position, $game->stage)['next_phase'])
+                    ->first();
+                if (!$nextGame) {
+                    $gameService->createKnockout([
+                        ($game->position % 2 === 1 ? 'team1Id' : 'team2Id') => $gameService->determineWinner(
+                            [$game->team_a_id, $game->team_a_goals, $game->shootout_score_a],
+                            [$game->team_b_id, $game->team_b_goals, $game->shootout_score_b]
+                        ),
+                        'position' => getNextMatchPosition($game->position, $game->stage)['next_position'],
+                        'location' => $game->location,
+                        'stage' => nextStage($game->stage),
+                        'type' => 'knockout',
+                    ], $game->championship);
+                } else {
+                    $nextGame->update([
+                        ($game->position % 2 === 1 ? 'team_a_id' : 'team_b_id') => $gameService->determineWinner(
+                            [$game->team_a_id, $game->team_a_goals, $game->shootout_score_a],
+                            [$game->team_b_id, $game->team_b_goals, $game->shootout_score_b]
+                        ),
+                    ]);
+                    // dd($game->position, $nextGame , [
+                    //     ($game->position % 2 === 1 ? 'team_a_id' : 'team_b_id') => $gameService->determineWinner(
+                    //         [$game->team_a_id, $game->team_a_goals, $game->shootout_score_a],
+                    //         [$game->team_b_id, $game->team_b_goals, $game->shootout_score_b]
+                    //     ),
+                    // ]);
+                }
+            }
+        }
     }
 }
