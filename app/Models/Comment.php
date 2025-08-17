@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,17 +9,33 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'content', 'news_id', 'game_id', 'created_at'];
+    protected $fillable = [
+        'user_id',
+        'content',
+        'parent_id'
+    ];
 
-    public function news()
+    // Polymorphic relation
+    public function commentable()
     {
-        return $this->belongsTo(News::class, 'news_id');
+        return $this->morphTo();
     }
 
-    public function game()
+    // Auteur
+    public function user()
     {
-        return $this->belongsTo(Game::class, 'game_id');
+        return $this->belongsTo(User::class);
     }
 
+    // Replies (auto-chargées)
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id')->with('user', 'replies');
+    }
+
+    // Parent
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
 }
-

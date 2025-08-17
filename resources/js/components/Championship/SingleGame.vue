@@ -49,7 +49,7 @@
                         <span
                             class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">
                             <span v-if="game.shootout_score_a !== null" class="mx-2 text-sm">({{ game.shootout_score_a
-                            }})</span>
+                                }})</span>
                             {{
                                 game.team_a_goals }}</span>
                         <span class="text-2xl font-medium text-gray-500 px-1">-</span>
@@ -57,7 +57,7 @@
                             class="h-8 rounded-md text-center flex items-center justify-center text-2xl font-bold transition-all">{{
                                 game.team_b_goals }}
                             <span v-if="game.shootout_score_b !== null" class="mx-2 text-sm">({{ game.shootout_score_b
-                            }})</span>
+                                }})</span>
                         </span>
                     </div>
                     <div v-else class="my-1">
@@ -75,107 +75,31 @@
             </div>
 
             <!-- Section des boutons d'action -->
-            <div class="flex justify-between space-x-2 mt-4 pt-3 border-t border-gray-100">
-                <div class="">
-                    <button v-if="auth?.user.roles == 'admin'" @click="deleteGame"
-                        class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition flex flex-col md:flex-row justify-center items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                        <span class="hidden md:block mx-1.5">Suprimmer</span>
-                    </button>
-                </div>
-                <button
-                    v-if="auth?.user.roles == 'admin' && game.status != 'postponed' && game.status != 'finished' && !game?.team_a_goals"
-                    @click="postpone"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-orange-500/10 text-orange-600 hover:bg-orange-500/20 transition inline-flex items-center justify-center">
-                    <svg fill="currentColor" viewBox="0 0 36 36" version="1.1" class="h-4 w-4"
-                        preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <title>redo-line</title>
-                            <path
-                                d="M24,4.22a1,1,0,0,0-1.41,1.42l5.56,5.49h-13A11,11,0,0,0,10.07,32,1,1,0,0,0,11,30.18a9,9,0,0,1-5-8,9.08,9.08,0,0,1,9.13-9h13l-5.54,5.48A1,1,0,0,0,24,20l8-7.91Z"
-                                class="clr-i-outline clr-i-outline-path-1"></path>
-                            <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
-                        </g>
-                    </svg>
-                    <span class="hidden md:block mx-1.5">Reporter</span>
-                </button>
-                <button
-                    v-if="auth?.user.roles == 'admin' && game.status == 'postponed' || (!game.date_time && game.team_a_goals == null && game.team_b_goals == null)"
-                    @click="unpostpone"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-blue-500/10 text-blue-600 hover:bg-blue-600/20 transition inline-flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 13l-3 3m0 0l-3-3m3 3V8" />
-                    </svg>
-                    <span class="hidden md:block mx-1.5">Replanifier</span>
-                </button>
-
-                <button
-                    v-if="auth?.user.roles == 'admin' && game.team_a_goals != null && game.team_b_goals != null && game.status != 'finished' && game.status != 'posponed'"
-                    @click="end"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition flex justify-center items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span class="hidden md:block mx-1.5"> Terminer</span>
-                </button>
-
-                <!-- <button v-if="game.status != 'postponed' && game.status != 'live'" @click="live"
-                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition flex justify-center items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline animate-pulse" viewBox="0 0 24 24"
-                        fill="currentColor">
-                        <circle cx="12" cy="12" r="8" fill="red" />
-                    </svg>
-                    <span class="hidden md:block mx-1.5">En direct</span>
-                </button> -->
-
-                <button v-if="game.status != 'postponed'" @click="updateScore" style="justify-self: end !important;"
-                    class="hidden !justify-self-end px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    <span class="hidden md:block mx-1.5"> Mettre à jour</span>
-                </button>
-
-                <Link :href="`/edition/championnat/match/${game.id}`" v-if="game.status != 'postponed'" style="justify-self: end !important;"
+            <div class="flex justify-end space-x-2 mt-4 pt-3 border-t border-gray-100">
+                <Link :href="`/edition/championnat/match/${game.id}`" v-if="game.status != 'postponed'"
+                    style="justify-self: end !important;"
                     class="!justify-self-end px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    <span class="hidden md:block mx-1.5">Evenement</span>
+
+                <svg class="h-4 w-4 inline text-white" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path fill="currentColor"
+                            d="M600.704 64a32 32 0 0 1 30.464 22.208l35.2 109.376c14.784 7.232 28.928 15.36 42.432 24.512l112.384-24.192a32 32 0 0 1 34.432 15.36L944.32 364.8a32 32 0 0 1-4.032 37.504l-77.12 85.12a357.12 357.12 0 0 1 0 49.024l77.12 85.248a32 32 0 0 1 4.032 37.504l-88.704 153.6a32 32 0 0 1-34.432 15.296L708.8 803.904c-13.44 9.088-27.648 17.28-42.368 24.512l-35.264 109.376A32 32 0 0 1 600.704 960H423.296a32 32 0 0 1-30.464-22.208L357.696 828.48a351.616 351.616 0 0 1-42.56-24.64l-112.32 24.256a32 32 0 0 1-34.432-15.36L79.68 659.2a32 32 0 0 1 4.032-37.504l77.12-85.248a357.12 357.12 0 0 1 0-48.896l-77.12-85.248A32 32 0 0 1 79.68 364.8l88.704-153.6a32 32 0 0 1 34.432-15.296l112.32 24.256c13.568-9.152 27.776-17.408 42.56-24.64l35.2-109.312A32 32 0 0 1 423.232 64H600.64zm-23.424 64H446.72l-36.352 113.088-24.512 11.968a294.113 294.113 0 0 0-34.816 20.096l-22.656 15.36-116.224-25.088-65.28 113.152 79.68 88.192-1.92 27.136a293.12 293.12 0 0 0 0 40.192l1.92 27.136-79.808 88.192 65.344 113.152 116.224-25.024 22.656 15.296a294.113 294.113 0 0 0 34.816 20.096l24.512 11.968L446.72 896h130.688l36.48-113.152 24.448-11.904a288.282 288.282 0 0 0 34.752-20.096l22.592-15.296 116.288 25.024 65.28-113.152-79.744-88.192 1.92-27.136a293.12 293.12 0 0 0 0-40.256l-1.92-27.136 79.808-88.128-65.344-113.152-116.288 24.96-22.592-15.232a287.616 287.616 0 0 0-34.752-20.096l-24.448-11.904L577.344 128zM512 320a192 192 0 1 1 0 384 192 192 0 0 1 0-384zm0 64a128 128 0 1 0 0 256 128 128 0 0 0 0-256z">
+                        </path>
+                    </g>
+                </svg>
+                <span class="mx-1.5">Gestion du Match</span>
                 </Link>
             </div>
         </div>
     </div>
-    <UnpostponeGame :show="showUnpostpone" :game="game" @close="showUnpostpone = false" />
-    <CreateOrUpdateResults :show="showCreateorUpdateResult" :game="game" @close="showCreateorUpdateResult = false" />
-
 </template>
 <script setup lang="ts">
-import { Link,router, useForm } from '@inertiajs/vue3';
+import { Link, router, useForm } from '@inertiajs/vue3';
 import { formatDate, gameStatus, statusClass } from '../../Utils/utils';
-import { useToasterStore } from '../../store/Toast';
-import { useConfirmStore } from '../../store/confirmStore';
-import UnpostponeGame from '../modal/UnpostponeGame.vue';
-import CreateOrUpdateResults from '../modal/CreateOrUpdateResults.vue';
-import Event from '../modal/Event.vue';
-import { ref } from 'vue';
-import { route } from 'ziggy-js';
+
 
 interface Game {
     id: number,
@@ -188,91 +112,4 @@ const props = defineProps({
     },
     auth: Object,
 })
-
-
-const score = useForm({
-    gameId: props.game.id,
-    teamAGoal: props.game.team_a_goals,
-    teamBGoal: props.game.team_b_goals,
-});
-
-const confirm = useConfirmStore();
-
-const deleteGame = async () => {
-    const isConfirmed = await confirm.show({
-        title: 'Confirmation de suppression',
-        message: 'Attention : la suppression entraînera la perte définitive des données.',
-    })
-    if (isConfirmed) {
-        router.delete(`/edition/championnat/match/supprimer/${props.game.id}`, {
-            onSuccess: () => {
-                useToasterStore().success({ text: 'Match supprimé' })
-            }
-        });
-    }
-}
-
-const showCreateorUpdateResult = ref(false);
-
-const updateScore = async () => {
-    showCreateorUpdateResult.value = true;
-}
-
-
-const postpone = async () => {
-    const isConfirmed = await confirm.show({
-        title: "Reporter le match",
-        message: `Le match ${props.game.team_a.name} - ${props.game.team_b.name} sera reporté. Confirmez-vous cette décision ?`
-    })
-
-    if (isConfirmed) {
-        router.put(`/edition/championnat/match/reporte/${props.game.id}`, {},
-            {
-                onSuccess: () => {
-                    useToasterStore().success({ text: 'Match Repoter' })
-                }
-            }
-        );
-    }
-}
-
-const live = async () => {
-    const isConfirmed = await confirm.show({
-        title: "Match en cours",
-        message: `Voulez-vous marquer le match ${props.game.team_a.name} vs ${props.game.team_b.name} comme étant en cours ?`,
-    })
-
-    if (isConfirmed) {
-        router.put(`/edition/championnat/match/en-direct/${props.game.id}`, {},
-            {
-                onSuccess: () => {
-                    useToasterStore().success({ text: 'Match Repoter' })
-                }
-            }
-        );
-    }
-}
-
-
-
-const showUnpostpone = ref(false);
-
-const unpostpone = () => {
-    showUnpostpone.value = true
-}
-
-const end = async () => {
-    const isConfirmed = await confirm.show({
-        title: "Marquer le match comme terminé",
-        message: `Cette action enregistrera le score final et clôturera le match. Confirmez-vous ?`
-    })
-
-    if (isConfirmed) {
-        router.put(`/edition/championnat/match/terminer/${props.game.id}`, {}, {
-            onSuccess: () => {
-                useToasterStore().success({ text: 'Match Marqur comme terminer' })
-            }
-        })
-    }
-}
 </script>

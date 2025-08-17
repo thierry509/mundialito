@@ -7,7 +7,7 @@
         </svg>
 
         <h2 class="text-lg font-semibold text-gray-400 mb-2">Aucun {{ model }} n'est enregistrée</h2>
-        <p class="text-sm text-gray-500">Veuillez enregistrée{{ model }}.</p>
+        <p class="text-sm text-gray-500">Veuillez enregistrer {{ model }}.</p>
         <slot>
         </slot>
     </div>

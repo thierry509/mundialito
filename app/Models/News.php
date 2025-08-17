@@ -17,7 +17,7 @@ class News extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'new_id');
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id')->with('user', 'replies');
     }
 
     public function image(){

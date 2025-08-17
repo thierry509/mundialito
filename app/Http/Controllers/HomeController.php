@@ -17,7 +17,7 @@ class HomeController extends Controller
 
         $nextGame = Game::with(['teamA', 'teamB', 'championship'])
             ->where('status', 'soon')
-            ->where('date_time', '>', now())
+            ->where('date_time', '>=', now())
             ->orderBy('date_time', 'asc')
             ->first();
 

@@ -70,9 +70,17 @@ class GameController extends Controller
         TwitterCard::setUrl(url()->current());
 
         $game = Game::findOrFail($id);
+        $comments = $game->comments()->with('user', 'replies.user')->get();
 
         return view('games.show', [
             'game' => $game,
+            'championship' => $game->championship,
+            'comments' => $comments,
+            'events' => $game->events()
+                ->with('team')
+                ->orderByDesc('minute')
+                ->orderByDesc('added_time')
+                ->get(),
         ]);
     }
 
@@ -81,6 +89,7 @@ class GameController extends Controller
         $year = $request->query('year');
 
         $games = $gameService->all($year);
+    
 
         return Inertia::render('Championship.Games', [
             'games' =>  $games,
@@ -88,6 +97,7 @@ class GameController extends Controller
                 $query->where('year', $year);
             })->get(),
         ]);
+
     }
     public function adminShow(EditorViewRequest $request, GameService $gameService, $id)
     {
@@ -113,7 +123,7 @@ class GameController extends Controller
 
         return redirect()->back();
     }
-public function shootOnGoal(ShootOnGoalRequest $request, GameService $gameService)
+    public function shootOnGoal(ShootOnGoalRequest $request, GameService $gameService)
     {
         $validated = $request->validated();
         $game = Game::find($validated['game_id']);
@@ -200,9 +210,6 @@ public function shootOnGoal(ShootOnGoalRequest $request, GameService $gameServic
                 $game->save();
             }
 
-            $game->status = 'finished';
-            $game->save();
-            $this->nextGame($gameService, $game);
 
             Log::create([
                 'action' => "créer un événement de match d'identifiant " . $event->id,
@@ -318,12 +325,19 @@ public function shootOnGoal(ShootOnGoalRequest $request, GameService $gameServic
         return redirect()->back();
     }
 
-    function end(EndGameRequest $request)
+    public function end(EndGameRequest $request, GameService $gameService)
     {
         $game = Game::find($request->validated()['id']);
         $game->update([
             'status' => 'finished',
         ]);
+        $this->nextGame($gameService, $game);
+        Log::create([
+            'action' => "terminer le match d'identifiant " . $game->id,
+            'user_id' => Auth()->user()->id,
+        ]);
+        // dd($game);
+        // $this->nextGame($gameService, $game);
         return redirect()->back();
     }
 
@@ -331,7 +345,7 @@ public function shootOnGoal(ShootOnGoalRequest $request, GameService $gameServic
     {
         $game = Game::find($request->validated()['id']);
         $game->delete();
-        return redirect()->back();
+        return redirect()->to(route('championship.game', ['year' => $game->championship->year]));
     }
 
 

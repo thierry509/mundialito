@@ -85,10 +85,12 @@
                 </div>
             </div>
         </div>
+        @if ($game->status === 'finished' && $game->events->count() > 0)
         <div class="flex items-center justify-end">
             <div class="text-xs text-gray-500">
                 <a href="{{ route('games.show', $game->id) }}" class="hover:underline">Voir les détails</a>
             </div>
         </div>
+        @endif
     </div>
 </div>

@@ -99,7 +99,7 @@
         })();
     </script>
     <!-- End Matomo Code -->
-
+    @vite(['resources/js/index.js'])
 </head>
 
 <body class="font-sans">

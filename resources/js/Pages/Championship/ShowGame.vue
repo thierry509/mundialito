@@ -16,7 +16,10 @@
 
             <div class="mx-4 px-6 py-3 bg-white rounded-xl shadow-sm border border-gray-100">
                 <div v-if="game.team_a_goals !== null && game.team_b_goals !== null"
-                    class="text-xl md:text-3xl font-bold"><span v-if="game.shootout_score_a !== null" class="text-sm md:text-xl mr-2">({{ game.shootout_score_a }})</span>{{ game.team_a_goals }} - {{ game.team_b_goals }}<span v-if="game.shootout_score_b !== null" class="text-sm md:text-xl ml-2">({{ game.shootout_score_b }})</span></div>
+                    class="text-xl md:text-3xl font-bold"><span v-if="game.shootout_score_a !== null"
+                        class="text-sm md:text-xl mr-2">({{ game.shootout_score_a }})</span>{{ game.team_a_goals }} - {{
+                            game.team_b_goals }}<span v-if="game.shootout_score_b !== null" class="text-sm md:text-xl ml-2">({{
+                        game.shootout_score_b }})</span></div>
                 <div v-else class="text-xl md:text-3xl font-bold">VS</div>
             </div>
 
@@ -25,11 +28,89 @@
             </div>
         </div>
 
+        <div class="flex justify-between items-center mb-6 mx-10 sm:mx-20 lg:mx-40">
+            <div class="">
+                <button v-if="auth?.user.roles == 'admin'" @click="deleteGame"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition flex flex-col md:flex-row justify-center items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    <span class="hidden md:block mx-1.5">Suprimmer</span>
+                </button>
+            </div>
+            <button
+                v-if="auth?.user.roles == 'admin' && game.status != 'postponed' && game.status != 'finished' && !game?.team_a_goals"
+                @click="postpone"
+                class="px-3 py-1.5 text-xs font-medium rounded-md bg-orange-500/10 text-orange-600 hover:bg-orange-500/20 transition inline-flex items-center justify-center">
+                <svg fill="currentColor" viewBox="0 0 36 36" version="1.1" class="h-4 w-4"
+                    preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <title>redo-line</title>
+                        <path
+                            d="M24,4.22a1,1,0,0,0-1.41,1.42l5.56,5.49h-13A11,11,0,0,0,10.07,32,1,1,0,0,0,11,30.18a9,9,0,0,1-5-8,9.08,9.08,0,0,1,9.13-9h13l-5.54,5.48A1,1,0,0,0,24,20l8-7.91Z"
+                            class="clr-i-outline clr-i-outline-path-1"></path>
+                        <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
+                    </g>
+                </svg>
+                <span class="hidden md:block mx-1.5">Reporter</span>
+            </button>
+            <button
+                v-if="auth?.user.roles == 'admin' && game.status == 'postponed' || (!game.date_time && game.team_a_goals == null && game.team_b_goals == null)"
+                @click="unpostpone"
+                class="px-3 py-1.5 text-xs font-medium rounded-md bg-blue-500/10 text-blue-600 hover:bg-blue-600/20 transition inline-flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 13l-3 3m0 0l-3-3m3 3V8" />
+                </svg>
+                <span class="hidden md:block mx-1.5">Replanifier</span>
+            </button>
+
+            <button
+                v-if="auth?.user.roles == 'admin' && game.team_a_goals != null && game.team_b_goals != null && game.status != 'finished' && game.status != 'posponed'"
+                @click="end"
+                class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition flex justify-center items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="hidden md:block mx-1.5"> Terminer</span>
+            </button>
+
+            <!-- <button v-if="game.status != 'postponed' && game.status != 'live'" @click="live"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition flex justify-center items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline animate-pulse" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <circle cx="12" cy="12" r="8" fill="red" />
+                    </svg>
+                    <span class="hidden md:block mx-1.5">En direct</span>
+                </button> -->
+
+            <button v-if="game.status != 'postponed'" @click="updateScore" style="justify-self: end !important;"
+                class="hidden !justify-self-end px-3 py-1.5 text-xs font-medium rounded-md bg-primary text-white hover:bg-primary/90 transition flex justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span class="hidden md:block mx-1.5"> Mettre à jour</span>
+            </button>
+        </div>
+
         <div v-if="game.type === 'knockout' && game.team_a_goals == game.team_b_goals" class="flex justify-center mb-6">
-            <button class="flex bg-primary items-center justify-center hover:bg-primary-700 text-white px-4 py-2 rounded-lg" @click="openShoots">
-                <svg class="w-5 h-5 text-white mr-2" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 566.09 566.09"
-                    xml:space="preserve">
+            <button
+                class="flex bg-primary items-center justify-center hover:bg-primary-700 text-white px-4 py-2 rounded-lg"
+                @click="openShoots">
+                <svg class="w-5 h-5 text-white mr-2" fill="currentColor" version="1.1" id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 566.09 566.09" xml:space="preserve">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
@@ -51,17 +132,17 @@
             <!-- Header -->
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h1 class="text-lg md:text-2xl font-semibold text-gray-900">Événements du match</h1>
-                    <p class="text-base md:text-xl text-gray-500">Gestion des actions du jeu</p>
+                    <h1 class="text-base md:text-lg font-semibold text-gray-900">Événements du match</h1>
+                    <p class="text-md md:text-base text-gray-500">Gestion des actions du jeu</p>
                 </div>
                 <button @click="openEvent"
-                    class="bg-primary hover:bg-primary-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 shadow-sm">
+                    class="bg-primary hover:bg-primary-700 text-white px-3 py-1 rounded-lg flex items-center space-x-2 shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                             clip-rule="evenodd" />
                     </svg>
-                    <span class="hidden md:block">Nouvel événement</span>
+                    <span class="hidden md:block text-base">Nouvel Événement</span>
                 </button>
             </div>
 
@@ -120,27 +201,33 @@
                     </div>
                 </template>
                 <template v-else>
-                    <div class="text-center text-gray-500">Aucun événement pour ce match.</div>
+                    <EmptyView  model="Évènement"/>
                 </template>
             </div>
         </div>
     </div>
     <ShootsOnGoal :game="game" :show="showShoots" @close="showShoots = false" />
     <Event :show="showEvent" :game="game" @close="showEvent = false" />
+    <UnpostponeGame :show="showUnpostpone" :game="game" @close="showUnpostpone = false" />
+    <CreateOrUpdateResults :show="showCreateorUpdateResult" :game="game" @close="showCreateorUpdateResult = false" />
 </template>
 <script setup>
+import EmptyView from '../../components/ui/EmptyView.vue';
 import Event from '../../components/modal/Event.vue'
 import { formatDate, gameStatus, statusClass, strEvent } from '../../Utils/utils';
 import { useConfirmStore } from '../../store/confirmStore';
 import { useToasterStore } from '../../store/Toast';
+import UnpostponeGame from '../../components/modal/UnpostponeGame.vue';
+import CreateOrUpdateResults from '../../components/modal/CreateOrUpdateResults.vue';
 
-import { router } from '@inertiajs/vue3'
+import { router, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue';
 import ShootsOnGoal from '../../components/modal/ShootsOnGoal.vue';
 
-defineProps({
+const props = defineProps({
     game: Object,
     events: Array,
+    auth: Object,
 });
 
 const showShoots = ref(false);
@@ -165,6 +252,92 @@ const deleteEvent = async (event) => {
                 useToasterStore().success({ text: 'Evenement suprimmer' })
             }
         });
+    }
+}
+
+
+const score = useForm({
+    gameId: props.game.id,
+    teamAGoal: props.game.team_a_goals,
+    teamBGoal: props.game.team_b_goals,
+});
+
+
+const deleteGame = async () => {
+    const isConfirmed = await confirm.show({
+        title: 'Confirmation de suppression',
+        message: 'Attention : la suppression entraînera la perte définitive des données.',
+    })
+    if (isConfirmed) {
+        router.delete(`/edition/championnat/match/supprimer/${props.game.id}`, {
+            onSuccess: () => {
+                useToasterStore().success({ text: 'Match supprimé' })
+            }
+        });
+    }
+}
+
+const showCreateorUpdateResult = ref(false);
+
+const updateScore = async () => {
+    showCreateorUpdateResult.value = true;
+}
+
+
+const postpone = async () => {
+    const isConfirmed = await confirm.show({
+        title: "Reporter le match",
+        message: `Le match ${props.game.team_a.name} - ${props.game.team_b.name} sera reporté. Confirmez-vous cette décision ?`
+    })
+
+    if (isConfirmed) {
+        router.put(`/edition/championnat/match/reporte/${props.game.id}`, {},
+            {
+                onSuccess: () => {
+                    useToasterStore().success({ text: 'Match Repoter' })
+                }
+            }
+        );
+    }
+}
+
+const live = async () => {
+    const isConfirmed = await confirm.show({
+        title: "Match en cours",
+        message: `Voulez-vous marquer le match ${props.game.team_a.name} vs ${props.game.team_b.name} comme étant en cours ?`,
+    })
+
+    if (isConfirmed) {
+        router.put(`/edition/championnat/match/en-direct/${props.game.id}`, {},
+            {
+                onSuccess: () => {
+                    useToasterStore().success({ text: 'Match Repoter' })
+                }
+            }
+        );
+    }
+}
+
+
+
+const showUnpostpone = ref(false);
+
+const unpostpone = () => {
+    showUnpostpone.value = true
+}
+
+const end = async () => {
+    const isConfirmed = await confirm.show({
+        title: "Marquer le match comme terminé",
+        message: `Cette action enregistrera le score final et clôturera le match. Confirmez-vous ?`
+    })
+
+    if (isConfirmed) {
+        router.put(`/edition/championnat/match/terminer/${props.game.id}`, {}, {
+            onSuccess: () => {
+                useToasterStore().success({ text: 'Match Marqur comme terminer' })
+            }
+        })
     }
 }
 </script>

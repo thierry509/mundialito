@@ -13,6 +13,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChampionshipController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\EmailVerifyController;
@@ -41,7 +42,12 @@ Route::get('/calendrier', [CalendarController::class, 'index'])->name('calendar'
 // Résultats des matchs
 Route::get('/match', [GameController::class, 'index'])->name('games');
 Route::get('/match/{id}', [GameController::class, 'show'])->name('games.show');
+Route::get('/game/{id}/comments', [CommentController::class, 'gameComments'])->name('games.comments');
 
+Route::prefix('/comments')->group(function(){
+    Route::put('/{id}/like', [CommentController::class, 'like'])->name('comments.like');
+    Route::delete('/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
+});
 // Classements des poules
 Route::get('/poules', [GroupController::class, 'index'])->name('groups');
 
@@ -137,10 +143,16 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('throttle:6,1')
         ->name('verification.send');
 
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
+
     Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
+
+
+
     Route::get('/', [EditController::class, 'show'])->name('dashboard');
     Route::prefix('actualites')->group(function () {
         Route::get('/', [NewsController::class, 'adminIndex'])->name('news.index');
@@ -168,6 +180,7 @@ Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
             Route::get('/', [KnockoutController::class, 'adminIndex'])->name('championship.knockout');
         });
         Route::prefix('/match')->group(function () {
+
             Route::get('/', [GameController::class, 'adminIndex'])->name('championship.game');
             Route::get('/{id}', [GameController::class, 'adminShow'])->name('championship.game.show');
             Route::post('/', [GameController::class, 'store'])->name('championship.game.store');

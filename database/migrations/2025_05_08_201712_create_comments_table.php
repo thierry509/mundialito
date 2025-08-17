@@ -6,27 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // auteur
             $table->text('content');
-            $table->foreignId('news_id')->nullable()->constrained('news');
-            $table->foreignId('game_id')->nullable()->constrained('games');
+            
+            // Polymorphic relation: peut appartenir à un Game ou une New
+            $table->morphs('commentable'); // crée commentable_id et commentable_type
+
+            // Pour les réponses
+            $table->foreignId('parent_id')->nullable()->constrained('comments')->onDelete('cascade');
+
             $table->timestamps();
         });
-
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('comments');
     }
 };
+

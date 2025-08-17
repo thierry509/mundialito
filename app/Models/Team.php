@@ -40,4 +40,9 @@ class Team extends Model
     public function ViewRanking(){
         return $this->hasMany(ViewRanking::class, 'team_id');
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

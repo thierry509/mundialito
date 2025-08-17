@@ -265,7 +265,7 @@
                                     <div class="text-center w-24 md:w-40">
                                         <div
                                             class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
-                                            {{ substr($lastGame->TeamA()->first()->name, 0, 2) }}</div>
+                                            {{ mb_substr($lastGame->TeamA()->first()->name, 0, 2, 'UTF-8') }}</div>
                                         <div class="text-x text-sm md:text-xl font-bold truncate">
                                             {{ $lastGame->TeamA()->first()->name }}</div>
                                     </div>
@@ -294,24 +294,31 @@
                                     <div class="text-center w-24 md:w-40">
                                         <div
                                             class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
-                                            {{ substr($lastGame->TeamB()->first()->name, 0, 2) }}</div>
+                                            {{ mb_substr($lastGame->TeamB()->first()->name, 0, 2, 'UTF-8') }}</div>
                                         <div class="text-x text-sm md:text-xl font-bold truncate">
                                             {{ $lastGame->TeamB()->first()->name }}</div>
                                     </div>
                                 </div>
                                 <div class="mt-8 pt-4 border-t border-white/20">
                                     <div class="flex justify-center space-x-4">
-                                        <div class="flex items-center">
-                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                                </path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            </svg>
-                                            <span class="text-sm">{{ $lastGame->location }}</span>
-                                        </div>
+                                        @if ($lastGame->status === 'finished' && $lastGame->events->count() > 0)
+                                            <a href="{{ route('games.show', $lastGame->id) }}" class="flex items-center">
+                                                <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                        stroke-linejoin="round"></g>
+                                                    <g id="SVGRepo_iconCarrier">
+                                                        <circle cx="12" cy="12" r="3" stroke="currentColor"
+                                                            stroke-width="2"></circle>
+                                                        <path
+                                                            d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                                                            stroke="currentColor" stroke-width="2"></path>
+                                                    </g>
+                                                </svg>
+                                                <span class="text-sm">Voir les détails</span>
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -333,7 +340,7 @@
                                     <div class="text-center w-24 md:w-40">
                                         <div
                                             class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
-                                            {{ substr($nextGame->TeamA()->first()->name, 0, 2) }}</div>
+                                            {{ mb_substr($nextGame->TeamA()->first()->name, 0, 2, 'UTF-8') }}</div>
                                         <div class="text-x text-sm md:text-xl font-bold truncate">
                                             {{ $nextGame->TeamA()->first()->name }}</div>
                                     </div>
@@ -362,7 +369,7 @@
                                     <div class="text-center w-24 md:w-40">
                                         <div
                                             class="w-16 h-16 bg-white rounded-full mx-auto mb-3 flex items-center justify-center text-gray-900 font-bold text-xl">
-                                            {{ substr($nextGame->TeamB()->first()->name, 0, 2) }}</div>
+                                            {{ mb_substr($nextGame->TeamB()->first()->name, 0, 2, 'UTF-8') }}</div>
                                         <div class="text-x text-sm md:text-xl font-bold truncate">
                                             {{ $nextGame->TeamB()->first()->name }}</div>
                                     </div>
