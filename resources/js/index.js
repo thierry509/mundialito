@@ -10,7 +10,8 @@ document.addEventListener('alpine:init', () => {
         id,
         isReplying: false,
         isCommenting: false,
-        comments: [],
+        commentsList: [],
+        isLoading: true,
         form: {
             content: '',
             commentable_id: id,
@@ -25,7 +26,7 @@ document.addEventListener('alpine:init', () => {
             this.isCommenting = !this.isCommenting;
             if (this.isCommenting) {
                 this.loadComments(type);
-            }else{
+            } else {
                 this.form.parent_id = ''
                 this.form.parent_user = ''
             }
@@ -37,14 +38,39 @@ document.addEventListener('alpine:init', () => {
             apiFetch(`/${type}/${id}/comments/`, { method: 'GET' })
                 .then(response => {
                     if (response.ok) {
-                        this.comments = response.data;
+                        this.commentsList = response.data;
                     } else {
                         console.error('Failed to load comments:', response.status);
                     }
                 }
                 ).catch(error => {
                     console.error('Error fetching comments:', error);
+                }).finally(()=>{
+                    this.isLoading = false;
                 });
+        },
+        loadReplies(comment, parent = null) {
+            apiFetch(`/comments/${comment.id}/replies`, { method: 'GET' })
+                .then(response => {
+                    if (response.ok) {  
+                        if(parent){
+                            console.log(parent.replies)
+                            parent.replies = [...parent.replies, ...response.data]
+                        }
+                        comment.replies = response.data
+                        comment.showReplies = true // pour contrôler l'affichage
+
+
+                    } else {
+                        console.error('Failed to load replies:', response.status);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching replies:', error);
+                });
+        },
+        hideReply(comment){
+            comment.showReplies = false;
         },
         postComment() {
             apiFetch(`/comments/`, {
@@ -70,7 +96,7 @@ document.addEventListener('alpine:init', () => {
                     console.error('Error posting comment:', error);
                 });
         },
-        replyComment(parent){
+        replyComment(parent) {
             this.form.parent_id = parent.id;
             this.form.parent_user = parent.user.full_name;
             this.isCommenting = true;
@@ -103,3 +129,5 @@ document.addEventListener('alpine:init', () => {
 });
 
 Alpine.start()
+
+

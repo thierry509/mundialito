@@ -80,6 +80,8 @@
         });
     </script>
 
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- Matomo -->
     <script>
         var _paq = window._paq = window._paq || [];
@@ -103,13 +105,44 @@
 </head>
 
 <body class="font-sans">
+    @guest
+        <div id="g_id_onload" data-client_id="{{ env('GOOGLE_CLIENT_ID') }}" data-callback="handleGoogleSignIn"
+            data-auto_prompt="true">
+        </div>
+    @endguest
     @include('layout.partials.nav')
 
     @hasSection('content')
-    <thierry-banner type="sticky"></thierry-banner>
+        <thierry-banner type="sticky"></thierry-banner>
         @yield('content')
     @else
         @inertia
     @endif
+    <script>
+      
+        function handleGoogleSignIn(response) {
+            if (!response.credential) {
+                console.error("Pas de credential reçu");
+                return;
+            }
+            const token = response.credential;
+            console.log("Google ID Token:", token);
 
+            axios.post('/google/rappel', {
+                    token
+                })
+                .then(res => window.location.reload())
+                .catch(err => console.error(err));
+        }
+
+        // Optionnel : afficher un bouton classique en fallback
+        window.onload = function() {
+            google.accounts.id.renderButton(
+                document.getElementById("google-login-button"), {
+                    theme: "outline",
+                    size: "large"
+                }
+            );
+        };
+    </script>
     @include('layout.partials.footer')

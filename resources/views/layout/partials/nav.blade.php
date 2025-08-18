@@ -29,23 +29,163 @@
                 class="text-white hover:text-secondary font-medium transition-colors duration-200 navbar-link">Palmares</a>
         </div>
         <div class="flex">
-            <a href="{{ route('dashboard') }}" aria-label="Tableau de bord" rel="nofollow noopener"
-                class="justify-center flex items-center px-4 py-3 mx-2 my-1 text-primary transition rounded-2xl shadow-sm hover:bg-primary/10 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/50">
-                <svg class="w-5 h-5 md:mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-                <span class="hidden md:block font-semibold">Éditions</span>
-            </a>
+            @auth
+                <div x-data="{ open: false }" class="relative">
+                    <!-- Bouton profil avec animation -->
+                    <button @click="open = !open" @click.outside="open = false"
+                        class="flex items-center gap-2 focus:outline-none group">
+                        <div class="relative">
+                            <!-- Image de profil avec bordure animée -->
+                            <div
+                                class="h-10 w-10 rounded-full p-0.5 bg-gradient-to-tr from-blue-500 to-purple-600 group-hover:from-blue-400 group-hover:to-purple-500 transition-all duration-300">
+                                <div class="h-full w-full rounded-full overflow-hidden bg-white">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&h=256&q=80"
+                                        alt="Profile" class="h-full w-full object-cover">
+                                </div>
+                            </div>
 
+                            <!-- Badge online -->
+                            <span
+                                class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 ring-2 ring-white"></span>
+                        </div>
 
+                        <!-- Icône chevron animée -->
+                        <svg class="w-4 h-4 text-gray-400 transition-transform duration-300" :class="{ 'rotate-180': open }"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Menu dropdown moderne -->
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 translate-y-1"
+                        class="absolute right-0 z-20 mt-3 w-64 rounded-xl shadow-xl bg-white/90 backdrop-blur-sm border border-gray-100 overflow-hidden">
+                        <!-- En-tête avec infos utilisateur -->
+                        <div class="px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50">
+                            <p class="text-sm font-semibold text-gray-900 capitalize">{{ auth()->user()->first_name }} <span class="capitalize">{{ auth()->user()->last_name }}</span> </p>
+                            <p class="text-xs text-gray-500">{{ auth()->user()->email }} </p>
+                        </div>
+
+                        <div class="py-1">
+                            <!-- Item avec icône -->
+                            <a href="#"
+                                class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+                                <svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                Mon profil
+                            </a>
+
+                            <!-- Nouveau lien Mode Édition -->
+                            <a href="{{ route('dashboard') }}"
+                                class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+                                <svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                                Mode Édition
+                            </a>
+
+                            <!-- Item avec icône -->
+                            <a href="#"
+                                class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+                                <svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                Paramètres
+                            </a>
+
+                            <!-- Séparateur -->
+                            <div class="border-t border-gray-100 my-1"></div>
+
+                            <!-- Item avec icône -->
+                            <div href="#"
+                                class="flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200">
+                                <svg class="w-5 h-5 mr-3 text-red-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                   <button type="submit"> Déconnexion </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endauth
+            @guest
+                <div x-data="{ isOpen: false }" class="relative">
+                    <!-- Bouton pour utilisateur non connecté -->
+                    <button @click="isOpen = !isOpen" @click.outside="isOpen = false"
+                        class="flex items-center justify-center h-10 w-10 rounded-full p-0.5 bg-gradient-to-tr from-gray-300 to-gray-400 hover:from-gray-200 hover:to-gray-300 transition-all duration-300 focus:outline-none">
+                        <!-- Icône utilisateur -->
+                        <div class="h-full w-full rounded-full bg-white text-gray-500 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                    </button>
+
+                    <!-- Dropdown menu - Structure de base -->
+                    <div x-show="isOpen" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 translate-y-1"
+                        class="absolute right-0 z-20 mt-3 w-64 rounded-xl shadow-xl bg-white/90 backdrop-blur-sm border border-gray-100 overflow-hidden">
+                        <div class="px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50">
+                            <p class="text-sm font-semibold text-gray-900">Invité</p>
+                            <p class="text-xs text-gray-500">Non connecté</p>
+                        </div>
+
+                        <div class="py-1">
+                            <a href="{{ route('login') }}" @click="isOpen = false"
+                                class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+                                <svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                </svg>
+                                Se connecter
+                            </a>
+
+                            <a href="{{ route('register') }}" @click="isOpen = false"
+                                class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+                                <svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                                </svg>
+                                Créer un compte
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endguest
             <!-- Menu mobile button -->
             <button id="mobile-menu-button" aria-label="Ouvrir le menu mobile"
-                class="lg:hidden text-white focus:outline-none transition-colors duration-300 navbar-button">
+                class="lg:hidden text-white focus:outline-none transition-colors duration-300 navbar-button ml-4">
                 <svg class="w-8 h-8 transition-colors duration-300" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16">
                     </path>
                 </svg>
             </button>
@@ -61,7 +201,8 @@
                 <a href="{{ route('home') }}" class="text-2xl font-bold text-primary">Mundialito</a>
                 <button id="mobile-menu-close" class="text-gray-500 hover:text-primary focus:outline-none">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12">
                         </path>
                     </svg>
                 </button>

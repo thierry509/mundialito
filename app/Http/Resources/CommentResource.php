@@ -30,7 +30,7 @@ class CommentResource extends JsonResource
                 'email' => $this->user->email,
                 'avatar' => $this->user->image_id ? /* URL de l'avatar si disponible */ : null,
             ],
-            'replies' => CommentResource::collection($this->whenLoaded('replies')),
+            'reply' => count($this->whenLoaded('replies')),
         ];
     }
 

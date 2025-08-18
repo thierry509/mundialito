@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
-
+use Google_Client;
 class AuthController extends Controller
 {
 
@@ -119,6 +119,44 @@ class AuthController extends Controller
             return redirect('/connexion')->withErrors([
                 'error' => $e->getMessage() ?? 'Échec de l\'authentification avec ' . ucfirst($provider)
             ]);
+        }
+    }
+
+    public function handleOneTap(Request $request)
+    {
+        $idToken = $request->input('token');
+
+        try {
+            $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
+            $payload = $client->verifyIdToken($idToken);
+
+            if (!$payload) {
+                return response()->json(['error' => 'Token invalide'], 401);
+            }
+
+            // Construire un Socialite-like object pour réutiliser ton service
+            $socialUser = new class($payload) implements \Laravel\Socialite\Contracts\User {
+                public $user;
+                public function __construct($payload) { $this->user = $payload; }
+                public function getId() { return $this->user['sub']; }
+                public function getEmail() { return $this->user['email']; }
+                public function getName() { return $this->user['name'] ?? null; }
+                public function getNickname() { return null; }
+                public function getAvatar() { return $this->user['picture'] ?? null; }
+                public function getRaw() { return $this->user; }
+                public function getToken() { return null; }
+                public function getRefreshToken() { return null; }
+                public function getExpiresIn() { return null; }
+            };
+
+            $user = $this->socialAuthService->findOrCreateUser($socialUser, 'google');
+
+            auth()->login($user, true);
+
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            Log::error("Erreur Google One Tap", ['exception' => $e]);
+            return response()->json(['error' => 'Échec de connexion Google'], 500);
         }
     }
 

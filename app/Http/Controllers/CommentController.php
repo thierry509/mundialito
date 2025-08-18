@@ -18,10 +18,18 @@ class CommentController extends Controller
     {
         $comments = Comment::where('commentable_id', $gameId)
             ->where('commentable_type', 'App\Models\Game')
+            ->whereNull('parent_id')
             ->with(['user', 'replies.user'])
             ->orderBy('created_at', 'desc')
             ->get();
         return response()->json(CommentResource::collection($comments));
+    }
+
+    public function replies($id)
+    {
+        $replies = Comment::findOrFail($id)->replies;
+
+        return response()->json(CommentResource::collection($replies));
     }
 
     /**

@@ -143,7 +143,6 @@
             @empty
             @endforelse
         </div>
-
         @include('comment.index')
     </div>
 @endsection

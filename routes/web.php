@@ -45,6 +45,7 @@ Route::get('/match/{id}', [GameController::class, 'show'])->name('games.show');
 Route::get('/game/{id}/comments', [CommentController::class, 'gameComments'])->name('games.comments');
 
 Route::prefix('/comments')->group(function(){
+    Route::get('/{id}/replies', [CommentController::class, 'replies'])->name('comments.replies');
     Route::put('/{id}/like', [CommentController::class, 'like'])->name('comments.like');
     Route::delete('/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
 });
@@ -121,9 +122,12 @@ Route::middleware('guest')->group(function () {
         ->where('provider', 'google|facebook')
         ->name('social.redirect');
 
+
     Route::get('/{provider}/rappel', [AuthController::class, 'handleProviderCallback'])
         ->where('provider', 'google|facebook')
         ->name('social.callback');
+
+    Route::get('/google/callback', [AuthController::class, 'handleOneTap']);
 });
 
 
