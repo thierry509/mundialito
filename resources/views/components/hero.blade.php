@@ -45,4 +45,3 @@
     @endif
 </header>
 <thierry-banner type="top" theme="light"></thierry-banner>
-

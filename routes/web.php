@@ -22,6 +22,7 @@ use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\UserController;
 use App\Models\Championship;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
@@ -44,7 +45,7 @@ Route::get('/match', [GameController::class, 'index'])->name('games');
 Route::get('/match/{id}', [GameController::class, 'show'])->name('games.show');
 Route::get('/game/{id}/comments', [CommentController::class, 'gameComments'])->name('games.comments');
 
-Route::prefix('/comments')->group(function(){
+Route::prefix('/comments')->group(function () {
     Route::get('/{id}/replies', [CommentController::class, 'replies'])->name('comments.replies');
     Route::put('/{id}/like', [CommentController::class, 'like'])->name('comments.like');
     Route::delete('/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
@@ -97,6 +98,8 @@ Route::get('mentions-legales', [AboutController::class, 'legal'])->name('legal')
 Route::get('politique-de-confidentialite', [AboutController::class, 'privacy'])->name('privacy');
 // FAQ
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+
+// Profile
 
 Route::get('/test-mail', function () {
     return view('vendor.mail.html.message');
@@ -151,6 +154,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
 
     Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/profile', [AuthController::class, 'profile'])->name('blade.profile');
+    Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update.blade');
+
 });
 
 Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
@@ -209,9 +216,10 @@ Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
         Route::put('', [AuthController::class, 'updateProfile'])->name('profile.update');
         Route::get('/moderation', [AdminController::class, 'index'])->name('moderation.index');
         Route::put('/moderation', [AdminController::class, 'updateRoles'])->name('moderation.update');
+        Route::put('/avatar', [UserController::class, 'updateAvatar'])->name('avatar.update');
     });
 
     Route::put('/modifier-mots-de-passe', [AuthController::class, 'updatePassword'])->name('password.update');
     Route::get('modifier-mot-de-passe', [AuthController::class, 'showChangePasswordForm'])->name('password.change');
-    Route::post('modifier-mot-de-passe', [AuthController::class, 'changePassword'])->name('password.update');
+    // Route::post('modifier-mot-de-passe', [AuthController::class, 'changePassword'])->name('password.update');
 });

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Password;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 use Google_Client;
+
 class AuthController extends Controller
 {
 
@@ -113,7 +114,7 @@ class AuthController extends Controller
 
             auth()->login($user, true);
 
-            return redirect()->intended(route('dashboard'));
+            return redirect()->intended(route('home'));
         } catch (\Exception $e) {
             Log::error("Erreur de social login avec {$provider}", ['exception' => $e]);
             return redirect('/connexion')->withErrors([
@@ -137,16 +138,46 @@ class AuthController extends Controller
             // Construire un Socialite-like object pour réutiliser ton service
             $socialUser = new class($payload) implements \Laravel\Socialite\Contracts\User {
                 public $user;
-                public function __construct($payload) { $this->user = $payload; }
-                public function getId() { return $this->user['sub']; }
-                public function getEmail() { return $this->user['email']; }
-                public function getName() { return $this->user['name'] ?? null; }
-                public function getNickname() { return null; }
-                public function getAvatar() { return $this->user['picture'] ?? null; }
-                public function getRaw() { return $this->user; }
-                public function getToken() { return null; }
-                public function getRefreshToken() { return null; }
-                public function getExpiresIn() { return null; }
+                public function __construct($payload)
+                {
+                    $this->user = $payload;
+                }
+                public function getId()
+                {
+                    return $this->user['sub'];
+                }
+                public function getEmail()
+                {
+                    return $this->user['email'];
+                }
+                public function getName()
+                {
+                    return $this->user['name'] ?? null;
+                }
+                public function getNickname()
+                {
+                    return null;
+                }
+                public function getAvatar()
+                {
+                    return $this->user['picture'] ?? null;
+                }
+                public function getRaw()
+                {
+                    return $this->user;
+                }
+                public function getToken()
+                {
+                    return null;
+                }
+                public function getRefreshToken()
+                {
+                    return null;
+                }
+                public function getExpiresIn()
+                {
+                    return null;
+                }
             };
 
             $user = $this->socialAuthService->findOrCreateUser($socialUser, 'google');
@@ -166,6 +197,12 @@ class AuthController extends Controller
             'user' => Auth::user(),
         ]);
     }
+    public function profile()
+    {
+        return view('auth.profile', [
+            'user' => Auth::user(),
+        ]);
+    }
 
     public function updateProfile(UpdateProfileRequest $request)
     {
@@ -180,6 +217,22 @@ class AuthController extends Controller
         ]);
         return redirect()->back();
     }
+
+    public function updateProfileBlade(UpdateProfileRequest $request)
+    {
+        $validated = $request->validated();
+
+        $user = Auth::user();
+
+        $user->update([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'phone' => $validated['phone'],
+        ]);
+        return response()->json($user);
+    }
+
+
 
     public function updatePassword(UpdatePasswordRequest $request)
     {

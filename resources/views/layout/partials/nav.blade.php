@@ -38,9 +38,20 @@
                             <!-- Image de profil avec bordure animée -->
                             <div
                                 class="h-10 w-10 rounded-full p-0.5 bg-gradient-to-tr from-blue-500 to-purple-600 group-hover:from-blue-400 group-hover:to-purple-500 transition-all duration-300">
-                                <div class="h-full w-full rounded-full overflow-hidden bg-white">
-                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&h=256&q=80"
-                                        alt="Profile" class="h-full w-full object-cover">
+
+                                <div
+                                    class="h-full w-full rounded-full overflow-hidden bg-white flex items-center justify-center">
+                                    @if (auth()->user()->avatar)
+                                        <img src="{{ auth()->user()->avatar }}" alt="Photo de profil"
+                                            class="h-full w-full object-cover" />
+                                    @else
+                                        <div
+                                            class="h-full w-full flex items-center justify-center
+                                                    text-sm font-semibold uppercase text-white
+                                                    bg-gradient-to-r from-indigo-500 to-pink-500">
+                                            {{ mb_substr(auth()->user()->first_name, 0, 2, 'UTF-8') }}
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 
@@ -48,6 +59,7 @@
                             <span
                                 class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 ring-2 ring-white"></span>
                         </div>
+
 
                         <!-- Icône chevron animée -->
                         <svg class="w-4 h-4 text-gray-400 transition-transform duration-300" :class="{ 'rotate-180': open }"
@@ -57,7 +69,7 @@
                     </button>
 
                     <!-- Menu dropdown moderne -->
-                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200" x-cloak
                         x-transition:enter-start="opacity-0 translate-y-1"
                         x-transition:enter-end="opacity-100 translate-y-0"
                         x-transition:leave="transition ease-in duration-150"
@@ -66,13 +78,15 @@
                         class="absolute right-0 z-20 mt-3 w-64 rounded-xl shadow-xl bg-white/90 backdrop-blur-sm border border-gray-100 overflow-hidden">
                         <!-- En-tête avec infos utilisateur -->
                         <div class="px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50">
-                            <p class="text-sm font-semibold text-gray-900 capitalize">{{ auth()->user()->first_name }} <span class="capitalize">{{ auth()->user()->last_name }}</span> </p>
+                            <p class="text-sm font-semibold text-gray-900 capitalize">{{ auth()->user()->first_name }}
+                                <span class="capitalize">{{ auth()->user()->last_name }}</span>
+                            </p>
                             <p class="text-xs text-gray-500">{{ auth()->user()->email }} </p>
                         </div>
 
                         <div class="py-1">
                             <!-- Item avec icône -->
-                            <a href="#"
+                            <a href="{{ route('blade.profile') }}"
                                 class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200">
                                 <svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -95,7 +109,7 @@
 
                             <!-- Item avec icône -->
                             <a href="#"
-                                class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200">
+                                class="hidden flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200">
                                 <svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -120,7 +134,7 @@
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     @method('POST')
-                                   <button type="submit"> Déconnexion </button>
+                                    <button type="submit"> Déconnexion </button>
                                 </form>
                             </div>
                         </div>
@@ -143,7 +157,7 @@
                     </button>
 
                     <!-- Dropdown menu - Structure de base -->
-                    <div x-show="isOpen" x-transition:enter="transition ease-out duration-200"
+                    <div x-show="isOpen" x-transition:enter="transition ease-out duration-200" x-cloak
                         x-transition:enter-start="opacity-0 translate-y-1"
                         x-transition:enter-end="opacity-100 translate-y-0"
                         x-transition:leave="transition ease-in duration-150"

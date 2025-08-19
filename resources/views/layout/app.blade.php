@@ -29,6 +29,11 @@
         }
     </script>
     <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+    <style>
         .navbar-transparent {
             background-color: transparent !important;
             transition: all 0.3s ease;
@@ -119,7 +124,6 @@
         @inertia
     @endif
     <script>
-      
         function handleGoogleSignIn(response) {
             if (!response.credential) {
                 console.error("Pas de credential reçu");
