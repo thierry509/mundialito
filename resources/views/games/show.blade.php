@@ -10,29 +10,35 @@
             <div class="absolute inset-0 bg-black opacity-30"></div>
             <div class="container mx-auto px-4 relative z-10">
                 <div class="text-center mb-8">
-                    <div class="text-sm uppercase tracking-wider text-primary font-semibold mb-1">Mundialito
+                    <div class="text-base md:text-lg uppercase tracking-wider text-secondary font-semibold mb-1">Mundialito
                         {{ $game->championship->year }}</div>
-                    <div class="text-gray-500 text-sm text-white">{{ $game->location }} • <span v-if="game.date_time">
+                    <div class="text-gray-200 text-base md:text-lg">{{ $game->location }} • <span v-if="game.date_time">
                             {{ formatDate($game->date_time) }}</span></div>
                 </div>
 
                 <!-- Score -->
-                <div class="flex items-center justify-between mb-8 text-white">
-                    <div class="w-1/3">
-                        <div class="text-sm md:text-xl font-bold text-white">{{ $game->teamA->name }}</div>
+                <div class="flex items-start justify-between mb-8 text-white">
+                    <div class="w-1/3 flex justify-start items-center">
+                        <div class="flex flex-col justify-center items-center w-24">
+                            <div
+                                class="w-10 h-10 bg-white rounded-full mb-3 flex items-center justify-center text-secondary font-bold text-lg">
+                                {{ mb_substr($game->TeamA()->first()->name, 0, 2, 'UTF-8') }}</div>
+                            <div class="text-xs font-bold truncate">
+                                {{ $game->TeamA()->first()->name }}</div>
+                        </div>
                     </div>
 
-                    <div class="text-center py-3  w-1/3">
+                    <div class="text-center flex justify-center h-full w-1/3">
                         @if ($game->team_a_goals !== null && $game->team_b_goals !== null)
-                            <div class="text-xl md:text-3xl font-bold">
+                            <div class="text-3xl font-bold">
                                 @if ($game->shootout_score_a !== null)
-                                    <span class="text-sm md:text-xl mr-2">({{ $game->shootout_score_a }})</span>
+                                    <span class="text-xs md:text-base">({{ $game->shootout_score_a }})</span>
                                 @endif
                                 {{ $game->team_a_goals }}
                                 -
                                 {{ $game->team_b_goals }}
                                 @if ($game->shootout_score_b !== null)
-                                    <span class="text-sm md:text-xl ml-2">({{ $game->shootout_score_b }})</span>
+                                    <span class="text-xs md:text-base">({{ $game->shootout_score_b }})</span>
                                 @endif
 
                             </div>
@@ -41,8 +47,14 @@
                         @endif
                     </div>
 
-                    <div class="text-end w-1/3">
-                        <div class="text-sm md:text-xl font-bold">{{ $game->teamB->name }}</div>
+                    <div class="w-1/3 flex justify-end items-center">
+                        <div class="flex flex-col justify-center items-center w-24">
+                            <div
+                                class="w-10 h-10 bg-white rounded-full mb-3 flex items-center justify-center text-secondary font-bold text-lg">
+                                {{ mb_substr($game->TeamB()->first()->name, 0, 2, 'UTF-8') }}</div>
+                            <div class="text-xs font-bold truncate text-center">
+                                {{ $game->TeamB()->first()->name }}</div>
+                        </div>
                     </div>
                 </div>
                 <!-- Buteurs -->
@@ -51,10 +63,10 @@
                 @endphp
                 @if ($goals->count() > 0)
                     <div class="flex justify-center items-start my-8 text-white">
-                        <div class="space-y-2 w-40">
+                        <div class="space-y-2 w-full">
                             <ul class="space-y-1">
-                                @foreach ($game->teamA->events as $event)
-                                    @if ($event->type === 'goal')
+                                @foreach ($events as $event)
+                                    @if ($event->type === 'goal' && $event->team_id === $game->team_a_id)
                                         <li class="text-right flex justify-end items-center">
                                             <span>{{ $event->player_name }} <span
                                                     class="text-gray-400 ml-1">{{ $event->minute }}'
@@ -82,18 +94,20 @@
                             </svg>
                         </div>
 
-                        <div class="space-y-2 w-40">
+                        <div class="space-y-2 w-full">
                             <ul class="space-y-1">
-                                @foreach ($game->teamB->events as $event)
-                                    <li class="text-left flex items-center">
-                                        <span>{{ $event->player_name }} <span
-                                                class="text-gray-400 ml-1">{{ $event->minute }}'
-                                                @if ($event->added_time)
-                                                    +{{ $event->added_time }}
-                                                @endif
+                                @foreach ($events as $event)
+                                    @if ($event->type === 'goal' && $event->team_id === $game->team_b_id)
+                                        <li class="text-left flex items-center w-fit">
+                                            <span>{{ $event->player_name }} <span
+                                                    class="text-gray-400 ml-1">{{ $event->minute }}'
+                                                    @if ($event->added_time)
+                                                        +{{ $event->added_time }}
+                                                    @endif
+                                                </span>
                                             </span>
-                                        </span>
-                                    </li>
+                                        </li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </div>
@@ -103,19 +117,50 @@
         </div>
     </header>
     <div class="w-full relative p-0">
-        <div class="bg-gray-200 w-full m-0 py-4">
+        <div class="bg-gray-200 w-full m-0 pb-4">
             <div class="mx-auto pt-4 max-w-7xl py-4">
-                <h2 class="text-lg font-semibold mb-4 text-center text-primary">Événements du match</h2>
-
                 <!-- Événement 1 - But à gauche -->
+                @php
+                    $miTempsShown = false;
+                    $prolongationShown = false;
+                    $endTimeShown = false;
+                    $endProlongation = false;
+                @endphp
+
                 @forelse ($events as $event)
-                    <div class="py-2 px-1 hover:bg-gray-100 rounded transition-colors duration-150">
+                    {{-- Mi-temps avant les événements <= 45 --}}
+                    @if (!$miTempsShown && $event->minute <= 45)
+                        <x-event-end label="Mi-temps" />
+                        @php $miTempsShown = true; @endphp
+                    @endif
+
+                    @if (!$endProlongation && $game->extra_time && $event->minute <= 120)
+                        <x-event-end label="Fin de la polongation" />
+                        @php $endProlongation = true; @endphp
+                    @endif
+
+                    {{-- Mi-temps prolongation avant les événements <= 105 --}}
+                    @if (!$prolongationShown && $game->extra_time && $event->minute <= 105)
+                        <x-event-end label="Mi-temps prolongation" />
+                        @php $prolongationShown = true; @endphp
+                    @endif
+
+                    @if (!$endTimeShown && $event->minute <= 90)
+                        <x-event-end label="Fin du match" />
+                        @php $endTimeShown = true; @endphp
+                    @endif
+
+                    <div class="py-2 px-4 hover:bg-gray-100 rounded transition-colors duration-150">
                         <div
                             class="flex items-center {{ $event->team_id == $game->team_a_id ? 'justify-start' : 'flex-row-reverse' }}">
-                            <span class="text-gray-600 font-medium w-12 text-right">{{ $event->minute }}' @if ($event->added_time)
+                            <span class="text-gray-600 font-medium w-12 text-right w-fit">
+                                {{ $event->minute }}'
+                                @if ($event->added_time)
                                     +{{ $event->added_time }}
                                 @endif
                             </span>
+
+                            {{-- Icones --}}
                             @if ($event->type == 'goal')
                                 <svg class="h-5 w-5 text-yellow-500 mx-2" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -128,6 +173,7 @@
                                     </g>
                                 </svg>
                             @endif
+
                             @if ($event->type == 'yellow_card' || $event->type == 'red_card')
                                 <svg class="h-5 w-5 text-{{ $event->type === 'yellow_card' ? 'yellow' : 'red' }}-500 mx-2"
                                     version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -146,13 +192,17 @@
                                     </g>
                                 </svg>
                             @endif
+
                             <span class="font-medium">{{ $event->player_name }}</span>
                         </div>
                     </div>
                 @empty
                 @endforelse
+
             </div>
         </div>
-        @include('comment.index')
+        <div class="mx-auto pt-4 max-w-7xl py-4">
+            @include('comment.index')
+        </div>
     </div>
 @endsection

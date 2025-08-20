@@ -89,7 +89,7 @@ class GameController extends Controller
         $year = $request->query('year');
 
         $games = $gameService->all($year);
-    
+
 
         return Inertia::render('Championship.Games', [
             'games' =>  $games,
@@ -97,7 +97,6 @@ class GameController extends Controller
                 $query->where('year', $year);
             })->get(),
         ]);
-
     }
     public function adminShow(EditorViewRequest $request, GameService $gameService, $id)
     {
@@ -135,7 +134,6 @@ class GameController extends Controller
             ]);
 
             $this->nextGame($gameService, $game);
-            $game->status = 'finished';
             $game->save();
 
             Log::create([
@@ -348,6 +346,52 @@ class GameController extends Controller
         return redirect()->to(route('championship.game', ['year' => $game->championship->year]));
     }
 
+    public function extaTime(EndGameRequest $request)
+    {
+        $game = Game::find($request->validated()['id']);
+        $game->update([
+            'extra_time' => 'true',
+        ]);
+        Log::create([
+            'action' => "ajouter extra time dans le match d'identifiant " . $game->id,
+            'user_id' => Auth()->user()->id,
+        ]);
+        // dd($game);
+        // $this->nextGame($gameService, $game);
+        return redirect()->back();
+    }
+
+    public function deleteExtratime(EndGameRequest $request)
+    {
+        $game = Game::find($request->validated()['id']);
+        $game->update([
+            'extra_time' => null,
+        ]);
+        Log::create([
+            'action' => "delete prolonagation dans le match d'identifiant " . $game->id,
+            'user_id' => Auth()->user()->id,
+        ]);
+        return redirect()->back();
+    }
+
+    public function deleteShootOnGoal(EndGameRequest $request, GameService $gameService)
+    {
+        $game = Game::find($request->validated()['id']);
+        DB::transaction(function () use ($game, $gameService) {
+            $game->update([
+                'shootout_score_a' => null,
+                'shootout_score_b' => null,
+            ]);
+
+            $this->nextGame($gameService, $game);
+            $game->save();
+
+            Log::create([
+                'action' => "Suprimmer Tir au but " . $game->id,
+                'user_id' => Auth()->user()->id,
+            ]);
+        });
+    }
 
     public function nextGame(GameService $gameService, Game $game)
     {

@@ -51,7 +51,7 @@ class StoreEventRequest extends FormRequest
             'minute.integer' => 'La minute doit être un nombre',
             'minute.min' => 'La minute ne peut pas être négative',
             'minute.max' => 'La minute ne peut pas dépasser 120',
-            'player.required' => 'Le nom du joueur est obligatoire',
+            'player_name.required' => 'Le nom du joueur est obligatoire',
             'team.required' => 'Veuillez spécifier l\'équipe',
             'game_id.required' => 'L\'association à un match est obligatoire',
             'game_id.exists' => 'Le match spécifié n\'existe pas'

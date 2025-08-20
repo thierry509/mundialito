@@ -28,7 +28,8 @@ class Game extends Model
         'shootout_score_a',
         'shootout_score_b',
         'team_a_scorers',
-        'team_b_scorers'
+        'team_b_scorers',
+        'extra_time'
     ];
 
     public function championship()

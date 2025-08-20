@@ -27,8 +27,9 @@
                 <div class="text-sm md:text-xl font-bold">{{ game.team_b.name }}</div>
             </div>
         </div>
-
-        <div class="flex justify-between items-center mb-6 mx-10 sm:mx-20 lg:mx-40">
+        <div class="flex justify-between items-center mb-6 mx-10 sm:mx-20 lg:mx-40 
+            bg-white px-6 py-3 rounded-2xl shadow-md border border-gray-200 
+            hover:shadow-lg transition duration-300 ease-in-out">
             <div class="">
                 <button v-if="auth?.user.roles == 'admin'" @click="deleteGame"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition flex flex-col md:flex-row justify-center items-center">
@@ -73,6 +74,80 @@
                 <span class="hidden md:block mx-1.5">Replanifier</span>
             </button>
 
+
+            <button v-if="game.type === 'knockout' && game.status != 'posponed'"
+                class="px-3 py-1.5 text-xs font-medium rounded-md bg-secondary/20 text-secondary hover:bg-secondary/30 transition flex justify-center items-center"
+                @click="openShoots">
+                <svg class="h-4 w-4 text-secondary" fill="currentColor" version="1.1" id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 566.09 566.09" xml:space="preserve">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <g>
+                            <g>
+                                <path
+                                    d="M546.965,77.451H19.125C8.568,77.451,0,86.019,0,96.576v372.938c0,10.566,8.568,19.125,19.125,19.125 s19.125-8.559,19.125-19.125v-54.832l24.862-6.541v73.574c0,2.641,2.142,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-76.088 l24.863-6.541v70.428c0,10.566,8.568,19.125,19.125,19.125c10.557,0,19.125-8.559,19.125-19.125v-75.621h70.925v80 c0,2.641,2.142,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-80h55.769v75.621c0,2.639,2.142,4.781,4.781,4.781 c2.64,0,4.781-2.143,4.781-4.781v-75.621h66.947v80c0,2.641,2.143,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-80h62.635v75.621 c0,10.566,8.568,19.125,19.125,19.125S459,480.08,459,469.514v-72.828l30.59,8.004v77.025c0,2.641,2.143,4.781,4.781,4.781 c2.641,0,4.781-2.141,4.781-4.781v-74.52l28.688,7.516v54.803c0,10.566,8.568,19.125,19.125,19.125s19.125-8.559,19.125-19.125 V96.576C566.09,86.019,557.521,77.451,546.965,77.451z M63.103,398.254l-24.863,6.541v-75.363h24.863V398.254z M63.103,319.869 H38.24v-82.352l24.863,8.798V319.869z M63.103,236.169l-24.863-8.797v-79.866l24.863,19.029V236.169z M59.632,115.701h75.936 l17.901,18.637H85.575c-0.449,0-0.861,0.144-1.272,0.258L59.632,115.701z M97.528,389.207l-24.862,6.541v-66.316h24.862V389.207z M97.528,319.869H72.666V249.7l24.862,8.798V319.869z M97.528,248.352l-24.862-8.788V173.86l24.862,19.029V248.352z M206.703,384.33h-70.925v-54.898h70.925V384.33z M206.703,319.869h-70.925v-54.897h70.925V319.869z M206.703,255.409h-70.925 v-54.898h70.925V255.409z M206.703,190.948h-70.925v-7.506c0-5.948-2.773-11.561-7.497-15.186l-31.814-24.355h66.201 l44.045,45.843v1.205H206.703z M272.043,384.33h-55.778v-54.898h55.778V384.33z M272.043,319.869h-55.778v-54.897h55.778V319.869z M272.043,255.409h-55.778v-54.898h55.778V255.409z M272.043,190.948h-55.778v-3.127c0-1.233-0.479-2.419-1.339-3.309 l-39.015-40.602h96.132V190.948z M272.043,134.338H166.722l-17.901-18.637h123.222V134.338z M281.606,115.701h134.392 l-17.902,18.637h-116.49V115.701z M348.553,384.33h-66.947v-54.898h66.947V384.33z M348.553,319.869h-66.947v-54.897h66.947 V319.869z M348.553,255.409h-66.947v-54.898h66.947V255.409z M349.893,184.503c-0.861,0.889-1.34,2.075-1.34,3.309v3.127h-66.947 v-47.048h107.3L349.893,184.503z M420.75,384.33h-62.635v-54.898h62.635V384.33z M420.75,319.869h-62.635v-54.897h62.635V319.869z M420.75,255.409h-62.635v-54.898h62.635V255.409z M428.246,168.256c-4.723,3.615-7.496,9.228-7.496,15.186v7.506h-62.635v-1.205 l44.035-45.843h57.91L428.246,168.256z M489.59,394.811L459,386.807v-57.365h30.59V394.811z M489.59,319.869H459v-57.604 l30.59-8.845V319.869z M489.59,243.456L459,252.301V192.88l30.59-23.418V243.456z M472.559,134.338H411.35l17.9-18.637h67.646 L472.559,134.338z M527.84,404.824l-28.688-7.508v-67.885h28.688V404.824z M527.84,319.869h-28.688v-69.222l28.688-8.3V319.869z M527.84,232.402l-28.688,8.3v-78.556l28.688-21.955V232.402z">
+                                </path>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+                <span class="hidden md:block mx-1.5">Tire Au but</span>
+            </button>
+            <button v-if="game.type === 'knockout' && game.status != 'posponed' && (game.shootout_score_a || game.shootout_score_b) "
+                class="px-3 py-1.5 text-xs font-medium rounded-md bg-secondary/20 text-secondary hover:bg-secondary/30 transition flex justify-center items-center"
+                @click="deleteShoot">
+                <svg class="h-4 w-4" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 566.09 566.09" xml:space="preserve">
+                    <g>
+                        <path
+                            d="M546.965,77.451H19.125C8.568,77.451,0,86.019,0,96.576v372.938c0,10.566,8.568,19.125,19.125,19.125 s19.125-8.559,19.125-19.125v-54.832l24.862-6.541v73.574c0,2.641,2.142,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-76.088 l24.863-6.541v70.428c0,10.566,8.568,19.125,19.125,19.125c10.557,0,19.125-8.559,19.125-19.125v-75.621h70.925v80 c0,2.641,2.142,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-80h55.769v75.621c0,2.639,2.142,4.781,4.781,4.781 c2.64,0,4.781-2.143,4.781-4.781v-75.621h66.947v80c0,2.641,2.143,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-80h62.635v75.621 c0,10.566,8.568,19.125,19.125,19.125S459,480.08,459,469.514v-72.828l30.59,8.004v77.025c0,2.641,2.143,4.781,4.781,4.781 c2.641,0,4.781-2.141,4.781-4.781v-74.52l28.688,7.516v54.803c0,10.566,8.568,19.125,19.125,19.125s19.125-8.559,19.125-19.125 V96.576C566.09,86.019,557.521,77.451,546.965,77.451z M63.103,398.254l-24.863,6.541v-75.363h24.863V398.254z M63.103,319.869 H38.24v-82.352l24.863,8.798V319.869z M63.103,236.169l-24.863-8.797v-79.866l24.863,19.029V236.169z M59.632,115.701h75.936 l17.901,18.637H85.575c-0.449,0-0.861,0.144-1.272,0.258L59.632,115.701z M97.528,389.207l-24.862,6.541v-66.316h24.862V389.207z M97.528,319.869H72.666V249.7l24.862,8.798V319.869z M97.528,248.352l-24.862-8.788V173.86l24.862,19.029V248.352z M206.703,384.33h-70.925v-54.898h70.925V384.33z M206.703,319.869h-70.925v-54.897h70.925V319.869z M206.703,255.409h-70.925 v-54.898h70.925V255.409z M206.703,190.948h-70.925v-7.506c0-5.948-2.773-11.561-7.497-15.186l-31.814-24.355h66.201 l44.045,45.843v1.205H206.703z M272.043,384.33h-55.778v-54.898h55.778V384.33z M272.043,319.869h-55.778v-54.897h55.778V319.869z M272.043,255.409h-55.778v-54.898h55.778V255.409z M272.043,190.948h-55.778v-3.127c0-1.233-0.479-2.419-1.339-3.309 l-39.015-40.602h96.132V190.948z M272.043,134.338H166.722l-17.901-18.637h123.222V134.338z M281.606,115.701h134.392 l-17.902,18.637h-116.49V115.701z M348.553,384.33h-66.947v-54.898h66.947V384.33z M348.553,319.869h-66.947v-54.897h66.947 V319.869z M348.553,255.409h-66.947v-54.898h66.947V255.409z M349.893,184.503c-0.861,0.889-1.34,2.075-1.34,3.309v3.127h-66.947 v-47.048h107.3L349.893,184.503z M420.75,384.33h-62.635v-54.898h62.635V384.33z M420.75,319.869h-62.635v-54.897h62.635V319.869z M420.75,255.409h-62.635v-54.898h62.635V255.409z M428.246,168.256c-4.723,3.615-7.496,9.228-7.496,15.186v7.506h-62.635v-1.205 l44.035-45.843h57.91L428.246,168.256z M489.59,394.811L459,386.807v-57.365h30.59V394.811z M489.59,319.869H459v-57.604 l30.59-8.845V319.869z M489.59,243.456L459,252.301V192.88l30.59-23.418V243.456z M472.559,134.338H411.35l17.9-18.637h67.646 L472.559,134.338z M527.84,404.824l-28.688-7.508v-67.885h28.688V404.824z M527.84,319.869h-28.688v-69.222l28.688-8.3V319.869z M527.84,232.402l-28.688,8.3v-78.556l28.688-21.955V232.402z">
+                        </path>
+                        <!-- Croix de désactivation -->
+                        <line x1="100" y1="100" x2="466" y2="466" stroke="currentColor" stroke-width="30"
+                            stroke-linecap="round" />
+                        <line x1="466" y1="100" x2="100" y2="466" stroke="currentColor" stroke-width="30"
+                            stroke-linecap="round" />
+                    </g>
+                </svg>
+                <span class="hidden md:block mx-1.5">Desactiver tire au but</span>
+            </button>
+
+            <button v-if="game.type === 'knockout' && game.status != 'posponed'"
+                class="px-3 py-1.5 text-xs font-medium rounded-md bg-secondary/90 text-white hover:bg-secondary transition flex justify-center items-center"
+                @click="extraTime">
+                <svg v-if="!game.extra_time" fill="currentColor" class="h-4 w-4 inline" viewBox="0 0 24 24" id="Layer_1"
+                    data-name="Layer 1" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M23,18H20V15a1,1,0,0,0-2,0v3H15a1,1,0,0,0,0,2h3v3a1,1,0,0,0,2,0V20h3a1,1,0,0,0,0-2Z M11,7v4.586L8.293,14.293a1,1,0,1,0,1.414,1.414l3-3A1,1,0,0,0,13,12V7a1,1,0,0,0-2,0Z M14.728,21.624a9.985,9.985,0,1,1,6.9-6.895,1,1,0,1,0,1.924.542,11.989,11.989,0,1,0-8.276,8.277,1,1,0,1,0-.544-1.924Z">
+                        </path>
+                    </g>
+                </svg>
+                <svg v-else class="h-4 w-4 inline" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M22.9504 13.051C22.9832 12.7051 23 12.3545 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23C12.3545 23 12.7051 22.9832 13.051 22.9504C12.4841 22.3838 12.014 21.7204 11.6675 20.9871C6.85477 20.8122 3.00683 16.8555 3.00683 12C3.00683 7.03321 7.03321 3.00683 12 3.00683C16.8555 3.00683 20.8122 6.85477 20.9871 11.6675C21.7204 12.014 22.3838 12.4841 22.9504 13.051Z"
+                            fill="currentColor"></path>
+                        <path
+                            d="M13.8426 12.3677L13 11.8812V6C13 5.44772 12.5523 5 12 5C11.4477 5 11 5.44771 11 6V12.4667C11 12.4667 11 12.7274 11.1267 12.9235C11.2115 13.0898 11.3437 13.2343 11.5174 13.3346L12.3766 13.8307C12.7902 13.2737 13.2847 12.7802 13.8426 12.3677Z"
+                            fill="currentColor"></path>
+                        <path
+                            d="M16 17C15.4477 17 15 17.4477 15 18C15 18.5523 15.4477 19 16 19H20C20.5523 19 21 18.5523 21 18C21 17.4477 20.5523 17 20 17H16Z"
+                            fill="currentColor"></path>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M24 18C24 21.3137 21.3137 24 18 24C14.6863 24 12 21.3137 12 18C12 14.6863 14.6863 12 18 12C21.3137 12 24 14.6863 24 18ZM13.9819 18C13.9819 20.2191 15.7809 22.0181 18 22.0181C20.2191 22.0181 22.0181 20.2191 22.0181 18C22.0181 15.7809 20.2191 13.9819 18 13.9819C15.7809 13.9819 13.9819 15.7809 13.9819 18Z"
+                            fill="currentColor"></path>
+                    </g>
+                </svg>
+                <span class="hidden md:block mx-1.5"><span v-if="!game.extra_time"> Polongation</span> <span
+                        v-else>Desactive prolongation</span></span>
+            </button>
             <button
                 v-if="auth?.user.roles == 'admin' && game.team_a_goals != null && game.team_b_goals != null && game.status != 'finished' && game.status != 'posponed'"
                 @click="end"
@@ -103,30 +178,6 @@
                 <span class="hidden md:block mx-1.5"> Mettre à jour</span>
             </button>
         </div>
-
-        <div v-if="game.type === 'knockout' && game.team_a_goals == game.team_b_goals" class="flex justify-center mb-6">
-            <button
-                class="flex bg-primary items-center justify-center hover:bg-primary-700 text-white px-4 py-2 rounded-lg"
-                @click="openShoots">
-                <svg class="w-5 h-5 text-white mr-2" fill="currentColor" version="1.1" id="Capa_1"
-                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 566.09 566.09" xml:space="preserve">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <g>
-                            <g>
-                                <path
-                                    d="M546.965,77.451H19.125C8.568,77.451,0,86.019,0,96.576v372.938c0,10.566,8.568,19.125,19.125,19.125 s19.125-8.559,19.125-19.125v-54.832l24.862-6.541v73.574c0,2.641,2.142,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-76.088 l24.863-6.541v70.428c0,10.566,8.568,19.125,19.125,19.125c10.557,0,19.125-8.559,19.125-19.125v-75.621h70.925v80 c0,2.641,2.142,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-80h55.769v75.621c0,2.639,2.142,4.781,4.781,4.781 c2.64,0,4.781-2.143,4.781-4.781v-75.621h66.947v80c0,2.641,2.143,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-80h62.635v75.621 c0,10.566,8.568,19.125,19.125,19.125S459,480.08,459,469.514v-72.828l30.59,8.004v77.025c0,2.641,2.143,4.781,4.781,4.781 c2.641,0,4.781-2.141,4.781-4.781v-74.52l28.688,7.516v54.803c0,10.566,8.568,19.125,19.125,19.125s19.125-8.559,19.125-19.125 V96.576C566.09,86.019,557.521,77.451,546.965,77.451z M63.103,398.254l-24.863,6.541v-75.363h24.863V398.254z M63.103,319.869 H38.24v-82.352l24.863,8.798V319.869z M63.103,236.169l-24.863-8.797v-79.866l24.863,19.029V236.169z M59.632,115.701h75.936 l17.901,18.637H85.575c-0.449,0-0.861,0.144-1.272,0.258L59.632,115.701z M97.528,389.207l-24.862,6.541v-66.316h24.862V389.207z M97.528,319.869H72.666V249.7l24.862,8.798V319.869z M97.528,248.352l-24.862-8.788V173.86l24.862,19.029V248.352z M206.703,384.33h-70.925v-54.898h70.925V384.33z M206.703,319.869h-70.925v-54.897h70.925V319.869z M206.703,255.409h-70.925 v-54.898h70.925V255.409z M206.703,190.948h-70.925v-7.506c0-5.948-2.773-11.561-7.497-15.186l-31.814-24.355h66.201 l44.045,45.843v1.205H206.703z M272.043,384.33h-55.778v-54.898h55.778V384.33z M272.043,319.869h-55.778v-54.897h55.778V319.869z M272.043,255.409h-55.778v-54.898h55.778V255.409z M272.043,190.948h-55.778v-3.127c0-1.233-0.479-2.419-1.339-3.309 l-39.015-40.602h96.132V190.948z M272.043,134.338H166.722l-17.901-18.637h123.222V134.338z M281.606,115.701h134.392 l-17.902,18.637h-116.49V115.701z M348.553,384.33h-66.947v-54.898h66.947V384.33z M348.553,319.869h-66.947v-54.897h66.947 V319.869z M348.553,255.409h-66.947v-54.898h66.947V255.409z M349.893,184.503c-0.861,0.889-1.34,2.075-1.34,3.309v3.127h-66.947 v-47.048h107.3L349.893,184.503z M420.75,384.33h-62.635v-54.898h62.635V384.33z M420.75,319.869h-62.635v-54.897h62.635V319.869z M420.75,255.409h-62.635v-54.898h62.635V255.409z M428.246,168.256c-4.723,3.615-7.496,9.228-7.496,15.186v7.506h-62.635v-1.205 l44.035-45.843h57.91L428.246,168.256z M489.59,394.811L459,386.807v-57.365h30.59V394.811z M489.59,319.869H459v-57.604 l30.59-8.845V319.869z M489.59,243.456L459,252.301V192.88l30.59-23.418V243.456z M472.559,134.338H411.35l17.9-18.637h67.646 L472.559,134.338z M527.84,404.824l-28.688-7.508v-67.885h28.688V404.824z M527.84,319.869h-28.688v-69.222l28.688-8.3V319.869z M527.84,232.402l-28.688,8.3v-78.556l28.688-21.955V232.402z">
-                                </path>
-                            </g>
-                        </g>
-                    </g>
-                </svg>
-                Tire Au but
-            </button>
-        </div>
-
 
         <div class="mx-10 sm:mx-20 lg:mx-40">
             <!-- Header -->
@@ -201,7 +252,7 @@
                     </div>
                 </template>
                 <template v-else>
-                    <EmptyView  model="Évènement"/>
+                    <EmptyView model="Évènement" />
                 </template>
             </div>
         </div>
@@ -336,6 +387,52 @@ const end = async () => {
         router.put(`/edition/championnat/match/terminer/${props.game.id}`, {}, {
             onSuccess: () => {
                 useToasterStore().success({ text: 'Match Marqur comme terminer' })
+            }
+        })
+    }
+}
+
+const extraTime = async () => {
+    if (props.game.extra_time) return deleteExtraTime();
+    const isConfirmed = await confirm.show({
+        title: "Ajouter une prolongation",
+        message: "Cette action activera la prolongation pour ce match. Voulez-vous continuer ?"
+    })
+
+    if (isConfirmed) {
+        router.put(`/edition/championnat/match/extra-time/${props.game.id}`, {}, {
+            onSuccess: () => {
+                useToasterStore().success({ text: 'Prolonagtion ajouter' })
+            }
+        })
+    }
+}
+
+const deleteExtraTime = async () => {
+    const isConfirmed = await confirm.show({
+        title: "Retirer la prolongation",
+        message: "Cette action désactivera la prolongation et reviendra au temps réglementaire. Confirmez-vous ?"
+    })
+
+    if (isConfirmed) {
+        router.delete(`/edition/championnat/match/extra-time/${props.game.id}`, {}, {
+            onSuccess: () => {
+                useToasterStore().success({ text: 'Prolonagtion ajouter' })
+            }
+        })
+    }
+}
+
+const deleteShoot = async () => {
+    const isConfirmed = await confirm.show({
+        title: "Retirer les tirs au but",
+        message: "Cette action supprimera la séance de tirs au but enregistrée pour ce match. Voulez-vous confirmer ?"
+    })
+
+    if (isConfirmed) {
+        router.delete(`/edition/championnat/match/tir-au-but/${props.game.id}`, {}, {
+            onSuccess: () => {
+                useToasterStore().success({ text: 'Prolonagtion ajouter' })
             }
         })
     }
