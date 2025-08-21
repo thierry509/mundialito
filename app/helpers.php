@@ -5,22 +5,24 @@
  * @param string $dateString Date au format "YYYY-MM-DD HH:MM:SS"
  * @return string Date formatée (ex: "10 janv. 2023 • 14:30")
  */
-function formatDate($dateString)
-{
-    $date = new DateTime(str_replace(' ', 'T', $dateString) . 'Z');
+if (!function_exists('formatDate')) {
 
-    $formatter = new IntlDateFormatter(
-        'fr_FR',
-        IntlDateFormatter::SHORT,
-        IntlDateFormatter::SHORT,
-        'UTC',
-        IntlDateFormatter::GREGORIAN,
-        "d MMM yyyy • HH:mm"
-    );
+    function formatDate($dateString)
+    {
+        $date = new DateTime(str_replace(' ', 'T', $dateString) . 'Z');
 
-    return $formatter->format($date);
+        $formatter = new IntlDateFormatter(
+            'fr_FR',
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::SHORT,
+            'UTC',
+            IntlDateFormatter::GREGORIAN,
+            "d MMM yyyy • HH:mm"
+        );
+
+        return $formatter->format($date);
+    }
 }
-
 /**
  * Traduit le statut d'un match
  * @param string $status Statut original (soon, live, etc.)
@@ -172,7 +174,8 @@ function statusClass($status)
     return $statusMap[$status] ?? $statusMap['default'];
 }
 
-function getYouTubeThumbnail(?string $url): ?string {
+function getYouTubeThumbnail(?string $url): ?string
+{
     if (!$url) {
         return null;
     }
@@ -183,4 +186,3 @@ function getYouTubeThumbnail(?string $url): ?string {
 
     return null;
 }
-
