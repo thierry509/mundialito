@@ -14,6 +14,87 @@
               </div>
           </div>
       </template>
+
+      <!-- Modal de signalement -->
+      <template x-if="showReport">
+          <div
+              class="fixed inset-0 bg-gray-800 bg-opacity-70 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+              <div class="relative mx-auto my-16 p-0 w-full max-w-md" @click.outside="showReport = false">
+                  <!-- Conteneur du modal -->
+                  <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
+                      <!-- En-tête -->
+                      <div class="bg-gradient-to-r from-green-600 to-indigo-700 p-6 text-white">
+                          <div class="flex items-center justify-between">
+                              <div class="flex items-center">
+                                  <div class="bg-white bg-opacity-20 p-3 rounded-full mr-4">
+                                      <i class="fas fa-exclamation-triangle text-xl"></i>
+                                  </div>
+                                  <h3 class="text-xl font-semibold">Signaler ce commentaire</h3>
+                              </div>
+                              <button @click="showReport = false" class="text-white hover:text-gray-200">
+                                  <i class="fas fa-times text-lg"></i>
+                              </button>
+                          </div>
+                      </div>
+
+                      <!-- Formulaire -->
+                      <form @submit.prevent = "reportComment()" class="px-6 py-5">
+                          <input type="hidden" x-model="formReport.comment_id">
+
+                          <!-- Sélecteur de catégorie -->
+                          <div class="mb-5">
+                              <label for="category" class="block text-sm font-medium text-gray-700 mb-2">
+                                  Catégorie
+                              </label>
+                              <div class="relative">
+                                  <select x-model="formReport.category"
+                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 appearance-none bg-white">
+                                      <option value="spam">Spam</option>
+                                      <option value="hate_speech">Discours haineux</option>
+                                      <option value="inappropriate">Contenu inapproprié</option>
+                                      <option value="harassment">Harcèlement</option>
+                                      <option value="other" selected>Autre</option>
+                                  </select>
+                                  <div
+                                      class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
+                                      <i class="fas fa-chevron-down"></i>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <!-- Raison du signalement -->
+                          <div class="mb-5">
+                              <label for="reason" class="block text-sm font-medium text-gray-700 mb-2">
+                                  Raison du signalement *
+                              </label>
+                              <textarea x-model="formReport.reason" rows="4" placeholder="Expliquez pourquoi vous signalez ce commentaire..."
+                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-none"
+                                  required></textarea>
+                          </div>
+
+                          <!-- Messages d'erreur -->
+                          <div id="reportErrors"
+                              class="text-red-600 text-sm mb-4 hidden bg-red-50 p-3 rounded-lg border border-red-200">
+                              <i class="fas fa-exclamation-circle mr-2"></i>
+                              <span id="errorText"></span>
+                          </div>
+
+                          <!-- Actions -->
+                          <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200 mt-6">
+                              <button type="button" @click="showReport = false"
+                                  class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
+                                  Annuler
+                              </button>
+                              <button type="submit"
+                                  class="px-5 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
+                                  Signaler
+                              </button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </template>
       <h2 class="text-xl font-bold mb-4 text-center text-primary">Commentaires</h2>
 
       <div class="mt-6 flex flex-col items-center gap-4 my-8">
@@ -66,17 +147,19 @@
                                           x-text="comment.created_at">
                                       </p>
                                   </div>
-                                  <button @click="toogleMenu(comment)" @click.outside="comment.menuOn = false"
-                                      type="button" aria-label="Ouvrir le menu" aria-haspopup="menu"
-                                      aria-expanded="false"
-                                      class="inline-flex items-center justify-center p-1 rounded-full bg-transparent text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400">
-                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5"
-                                          fill="currentColor" aria-hidden="true">
-                                          <circle cx="5" cy="12" r="1.75"></circle>
-                                          <circle cx="12" cy="12" r="1.75"></circle>
-                                          <circle cx="19" cy="12" r="1.75"></circle>
-                                      </svg>
-                                  </button>
+                                  @auth
+                                      <button @click="toogleMenu(comment)" @click.outside="comment.menuOn = false"
+                                          type="button" aria-label="Ouvrir le menu" aria-haspopup="menu"
+                                          aria-expanded="false"
+                                          class="inline-flex items-center justify-center p-1 rounded-full bg-transparent text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400">
+                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5"
+                                              fill="currentColor" aria-hidden="true">
+                                              <circle cx="5" cy="12" r="1.75"></circle>
+                                              <circle cx="12" cy="12" r="1.75"></circle>
+                                              <circle cx="19" cy="12" r="1.75"></circle>
+                                          </svg>
+                                      </button>
+                                  @endauth
                               </div>
                               <p class="text-[#1c0d0d] text-base font-normal leading-normal" x-text="comment.content">
                               </p>
@@ -91,7 +174,7 @@
                                       </button>
 
                                       <!-- Signaler -->
-                                      <button
+                                      <button @click.stop="showRepostModal(comment)"
                                           class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
                                           </svg>
                                           Signaler
@@ -212,7 +295,6 @@
                       </button>
                   </div>
               </form>
-
           </div>
       </template>
   </div>

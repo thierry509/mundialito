@@ -12,6 +12,12 @@ document.addEventListener('alpine:init', () => {
         isCommenting: false,
         commentsList: [],
         isLoading: true,
+        showReport: false,
+        formReport: {
+            comment_id: null,
+            category: 'other',
+            reason: '',
+        },
         form: {
             content: '',
             commentable_id: id,
@@ -38,7 +44,7 @@ document.addEventListener('alpine:init', () => {
             if (!comment.menuOn) {
                 comment.menuOn = true;
             }
-            else{
+            else {
                 comment.menuOn = false;
             }
         },
@@ -127,8 +133,31 @@ document.addEventListener('alpine:init', () => {
                 .catch(error => {
                     console.error('Error deleting comment:', error);
                 });
-        }
-
+        },
+        showRepostModal(comment) {
+            this.formReport.comment_id = comment.id;
+            this.showReport = true;
+        },
+        reportComment() {
+            apiFetch(`/comments/${this.formReport.comment_id}/report`, {
+                method: 'POST',
+                data: this.formReport,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        this.formReport.comment_id = null;
+                        this.showReport = false;
+                    } else {
+                        console.error('Failed to post comment:', response.status, response.data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error posting comment:', error);
+                });
+        },
     }));
 });
 

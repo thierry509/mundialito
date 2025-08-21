@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\StoreReportRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
+use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,6 +82,24 @@ class CommentController extends Controller
             'success' => true,
             'likes_count' => $comment->likes_count
         ]);
+    }
+
+    public function report(StoreReportRequest $request, Comment $comment)
+    {
+        $validated = $request->validated();
+
+        $report = Report::create([
+            'comment_id' => $comment->id,
+            'user_id' => auth()->id(),
+            'reason' => $validated['reason'],
+            'category' => $validated['category'],
+            'status' => 'pending'
+        ]);
+
+        return response()->json([
+            'message' => 'Signalement envoyé avec succès',
+            'report' => $report
+        ], 201);
     }
 
     public function destroy($id)

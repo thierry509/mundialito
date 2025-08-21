@@ -4,6 +4,11 @@
     $teamB = $game->teamB()->first();
 @endphp
 
+<style>
+    :target {
+        background-color: rgb(233, 233, 233);
+    }
+</style>
 <div id="{{ $game->id }}" class="divide-y divide-gray-200 rounded-lg bg-white mb-2">
     <div class="p-4 hover:bg-gray-50/50 transition duration-200 rounded-lg shadow-[5px_5px_10px_0_rgba(7,7,7,0.1)]">
         <!-- En-tête avec date, statut et lieu -->
@@ -86,11 +91,11 @@
             </div>
         </div>
         @if ($game->status === 'finished' && $game->events->count() > 0)
-        <div class="flex items-center justify-end">
-            <div class="text-xs text-gray-500">
-                <a href="{{ route('games.show', $game->id) }}" class="hover:underline">Voir les détails</a>
+            <div class="flex items-center justify-end">
+                <div class="text-xs text-gray-500">
+                    <a href="{{ route('games.show', $game->id) }}" class="hover:underline">Voir les détails</a>
+                </div>
             </div>
-        </div>
         @endif
     </div>
 </div>

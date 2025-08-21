@@ -21,6 +21,7 @@ use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\UserController;
 use App\Models\Championship;
@@ -48,7 +49,6 @@ Route::get('/game/{id}/comments', [CommentController::class, 'gameComments'])->n
 Route::prefix('/comments')->group(function () {
     Route::get('/{id}/replies', [CommentController::class, 'replies'])->name('comments.replies');
     Route::put('/{id}/like', [CommentController::class, 'like'])->name('comments.like');
-    Route::delete('/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
 });
 // Classements des poules
 Route::get('/poules', [GroupController::class, 'index'])->name('groups');
@@ -152,17 +152,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
+    Route::post('/comments/{comment}/report', [CommentController::class, 'report'])->name('comment.report');
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
+    Route::put('reports/{id}/reject', [ReportController::class, 'reject']);
 
     Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/profile', [AuthController::class, 'profile'])->name('blade.profile');
     Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update.blade');
-
 });
 
 Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
-
-
 
     Route::get('/', [EditController::class, 'show'])->name('dashboard');
     Route::prefix('actualites')->group(function () {
@@ -226,4 +226,6 @@ Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
     Route::put('/modifier-mots-de-passe', [AuthController::class, 'updatePassword'])->name('password.update');
     Route::get('modifier-mot-de-passe', [AuthController::class, 'showChangePasswordForm'])->name('password.change');
     // Route::post('modifier-mot-de-passe', [AuthController::class, 'changePassword'])->name('password.update');
+
+    Route::get('/commentaires/signalements', [ReportController::class, 'index'])->name('report.index');
 });

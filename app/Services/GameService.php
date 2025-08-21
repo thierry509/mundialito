@@ -9,24 +9,40 @@ use App\Models\Log;
 
 class GameService
 {
-    public function all($year){
+    public function all($year)
+    {
         $games = Game::with(['teamA', 'teamB', 'championship'])
-        ->whereHas('championship', function ($query) use ($year) {
-            $query->where('year', $year);
-        })
-        ->whereNotNull('team_a_id') // Exclut les matchs où teamA est null
-        ->whereNotNull('team_b_id') // Exclut les matchs où teamB est null
-        ->orderBy('date_time')
-        ->get()
-        ->groupBy('stage')
-        ->map(function ($group) {
-            return $group->sortBy('date_time');
-        });
-    
-    return $games;
+            ->whereHas('championship', function ($query) use ($year) {
+                $query->where('year', $year);
+            })
+            ->whereNotNull('team_a_id')
+            ->whereNotNull('team_b_id')
+            ->get()
+            ->groupBy('stage')
+            ->sortKeysUsing(function ($a, $b) {
+                // Ordre personnalisé pour les Knockout
+                $knockoutOrder = [
+                    'round16' => 100,
+                    'quarter' => 101,
+                    'semi'    => 102,
+                    'final'   => 103,
+                ];
+
+                $aVal = is_numeric($a) ? (int)$a : ($knockoutOrder[$a] ?? 1000);
+                $bVal = is_numeric($b) ? (int)$b : ($knockoutOrder[$b] ?? 1000);
+
+                return $aVal <=> $bVal;
+            })
+            ->map(function ($group) {
+                return $group->sortBy('date_time');
+            });
+
+
+        return $games;
     }
 
-    public function find($id){
+    public function find($id)
+    {
         return Game::with(['teamA', 'teamB', 'championship', 'events'])->findOrFail($id);
     }
     public function create(array $data, $chamionship)
@@ -39,7 +55,7 @@ class GameService
         DB::transaction(function () use ($data, $dateTime, $chamionship) {
             $game = Game::create([
                 'championship_id' => $chamionship->id,
-                "team_a_id" => $data['team1Id']?? null,
+                "team_a_id" => $data['team1Id'] ?? null,
                 "team_b_id" => $data['team2Id'] ?? null,
                 "date_time" => $dateTime,
                 "position" => $data['position'] ?? null,
@@ -69,9 +85,9 @@ class GameService
             return $team2[0]; // team2Id is at index 0
         } elseif (isset($team1[2]) && isset($team2[2])) { // penalty is at index 3
             if ($team1[2] > $team2[2]) {
-            return $team1[0];
+                return $team1[0];
             } elseif ($team2[2] > $team1[2]) {
-            return $team2[0];
+                return $team2[0];
             }
         }
         return null; // Match is a draw if no winner can be determined
