@@ -120,7 +120,7 @@
 
     @guest
         <div id="g_id_onload" data-auto_select="true" data-client_id="{{ env('GOOGLE_CLIENT_ID') }}"
-            data-login_uri="{{ route('ontap.redirect') }}" data-use_fedcm_for_prompt="true"
+            data-login_uri="{{ env('GOOGLE_ONTAP_REDIRECT_URI') }}" data-use_fedcm_for_prompt="true"
             data-_token="{{ csrf_token() }}"></div>
 
         <div class="g_id_signin absolute" data-type="standard"></div>
