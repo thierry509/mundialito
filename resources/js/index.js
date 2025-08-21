@@ -34,6 +34,14 @@ document.addEventListener('alpine:init', () => {
         toggleReply() {
             this.isReplying = !this.isReplying;
         },
+        toogleMenu(comment) {
+            if (!comment.menuOn) {
+                comment.menuOn = true;
+            }
+            else{
+                comment.menuOn = false;
+            }
+        },
         loadComments() {
             apiFetch(`/${type}/${id}/comments/`, { method: 'GET' })
                 .then(response => {
@@ -45,15 +53,15 @@ document.addEventListener('alpine:init', () => {
                 }
                 ).catch(error => {
                     console.error('Error fetching comments:', error);
-                }).finally(()=>{
+                }).finally(() => {
                     this.isLoading = false;
                 });
         },
         loadReplies(comment, parent = null) {
             apiFetch(`/comments/${comment.id}/replies`, { method: 'GET' })
                 .then(response => {
-                    if (response.ok) {  
-                        if(parent){
+                    if (response.ok) {
+                        if (parent) {
                             console.log(parent.replies)
                             parent.replies = [...parent.replies, ...response.data]
                         }
@@ -69,7 +77,7 @@ document.addEventListener('alpine:init', () => {
                     console.error('Error fetching replies:', error);
                 });
         },
-        hideReply(comment){
+        hideReply(comment) {
             comment.showReplies = false;
         },
         postComment() {
@@ -119,13 +127,9 @@ document.addEventListener('alpine:init', () => {
                 .catch(error => {
                     console.error('Error deleting comment:', error);
                 });
-
         }
+
     }));
-
-
-
-
 });
 
 Alpine.start()

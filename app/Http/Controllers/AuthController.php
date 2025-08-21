@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Password;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 use Google_Client;
+use Illuminate\Auth\Events\Verified;
 
 class AuthController extends Controller
 {
@@ -123,72 +124,55 @@ class AuthController extends Controller
         }
     }
 
-    public function handleOneTap(Request $request)
+    public function googleOneTap(Request $request)
     {
-        $idToken = $request->input('token');
-
         try {
-            $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
-            $payload = $client->verifyIdToken($idToken);
-
-            if (!$payload) {
-                return response()->json(['error' => 'Token invalide'], 401);
-            }
-
-            // Construire un Socialite-like object pour réutiliser ton service
-            $socialUser = new class($payload) implements \Laravel\Socialite\Contracts\User {
-                public $user;
-                public function __construct($payload)
-                {
-                    $this->user = $payload;
-                }
-                public function getId()
-                {
-                    return $this->user['sub'];
-                }
-                public function getEmail()
-                {
-                    return $this->user['email'];
-                }
-                public function getName()
-                {
-                    return $this->user['name'] ?? null;
-                }
-                public function getNickname()
-                {
-                    return null;
-                }
-                public function getAvatar()
-                {
-                    return $this->user['picture'] ?? null;
-                }
-                public function getRaw()
-                {
-                    return $this->user;
-                }
-                public function getToken()
-                {
-                    return null;
-                }
-                public function getRefreshToken()
-                {
-                    return null;
-                }
-                public function getExpiresIn()
-                {
-                    return null;
-                }
-            };
-
-            $user = $this->socialAuthService->findOrCreateUser($socialUser, 'google');
-
-            auth()->login($user, true);
-
-            return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
-            Log::error("Erreur Google One Tap", ['exception' => $e]);
-            return response()->json(['error' => 'Échec de connexion Google'], 500);
+            $googleUser = Socialite::driver('laravel-google-one-tap')->userFromToken($request->input('credential'));
+        } catch (\Exception $exception) {
+            Log::error("Google One Tap Login Failed: " . $exception->getMessage());
+            return response()->json(['error' => 'Google authentication failed'], 400);
         }
+
+        // Find existing user or create a new one
+
+        $user = User::where('email', $googleUser->getEmail())->first();
+        $provider = 'google';
+        if ($user) {
+            if ($user->provider === $provider) {
+                // Mise à jour des infos du provider si l'utilisateur existe déjà
+                $user->update([
+                    'provider' => $provider,
+                    'provider_id' => $googleUser->getId(),
+                    'provider_token' => $googleUser->token,
+                ]);
+            } else {
+                throw new \Exception('L\'email est déjà utilisé par un autre compte.');
+            }
+        } else {
+            // Création d'un nouvel utilisateur
+            $user = User::create([
+                'first_name' => $googleUser->getName(),
+                'last_name' => $googleUser->user->family_name ?? null,
+                'email' => $googleUser->getEmail(),
+                'provider' => $provider,
+                'provider_id' => $googleUser->getId(),
+                'provider_token' => $googleUser->token,
+                'email_verified_at' => now(),
+            ]);
+            event(new Verified($user));
+        }
+
+        // Ensure user_id exists
+        if (!$user->id) {
+            Log::error("Google One Tap Error: user_id is null for email: " . ($googleUser->getEmail() ?? 'unknown'));
+            return response()->json(['error' => 'User not found or not created'], 400);
+        }
+
+
+        // Log in the user
+        Auth::login($user, true);
+
+        return redirect()->route('home');
     }
 
     public function showProfile()

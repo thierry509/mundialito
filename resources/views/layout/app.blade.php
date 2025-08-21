@@ -15,6 +15,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: false,
             theme: {
                 extend: {
                     colors: {
@@ -85,8 +86,9 @@
         });
     </script>
 
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
+    @guest
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+    @endguest
     <!-- Matomo -->
     <script>
         var _paq = window._paq = window._paq || [];
@@ -110,11 +112,21 @@
 </head>
 
 <body class="font-sans">
-    @guest
+    {{-- @guest
         <div id="g_id_onload" data-client_id="{{ env('GOOGLE_CLIENT_ID') }}" data-callback="handleGoogleSignIn"
             data-auto_prompt="true">
         </div>
+    @endguest --}}
+
+    @guest
+        <div id="g_id_onload" data-auto_select="true" data-client_id="{{ env('GOOGLE_CLIENT_ID') }}"
+            data-login_uri="{{ route('ontap.redirect') }}" data-use_fedcm_for_prompt="true"
+            data-_token="{{ csrf_token() }}"></div>
+
+        <div class="g_id_signin" data-type="standard"></div>
+
     @endguest
+
     @include('layout.partials.nav')
 
     @hasSection('content')

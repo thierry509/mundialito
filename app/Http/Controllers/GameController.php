@@ -134,6 +134,9 @@ class GameController extends Controller
             ]);
 
             $this->nextGame($gameService, $game);
+            $game->update([
+                'status' => 'soon',
+            ]);
             $game->save();
 
             Log::create([
@@ -208,6 +211,9 @@ class GameController extends Controller
                 $game->save();
             }
 
+            $game->update([
+                'status' => 'soon',
+            ]);
 
             Log::create([
                 'action' => "créer un événement de match d'identifiant " . $event->id,
@@ -248,6 +254,9 @@ class GameController extends Controller
             }
 
             $event->delete();
+            $game->update([
+                'status' => 'soon',
+            ]);
             Log::create([
                 'action' => "supprimer un événement de match d'identifiant " . $event->id,
                 'user_id' => Auth()->user()->id,
@@ -356,6 +365,11 @@ class GameController extends Controller
             'action' => "ajouter extra time dans le match d'identifiant " . $game->id,
             'user_id' => Auth()->user()->id,
         ]);
+
+        $game->update([
+            'status' => 'soon',
+        ]);
+
         // dd($game);
         // $this->nextGame($gameService, $game);
         return redirect()->back();
@@ -371,6 +385,10 @@ class GameController extends Controller
             'action' => "delete prolonagation dans le match d'identifiant " . $game->id,
             'user_id' => Auth()->user()->id,
         ]);
+
+        $game->update([
+            'status' => 'soon',
+        ]);
         return redirect()->back();
     }
 
@@ -383,7 +401,11 @@ class GameController extends Controller
                 'shootout_score_b' => null,
             ]);
 
+
             $this->nextGame($gameService, $game);
+            $game->update([
+                'status' => 'soon',
+            ]);
             $game->save();
 
             Log::create([

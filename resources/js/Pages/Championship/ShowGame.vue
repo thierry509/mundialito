@@ -14,12 +14,26 @@
                 <div class="text-sm md:text-xl font-bold">{{ game.team_a.name }}</div>
             </div>
 
-            <div class="mx-4 px-6 py-3 bg-white rounded-xl shadow-sm border border-gray-100">
+            <div class="mx-4 px-3 md:px-6 py-3 bg-white rounded-xl shadow-sm border border-gray-100">
                 <div v-if="game.team_a_goals !== null && game.team_b_goals !== null"
-                    class="text-xl md:text-3xl font-bold"><span v-if="game.shootout_score_a !== null"
-                        class="text-sm md:text-xl mr-2">({{ game.shootout_score_a }})</span>{{ game.team_a_goals }} - {{
-                            game.team_b_goals }}<span v-if="game.shootout_score_b !== null" class="text-sm md:text-xl ml-2">({{
-                        game.shootout_score_b }})</span></div>
+                    class="flex items-center justify-center font-bold text-base md:text-lg space-x-2">
+
+                    <!-- Score de tirs au but de l'équipe A -->
+                    <span v-if="game.shootout_score_a !== null" class="text-xs md:text-base">
+                        ({{ game.shootout_score_a }})
+                    </span>
+
+                    <!-- Score principal -->
+                    <span class="text-base md:text-lg">
+                        {{ game.team_a_goals }} - {{ game.team_b_goals }}
+                    </span>
+
+                    <!-- Score de tirs au but de l'équipe B -->
+                    <span v-if="game.shootout_score_b !== null" class="text-xs md:text-base">
+                        ({{ game.shootout_score_b }})
+                    </span>
+                </div>
+
                 <div v-else class="text-xl md:text-3xl font-bold">VS</div>
             </div>
 
@@ -27,8 +41,8 @@
                 <div class="text-sm md:text-xl font-bold">{{ game.team_b.name }}</div>
             </div>
         </div>
-        <div class="flex justify-between items-center mb-6 mx-10 sm:mx-20 lg:mx-40 
-            bg-white px-6 py-3 rounded-2xl shadow-md border border-gray-200 
+        <div class="flex justify-between items-center mb-6 mx-10 sm:mx-20 lg:mx-40
+            bg-white px-6 py-3 rounded-2xl shadow-md border border-gray-200
             hover:shadow-lg transition duration-300 ease-in-out">
             <div class="">
                 <button v-if="auth?.user.roles == 'admin'" @click="deleteGame"
@@ -38,7 +52,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
-                    <span class="hidden md:block mx-1.5">Suprimmer</span>
+                    <span class="hidden lg:block mx-1.5">Suprimmer</span>
                 </button>
             </div>
             <button
@@ -58,7 +72,7 @@
                         <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect>
                     </g>
                 </svg>
-                <span class="hidden md:block mx-1.5">Reporter</span>
+                <span class="hidden lg:block mx-1.5">Reporter</span>
             </button>
             <button
                 v-if="auth?.user.roles == 'admin' && game.status == 'postponed' || (!game.date_time && game.team_a_goals == null && game.team_b_goals == null)"
@@ -71,7 +85,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M15 13l-3 3m0 0l-3-3m3 3V8" />
                 </svg>
-                <span class="hidden md:block mx-1.5">Replanifier</span>
+                <span class="hidden lg:block mx-1.5">Replanifier</span>
             </button>
 
 
@@ -93,9 +107,10 @@
                         </g>
                     </g>
                 </svg>
-                <span class="hidden md:block mx-1.5">Tire Au but</span>
+                <span class="hidden lg:block mx-1.5">Tire Au but</span>
             </button>
-            <button v-if="game.type === 'knockout' && game.status != 'posponed' && (game.shootout_score_a || game.shootout_score_b) "
+            <button
+                v-if="game.type === 'knockout' && game.status != 'posponed' && (game.shootout_score_a || game.shootout_score_b)"
                 class="px-3 py-1.5 text-xs font-medium rounded-md bg-secondary/20 text-secondary hover:bg-secondary/30 transition flex justify-center items-center"
                 @click="deleteShoot">
                 <svg class="h-4 w-4" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -105,13 +120,13 @@
                             d="M546.965,77.451H19.125C8.568,77.451,0,86.019,0,96.576v372.938c0,10.566,8.568,19.125,19.125,19.125 s19.125-8.559,19.125-19.125v-54.832l24.862-6.541v73.574c0,2.641,2.142,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-76.088 l24.863-6.541v70.428c0,10.566,8.568,19.125,19.125,19.125c10.557,0,19.125-8.559,19.125-19.125v-75.621h70.925v80 c0,2.641,2.142,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-80h55.769v75.621c0,2.639,2.142,4.781,4.781,4.781 c2.64,0,4.781-2.143,4.781-4.781v-75.621h66.947v80c0,2.641,2.143,4.781,4.781,4.781s4.781-2.141,4.781-4.781v-80h62.635v75.621 c0,10.566,8.568,19.125,19.125,19.125S459,480.08,459,469.514v-72.828l30.59,8.004v77.025c0,2.641,2.143,4.781,4.781,4.781 c2.641,0,4.781-2.141,4.781-4.781v-74.52l28.688,7.516v54.803c0,10.566,8.568,19.125,19.125,19.125s19.125-8.559,19.125-19.125 V96.576C566.09,86.019,557.521,77.451,546.965,77.451z M63.103,398.254l-24.863,6.541v-75.363h24.863V398.254z M63.103,319.869 H38.24v-82.352l24.863,8.798V319.869z M63.103,236.169l-24.863-8.797v-79.866l24.863,19.029V236.169z M59.632,115.701h75.936 l17.901,18.637H85.575c-0.449,0-0.861,0.144-1.272,0.258L59.632,115.701z M97.528,389.207l-24.862,6.541v-66.316h24.862V389.207z M97.528,319.869H72.666V249.7l24.862,8.798V319.869z M97.528,248.352l-24.862-8.788V173.86l24.862,19.029V248.352z M206.703,384.33h-70.925v-54.898h70.925V384.33z M206.703,319.869h-70.925v-54.897h70.925V319.869z M206.703,255.409h-70.925 v-54.898h70.925V255.409z M206.703,190.948h-70.925v-7.506c0-5.948-2.773-11.561-7.497-15.186l-31.814-24.355h66.201 l44.045,45.843v1.205H206.703z M272.043,384.33h-55.778v-54.898h55.778V384.33z M272.043,319.869h-55.778v-54.897h55.778V319.869z M272.043,255.409h-55.778v-54.898h55.778V255.409z M272.043,190.948h-55.778v-3.127c0-1.233-0.479-2.419-1.339-3.309 l-39.015-40.602h96.132V190.948z M272.043,134.338H166.722l-17.901-18.637h123.222V134.338z M281.606,115.701h134.392 l-17.902,18.637h-116.49V115.701z M348.553,384.33h-66.947v-54.898h66.947V384.33z M348.553,319.869h-66.947v-54.897h66.947 V319.869z M348.553,255.409h-66.947v-54.898h66.947V255.409z M349.893,184.503c-0.861,0.889-1.34,2.075-1.34,3.309v3.127h-66.947 v-47.048h107.3L349.893,184.503z M420.75,384.33h-62.635v-54.898h62.635V384.33z M420.75,319.869h-62.635v-54.897h62.635V319.869z M420.75,255.409h-62.635v-54.898h62.635V255.409z M428.246,168.256c-4.723,3.615-7.496,9.228-7.496,15.186v7.506h-62.635v-1.205 l44.035-45.843h57.91L428.246,168.256z M489.59,394.811L459,386.807v-57.365h30.59V394.811z M489.59,319.869H459v-57.604 l30.59-8.845V319.869z M489.59,243.456L459,252.301V192.88l30.59-23.418V243.456z M472.559,134.338H411.35l17.9-18.637h67.646 L472.559,134.338z M527.84,404.824l-28.688-7.508v-67.885h28.688V404.824z M527.84,319.869h-28.688v-69.222l28.688-8.3V319.869z M527.84,232.402l-28.688,8.3v-78.556l28.688-21.955V232.402z">
                         </path>
                         <!-- Croix de désactivation -->
-                        <line x1="100" y1="100" x2="466" y2="466" stroke="currentColor" stroke-width="30"
+                        <line x1="100" y1="100" x2="466" y2="466" stroke="#ef4444" stroke-width="30"
                             stroke-linecap="round" />
-                        <line x1="466" y1="100" x2="100" y2="466" stroke="currentColor" stroke-width="30"
+                        <line x1="466" y1="100" x2="100" y2="466" stroke="#ef4444" stroke-width="30"
                             stroke-linecap="round" />
                     </g>
                 </svg>
-                <span class="hidden md:block mx-1.5">Desactiver tire au but</span>
+                <span class="hidden lg:block mx-1.5">Desactiver tire au but</span>
             </button>
 
             <button v-if="game.type === 'knockout' && game.status != 'posponed'"
@@ -145,7 +160,7 @@
                             fill="currentColor"></path>
                     </g>
                 </svg>
-                <span class="hidden md:block mx-1.5"><span v-if="!game.extra_time"> Polongation</span> <span
+                <span class="hidden lg:block mx-1.5"><span v-if="!game.extra_time"> Polongation</span> <span
                         v-else>Desactive prolongation</span></span>
             </button>
             <button
@@ -156,7 +171,7 @@
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span class="hidden md:block mx-1.5"> Terminer</span>
+                <span class="hidden lg:block mx-1.5"> Terminer</span>
             </button>
 
             <!-- <button v-if="game.status != 'postponed' && game.status != 'live'" @click="live"
@@ -165,7 +180,7 @@
                         fill="currentColor">
                         <circle cx="12" cy="12" r="8" fill="red" />
                     </svg>
-                    <span class="hidden md:block mx-1.5">En direct</span>
+                    <span class="hidden lg:block mx-1.5">En direct</span>
                 </button> -->
 
             <button v-if="game.status != 'postponed'" @click="updateScore" style="justify-self: end !important;"
@@ -175,7 +190,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
-                <span class="hidden md:block mx-1.5"> Mettre à jour</span>
+                <span class="hidden lg:block mx-1.5"> Mettre à jour</span>
             </button>
         </div>
 

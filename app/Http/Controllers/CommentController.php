@@ -84,8 +84,8 @@ class CommentController extends Controller
 
     public function destroy($id)
     {
-
         $comment = Comment::findOrFail($id);
+        $this->authorize('delete', $comment);
         $comment->delete();
 
         return response()->json(['message' => 'Supprimé avec succès']);

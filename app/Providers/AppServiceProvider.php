@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Event;
+use LaravelSocialite\GoogleOneTap\LaravelGoogleOneTapServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+            $event->extendSocialite('laravel-google-one-tap', LaravelGoogleOneTapServiceProvider::class);
+        });
+
         // Récupérez d'abord les données
         $years = \App\Models\Championship::orderBy('year', 'desc')
             ->pluck('year')

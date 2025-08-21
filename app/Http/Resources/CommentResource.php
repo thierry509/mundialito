@@ -28,9 +28,10 @@ class CommentResource extends JsonResource
                 'id' => $this->user->id,
                 'full_name' => $this->getFullName(),
                 'email' => $this->user->email,
-                'avatar' => $this->user->avatar ? /* URL de l'avatar si disponible */ : null,
+                'avatar' => $this->user->avatar ? /* URL de l'avatar si disponible */: null,
             ],
             'reply' => count($this->whenLoaded('replies')),
+            'can_delete' => auth()->check() ? auth()->user()->can('delete', $this->resource) : false,
         ];
     }
 

@@ -20,14 +20,15 @@
           {{-- Si aucun commentaire --}}
 
           <template x-if="commentsList.length <= 0">
-            <div class="w-full max-w-md text-center p-4 bg-white border border-dashed border-gray-300 rounded-lg shadow-sm">
-                <p class="text-gray-600 text-sm">Soyez le premier à commenter cet évènement 🎉</p>
-            </div>
-        </template>
+              <div
+                  class="w-full max-w-md text-center p-4 bg-white border border-dashed border-gray-300 rounded-lg shadow-sm">
+                  <p class="text-gray-600 text-sm">Soyez le premier à commenter cet évènement 🎉</p>
+              </div>
+          </template>
 
           @auth
               <!-- Utilisateur connecté : bouton pour laisser un commentaire -->
-              <button type="button" @click="toggleComment()"
+              <button type="button" @click.stop="toggleComment()"
                   class="w-full max-w-xs flex justify-center items-center px-2 py-2 text-sm font-medium rounded-lg bg-white text-gray-700 hover:bg-gray-50 transition-all duration-200 border border-gray-200 shadow-xs hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                   aria-label="Laisser un commentaire">
                   Laisser un commentaire
@@ -51,58 +52,89 @@
       <template x-ref="commentTemplate">
           <template x-for="comment in commentsList" :key="comment.id">
               <div class="">
-                  <div class="flex w-full flex-row items-start justify-start gap-3 p-4 ">
+                  <div class="flex w-full flex-row items-start justify-start gap-3 p-2 ">
                       <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
-                      :style="`background-image: url('${comment.user.avatar || '/images/default-avatar.svg'}')`">
+                          :style="`background-image: url('${comment.user.avatar || '/images/default-avatar.svg'}')`">
                       </div>
                       <div class="flex h-full flex-1 flex-col items-start justify-start">
-                          <div class="flex w-full flex-row items-start justify-start gap-x-3">
-                              <p class="text-[#1c0d0d] text-sm font-bold leading-normal tracking-[0.015em] capitalize"
-                                  x-text="comment.user.full_name"></p>
-                              <p class="text-secondary text-sm font-normal leading-normal" x-text="comment.created_at">
+                          <div class="relative bg-gray-200 pb-2 px-4 w-full rounded-lg">
+                              <div class="flex w-full flex-row items-center justify-between gap-x-3">
+                                  <div class="flex items-center justify-between">
+                                      <p class="text-[#1c0d0d] text-base font-bold leading-normal tracking-[0.015em] capitalize mr-2"
+                                          x-text="comment.user.full_name"></p>
+                                      <p class="text-green-600 text-xs font-normal leading-normal"
+                                          x-text="comment.created_at">
+                                      </p>
+                                  </div>
+                                  <button @click="toogleMenu(comment)" @click.outside="comment.menuOn = false"
+                                      type="button" aria-label="Ouvrir le menu" aria-haspopup="menu"
+                                      aria-expanded="false"
+                                      class="inline-flex items-center justify-center p-1 rounded-full bg-transparent text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5"
+                                          fill="currentColor" aria-hidden="true">
+                                          <circle cx="5" cy="12" r="1.75"></circle>
+                                          <circle cx="12" cy="12" r="1.75"></circle>
+                                          <circle cx="19" cy="12" r="1.75"></circle>
+                                      </svg>
+                                  </button>
+                              </div>
+                              <p class="text-[#1c0d0d] text-base font-normal leading-normal" x-text="comment.content">
                               </p>
+                              <div x-show="comment.menuOn"
+                                  class="absolute right-0 top-8 w-48 rounded-xl bg-white shadow-lg ring-1 ring-black/10 z-10">
+                                  <div class="py-1">
+                                      <!-- Supprimer -->
+                                      <button x-show="comment.can_delete" @click="deleteComment(comment.id)"
+                                          class="flex
+                                          items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full">
+                                          Supprimer
+                                      </button>
+
+                                      <!-- Signaler -->
+                                      <button
+                                          class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
+                                          </svg>
+                                          Signaler
+                                      </button>
+                                  </div>
+                              </div>
                           </div>
-                          <p class="text-[#1c0d0d] text-sm font-normal leading-normal" x-text="comment.content">
-                          </p>
-                          <div class="flex w-full flex-row items-center justify-start gap-9 pt-2">
+                          <div
+                              class="flex w-full flex-row items-center justify-start gap-9 pt-2 text-[#1c0d0d] font-semibold leading-normal tracking-[0.015em]">
                               @auth
 
                                   <div @click="replyComment(comment)"
-                                      class="flex items-center gap-2 text-secondary hover:text-gray-800 cursor-pointer">
-                                      <span class="text-sm font-normal leading-normal">Répondre</span>
+                                      class="flex items-center gap-2 hover:text-gray-800 cursor-pointer ">
+                                      <span class="text-sm  leading-normal">Répondre</span>
                                   </div>
                               @endauth
                               <template x-if="comment.reply > 0">
                                   <div>
                                       <div x-show="!comment.showReplies" @click="loadReplies(comment)"
-                                          class="flex items-center gap-2 text-secondary hover:text-gray-800 cursor-pointer">
-                                          <span class="text-sm font-normal leading-normal">Voir les <span
+                                          class="flex items-center gap-2 hover:text-gray-800 cursor-pointer ">
+                                          <span class="text-sm  leading-normal">Voir les <span
                                                   x-text="comment.reply"></span> réponses</span>
                                       </div>
                                       <div x-show="comment.showReplies" @click="hideReply(comment)"
-                                          class="flex items-center gap-2 text-secondary hover:text-gray-800 cursor-pointer">
-                                          <span class="text-sm font-normal leading-normal">Masquer les réponses</span>
+                                          class="flex items-center gap-2 hover:text-gray-800 cursor-pointer ">
+                                          <span class="text-sm  leading-normal">Masquer les réponses</span>
                                       </div>
                                   </div>
                               </template>
-                              <div @click="deleteComment(comment.id)"
-                                  class="flex items-center gap-2 text-secondary hover:text-gray-800 cursor-pointer">
-                                  <span class="text-sm font-normal leading-normal">Supprimer</span>
-                              </div>
                           </div>
                       </div>
                   </div>
                   <div class="ml-12 mt-3 space-y-3 border-l pl-4" x-show="comment.showReplies" x-transition>
                       <template x-for="reply in comment.replies ?? []" :key="reply.id">
-                          <div class="flex w-full flex-row items-start justify-start gap-3 p-4 ">
+                          <div class="flex w-full flex-row items-start justify-start gap-3 p-4">
                               <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
-                                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6x1KViKaBpx0-4Q4xYH9m09Y4XtTU-6qjtj9k8Ywh7FlghI8KGJ3bUvVkpgljId4vrZNdl-1uSEcDmptJ0zFAUI3_OBl8G-VRBUdybre7hzP3JrLgEZ2wP-nOD5FxIE9E6fCG4iH8CsOU3IP56wOG8qQs6OFBDI7JPqxH6E7hrdnp_S3xiYC9xsVwLlo7PCKpFpIP4YL0MtLY5YwJwkcUUNujI7D1WSVVmh0DRY2TfDQvYP3UmSzJCSK-94DPzsz2nOeO_s5Mg2Qt");'>
+                                  :style="`background-image: url('${reply.user.avatar || '/images/default-avatar.svg'}')`">
                               </div>
                               <div class="flex h-full flex-1 flex-col items-start justify-start">
                                   <div class="flex w-full flex-row items-start justify-start gap-x-3">
                                       <p class="text-[#1c0d0d] text-sm font-bold leading-normal tracking-[0.015em] capitalize"
                                           x-text="reply.user.full_name"></p>
-                                      <p class="text-secondary text-sm font-normal leading-normal"
+                                      <p class="text-green-600 text-sm font-normal leading-normal"
                                           x-text="reply.created_at">
                                       </p>
                                   </div>
@@ -111,21 +143,17 @@
                                   <div class="flex w-full flex-row items-center justify-start gap-9 pt-2">
                                       @auth
                                           <div @click="replyComment(reply)"
-                                              class="flex items-center gap-2 text-secondary hover:text-gray-800 cursor-pointer">
+                                              class="flex items-center gap-2 text-green-600 hover:text-gray-800 cursor-pointer">
                                               <span class="text-sm font-normal leading-normal">Répondre</span>
                                           </div>
                                       @endauth
                                       <template x-if="reply.reply > 0">
                                           <div x-show="!reply.showReplies" @click="loadReplies(reply, comment)"
-                                              class="flex items-center gap-2 text-secondary hover:text-gray-800 cursor-pointer">
+                                              class="flex items-center gap-2 text-green-600 hover:text-gray-800 cursor-pointer">
                                               <span class="text-sm font-normal leading-normal">Voir les <span
                                                       x-text="reply.reply"></span> réponses</span>
                                           </div>
                                       </template>
-                                      <div @click="deleteComment(reply.id)"
-                                          class="flex items-center gap-2 text-secondary hover:text-gray-800 cursor-pointer">
-                                          <span class="text-sm font-normal leading-normal">Supprimer</span>
-                                      </div>
                                   </div>
                               </div>
                           </div>
@@ -144,7 +172,7 @@
 
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <template x-if="isCommenting" x-transition:enter.duration.500ms x-transition:leave.duration.400ms>
-          <div
+          <div @click.outside = "isCommenting = false"
               class="fixed inset-x-0 bottom-0 z-50 bg-white shadow-lg rounded-t-2xl p-4 transition-all duration-300 transform translate-y-0 border-t border-gray-100">
               <!-- Header du pop-up -->
               <div class="flex justify-between items-center mb-4">
