@@ -123,8 +123,7 @@
             data-login_uri="{{ route('ontap.redirect') }}" data-use_fedcm_for_prompt="true"
             data-_token="{{ csrf_token() }}"></div>
 
-        <div class="g_id_signin" data-type="standard"></div>
-
+        <div class="g_id_signin absolute" data-type="standard"></div>
     @endguest
 
     @include('layout.partials.nav')

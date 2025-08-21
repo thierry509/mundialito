@@ -30,6 +30,7 @@ class SocialAuthService
                 'provider' => $provider,
                 'provider_id' => $socialUser->getId(),
                 'provider_token' => $socialUser->token,
+                'avatar' => $socialUser->getAvatar(),
                 'email_verified_at' => now(),
             ]);
                 event(new Verified($user));

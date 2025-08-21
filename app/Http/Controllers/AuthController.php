@@ -158,6 +158,7 @@ class AuthController extends Controller
                 'provider_id' => $googleUser->getId(),
                 'provider_token' => $googleUser->token,
                 'email_verified_at' => now(),
+                'avatar' => $googleUser->getAvatar(),
             ]);
             event(new Verified($user));
         }
