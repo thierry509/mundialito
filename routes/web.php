@@ -130,7 +130,7 @@ Route::middleware('guest')->group(function () {
         ->where('provider', 'google|facebook')
         ->name('social.callback');
 
-    Route::get('/google/ontap', [AuthController::class, 'googleOneTap'])->name('ontap.redirect');
+    Route::post('/google/ontap', [AuthController::class, 'googleOneTap'])->name('ontap.redirect');
 });
 
 
