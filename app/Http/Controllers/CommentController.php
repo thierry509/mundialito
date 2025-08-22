@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentDeleted;
+use App\Events\CommentPosted;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Resources\CommentResource;
@@ -20,6 +22,17 @@ class CommentController extends Controller
     {
         $comments = Comment::where('commentable_id', $gameId)
             ->where('commentable_type', 'App\Models\Game')
+            ->whereNull('parent_id')
+            ->with(['user', 'replies.user'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json(CommentResource::collection($comments));
+    }
+
+    public function newsComments($gameId)
+    {
+        $comments = Comment::where('commentable_id', $gameId)
+            ->where('commentable_type', 'App\Models\News')
             ->whereNull('parent_id')
             ->with(['user', 'replies.user'])
             ->orderBy('created_at', 'desc')
@@ -62,6 +75,10 @@ class CommentController extends Controller
             'parent_id' => $validated['parent_id'] ?? null,
         ]);
 
+        $commentWithRelations = $comment->load(['user', 'replies.user']);
+        $commentArray = (new CommentResource($commentWithRelations))->toArray(request());
+
+        event(new CommentPosted($commentArray));
         // Retourner le commentaire créé
         return response()->json([
             'success' => true,
@@ -106,7 +123,16 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
         $this->authorize('delete', $comment);
+
+        $commentId = $comment->id; // garder l'id avant suppression
+        $commentableType = $comment->commentable_type;
+        $commentableId   = $comment->commentable_id;
+
         $comment->delete();
+
+        // 🔥 broadcast event après suppression
+        event(new CommentDeleted($commentId, $commentableType, $commentableId));
+
 
         return response()->json(['message' => 'Supprimé avec succès']);
     }

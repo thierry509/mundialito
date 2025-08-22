@@ -1,11 +1,24 @@
 import Alpine from 'alpinejs'
 import { apiFetch } from './fetch';
+import Echo from 'laravel-echo'
+import Pusher from 'pusher-js'
+
 window.Alpine = Alpine
+window.Pusher = Pusher
 
-
+window.Echo = new Echo({
+    broadcaster: 'reverb',
+    key: import.meta.env.VITE_REVERB_APP_KEY,
+    wsHost: import.meta.env.VITE_REVERB_HOST ?? window.location.hostname,
+    wsPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
+    wssPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
+    forceTLS: location.protocol === 'https:',
+    enabledTransports: ['ws', 'wss'],
+})
 
 document.addEventListener('alpine:init', () => {
-    Alpine.data('comments', ({ type, id, }) => ({
+    Alpine.data('comments', ({ type, id }) => ({
+        userId: Number(document.getElementById('auth-user').dataset.userId),
         type,
         id,
         isReplying: false,
@@ -25,9 +38,33 @@ document.addEventListener('alpine:init', () => {
             parent_id: '',
             parent_user: ''
         },
+        errors:{},
         init() {
             this.loadComments()
+
+            const channelName = `comments.${this.type}.${this.id}`
+
+            window.Echo.channel(channelName)
+                .listen('CommentPosted', (e) => {
+                    if (e.comment.parent_id) {
+                        let parent = findCommentById(this.commentsList, e.comment.parent_id)
+                        if (parent) {
+                            if (!parent.replies) parent.replies = []
+                            parent.replies.push(e.comment)
+                            parent.showReplies = true
+                        }
+                    } else {
+                        this.commentsList.unshift(e.comment)
+                    }
+                })
+                .listen('CommentDeleted', (e) => {
+                    this.commentsList = this.commentsList.filter(c => c.id !== e.commentId)
+                    this.commentsList.forEach(c => {
+                        if (c.replies) c.replies = c.replies.filter(r => r.id !== e.commentId)
+                    })
+                })
         },
+
         toggleComment() {
             this.isCommenting = !this.isCommenting;
             if (this.isCommenting) {
@@ -37,44 +74,41 @@ document.addEventListener('alpine:init', () => {
                 this.form.parent_user = ''
             }
         },
+
         toggleReply() {
             this.isReplying = !this.isReplying;
         },
+
         toogleMenu(comment) {
-            if (!comment.menuOn) {
-                comment.menuOn = true;
-            }
-            else {
-                comment.menuOn = false;
-            }
+            comment.menuOn = !comment.menuOn
         },
+
         loadComments() {
-            apiFetch(`/${type}/${id}/comments/`, { method: 'GET' })
+            apiFetch(`/${this.type}/${this.id}/comments/`, { method: 'GET' })
                 .then(response => {
                     if (response.ok) {
                         this.commentsList = response.data;
                     } else {
                         console.error('Failed to load comments:', response.status);
                     }
-                }
-                ).catch(error => {
+                })
+                .catch(error => {
                     console.error('Error fetching comments:', error);
-                }).finally(() => {
+                })
+                .finally(() => {
                     this.isLoading = false;
                 });
         },
+
         loadReplies(comment, parent = null) {
             apiFetch(`/comments/${comment.id}/replies`, { method: 'GET' })
                 .then(response => {
                     if (response.ok) {
                         if (parent) {
-                            console.log(parent.replies)
                             parent.replies = [...parent.replies, ...response.data]
                         }
                         comment.replies = response.data
-                        comment.showReplies = true // pour contrôler l'affichage
-
-
+                        comment.showReplies = true
                     } else {
                         console.error('Failed to load replies:', response.status);
                     }
@@ -83,22 +117,22 @@ document.addEventListener('alpine:init', () => {
                     console.error('Error fetching replies:', error);
                 });
         },
+
         hideReply(comment) {
             comment.showReplies = false;
         },
+
         postComment() {
             apiFetch(`/comments/`, {
                 method: 'POST',
-                data: this.form, // <-- utiliser "data" au lieu de "body"
+                data: this.form,
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    // pas besoin de 'Content-Type' si tu passes un FormData,
-                    // si c'est un objet JS il sera automatiquement JSON.stringifié
                 }
             })
                 .then(response => {
                     if (response.ok) {
-                        this.loadComments(id);
+                        // pas besoin de reload → Reverb ajoutera en live
                         this.isCommenting = false;
                         this.form.content = ''
                         this.form.parent_id = ''
@@ -110,14 +144,16 @@ document.addEventListener('alpine:init', () => {
                     console.error('Error posting comment:', error);
                 });
         },
+
         replyComment(parent) {
             this.form.parent_id = parent.id;
             this.form.parent_user = parent.user.full_name;
             this.isCommenting = true;
         },
+
         deleteComment(id) {
             apiFetch(`/comments/${id}`, {
-                method: 'DELETE', // majuscules obligatoires
+                method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
@@ -125,7 +161,7 @@ document.addEventListener('alpine:init', () => {
                 .then(response => {
                     if (response.ok) {
                         console.log('Comment deleted successfully');
-                        this.loadComments(); // recharge la liste si besoin
+                        this.loadComments();
                     } else {
                         console.error('Failed to delete comment:', response.status, response.data);
                     }
@@ -134,10 +170,12 @@ document.addEventListener('alpine:init', () => {
                     console.error('Error deleting comment:', error);
                 });
         },
+
         showRepostModal(comment) {
             this.formReport.comment_id = comment.id;
             this.showReport = true;
         },
+
         reportComment() {
             apiFetch(`/comments/${this.formReport.comment_id}/report`, {
                 method: 'POST',
@@ -151,16 +189,16 @@ document.addEventListener('alpine:init', () => {
                         this.formReport.comment_id = null;
                         this.showReport = false;
                     } else {
-                        console.error('Failed to post comment:', response.status, response.data);
+                        this.errors = response.data.errors
+                        console.log(this.errors.reason[0])
+                        console.error('Failed to post report:', response.status, response.data);
                     }
                 })
                 .catch(error => {
-                    console.error('Error posting comment:', error);
+                    console.error('Error posting report:', error);
                 });
         },
     }));
 });
 
 Alpine.start()
-
-

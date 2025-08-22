@@ -74,6 +74,7 @@ Route::get('/actualites', [NewsController::class, 'index'])->name('news');
 
 // Détail d'une actualité
 Route::get('/actualites/{slug}', [NewsController::class, 'show'])->name('news.show');
+Route::get('/news/{id}/comments', [CommentController::class, 'newsComments'])->name('news.comments');
 
 
 
@@ -150,17 +151,22 @@ Route::middleware(['auth'])->group(function () {
         ->middleware('throttle:6,1')
         ->name('verification.send');
 
-    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
-    Route::post('/comments/{comment}/report', [CommentController::class, 'report'])->name('comment.report');
-    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
-    Route::put('reports/{id}/reject', [ReportController::class, 'reject']);
+
 
     Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/profile', [AuthController::class, 'profile'])->name('blade.profile');
     Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update.blade');
 });
+
+Route::middleware('auth',  'verified')->group(function () {
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
+    Route::post('/comments/{comment}/report', [CommentController::class, 'report'])->name('comment.report');
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
+    Route::put('reports/{id}/reject', [ReportController::class, 'reject']);
+});
+
 
 Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
 
@@ -228,4 +234,5 @@ Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
     // Route::post('modifier-mot-de-passe', [AuthController::class, 'changePassword'])->name('password.update');
 
     Route::get('/commentaires/signalements', [ReportController::class, 'index'])->name('report.index');
+    Route::delete('/comments/{id}', [ReportController::class, 'destroyComment'])->name('destroy.comment.report');
 });
