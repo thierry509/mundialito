@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CommentPosted
+class CommentPosted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,9 +19,9 @@ class CommentPosted
     /**
      * Create a new event instance.
      */
-    public function __construct(Comment $comment)
+    public function __construct($comment)
     {
-        $this->comment = $comment->toArray();
+        $this->comment = $comment;
     }
 
     /**
@@ -31,8 +31,7 @@ class CommentPosted
      */
     public function broadcastOn()
     {
-        return [
-            new Channel('comment'),
-        ];
+        $type = strtolower(class_basename($this->comment['commentable_type'])); // Game → game, Post → post
+        return new Channel("comments.{$type}.{$this->comment['commentable_id']}");
     }
 }

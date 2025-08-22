@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>Gestion Match </title>
+    </Head>
     <div class="my-8">
         <div class="text-center mb-8">
             <div class="text-sm uppercase tracking-wider text-primary font-semibold mb-1">Mundialito {{
@@ -89,7 +92,7 @@
             </button>
 
 
-            <button v-if="game.type === 'knockout' && game.status != 'posponed'"
+            <button v-if="game.type === 'knockout' && game.status != 'posponed' && game.team_a_goals && game.team_b_goals"
                 class="px-3 py-1.5 text-xs font-medium rounded-md bg-secondary/20 text-secondary hover:bg-secondary/30 transition flex justify-center items-center"
                 @click="openShoots">
                 <svg class="h-4 w-4 text-secondary" fill="currentColor" version="1.1" id="Capa_1"
@@ -286,7 +289,7 @@ import { useToasterStore } from '../../store/Toast';
 import UnpostponeGame from '../../components/modal/UnpostponeGame.vue';
 import CreateOrUpdateResults from '../../components/modal/CreateOrUpdateResults.vue';
 
-import { router, useForm } from '@inertiajs/vue3'
+import { router, useForm, Head } from '@inertiajs/vue3'
 import { ref } from 'vue';
 import ShootsOnGoal from '../../components/modal/ShootsOnGoal.vue';
 

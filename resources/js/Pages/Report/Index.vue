@@ -1,7 +1,7 @@
 <template>
 
     <Head>
-        <title>Les Matchs de la compétition </title>
+        <title>Les Signalements </title>
     </Head>
     <div class="min-h-screen bg-gray-100 p-6">
         <div class="max-w-7xl mx-auto">
@@ -83,7 +83,7 @@ const deleteComment = async (commentId) => {
     });
 
     if (isConfirmed) {
-        router.delete(`/comments/${commentId}`, {
+        router.delete(`/edition/comments/${commentId}`, {
             onSuccess: () => window.location.reload()
         });
     }

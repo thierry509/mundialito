@@ -12,12 +12,12 @@ const props = defineProps({
 });
 
 const options = computed(() => {
-  const baseOptions = [
-    { value: 'goal', label: 'But' },
-    { value: 'yellow_card', label: 'Carton Jaune' },
-    { value: 'red_card', label: 'Carton Rouge' },
-  ]
-  return baseOptions
+    const baseOptions = [
+        { value: 'goal', label: 'But' },
+        { value: 'yellow_card', label: 'Carton Jaune' },
+        { value: 'red_card', label: 'Carton Rouge' },
+    ]
+    return baseOptions
 })
 const emit = defineEmits(['close']);
 
@@ -43,6 +43,7 @@ const submit = () => {
         },
         onSuccess: () => {
             useToasterStore().success({ text: 'Match mis à jour avec succès' });
+            form.reset();
             emit('close');
         },
         onError: (errors) => {
@@ -67,7 +68,8 @@ const close = () => {
                         <!-- Type d'événement -->
                         <div class="mb-4">
                             <label class="block text-sm font-medium mb-1">Type d'événement *</label>
-                            <DropdownInput name="event_type" :options="options" v-model="form.event_type" required class="w-full" />
+                            <DropdownInput name="event_type" :options="options" v-model="form.event_type" required
+                                class="w-full" />
                         </div>
 
                         <!-- Équipe -->
@@ -77,17 +79,17 @@ const close = () => {
                                 { value: 'team_a', label: game.team_a.name },
                                 { value: 'team_b', label: game.team_b.name },
 
-                            ]" v-model="form.team" required class="w-full" :error="form.errors.team"/>
+                            ]" v-model="form.team" required class="w-full" :error="form.errors.team" />
                         </div>
 
                         <!-- Temps de jeu -->
-                         <Input v-model="form.minute" name="minute" type="number" label="Minute"
-                            placeholder="Ex: 45" required class="w-full" :error="form.errors.minute"/>
+                        <Input v-model="form.minute" name="minute" type="number" label="Minute" placeholder="Ex: 45"
+                            required class="w-full" :error="form.errors.minute" />
                         <Input v-model="form.added_time" name="added_time" type="number" label="Temps additionnel"
-                            placeholder="Ex: 2" class="w-full" :error="form.errors.added_time"/>
-                                        <!-- Joueur -->
+                            placeholder="Ex: 2" class="w-full" :error="form.errors.added_time" />
+                        <!-- Joueur -->
                         <Input v-model="form.player_name" name="player_name" type="text" label="Joueur"
-                            placeholder="Nom du joueur" required class="w-full" :error="form.errors.player_name"/>
+                            placeholder="Nom du joueur" required class="w-full" :error="form.errors.player_name" />
                     </form>
                 </div>
 
@@ -99,7 +101,7 @@ const close = () => {
                         Annuler
                     </button>
                     <button type="submit" :disabled="processing"
-                        class="px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-blue-700 transition disabled:opacity-50">
+                        class="px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-green-700 transition disabled:opacity-50">
                         <span v-if="processing">Enregistrement...</span>
                         <span v-else>Enregistrer</span>
                     </button>

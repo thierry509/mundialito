@@ -81,8 +81,8 @@
                     {!! Str::markdown(str_replace(['@markdown', '@endmarkdown'], '', $news->content)) !!}
                 </div>
             </article>
-            @if($news->video_url)
-            <x-video-embed url="{{ $news->video_url }}" />
+            @if ($news->video_url)
+                <x-video-embed url="{{ $news->video_url }}" />
             @endif
             <!-- Article Footer -->
             <div class="border-t border-light pt-8 mt-12">
@@ -152,6 +152,10 @@
                         </a>
                     </div>
                 </div>
+            </div>
+
+            <div class="mx-auto my-4 pt-4 max-w-7xl py-4 border-2 border-primary rounded-lg">
+                @include('comment.index', ['type' => 'news', 'CommentableId' => $news->id])
             </div>
 
             <!-- Related Articles -->
