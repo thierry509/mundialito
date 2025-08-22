@@ -11,21 +11,25 @@
             <div class="px-1">
                 <div class="flex justify-between">
                     <span>{{ $game->teamA()->first()->name ?? 'N/A' }}</span>
-                    <span>
-                        {{ $game->team_a_goals }}
-                        @if ($game->shootout_score_a !== null)
-                            <span class="mx-2 text-sm">({{ $game->shootout_score_a }})</span>
-                        @endif
-                    </span>
+                    @if ($game->status == 'finished')
+                        <span>
+                            {{ $game->team_a_goals }}
+                            @if ($game->shootout_score_a !== null)
+                                <span class="mx-2 text-sm">({{ $game->shootout_score_a }})</span>
+                            @endif
+                        </span>
+                    @endif
                 </div>
                 <div class="flex justify-between">
                     <span>{{ $game->teamB()->first()->name ?? 'N/A' }}</span>
-                    <span>
-                        {{ $game->team_b_goals }}
-                        @if ($game->shootout_score_b !== null)
-                            <span class="mx-2 text-sm">({{ $game->shootout_score_b }})</span>
-                        @endif
-                    </span>
+                    @if ($game->status == 'finished')
+                        <span>
+                            {{ $game->team_b_goals }}
+                            @if ($game->shootout_score_b !== null)
+                                <span class="mx-2 text-sm">({{ $game->shootout_score_b }})</span>
+                            @endif
+                        </span>
+                    @endif
                 </div>
             </div>
         </a>

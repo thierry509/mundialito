@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentPosted;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Resources\CommentResource;
@@ -62,6 +63,7 @@ class CommentController extends Controller
             'parent_id' => $validated['parent_id'] ?? null,
         ]);
 
+        event(new CommentPosted($comment));
         // Retourner le commentaire créé
         return response()->json([
             'success' => true,

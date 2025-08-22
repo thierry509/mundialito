@@ -1,3 +1,20 @@
+
+<div x-data="{ messages: [] }" x-init="
+    Echo.channel('comment')
+        .listen('CommentPosted', (e) => {
+            alert('kkdd')
+            messages.push(e.message)
+        });
+">
+    <template x-for="msg in messages" :key="msg">
+        <div x-text="msg.content" class="p-2 border-b"></div>
+    </template>
+</div>
+
+
+
+
+
   <!-- Commentaires -->
   <div class="mb-8" x-data="comments({ type: 'game', id: {{ $game->id }} })">
 

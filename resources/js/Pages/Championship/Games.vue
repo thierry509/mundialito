@@ -25,7 +25,6 @@
             </EmptyView>
         </div>
         <pre>
-            {{ games }}
         </pre>
         <div v-for="matchDays in games" :key="matchDays?.id">
             <div class="space-y-6 my-6">
@@ -35,7 +34,7 @@
                     <div class="py-2">
                         <div class="flex justify-between items-center">
                             <h2 class="text-sm md:text-xl font-semibold text-gray-50">{{ gameStage(matchDays[0].stage)
-                            }}</h2>
+                                }}</h2>
                             <span class="text-xs bg-white text-primary font-semibold px-2 py-1 rounded-full">{{
                                 matchDays.length }}
                                 matchs</span>

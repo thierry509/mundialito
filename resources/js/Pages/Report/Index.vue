@@ -1,4 +1,8 @@
 <template>
+
+    <Head>
+        <title>Les Matchs de la compétition </title>
+    </Head>
     <div class="min-h-screen bg-gray-100 p-6">
         <div class="max-w-7xl mx-auto">
             <!-- En-tête -->
@@ -62,6 +66,7 @@ import { defineProps } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { useConfirmStore } from '../../store/confirmStore'
 import { router } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
     reports: Array
