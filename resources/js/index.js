@@ -43,12 +43,13 @@ document.addEventListener('alpine:init', () => {
             this.loadComments()
 
             const channelName = `comments.${this.type}.${this.id}`
-            
+
             console.log("Echo chargé ?", window.Echo)
 
             window.Echo.channel(channelName)
                 .listen('CommentPosted', (e) => {
                     if (e.comment.parent_id) {
+                        alert()
                         let parent = findCommentById(this.commentsList, e.comment.parent_id)
                         if (parent) {
                             if (!parent.replies) parent.replies = []
