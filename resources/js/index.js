@@ -16,6 +16,24 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 })
 
+// Assure-toi que Echo est bien instancié
+const pusher = window.Echo.connector.pusher;
+
+if (pusher) {
+    pusher.connection.bind('connected', () => {
+        console.log('Reverb connecté');
+    });
+
+    pusher.connection.bind('disconnected', () => {
+        console.log('Reverb déconnecté');
+    });
+
+    pusher.connection.bind('error', (err) => {
+        console.error('Erreur Reverb:', err);
+    });
+}
+
+
 document.addEventListener('alpine:init', () => {
     Alpine.data('comments', ({ type, id }) => ({
         userId: Number(document.getElementById('auth-user').dataset.userId),
@@ -48,8 +66,8 @@ document.addEventListener('alpine:init', () => {
 
             window.Echo.channel(channelName)
                 .listen('CommentPosted', (e) => {
+                    alert()
                     if (e.comment.parent_id) {
-                        alert()
                         let parent = findCommentById(this.commentsList, e.comment.parent_id)
                         if (parent) {
                             if (!parent.replies) parent.replies = []
