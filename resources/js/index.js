@@ -38,11 +38,13 @@ document.addEventListener('alpine:init', () => {
             parent_id: '',
             parent_user: ''
         },
-        errors:{},
+        errors: {},
         init() {
             this.loadComments()
 
             const channelName = `comments.${this.type}.${this.id}`
+            
+            console.log("Echo chargé ?", window.Echo)
 
             window.Echo.channel(channelName)
                 .listen('CommentPosted', (e) => {
