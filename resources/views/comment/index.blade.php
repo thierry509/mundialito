@@ -186,7 +186,7 @@
                               class="flex w-full flex-row items-center justify-start gap-9 pt-2 text-[#1c0d0d] font-semibold leading-normal tracking-[0.015em]">
                               @auth
 
-                                  <div @click="replyComment(comment)"
+                                  <div @click.stop="replyComment(comment)"
                                       class="flex items-center gap-2 hover:text-gray-800 cursor-pointer ">
                                       <span class="text-sm  leading-normal">Répondre</span>
                                   </div>
