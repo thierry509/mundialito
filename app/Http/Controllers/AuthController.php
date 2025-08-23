@@ -42,7 +42,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            return redirect()->intended(url()->previous());
         }
         return back()->withErrors([
             'email' => 'Identifiant ou Mot passe Incorect',
@@ -115,7 +115,7 @@ class AuthController extends Controller
 
             auth()->login($user, true);
 
-            return redirect()->intended(route('home'));
+            return redirect()->intended(url()->previous());
         } catch (\Exception $e) {
             Log::error("Erreur de social login avec {$provider}", ['exception' => $e]);
             return redirect('/connexion')->withErrors([
@@ -173,7 +173,7 @@ class AuthController extends Controller
         // Log in the user
         Auth::login($user, true);
 
-        return redirect()->route('home');
+        return redirect()->intended(url()->previous());
     }
 
     public function showProfile()
