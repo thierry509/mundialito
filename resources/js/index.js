@@ -112,6 +112,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         loadComments() {
+            console.log("comment loaded");
             apiFetch(`/${this.type}/${this.id}/comments/`, { method: 'GET' })
                 .then(response => {
                     if (response.ok) {
