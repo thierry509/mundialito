@@ -24,6 +24,7 @@ const pusher = window.Echo.connector.pusher;
 if (pusher) {
     pusher.connection.bind('connected', () => {
         console.log('Reverb connecté');
+        console.log(pusher)
     });
 
     pusher.connection.bind('disconnected', () => {
