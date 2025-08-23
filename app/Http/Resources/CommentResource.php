@@ -40,9 +40,26 @@ class CommentResource extends JsonResource
      */
     protected function formatDate($date): string
     {
-        return Carbon::parse($date)->diffForHumans();
-    }
+        $carbonDate = Carbon::parse($date);
 
+        // S'assurer que les mois/jours sont en français
+        Carbon::setLocale('fr');
+
+        if ($carbonDate->isToday()) {
+            return 'aujourd\'hui ' . $carbonDate->format('H:i');
+        }
+
+        if ($carbonDate->isYesterday()) {
+            return 'hier ' . $carbonDate->format('H:i');
+        }
+
+        if ($carbonDate->isTomorrow()) {
+            return 'demain ' . $carbonDate->format('H:i');
+        }
+
+        // Utiliser isoFormat pour avoir les noms en français
+        return $carbonDate->isoFormat('D MMM Y H:i'); // ex: "15 janv. 2024 14:30"
+    }
     /**
      * Get user's full name
      */
