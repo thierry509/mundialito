@@ -49,6 +49,13 @@ document.addEventListener('alpine:init', () => {
         showReport: false,
         deleting: false,
         deleting_id: null,
+
+        processing: false,
+
+        showDeleteModal: false,
+
+        commentToDelete: null,
+
         formReport: {
             comment_id: null,
             category: 'other',
@@ -155,6 +162,7 @@ document.addEventListener('alpine:init', () => {
             if (this.form.comment_id) {
                 return this.updateComment();
             }
+            this.processing = true
             apiFetch(`/comments/`, {
                 method: 'POST',
                 data: this.form,
@@ -166,6 +174,7 @@ document.addEventListener('alpine:init', () => {
                     if (response.ok) {
                         // pas besoin de reload → Reverb ajoutera en live
                         this.isCommenting = false;
+                        this.processing = false;
                         this.form.content = ''
                         this.form.parent_id = ''
                         this.loadComments();
@@ -191,6 +200,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         updateComment() {
+            this.processing = true;
             apiFetch(`/comments/${this.form.comment_id}`, {
                 method: 'PUT',
                 data: this.form,
@@ -204,6 +214,7 @@ document.addEventListener('alpine:init', () => {
                         this.isCommenting = false;
                         this.form.content = ''
                         this.form.parent_id = ''
+                        this.processing = true;
                         this.loadComments();
                     } else {
                         console.error('Failed to post comment:', response.status, response.data);
@@ -214,23 +225,41 @@ document.addEventListener('alpine:init', () => {
                 });
         },
 
-        deleteComment(id) {
-            apiFetch(`/comments/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        this.loadComments();
-                    } else {
-                        console.error('Failed to delete comment:', response.status, response.data);
+        confirmDelete() {
+            if (this.commentToDelete) {
+                this.processing = true
+                apiFetch(`/comments/${this.commentToDelete}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     }
                 })
-                .catch(error => {
-                    console.error('Error deleting comment:', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            this.processing = false;
+                            this.loadComments();
+                        } else {
+                            console.error('Failed to delete comment:', response.status, response.data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting comment:', error);
+                    })
+                    .finally(() => {
+                        this.showDeleteModal = false;
+                        this.commentToDelete = null;
+                    });
+            }
+        },
+
+        cancelDelete() {
+            this.showDeleteModal = false;
+            this.commentToDelete = null;
+        },
+
+        async deleteComment(id) {
+            this.commentToDelete = id;
+            this.showDeleteModal = true;
         },
 
         showRepostModal(comment) {
@@ -239,6 +268,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         reportComment() {
+            this.processing = true;
             apiFetch(`/comments/${this.formReport.comment_id}/report`, {
                 method: 'POST',
                 data: this.formReport,
@@ -250,6 +280,7 @@ document.addEventListener('alpine:init', () => {
                     if (response.ok) {
                         this.formReport.comment_id = null;
                         this.showReport = false;
+                        this.processing = false;
                     } else {
                         this.errors = response.data.errors
                         console.error('Failed to post report:', response.status, response.data);

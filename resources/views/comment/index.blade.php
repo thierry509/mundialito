@@ -97,11 +97,11 @@
 
                           <!-- Actions -->
                           <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200 mt-6">
-                              <button type="button" @click="showReport = false"
+                              <button type="button" @click="showReport = false" :disabled="processing"
                                   class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
                                   Annuler
                               </button>
-                              <button type="submit"
+                              <button type="submit" :disabled="processing"
                                   class="px-5 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
                                   Signaler
                               </button>
@@ -121,10 +121,10 @@
                   <p class="text-red-500 text-sm mb-4">Le commentaire sera définitivement supprimé.</p>
 
                   <div class="flex justify-end space-x-3">
-                      <button @click="cancelDelete()" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                      <button @click="cancelDelete()" :disabled="processing" class="px-4 py-2 text-gray-600 hover:text-gray-800">
                           Annuler
                       </button>
-                      <button @click="confirmDelete()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                      <button @click="confirmDelete()" :disabled="processing" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
                           Supprimer
                       </button>
                   </div>
@@ -374,7 +374,7 @@
                           class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
                           Annuler
                       </button>
-                      <button type="submit"
+                      <button type="submit" :disabled="processing"
                           class="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
                           Publier
                       </button>
