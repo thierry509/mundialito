@@ -6,6 +6,7 @@ use App\Events\CommentDeleted;
 use App\Events\CommentPosted;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StoreReportRequest;
+use App\Http\Requests\UpdateCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Report;
@@ -83,6 +84,38 @@ class CommentController extends Controller
         return response()->json([
             'success' => true,
             'comment' => $comment->load('user')
+        ]);
+    }
+
+    /**
+     * Mettre à jour un commentaire existant.
+     */
+    public function update(UpdateCommentRequest $request, $id)
+    {
+        $validated = $request->validated();
+
+        $comment = \App\Models\Comment::findOrFail($id);
+
+        // Vérifie que c'est bien l'auteur du commentaire qui modifie
+        if ($comment->user_id !== \Illuminate\Support\Facades\Auth::id()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Action non autorisée.'
+            ], 403);
+        }
+
+        $comment->update([
+            'content' => $validated['content'],
+        ]);
+
+        $commentWithRelations = $comment->load(['user', 'replies.user']);
+        $commentArray = (new \App\Http\Resources\CommentResource($commentWithRelations))->toArray(request());
+
+        event(new \App\Events\CommentUpdated($commentArray));
+
+        return response()->json([
+            'success' => true,
+            'comment' => $commentWithRelations
         ]);
     }
 

@@ -162,6 +162,8 @@ Route::middleware('auth',  'verified')->group(function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::post('/comments/{comment}/report', [CommentController::class, 'report'])->name('comment.report');
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
+    Route::put('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
+
     Route::put('reports/{id}/reject', [ReportController::class, 'reject']);
 });
 

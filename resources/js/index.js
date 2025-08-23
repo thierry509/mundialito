@@ -54,6 +54,7 @@ document.addEventListener('alpine:init', () => {
             reason: '',
         },
         form: {
+            comment_id: null,
             content: '',
             commentable_id: id,
             commentable_type: type,
@@ -69,7 +70,6 @@ document.addEventListener('alpine:init', () => {
 
             window.Echo.channel(channelName)
                 .listen('CommentPosted', (e) => {
-                    alert()
                     if (e.comment.parent_id) {
                         let parent = findCommentById(this.commentsList, e.comment.parent_id)
                         if (parent) {
@@ -94,8 +94,12 @@ document.addEventListener('alpine:init', () => {
             if (this.isCommenting) {
                 this.loadComments(type);
             } else {
-                this.form.parent_id = ''
-                this.form.parent_user = ''
+                this.form = {
+                    comment_id: null,
+                    content: '',
+                    parent_id: '',
+                    parent_user: ''
+                }
             }
         },
 
@@ -147,6 +151,11 @@ document.addEventListener('alpine:init', () => {
         },
 
         postComment() {
+            console.log(1, this.form);
+            if (this.form.comment_id) {
+                console.log(2, this.form);
+                return this.updateComment();
+            }
             apiFetch(`/comments/`, {
                 method: 'POST',
                 data: this.form,
@@ -160,6 +169,7 @@ document.addEventListener('alpine:init', () => {
                         this.isCommenting = false;
                         this.form.content = ''
                         this.form.parent_id = ''
+                        this.loadComments();
                     } else {
                         console.error('Failed to post comment:', response.status, response.data);
                     }
@@ -173,6 +183,36 @@ document.addEventListener('alpine:init', () => {
             this.form.parent_id = parent.id;
             this.form.parent_user = parent.user.full_name;
             this.isCommenting = true;
+        },
+
+        showUpdate(comment) {
+            this.form.content = comment.content;
+            this.form.comment_id = comment.id;
+            this.isCommenting = true;
+        },
+
+        updateComment() {
+            apiFetch(`/comments/${this.form.comment_id}`, {
+                method: 'PUT',
+                data: this.form,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // pas besoin de reload → Reverb ajoutera en live
+                        this.isCommenting = false;
+                        this.form.content = ''
+                        this.form.parent_id = ''
+                        this.loadComments();
+                    } else {
+                        console.error('Failed to post comment:', response.status, response.data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error posting comment:', error);
+                });
         },
 
         deleteComment(id) {

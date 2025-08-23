@@ -177,7 +177,8 @@
                                       </button>
                                   @endauth
                               </div>
-                              <p class="text-[#1c0d0d] text-base font-normal leading-normal" x-text="comment.content">
+                              <p class="text-[#1c0d0d] text-base font-normal leading-normal break-all whitespace-normal "
+                                  x-text="comment.content">
                               </p>
                               <div x-show="comment.menuOn"
                                   class="absolute right-0 top-8 w-48 rounded-xl bg-white shadow-lg ring-1 ring-black/10 z-10">
@@ -188,11 +189,13 @@
                                           items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full">
                                           Supprimer
                                       </button>
-
+                                      <button x-show="comment.user_id == userId" @click.stop="showUpdate(comment)"
+                                          class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
+                                          Modifier
+                                      </button>
                                       <!-- Signaler -->
                                       <button @click.stop="showRepostModal(comment)"
                                           class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
-                                          </svg>
                                           Signaler
                                       </button>
                                   </div>
@@ -253,7 +256,7 @@
                                               </button>
                                           @endauth
                                       </div>
-                                      <p class="text-[#1c0d0d] text-base font-normal leading-normal"
+                                      <p class="text-[#1c0d0d] text-base font-normal leading-normal break-all whitespace-normal"
                                           x-text="reply.content">
                                       </p>
                                       <div x-show="reply.menuOn"
@@ -266,7 +269,11 @@
                                           items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full">
                                                   Supprimer
                                               </button>
-
+                                              <button x-show="reply.user_id == userId"
+                                                  @click.stop="showUpdate(reply)"
+                                                  class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
+                                                  Modifier
+                                              </button>
                                               <!-- Signaler -->
                                               <button @click.stop="showRepostModal(reply)"
                                                   class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
@@ -312,7 +319,7 @@
 
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <template x-if="isCommenting" x-transition:enter.duration.500ms x-transition:leave.duration.400ms>
-          <div @click.outside = "isCommenting = false"
+          <div @click.outside = "toggleComment()"
               class="fixed inset-x-0 bottom-0 z-50 bg-white shadow-lg rounded-t-2xl p-4 transition-all duration-300 transform translate-y-0 border-t border-gray-100">
               <!-- Header du pop-up -->
               <div class="flex justify-between items-center mb-4">
