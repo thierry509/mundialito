@@ -48,7 +48,6 @@ Route::get('/game/{id}/comments', [CommentController::class, 'gameComments'])->n
 
 Route::prefix('/comments')->group(function () {
     Route::get('/{id}/replies', [CommentController::class, 'replies'])->name('comments.replies');
-    Route::put('/{id}/like', [CommentController::class, 'like'])->name('comments.like');
 });
 // Classements des poules
 Route::get('/poules', [GroupController::class, 'index'])->name('groups');
@@ -161,7 +160,6 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware('auth',  'verified')->group(function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-    Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
     Route::post('/comments/{comment}/report', [CommentController::class, 'report'])->name('comment.report');
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.delete');
     Route::put('reports/{id}/reject', [ReportController::class, 'reject']);
