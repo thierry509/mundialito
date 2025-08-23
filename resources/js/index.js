@@ -47,6 +47,8 @@ document.addEventListener('alpine:init', () => {
         commentsList: [],
         isLoading: true,
         showReport: false,
+        deleting: false,
+        deleting_id: null,
         formReport: {
             comment_id: null,
             category: 'other',
@@ -257,6 +259,9 @@ document.addEventListener('alpine:init', () => {
                     console.error('Error posting report:', error);
                 });
         },
+        async valideDelete(comment) {
+            this.deleting = true;
+        }
     }));
 });
 

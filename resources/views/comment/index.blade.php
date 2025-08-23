@@ -111,6 +111,26 @@
               </div>
           </div>
       </template>
+
+      <!-- Modal de confirmation de suppression -->
+      <template x-if="showDeleteModal">
+          <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div class="bg-white rounded-lg shadow-xl p-6 m-4 max-w-md w-full">
+                  <h3 class="text-xl font-bold text-gray-800 mb-2">Supprimer le commentaire ?</h3>
+                  <p class="text-gray-600 mb-2">Cette action est irréversible.</p>
+                  <p class="text-red-500 text-sm mb-4">Le commentaire sera définitivement supprimé.</p>
+
+                  <div class="flex justify-end space-x-3">
+                      <button @click="cancelDelete()" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                          Annuler
+                      </button>
+                      <button @click="confirmDelete()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                          Supprimer
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </template>
       <h2 class="text-xl font-bold mb-4 text-center text-primary">Commentaires</h2>
 
       <div class="mt-6 flex flex-col items-center gap-4 my-8">
@@ -194,7 +214,7 @@
                                           Modifier
                                       </button>
                                       <!-- Signaler -->
-                                      <button x-show="comment.user_id == userId"
+                                      <button x-show="comment.user_id !== userId"
                                           @click.stop="showRepostModal(comment)"
                                           class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
                                           Signaler
@@ -266,8 +286,7 @@
                                               <!-- Supprimer -->
                                               <button x-show="reply.user_id == userId"
                                                   @click="deleteComment(reply.id)"
-                                                  class="flex
-                                          items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full">
+                                                  class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full">
                                                   Supprimer
                                               </button>
                                               <button x-show="reply.user_id == userId" @click.stop="showUpdate(reply)"
