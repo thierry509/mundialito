@@ -25,7 +25,6 @@ const pusher = window.Echo.connector.pusher;
 if (pusher) {
     pusher.connection.bind('connected', () => {
         console.log('Reverb connecté');
-        console.log(pusher)
     });
 
     pusher.connection.bind('disconnected', () => {
@@ -112,7 +111,6 @@ document.addEventListener('alpine:init', () => {
         },
 
         loadComments() {
-            console.log("comment loaded");
             apiFetch(`/${this.type}/${this.id}/comments/`, { method: 'GET' })
                 .then(response => {
                     if (response.ok) {
@@ -152,9 +150,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         postComment() {
-            console.log(1, this.form);
             if (this.form.comment_id) {
-                console.log(2, this.form);
                 return this.updateComment();
             }
             apiFetch(`/comments/`, {
@@ -225,7 +221,6 @@ document.addEventListener('alpine:init', () => {
             })
                 .then(response => {
                     if (response.ok) {
-                        console.log('Comment deleted successfully');
                         this.loadComments();
                     } else {
                         console.error('Failed to delete comment:', response.status, response.data);
@@ -255,7 +250,6 @@ document.addEventListener('alpine:init', () => {
                         this.showReport = false;
                     } else {
                         this.errors = response.data.errors
-                        console.log(this.errors.reason[0])
                         console.error('Failed to post report:', response.status, response.data);
                     }
                 })
