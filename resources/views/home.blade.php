@@ -179,74 +179,6 @@
                 </div>
             </section>
         @endif
-        <section class="py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="relative group">
-                    <div
-                        class="absolute -inset-2 bg-gradient-to-r from-secondary to-accent rounded-2xl opacity-75 group-hover:opacity-100 blur-lg transition duration-200">
-                    </div>
-                    <div class="relative h-full rounded-2xl overflow-hidden">
-                        <x-picture imageName="ambiance-mundialito-gonaives" alt="Ambiance Mundialito aux Gonaives"
-                            mobilePath="images/mobile/" desktopPath="images/" loading="lazy"
-                            class="w-full h-auto object-cover transition duration-500 group-hover:scale-105" />
-                    </div>
-                </div>
-                <div class="space-y-6">
-                    <span
-                        class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-semibold">L'ESPRIT</span>
-                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Une ambiance <span
-                            class="text-secondary">incomparable</span></h2>
-                    <p class="text-lg text-gray-600 leading-relaxed">
-                        Dès ses débuts dans le quartier populaire de <strong>Raboteau</strong>, le Mundialito a été bien
-                        plus qu’un tournoi : c’est un <strong>événement communautaire</strong> profondément ancré dans la
-                        vie sociale des Gonaïves. Chaque match réunit familles, anciens joueurs, commerçants et enfants dans
-                        une effervescence colorée où <strong>spiritualité, musique, et traditions locales</strong> se mêlent
-                        au football.
-                    </p>
-                    <p class="text-lg text-gray-600 leading-relaxed">
-                        Des tambours du rara aux slogans peints sur les murs, chaque équipe représente un quartier, une
-                        histoire, une fierté. Loin d’un simple divertissement, le Mundialito est un moment de
-                        <strong>communion populaire</strong>, de <strong>résistance culturelle</strong> et de
-                        <strong>revendication identitaire</strong>, où se célèbre l’unité malgré les difficultés. Cet
-                        esprit, hérité de <strong>l’engagement de figures locales comme Tisò</strong>, continue de vibrer
-                        dans chaque édition.
-                    </p>
-                </div>
-
-            </div>
-        </section>
-        <section class="py-20 bg-gray-50 rounded-3xl">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mx-auto text-center space-y-8">
-                <span
-                    class="border inline-block px-3 py-1 bg-accent/10 text-accent rounded-full text-sm font-semibold">HISTOIRE</span>
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Une histoire <span class="text-accent">riche en
-                        émotions</span></h2>
-                <p class="text-lg text-gray-600 leading-relaxed ">
-                    Né en <strong>1966</strong> dans le quartier populaire de <strong>Raboteau</strong> aux Gonaïves, le
-                    championnat de football d’été – aujourd’hui connu sous le nom de <strong>Mundialito</strong> – a été
-                    fondé par <strong>Mme Antoinette Jean Louis dite Tisò</strong>. D’abord appelé <em>Coupe Jacky Ti
-                        Sò</em>, en hommage à son fils, ce tournoi visait à offrir à la jeunesse défavorisée un
-                    espace de jeu, de mémoire et de solidarité.
-                </p>
-                <p class="text-lg text-gray-600 leading-relaxed ">
-                    Ce tournoi, destiné aux jeunes de moins de 13 ans (<strong>U-13</strong>), est rapidement devenu un
-                    rituel social incontournable, alliant football, culture populaire et résistance urbaine. Il a permis de
-                    sauver le <strong>terrain de Rénovation</strong> d’une démolition prévue, en l’élevant au rang de
-                    symbole communautaire.
-                </p>
-                <p class="text-lg text-gray-600 leading-relaxed ">
-                    Inspiré par la ferveur populaire autour du <em>Mundialito</em> organisé en Espagne en 1981 et la
-                    <strong>Coupe du Monde 1982</strong>, le championnat adopte le nom <strong>Mundialito</strong> aux
-                    Gonaïves. L'événement connaît une ascension fulgurante grâce à la couverture de journalistes comme
-                    <strong>Belfond Pierre</strong> (Radio Lumière) et <strong>Claude Valbrun</strong> (Radio Soleil),
-                    devenant ainsi une institution sportive d’envergure nationale.
-                </p>
-                <p class="text-sm italic text-gray-500 ">
-                    Ce texte est inspiré du livre <strong>« Le football aux Gonaïves à travers le temps »</strong> de
-                    <strong>Joanes Clairzius</strong>.
-                </p>
-            </div>
-        </section>
 
         <!-- Section Résultats -->
         <section class="py-8">
@@ -301,24 +233,23 @@
                                 </div>
                                 <div class="mt-8 pt-4 border-t border-white/20">
                                     <div class="flex justify-center space-x-4">
-                                        @if ($lastGame->status === 'finished' && $lastGame->events->count() > 0)
-                                            <a href="{{ route('games.show', $lastGame->id) }}" class="flex items-center">
-                                                <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                        stroke-linejoin="round"></g>
-                                                    <g id="SVGRepo_iconCarrier">
-                                                        <circle cx="12" cy="12" r="3" stroke="currentColor"
-                                                            stroke-width="2"></circle>
-                                                        <path
-                                                            d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
-                                                            stroke="currentColor" stroke-width="2"></path>
-                                                    </g>
-                                                </svg>
-                                                <span class="text-sm">Voir les détails</span>
-                                            </a>
-                                        @endif
+                                        <a href="{{ route('games.show', ['slug' => $lastGame->slug, 'id' => $lastGame->id]) }}"
+                                            class="flex items-center">
+                                            <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <circle cx="12" cy="12" r="3" stroke="currentColor"
+                                                        stroke-width="2"></circle>
+                                                    <path
+                                                        d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                                                        stroke="currentColor" stroke-width="2"></path>
+                                                </g>
+                                            </svg>
+                                            <span class="text-sm">Voir les détails</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -376,17 +307,23 @@
                                 </div>
                                 <div class="mt-8 pt-4 border-t border-white/20">
                                     <div class="flex justify-center space-x-4">
-                                        <div class="flex items-center">
-                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                                </path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <a href="{{ route('games.show', ['slug' => $nextGame->slug, 'id' => $nextGame->id]) }}"
+                                            class="flex items-center">
+                                            <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <circle cx="12" cy="12" r="3" stroke="currentColor"
+                                                        stroke-width="2"></circle>
+                                                    <path
+                                                        d="M20.188 10.9343C20.5762 11.4056 20.7703 11.6412 20.7703 12C20.7703 12.3588 20.5762 12.5944 20.188 13.0657C18.7679 14.7899 15.6357 18 12 18C8.36427 18 5.23206 14.7899 3.81197 13.0657C3.42381 12.5944 3.22973 12.3588 3.22973 12C3.22973 11.6412 3.42381 11.4056 3.81197 10.9343C5.23206 9.21014 8.36427 6 12 6C15.6357 6 18.7679 9.21014 20.188 10.9343Z"
+                                                        stroke="currentColor" stroke-width="2"></path>
+                                                </g>
                                             </svg>
-                                            <span class="text-sm">{{ $nextGame->location }}</span>
-                                        </div>
+                                            <span class="text-sm">Voir les détails</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -394,6 +331,79 @@
                     </div>
                 @else
                 @endif
+            </div>
+        </section>
+
+
+        <section class="py-20 bg-gray-50 rounded-3xl">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mx-auto text-center space-y-8">
+                <span
+                    class="border inline-block px-3 py-1 bg-accent/10 text-accent rounded-full text-sm font-semibold">HISTOIRE</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Une histoire <span class="text-accent">riche en
+                        émotions</span></h2>
+                <p class="text-lg text-gray-600 leading-relaxed ">
+                    Né en <strong>1966</strong> dans le quartier populaire de <strong>Raboteau</strong> aux Gonaïves, le
+                    championnat de football d’été – aujourd’hui connu sous le nom de <strong>Mundialito</strong> – a été
+                    fondé par <strong>Mme Antoinette Jean Louis dite Tisò</strong>. D’abord appelé <em>Coupe Jacky Ti
+                        Sò</em>, en hommage à son fils, ce tournoi visait à offrir à la jeunesse défavorisée un
+                    espace de jeu, de mémoire et de solidarité.
+                </p>
+                <p class="text-lg text-gray-600 leading-relaxed ">
+                    Ce tournoi, destiné aux jeunes de moins de 13 ans (<strong>U-13</strong>), est rapidement devenu un
+                    rituel social incontournable, alliant football, culture populaire et résistance urbaine. Il a permis de
+                    sauver le <strong>terrain de Rénovation</strong> d’une démolition prévue, en l’élevant au rang de
+                    symbole communautaire.
+                </p>
+                <p class="text-lg text-gray-600 leading-relaxed ">
+                    Inspiré par la ferveur populaire autour du <em>Mundialito</em> organisé en Espagne en 1981 et la
+                    <strong>Coupe du Monde 1982</strong>, le championnat adopte le nom <strong>Mundialito</strong> aux
+                    Gonaïves. L'événement connaît une ascension fulgurante grâce à la couverture de journalistes comme
+                    <strong>Belfond Pierre</strong> (Radio Lumière) et <strong>Claude Valbrun</strong> (Radio Soleil),
+                    devenant ainsi une institution sportive d’envergure nationale.
+                </p>
+                <p class="text-sm italic text-gray-500 ">
+                    Ce texte est inspiré du livre <strong>« Le football aux Gonaïves à travers le temps »</strong> de
+                    <strong>Joanes Clairzius</strong>.
+                </p>
+            </div>
+        </section>
+
+
+
+        <section class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-2 bg-gradient-to-r from-secondary to-accent rounded-2xl opacity-75 group-hover:opacity-100 blur-lg transition duration-200">
+                    </div>
+                    <div class="relative h-full rounded-2xl overflow-hidden">
+                        <x-picture imageName="ambiance-mundialito-gonaives" alt="Ambiance Mundialito aux Gonaives"
+                            mobilePath="images/mobile/" desktopPath="images/" loading="lazy"
+                            class="w-full h-auto object-cover transition duration-500 group-hover:scale-105" />
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <span
+                        class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm font-semibold">L'ESPRIT</span>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900">Une ambiance <span
+                            class="text-secondary">incomparable</span></h2>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Dès ses débuts dans le quartier populaire de <strong>Raboteau</strong>, le Mundialito a été bien
+                        plus qu’un tournoi : c’est un <strong>événement communautaire</strong> profondément ancré dans la
+                        vie sociale des Gonaïves. Chaque match réunit familles, anciens joueurs, commerçants et enfants dans
+                        une effervescence colorée où <strong>spiritualité, musique, et traditions locales</strong> se mêlent
+                        au football.
+                    </p>
+                    <p class="text-lg text-gray-600 leading-relaxed">
+                        Des tambours du rara aux slogans peints sur les murs, chaque équipe représente un quartier, une
+                        histoire, une fierté. Loin d’un simple divertissement, le Mundialito est un moment de
+                        <strong>communion populaire</strong>, de <strong>résistance culturelle</strong> et de
+                        <strong>revendication identitaire</strong>, où se célèbre l’unité malgré les difficultés. Cet
+                        esprit, hérité de <strong>l’engagement de figures locales comme Tisò</strong>, continue de vibrer
+                        dans chaque édition.
+                    </p>
+                </div>
+
             </div>
         </section>
 

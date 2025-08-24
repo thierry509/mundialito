@@ -32,7 +32,7 @@
             @auth
                 <div x-data="{ open: false }" class="relative">
                     <!-- Bouton profil avec animation -->
-                    <button @click="open = !open" @click.outside="open = false"
+                    <button @click="open = !open"
                         class="flex items-center gap-2 focus:outline-none group">
                         <div class="relative">
                             <!-- Image de profil avec bordure animée -->
@@ -69,7 +69,7 @@
                     </button>
 
                     <!-- Menu dropdown moderne -->
-                    <div x-show="open" x-transition:enter="transition ease-out duration-200" x-cloak
+                    <div x-show="open" @click.outside="open = false" x-transition:enter="transition ease-out duration-200" x-cloak
                         x-transition:enter-start="opacity-0 translate-y-1"
                         x-transition:enter-end="opacity-100 translate-y-0"
                         x-transition:leave="transition ease-in duration-150"
@@ -145,7 +145,7 @@
             @guest
                 <div x-data="{ isOpen: false }" class="relative">
                     <!-- Bouton pour utilisateur non connecté -->
-                    <button @click="isOpen = !isOpen" @click.outside="isOpen = false"
+                    <button @click="isOpen = !isOpen"
                         class="flex items-center justify-center h-10 w-10 rounded-full p-0.5 bg-gradient-to-tr from-gray-300 to-gray-400 hover:from-gray-200 hover:to-gray-300 transition-all duration-300 focus:outline-none">
                         <!-- Icône utilisateur -->
                         <div class="h-full w-full rounded-full bg-white text-gray-500 flex items-center justify-center">
@@ -158,7 +158,7 @@
                     </button>
 
                     <!-- Dropdown menu - Structure de base -->
-                    <div x-show="isOpen" x-transition:enter="transition ease-out duration-200" x-cloak
+                    <div x-show="isOpen" @click.outside="isOpen = false" x-transition:enter="transition ease-out duration-200" x-cloak
                         x-transition:enter-start="opacity-0 translate-y-1"
                         x-transition:enter-end="opacity-100 translate-y-0"
                         x-transition:leave="transition ease-in duration-150"

@@ -6,35 +6,35 @@ import Pusher from 'pusher-js'
 window.Alpine = Alpine
 window.Pusher = Pusher
 
-const forceTLS = import.meta.env.VITE_FORCE_TLS === 'true'; // convertit string en booléen
+// const forceTLS = import.meta.env.VITE_FORCE_TLS === 'true'; // convertit string en booléen
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: forceTLS,
-    wsHost: import.meta.env.VITE_PUSHER_HOST ?? `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
-    wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
-    wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
-    enabledTransports: ['ws', 'wss'],
-})
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: import.meta.env.VITE_PUSHER_APP_KEY,
+//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+//     forceTLS: forceTLS,
+//     wsHost: import.meta.env.VITE_PUSHER_HOST ?? `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
+//     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
+//     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
+//     enabledTransports: ['ws', 'wss'],
+// })
 
-// Assure-toi que Echo est bien instancié
-const pusher = window.Echo.connector.pusher;
+// // Assure-toi que Echo est bien instancié
+// const pusher = window.Echo.connector.pusher;
 
-if (pusher) {
-    pusher.connection.bind('connected', () => {
-        console.log('Reverb connecté');
-    });
+// if (pusher) {
+//     pusher.connection.bind('connected', () => {
+//         console.log('Reverb connecté');
+//     });
 
-    pusher.connection.bind('disconnected', () => {
-        console.log('Reverb déconnecté');
-    });
+//     pusher.connection.bind('disconnected', () => {
+//         console.log('Reverb déconnecté');
+//     });
 
-    pusher.connection.bind('error', (err) => {
-        console.error('Erreur Reverb:', err);
-    });
-}
+//     pusher.connection.bind('error', (err) => {
+//         console.error('Erreur Reverb:', err);
+//     });
+// }
 
 
 document.addEventListener('alpine:init', () => {
@@ -73,28 +73,28 @@ document.addEventListener('alpine:init', () => {
         init() {
             this.loadComments()
 
-            const channelName = `comments.${this.type}.${this.id}`
+            // const channelName = `comments.${this.type}.${this.id}`
 
 
-            window.Echo.channel(channelName)
-                .listen('CommentPosted', (e) => {
-                    if (e.comment.parent_id) {
-                        let parent = findCommentById(this.commentsList, e.comment.parent_id)
-                        if (parent) {
-                            if (!parent.replies) parent.replies = []
-                            parent.replies.push(e.comment)
-                            parent.showReplies = true
-                        }
-                    } else {
-                        this.commentsList.unshift(e.comment)
-                    }
-                })
-                .listen('CommentDeleted', (e) => {
-                    this.commentsList = this.commentsList.filter(c => c.id !== e.commentId)
-                    this.commentsList.forEach(c => {
-                        if (c.replies) c.replies = c.replies.filter(r => r.id !== e.commentId)
-                    })
-                })
+            // window.Echo.channel(channelName)
+            //     .listen('CommentPosted', (e) => {
+            //         if (e.comment.parent_id) {
+            //             let parent = findCommentById(this.commentsList, e.comment.parent_id)
+            //             if (parent) {
+            //                 if (!parent.replies) parent.replies = []
+            //                 parent.replies.push(e.comment)
+            //                 parent.showReplies = true
+            //             }
+            //         } else {
+            //             this.commentsList.unshift(e.comment)
+            //         }
+            //     })
+            //     .listen('CommentDeleted', (e) => {
+            //         this.commentsList = this.commentsList.filter(c => c.id !== e.commentId)
+            //         this.commentsList.forEach(c => {
+            //             if (c.replies) c.replies = c.replies.filter(r => r.id !== e.commentId)
+            //         })
+            //     })
         },
 
         toggleComment() {

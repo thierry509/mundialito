@@ -1,4 +1,5 @@
 <template>
+
     <Head>
         <title>Gestion Match </title>
     </Head>
@@ -44,9 +45,22 @@
                 <div class="text-sm md:text-xl font-bold">{{ game.team_b.name }}</div>
             </div>
         </div>
-        <div class="flex justify-between items-center mb-6 mx-10 sm:mx-20 lg:mx-40
+        <div class="flex justify-between flex justify-end items-center mb-6 mx-10 sm:mx-20 lg:mx-40
             bg-white px-6 py-3 rounded-2xl shadow-md border border-gray-200
             hover:shadow-lg transition duration-300 ease-in-out">
+
+            <div class="">
+                <button v-if="auth?.user.roles == 'admin'" @click="clearScore"
+                    class="px-3 py-1.5 text-xs font-medium rounded-md  bg-orange-400 hover:bg-orange-500 text-white transition flex flex-col md:flex-row justify-center items-center">
+                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                        <path d="M3 3v5h5" />
+                    </svg>
+                    <span class="hidden lg:block mx-1.5">Effacer les scores</span>
+                </button>
+            </div>
+
             <div class="">
                 <button v-if="auth?.user.roles == 'admin'" @click="deleteGame"
                     class="px-3 py-1.5 text-xs font-medium rounded-md bg-red-500/10 text-red-500 hover:bg-red-500/20 transition flex flex-col md:flex-row justify-center items-center">
@@ -58,6 +72,9 @@
                     <span class="hidden lg:block mx-1.5">Suprimmer</span>
                 </button>
             </div>
+
+
+
             <button
                 v-if="auth?.user.roles == 'admin' && game.status != 'postponed' && game.status != 'finished' && !game?.team_a_goals"
                 @click="postpone"
@@ -92,7 +109,8 @@
             </button>
 
 
-            <button v-if="game.type === 'knockout' && game.status != 'posponed' && game.team_a_goals && game.team_b_goals"
+            <button
+                v-if="game.type === 'knockout' && game.status != 'posponed' && game.team_a_goals && game.team_b_goals"
                 class="px-3 py-1.5 text-xs font-medium rounded-md bg-secondary/20 text-secondary hover:bg-secondary/30 transition flex justify-center items-center"
                 @click="openShoots">
                 <svg class="h-4 w-4 text-secondary" fill="currentColor" version="1.1" id="Capa_1"
@@ -451,6 +469,21 @@ const deleteShoot = async () => {
         router.delete(`/edition/championnat/match/tir-au-but/${props.game.id}`, {}, {
             onSuccess: () => {
                 useToasterStore().success({ text: 'Prolonagtion ajouter' })
+            }
+        })
+    }
+}
+
+const clearScore = async () => {
+    const isConfirmed = await confirm.show({
+        title: "Réinitialiser les scores",
+        message: "Cette action remettra les scores à zéro pour ce match. Voulez-vous confirmer ?"
+    })
+
+    if (isConfirmed) {
+        router.delete(`/edition/championnat/match/score/${props.game.id}`, {}, {
+            onSuccess: () => {
+                useToasterStore().success({ text: 'Scores réinitialisés avec succès' })
             }
         })
     }

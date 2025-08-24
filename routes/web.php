@@ -43,7 +43,7 @@ Route::get('/calendrier', [CalendarController::class, 'index'])->name('calendar'
 
 // Résultats des matchs
 Route::get('/match', [GameController::class, 'index'])->name('games');
-Route::get('/match/{id}', [GameController::class, 'show'])->name('games.show');
+Route::get('/match/{slug}/{id}', [GameController::class, 'show'])->name('games.show');
 Route::get('/game/{id}/comments', [CommentController::class, 'gameComments'])->name('games.comments');
 
 Route::prefix('/comments')->group(function () {
@@ -215,6 +215,7 @@ Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
 
             Route::put('/extra-time/{id}', [GameController::class, 'extaTime'])->name('championship.game.extra.time');
             Route::delete('/extra-time/{id}', [GameController::class, 'deleteExtratime'])->name('championship.game.delete.extra.time');
+            Route::delete('/score/{id}', [GameController::class, 'clearScore'])->name('championsiph.game.clear.score');
         });
         Route::prefix('parametre')->group(function () {
             Route::get('/', [ChampionshipController::class, 'setting'])->name('championship.setting');

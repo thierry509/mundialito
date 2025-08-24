@@ -53,7 +53,7 @@ class GameController extends Controller
         ]);
     }
 
-    public function show(Request $request, $id)
+    public function show(Request $request, $slug, $id)
     {
 
         SEOMeta::setTitle('Match ' . $id . ' - Mundialito Gonaïves ');
@@ -68,7 +68,6 @@ class GameController extends Controller
         TwitterCard::setTitle('Match ' . $id . ' - Mundialito Gonaïves ');
         TwitterCard::setDescription('Détails du match ' . $id . ' du Mundialito aux Gonaïves. Résultats, buteurs et statistiques.');
         TwitterCard::setUrl(url()->current());
-
         $game = Game::findOrFail($id);
         $comments = $game->comments()->with('user', 'replies.user')->get();
 
@@ -412,6 +411,40 @@ class GameController extends Controller
                 'user_id' => Auth()->user()->id,
             ]);
         });
+    }
+
+    public function clearScore($id)
+    {
+        $game = Game::findOrFail($id);
+
+        DB::transaction(function () use ($game) {
+            // Remettre les scores et stats à zéro
+            $game->update([
+                'team_a_goals' => null,
+                'team_b_goals' => null,
+                'team_a_yellow_cards' => null,
+                'team_b_yellow_cards' => null,
+                'team_a_red_cards' => null,
+                'team_b_red_cards' => null,
+                'team_a_scorers' => null,
+                'team_b_scorers' => null,
+                'shootout_score_a' => null,
+                'shootout_score_b' => null,
+                'extra_time' => null,
+                'status' => 'soon',
+            ]);
+
+            // Supprimer les événements liés (buts, cartons, etc.)
+            $game->events()->delete();
+
+            // Journalisation
+            Log::create([
+                'action' => "Réinitialiser les scores et événements du match d'identifiant " . $game->id,
+                'user_id' => Auth()->user()->id,
+            ]);
+        });
+
+        return redirect()->back();
     }
 
     public function nextGame(GameService $gameService, Game $game)

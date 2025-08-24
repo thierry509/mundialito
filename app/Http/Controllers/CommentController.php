@@ -79,7 +79,7 @@ class CommentController extends Controller
         $commentWithRelations = $comment->load(['user', 'replies.user']);
         $commentArray = (new CommentResource($commentWithRelations))->toArray(request());
 
-        event(new CommentPosted($commentArray));
+        // event(new CommentPosted($commentArray));
         // Retourner le commentaire créé
         return response()->json([
             'success' => true,
@@ -111,7 +111,7 @@ class CommentController extends Controller
         $commentWithRelations = $comment->load(['user', 'replies.user']);
         $commentArray = (new \App\Http\Resources\CommentResource($commentWithRelations))->toArray(request());
 
-        event(new \App\Events\CommentUpdated($commentArray));
+        // event(new \App\Events\CommentUpdated($commentArray));
 
         return response()->json([
             'success' => true,
@@ -164,7 +164,7 @@ class CommentController extends Controller
         $comment->delete();
 
         // 🔥 broadcast event après suppression
-        event(new CommentDeleted($commentId, $commentableType, $commentableId));
+        // event(new CommentDeleted($commentId, $commentableType, $commentableId));
 
 
         return response()->json(['message' => 'Supprimé avec succès']);

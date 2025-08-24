@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Game extends Model
 {
@@ -64,5 +65,13 @@ class Game extends Model
     public function events()
     {
         return $this->hasMany(Event::class);
+    }
+
+    public function getSlugAttribute()
+    {
+        if ($this->teamA && $this->teamB) {
+            return Str::slug($this->teamA->name . ' vs ' . $this->teamB->name);
+        }
+        return null;
     }
 }

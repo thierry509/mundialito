@@ -64,12 +64,12 @@
                     @endphp
                     @if ($goals->count() > 0)
                         <div class="flex justify-center items-start my-8 text-white">
-                            <div class="space-y-2 w-full">
+                            <div class="space-y-2 w-2/5">
                                 <ul class="space-y-1">
                                     @foreach ($events as $event)
                                         @if ($event->type === 'goal' && $event->team_id === $game->team_a_id)
                                             <li class="text-right flex justify-end items-center">
-                                                <span>{{ $event->player_name }} <span
+                                                <span class="truncate">{{ $event->player_name }} <span
                                                         class="text-gray-400 ml-1">{{ $event->minute }}'
                                                         @if ($event->added_time)
                                                             +{{ $event->added_time }}
@@ -95,12 +95,12 @@
                                 </svg>
                             </div>
 
-                            <div class="space-y-2 w-full">
+                            <div class="space-y-2 w-2/5">
                                 <ul class="space-y-1">
                                     @foreach ($events as $event)
                                         @if ($event->type === 'goal' && $event->team_id === $game->team_b_id)
                                             <li class="text-left flex items-center w-fit">
-                                                <span>{{ $event->player_name }} <span
+                                                <span class="truncate">{{ $event->player_name }} <span
                                                         class="text-gray-400 ml-1">{{ $event->minute }}'
                                                         @if ($event->added_time)
                                                             +{{ $event->added_time }}
