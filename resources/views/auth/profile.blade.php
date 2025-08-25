@@ -3,6 +3,24 @@
 @section('content')
     <!-- Hero Section avec le composant réutilisable -->
     <x-hero title="Profile" backgroundImage="/images/stade-resultats.jpg" variant="secondary" haveYear="{{ false }}" />
+
+    @if ($errors->any())
+        <ul class="max-w-4xl mx-auto my-4 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 space-y-2">
+            @foreach ($errors->all() as $error)
+                <li class="flex items-center gap-2">
+                    <!-- Icône SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4
+                                 c-.77-1.333-2.694-1.333-3.464 0L4.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span>{{ $error }}</span>
+                </li>
+            @endforeach
+        </ul>
+    @endif
+
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" x-data="profileData()">
         <div class="overflow-hidden">
             <div class="flex flex-col items-center" x-data="{
@@ -116,7 +134,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div class="space-y-1">
                                 <label class="block text-sm font-medium text-gray-500">Prénom</label>
-                                <input name="first_name" type="text" value="{{ old('first_name', $user->first_name) }}"
+                                <input name="first_name" type="text"
+                                    value="{{ old('first_name', $user->first_name) }}"
                                     class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 @error('first_name') input-error @enderror">
                                 @error('first_name')
                                     <p class="error-message">{{ $message }}</p>
@@ -202,8 +221,8 @@
         </div>
 
         <!-- Modal pour modifier le mot de passe -->
-        <div x-show="editPassMode" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-            style="display: none;">
+        <div x-show="editPassMode" x-cloak
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" style="display: none;">
             <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6" @click.away="editPassMode = false">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-semibold">Modifier le mot de passe</h3>

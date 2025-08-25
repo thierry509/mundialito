@@ -121,16 +121,19 @@
                   <p class="text-red-500 text-sm mb-4">Le commentaire sera définitivement supprimé.</p>
 
                   <div class="flex justify-end space-x-3">
-                      <button @click="cancelDelete()" :disabled="processing" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                      <button @click="cancelDelete()" :disabled="processing"
+                          class="px-4 py-2 text-gray-600 hover:text-gray-800">
                           Annuler
                       </button>
-                      <button @click="confirmDelete()" :disabled="processing" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                      <button @click="confirmDelete()" :disabled="processing"
+                          class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
                           Supprimer
                       </button>
                   </div>
               </div>
           </div>
       </template>
+
       <h2 class="text-xl font-bold mb-4 text-center text-primary">Commentaires</h2>
 
       <div class="mt-6 flex flex-col items-center gap-4 my-8">
@@ -340,7 +343,7 @@
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <template x-if="isCommenting" x-transition:enter.duration.500ms x-transition:leave.duration.400ms>
           <div @click.outside = "toggleComment()"
-              class="fixed inset-x-0 bottom-0 z-50 bg-white shadow-lg rounded-t-2xl p-4 transition-all duration-300 transform translate-y-0 border-t border-gray-100">
+              class="fixed inset-x-0 bottom-0 z-50 bg-white shadow-lg rounded-t-2xl p-4 transition-all duration-300 transform translate-y-0 border-t border-gray-100 z-[10000]">
               <!-- Header du pop-up -->
               <div class="flex justify-between items-center mb-4">
                   <h3 class="text-lg font-medium text-gray-900"
