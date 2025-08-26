@@ -10,10 +10,20 @@
             <div class="absolute inset-0 bg-black opacity-30"></div>
             <div class="container mx-auto px-4 relative z-10">
                 <div class="text-center mb-8">
-                    <div class="text-base md:text-lg uppercase tracking-wider text-secondary font-semibold mb-1">Mundialito
-                        {{ $game->championship->year }}</div>
-                    <div class="text-gray-200 text-base md:text-lg">{{ $game->location }} • <span v-if="game.date_time">
-                            {{ formatDate($game->date_time) }}</span></div>
+                    <div class="hidden text-base md:text-lg uppercase tracking-wider text-secondary font-semibold mb-1">Mundialito
+                        {{ $game->championship->year }}
+                    </div>
+                    <div
+                        class="inline-block bg-secondary text-white text-sm md:text-base font-semibold px-8 py-1 rounded-3xl shadow-md mb-4">
+                        {{ gameStage($game->stage) }}
+                    </div>
+
+                    <div class="text-gray-200 text-base md:text-lg">{{ $game->location }}
+                        @if ($game->date_time)
+                       <span>
+                            • {{ formatDate($game->date_time) }}</span>
+                            @endif
+                    </div>
                 </div>
 
                 <!-- Score -->

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-    {{-- Accueil --}}
+    <!-- Accueil -->
     <url>
-        <loc> {{ route('home') }} </loc>
+        <loc>{{ route('home') }}</loc>
         <lastmod>{{ now()->toDateString() }}</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
+
     @foreach ($years as $year)
-        {{-- Matchs (exemple avec 2024) --}}
+        <!-- Matchs -->
         <url>
             <loc>{{ route('games', ['year' => $year->year]) }}</loc>
             <lastmod>{{ now()->toDateString() }}</lastmod>
@@ -17,7 +18,7 @@
             <priority>0.9</priority>
         </url>
 
-        {{-- Classement --}}
+        <!-- Classement -->
         <url>
             <loc>{{ route('groups', ['year' => $year->year]) }}</loc>
             <lastmod>{{ now()->toDateString() }}</lastmod>
@@ -25,15 +26,25 @@
             <priority>0.8</priority>
         </url>
 
-        {{-- Phase à élimination --}}
+        <!-- Phase à élimination -->
         <url>
-            <loc>{{ route('knockout', ['year' => $year->year    ]) }}</loc>
+            <loc>{{ route('knockout', ['year' => $year->year]) }}</loc>
             <lastmod>{{ now()->toDateString() }}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.7</priority>
         </url>
     @endforeach
-    {{-- À propos --}}
+
+    @foreach ($games as $game)
+        <url>
+            <loc>{{ route('games.show', ['slug' => $game->slug, 'id' => $game->id]) }}</loc>
+            <lastmod>{{ now()->toDateString() }}</lastmod>
+            <changefreq>yearly</changefreq>
+            <priority>0.9</priority>
+        </url>
+    @endforeach
+
+    <!-- À propos -->
     <url>
         <loc>{{ route('about') }}</loc>
         <lastmod>{{ now()->toDateString() }}</lastmod>
@@ -41,7 +52,7 @@
         <priority>0.5</priority>
     </url>
 
-    {{-- Palmarès --}}
+    <!-- Palmarès -->
     <url>
         <loc>{{ route('prize-list') }}</loc>
         <lastmod>{{ now()->toDateString() }}</lastmod>
@@ -49,7 +60,7 @@
         <priority>0.6</priority>
     </url>
 
-    {{-- actualite --}}
+    <!-- Actualités -->
     <url>
         <loc>{{ route('news') }}</loc>
         <lastmod>{{ optional($news->first())->updated_at?->toDateString() ?? now()->toDateString() }}</lastmod>
