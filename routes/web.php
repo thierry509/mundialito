@@ -205,7 +205,7 @@ Route::middleware('auth',  'verified')->prefix('edition')->group(function () {
             Route::delete('/supprimer/{id}', [GameController::class, 'destroy'])->name('championship.game.delete');
             Route::put('/', [GameController::class, 'update'])->name('championship.game->update');
             Route::put('/tir-au-but', [GameController::class, 'shootOnGoal'])->name('championship.game.shootOnGoal');
-            route::delete('/tire-au-but/{id}', [GameController::class, 'deleteShootOnGoal'])->name('championship.game.delete.shootOnGoal');;
+            route::delete('/tir-au-but/{id}', [GameController::class, 'deleteShootOnGoal'])->name('championship.game.delete.shootOnGoal');;
             Route::post('/event', [GameController::class, 'storeEvent'])->name('championship.game->update');
             Route::delete('/event/{id}', [GameController::class, 'destroyEvent'])->name('championship.game.event.delete');
             Route::put('/reporte/{id}', [GameController::class, 'postpone'])->name('championship.game.postpone');
