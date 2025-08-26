@@ -38,6 +38,7 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI'),
+        'scopes' => ['openid', 'profile', 'email'],
     ],
 
     'facebook' => [
@@ -50,6 +51,7 @@ return [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_ONTAP_REDIRECT_URI'),
+        'scopes' => ['openid', 'profile', 'email'],
     ],
 
 ];
