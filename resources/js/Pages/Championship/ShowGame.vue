@@ -466,7 +466,7 @@ const deleteShoot = async () => {
     })
 
     if (isConfirmed) {
-        router.delete(`/edition/championnat/match/tir-au-but/${props.game.id}`, {}, {
+        router.put(`/edition/championnat/match/tir-au-but/${props.game.id}`, {}, {
             onSuccess: () => {
                 useToasterStore().success({ text: 'Prolonagtion ajouter' })
             }
