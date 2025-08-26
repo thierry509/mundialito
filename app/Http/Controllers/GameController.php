@@ -422,12 +422,12 @@ class GameController extends Controller
         DB::transaction(function () use ($game) {
             // Remettre les scores et stats à zéro
             $game->update([
-                'team_a_goals' => null,
-                'team_b_goals' => null,
-                'team_a_yellow_cards' => null,
-                'team_b_yellow_cards' => null,
-                'team_a_red_cards' => null,
-                'team_b_red_cards' => null,
+                'team_a_goals' => 0,
+                'team_b_goals' => 0,
+                'team_a_yellow_cards' => 0,
+                'team_b_yellow_cards' => 0,
+                'team_a_red_cards' => 0,
+                'team_b_red_cards' => 0,
                 'team_a_scorers' => null,
                 'team_b_scorers' => null,
                 'shootout_score_a' => null,
