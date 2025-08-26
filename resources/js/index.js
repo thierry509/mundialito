@@ -68,7 +68,7 @@ document.addEventListener('alpine:init', () => {
             commentable_type: type,
             parent_id: '',
             parent_user: '',
-            errors : null,
+            errors: null,
         },
         errors: {},
         init() {
@@ -302,6 +302,7 @@ document.addEventListener('alpine:init', () => {
                         this.processing = false;
                     } else {
                         this.errors = response.data.errors
+                        this.processing = false;
                         console.error('Failed to post report:', response.status, response.data);
                     }
                 })
