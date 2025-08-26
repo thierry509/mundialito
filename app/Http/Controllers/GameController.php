@@ -126,6 +126,8 @@ class GameController extends Controller
         $game = Game::find($validated['game_id']);
 
         DB::transaction(function () use ($validated, $game, $gameService) {
+            $team_a_goals = $game->team_a_goals ?? 0;
+            $team_b_goals = $game->team_b_goals ?? 0;
             $game->update([
                 'shootout_score_a' => $validated['shootout_score_a'],
                 'shootout_score_b' => $validated['shootout_score_b'],
