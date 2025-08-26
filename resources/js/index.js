@@ -67,7 +67,8 @@ document.addEventListener('alpine:init', () => {
             commentable_id: id,
             commentable_type: type,
             parent_id: '',
-            parent_user: ''
+            parent_user: '',
+            errors : null,
         },
         errors: {},
         init() {
@@ -102,17 +103,31 @@ document.addEventListener('alpine:init', () => {
             if (this.isCommenting) {
                 this.loadComments(type);
             } else {
+
                 this.form = {
                     comment_id: null,
                     content: '',
                     parent_id: '',
-                    parent_user: ''
+                    parent_user: '',
+                    error: null,
                 }
             }
         },
 
         toggleReply() {
             this.isReplying = !this.isReplying;
+            if (this.isReplying) {
+                this.loadComments(type);
+            } else {
+
+                this.form = {
+                    comment_id: null,
+                    content: '',
+                    parent_id: '',
+                    parent_user: '',
+                    error: null,
+                }
+            }
         },
 
         toogleMenu(comment) {
@@ -179,7 +194,10 @@ document.addEventListener('alpine:init', () => {
                         this.form.parent_id = ''
                         this.loadComments();
                     } else {
-                        console.error('Failed to post comment:', response.status, response.data);
+                        // console.error('Failed to post comment:', response.status, response.data);
+                        this.form.errors = response.data.errors
+                        console.log(this.form.errors.content[0])
+                        this.processing = false;
                     }
                 })
                 .catch(error => {
@@ -217,6 +235,7 @@ document.addEventListener('alpine:init', () => {
                         this.processing = true;
                         this.loadComments();
                     } else {
+                        this.form.errors = response.data.errors
                         console.error('Failed to post comment:', response.status, response.data);
                     }
                 })

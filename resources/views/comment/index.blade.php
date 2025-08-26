@@ -369,7 +369,11 @@
                       <textarea rows="3" :placeholder="form.parent_id ? 'Votre réponse...' : 'Votre commentaire...'" name="content"
                           x-model="form.content"
                           class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none focus:border-transparent placeholder-gray-400 resize-none"></textarea>
+                     <template x-if="form?.errors?.content[0]">
+                          <p class="text-sm text-red-500" x-text="form.errors.content[0]"></p>
+                     </template>
                   </div>
+
 
                   <!-- Actions -->
                   <div class="flex justify-end space-x-3">
