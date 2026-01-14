@@ -402,10 +402,7 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Derniers champions -->
-                    <div class="bg-light/50 border border-light rounded-xl p-6">
-                        <h3 class="text-xl font-bold text-primary mb-2">LOS TECNICOS</h3>
-                        <p class="text-gray-600">Champions 2022</p>
-                    </div>
+                   
                     <div class="bg-light/50 border border-light rounded-xl p-6">
                         <h3 class="text-xl font-bold text-secondary mb-2">TOP FRIENDS</h3>
                         <p class="text-gray-600">Champions 2023</p>
@@ -413,6 +410,10 @@
                     <div class="bg-light/50 border border-light rounded-xl p-6">
                         <h3 class="text-xl font-bold text-accent mb-2">OOOCHA</h3>
                         <p class="text-gray-600">Champions 2024</p>
+                    </div>
+                     <div class="bg-light/50 border border-light rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-primary mb-2">BIJOU FC</h3>
+                        <p class="text-gray-600">Champions 2025</p>
                     </div>
                 </div>
             </div>
