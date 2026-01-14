@@ -23,6 +23,8 @@
             ['year' => 2022, 'team' => 'LOS TECNICOS'],
             ['year' => 2023, 'team' => 'TOP FRIENDS'],
             ['year' => 2024, 'team' => 'OOOCHA'],
+            ['year' => 2025, 'team' => 'BIJOU FC'],
+
 
         ];
         $prizeList = array_reverse($prizeList);
